@@ -1,0 +1,6 @@
+/APIMARKET/Backend/Apimarket/.vs/**
+/APIMARKET/Backend/Apimarket/Apimarket/bin/**
+/APIMARKET/Backend/Apimarket/Apimarket/obj/**
+/.git/logs/**
+/APIMARKET/Front-End/apimarket/node_modules/**
+/APIMARKET/Front-End/apimarket/package-lock.json/**
