@@ -4,3 +4,4 @@
 /.git/logs/**
 /APIMARKET/Front-End/apimarket/node_modules/**
 /APIMARKET/Front-End/apimarket/package-lock.json/**
+/APIMARKET/Front-End/apimarket/.next/**
