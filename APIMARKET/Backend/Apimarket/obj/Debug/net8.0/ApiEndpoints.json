@@ -1,0 +1,880 @@
+[
+  {
+    "ContainingType": "Apimarket.Controllers.CollecDroneController",
+    "Method": "GetArchivo",
+    "RelativePath": "Api/CollecDrone/Archivo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.CollecDroneController",
+    "Method": "AddP",
+    "RelativePath": "Api/CollecDrone/CreateCollecDrone",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "entity",
+        "Type": "Apimarket.Model.CollecDrone",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.CollecDroneController",
+    "Method": "DeleteCollecDrone",
+    "RelativePath": "Api/CollecDrone/DeleteCollecDrone",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.CollecDroneController",
+    "Method": "GetCollecDrone",
+    "RelativePath": "Api/CollecDrone/GetCollecDrone/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.CollecDroneController",
+    "Method": "GetsCollecDrone",
+    "RelativePath": "Api/CollecDrone/GetsCollecDrone",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "start",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "end",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Apimarket.Model.CollecDrone, Apimarket, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.CollecDroneController",
+    "Method": "PdfResponsible",
+    "RelativePath": "Api/CollecDrone/PDF",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.CollecDroneController",
+    "Method": "SqlResponsible",
+    "RelativePath": "Api/CollecDrone/SQL",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "NombrePlantilla",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NombreReporte",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.CollecDroneController",
+    "Method": "GetTemp",
+    "RelativePath": "Api/CollecDrone/temp",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.CollecDroneController",
+    "Method": "UpdateCollecDrone",
+    "RelativePath": "Api/CollecDrone/UpdateCollecDrone",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "collecDrone",
+        "Type": "Apimarket.Model.CollecDrone",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.CollecDroneController",
+    "Method": "XlsxResponsible",
+    "RelativePath": "Api/CollecDrone/XLSX",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "NombrePlantilla",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NombreReporte",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ExtractionController",
+    "Method": "GetArchivo",
+    "RelativePath": "Api/Extraction/Archivo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ExtractionController",
+    "Method": "AddP",
+    "RelativePath": "Api/Extraction/CreateExtraction",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "entity",
+        "Type": "Apimarket.Model.Extraction",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ExtractionController",
+    "Method": "DeleteExtraction",
+    "RelativePath": "Api/Extraction/DeleteExtraction",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ExtractionController",
+    "Method": "GetExtraction",
+    "RelativePath": "Api/Extraction/GetExtraction/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ExtractionController",
+    "Method": "GetsExtraction",
+    "RelativePath": "Api/Extraction/GetsExtraction",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "start",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "end",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Apimarket.Model.Extraction, Apimarket, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ExtractionController",
+    "Method": "PdfResponsible",
+    "RelativePath": "Api/Extraction/PDF",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ExtractionController",
+    "Method": "SqlResponsible",
+    "RelativePath": "Api/Extraction/SQL",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "NombrePlantilla",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NombreReporte",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ExtractionController",
+    "Method": "GetTemp",
+    "RelativePath": "Api/Extraction/temp",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ExtractionController",
+    "Method": "UpdateExtraction",
+    "RelativePath": "Api/Extraction/UpdateExtraction",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "extraction",
+        "Type": "Apimarket.Model.Extraction",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ExtractionController",
+    "Method": "XlsxResponsible",
+    "RelativePath": "Api/Extraction/XLSX",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "NombrePlantilla",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NombreReporte",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.FertilizationController",
+    "Method": "GetArchivo",
+    "RelativePath": "Api/Fertilization/Archivo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.FertilizationController",
+    "Method": "AddP",
+    "RelativePath": "Api/Fertilization/CreateFertilization",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "entity",
+        "Type": "Apimarket.Model.Fertilization",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.FertilizationController",
+    "Method": "DeleteFertilization",
+    "RelativePath": "Api/Fertilization/DeleteFertilization",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.FertilizationController",
+    "Method": "GetFertilization",
+    "RelativePath": "Api/Fertilization/GetFertilization/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.FertilizationController",
+    "Method": "GetsFertilization",
+    "RelativePath": "Api/Fertilization/GetsFertilization",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "start",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "end",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Apimarket.Model.Fertilization, Apimarket, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.FertilizationController",
+    "Method": "PdfResponsible",
+    "RelativePath": "Api/Fertilization/PDF",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.FertilizationController",
+    "Method": "SqlResponsible",
+    "RelativePath": "Api/Fertilization/SQL",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "NombrePlantilla",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NombreReporte",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.FertilizationController",
+    "Method": "GetTemp",
+    "RelativePath": "Api/Fertilization/temp",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.FertilizationController",
+    "Method": "UpdateFertilization",
+    "RelativePath": "Api/Fertilization/UpdateFertilization",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fertilization",
+        "Type": "Apimarket.Model.Fertilization",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.FertilizationController",
+    "Method": "XlsxResponsible",
+    "RelativePath": "Api/Fertilization/XLSX",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "NombrePlantilla",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NombreReporte",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.RaceController",
+    "Method": "AddP",
+    "RelativePath": "Api/Race/CreateRace",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "entity",
+        "Type": "Apimarket.Models.Race",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.RaceController",
+    "Method": "DeleteRace",
+    "RelativePath": "Api/Race/DeleteRace",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.RaceController",
+    "Method": "GetRace",
+    "RelativePath": "Api/Race/GetRace/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.RaceController",
+    "Method": "GetsRace",
+    "RelativePath": "Api/Race/GetsRace",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "start",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "end",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Apimarket.Models.Race, Apimarket, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.RaceController",
+    "Method": "UpdateRace",
+    "RelativePath": "Api/Race/UpdateRace",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "GetArchivo",
+    "RelativePath": "Api/Responsible/Archivo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "Add",
+    "RelativePath": "Api/Responsible/CreateResponsible",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "entity",
+        "Type": "Apimarket.Models.Responsible",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "DeleteResponsible",
+    "RelativePath": "Api/Responsible/DeleteResponsible/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "GetResponsible",
+    "RelativePath": "Api/Responsible/GetResponsible/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "GetsResponsible",
+    "RelativePath": "Api/Responsible/GetsResponsible",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "start",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "end",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Apimarket.Models.Responsible, Apimarket, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "Login",
+    "RelativePath": "Api/Responsible/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "Apimarket.Models.LoginResponsible",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "PdfResponsible",
+    "RelativePath": "Api/Responsible/PDF",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "Resetpassword",
+    "RelativePath": "Api/Responsible/ResetPassUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "responsible",
+        "Type": "Apimarket.Models.ResetPassUser",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "SqlResponsible",
+    "RelativePath": "Api/Responsible/SQL",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "NombrePlantilla",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NombreReporte",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "GetTemp",
+    "RelativePath": "Api/Responsible/temp",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "UpdateResponsible",
+    "RelativePath": "Api/Responsible/UpdateResponsible",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "responsible",
+        "Type": "Apimarket.Models.Responsible",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ResponsibleController",
+    "Method": "XlsxResponsible",
+    "RelativePath": "Api/Responsible/XLSX",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "NombrePlantilla",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NombreReporte",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ReviewController",
+    "Method": "AddP",
+    "RelativePath": "Api/Review/CreateReview",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "entity",
+        "Type": "Apimarket.Models.Review",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ReviewController",
+    "Method": "DeleteReview",
+    "RelativePath": "Api/Review/DeleteReview",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ReviewController",
+    "Method": "GetReview",
+    "RelativePath": "Api/Review/GetReview/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ReviewController",
+    "Method": "GetsReview",
+    "RelativePath": "Api/Review/GetsReview",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "start",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "end",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Apimarket.Models.Review, Apimarket, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Apimarket.Controllers.ReviewController",
+    "Method": "UpdateReview",
+    "RelativePath": "Api/Review/UpdateReview",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]

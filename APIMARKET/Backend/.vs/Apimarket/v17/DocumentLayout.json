@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ferna\\OneDrive\\Escritorio\\MI PROYECTO\\APIMARKET\\Backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\ferna\\onedrive\\escritorio\\mi proyecto\\apimarket\\backend\\apimarket\\controllers\\race.controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\controllers\\race.controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\ferna\\onedrive\\escritorio\\mi proyecto\\apimarket\\backend\\apimarket\\controllers\\collecdrone.controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\controllers\\collecdrone.controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\ferna\\onedrive\\escritorio\\mi proyecto\\apimarket\\backend\\apimarket\\models\\collecdrone.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\models\\collecdrone.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\ferna\\onedrive\\escritorio\\mi proyecto\\apimarket\\backend\\apimarket\\models\\race.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\models\\race.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Race.Controller.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Escritorio\\MI PROYECTO\\APIMARKET\\Backend\\Apimarket\\Controllers\\Race.Controller.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Controllers\\Race.Controller.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Escritorio\\MI PROYECTO\\APIMARKET\\Backend\\Apimarket\\Controllers\\Race.Controller.cs",
+              "RelativeToolTip": "Apimarket\\Controllers\\Race.Controller.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAkwHgAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-16T19:29:53.081Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CollecDrone.Model.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Escritorio\\MI PROYECTO\\APIMARKET\\Backend\\Apimarket\\Models\\CollecDrone.Model.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Models\\CollecDrone.Model.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Escritorio\\MI PROYECTO\\APIMARKET\\Backend\\Apimarket\\Models\\CollecDrone.Model.cs",
+              "RelativeToolTip": "Apimarket\\Models\\CollecDrone.Model.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-16T19:18:19.151Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Race.Model.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Escritorio\\MI PROYECTO\\APIMARKET\\Backend\\Apimarket\\Models\\Race.Model.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Models\\Race.Model.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Escritorio\\MI PROYECTO\\APIMARKET\\Backend\\Apimarket\\Models\\Race.Model.cs",
+              "RelativeToolTip": "Apimarket\\Models\\Race.Model.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-16T19:15:30.725Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CollecDrone.Controller.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Escritorio\\MI PROYECTO\\APIMARKET\\Backend\\Apimarket\\Controllers\\CollecDrone.Controller.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Controllers\\CollecDrone.Controller.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Escritorio\\MI PROYECTO\\APIMARKET\\Backend\\Apimarket\\Controllers\\CollecDrone.Controller.cs",
+              "RelativeToolTip": "Apimarket\\Controllers\\CollecDrone.Controller.cs",
+              "ViewState": "AgIAAHoAAAAAAAAAAAAswI8AAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-16T19:01:14.207Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
