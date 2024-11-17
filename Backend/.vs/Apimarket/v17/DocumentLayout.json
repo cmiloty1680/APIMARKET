@@ -1,0 +1,169 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\cristian tique\\source\\repos\\apimarket\\apimarket\\models\\responsible.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\models\\responsible.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\cristian tique\\source\\repos\\apimarket\\apimarket\\models\\production.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\models\\production.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\cristian tique\\source\\repos\\apimarket\\apimarket\\models\\jwtmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\models\\jwtmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\cristian tique\\source\\repos\\apimarket\\apimarket\\models\\hive.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\models\\hive.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\cristian tique\\source\\repos\\apimarket\\apimarket\\controllers\\production.controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\controllers\\production.controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\cristian tique\\source\\repos\\apimarket\\apimarket\\controllers\\user.controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\controllers\\user.controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\cristian tique\\source\\repos\\apimarket\\apimarket\\models\\user.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\models\\user.model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\cristian tique\\source\\repos\\apimarket\\apimarket\\functions\\general.function.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\functions\\general.function.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|c:\\users\\cristian tique\\source\\repos\\apimarket\\apimarket\\controllers\\responsible.controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62D7CCFD-94F2-4ACB-9ECE-2FFD57C96CF1}|Apimarket\\Apimarket.csproj|solutionrelative:apimarket\\controllers\\responsible.controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "JWTModels.cs",
+              "DocumentMoniker": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Models\\JWTModels.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Models\\JWTModels.cs",
+              "ToolTip": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Models\\JWTModels.cs",
+              "RelativeToolTip": "Apimarket\\Models\\JWTModels.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-09T06:17:19.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Hive.Model.cs",
+              "DocumentMoniker": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Models\\Hive.Model.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Models\\Hive.Model.cs",
+              "ToolTip": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Models\\Hive.Model.cs",
+              "RelativeToolTip": "Apimarket\\Models\\Hive.Model.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-09T06:16:56.648Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "User.Controller.cs",
+              "DocumentMoniker": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Controllers\\User.Controller.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Controllers\\User.Controller.cs",
+              "ToolTip": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Controllers\\User.Controller.cs",
+              "RelativeToolTip": "Apimarket\\Controllers\\User.Controller.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB8AAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-03T08:03:36.473Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "General.Function.cs",
+              "DocumentMoniker": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Functions\\General.Function.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Functions\\General.Function.cs",
+              "ToolTip": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Functions\\General.Function.cs",
+              "RelativeToolTip": "Apimarket\\Functions\\General.Function.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-03T07:45:00.073Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Production.Controller.cs",
+              "DocumentMoniker": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Controllers\\Production.Controller.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Controllers\\Production.Controller.cs",
+              "ToolTip": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Controllers\\Production.Controller.cs",
+              "RelativeToolTip": "Apimarket\\Controllers\\Production.Controller.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-03T07:41:49.711Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Responsible.Model.cs",
+              "DocumentMoniker": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Models\\Responsible.Model.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Models\\Responsible.Model.cs",
+              "ToolTip": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Models\\Responsible.Model.cs",
+              "RelativeToolTip": "Apimarket\\Models\\Responsible.Model.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-03T07:36:05.399Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Production.Model.cs",
+              "DocumentMoniker": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Models\\Production.Model.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Models\\Production.Model.cs",
+              "ToolTip": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Models\\Production.Model.cs",
+              "RelativeToolTip": "Apimarket\\Models\\Production.Model.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-04T12:22:34.29Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "User.Model.cs",
+              "DocumentMoniker": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Models\\User.Model.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Models\\User.Model.cs",
+              "ToolTip": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Models\\User.Model.cs",
+              "RelativeToolTip": "Apimarket\\Models\\User.Model.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-03T08:06:41.885Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Responsible.Controller.cs",
+              "DocumentMoniker": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Controllers\\Responsible.Controller.cs",
+              "RelativeDocumentMoniker": "Apimarket\\Controllers\\Responsible.Controller.cs",
+              "ToolTip": "C:\\Users\\Cristian Tique\\source\\repos\\Apimarket\\Apimarket\\Controllers\\Responsible.Controller.cs",
+              "RelativeToolTip": "Apimarket\\Controllers\\Responsible.Controller.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADUAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-03T07:36:32.536Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
