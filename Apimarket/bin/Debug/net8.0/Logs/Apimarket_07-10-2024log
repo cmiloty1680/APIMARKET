@@ -1,6 +1,0 @@
-7/10/2024 2:14:25 p. m._System.ArgumentException: The key value at position 0 of the call to 'DbSet<Feeding>.Find' was of type 'int', which does not match the property type of 'string'.
-   at Microsoft.EntityFrameworkCore.Internal.EntityFinder`1.FindTracked(Object[] keyValues)
-   at Microsoft.EntityFrameworkCore.Internal.EntityFinder`1.FindAsync(Object[] keyValues, CancellationToken cancellationToken)
-   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.FindAsync(Object[] keyValues)
-   at Apimarket.Services.FeedingServices.DeleteFeeding(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Feeding.Services.cs:line 27
-   at Apimarket.Controllers.FeedingController.DeleteFeeding(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Feeding.Controller.cs:line 94
