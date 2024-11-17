@@ -1,0 +1,39 @@
+17/10/2024 11:28:39 a. m._Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 'Apimarket.Model.Feeding' does not contain a definition for 'Count'
+   at CallSite.Target(Closure, CallSite, Object)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+   at Apimarket.Functions.GeneralFunctions.ValidModel(Object collection) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Functions\General.Functions.cs:line 81
+   at Apimarket.Controllers.FeedingController.Add(Feeding feeding) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Feeding.Controller.cs:line 36
+17/10/2024 11:33:32 a. m._Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 'Apimarket.Model.Feeding' does not contain a definition for 'Count'
+   at CallSite.Target(Closure, CallSite, Object)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+   at Apimarket.Functions.GeneralFunctions.ValidModel(Object collection) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Functions\General.Functions.cs:line 81
+   at Apimarket.Controllers.FeedingController.Add(Feeding feeding) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Feeding.Controller.cs:line 36
+17/10/2024 11:36:57 a. m._Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'string' to 'int'
+   at CallSite.Target(Closure, CallSite, Object)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+   at Apimarket.Functions.GeneralFunctions.ValidModel(Object collection) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Functions\General.Functions.cs:line 81
+   at Apimarket.Controllers.FeedingController.Add(Feeding feeding) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Feeding.Controller.cs:line 36
+17/10/2024 11:41:19 a. m._Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 'Apimarket.Model.Feeding' does not contain a definition for 'Count'
+   at CallSite.Target(Closure, CallSite, Object)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+   at Apimarket.Functions.GeneralFunctions.ValidModel(Object collection) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Functions\General.Functions.cs:line 81
+   at Apimarket.Controllers.FeedingController.Add(Feeding feeding) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Feeding.Controller.cs:line 36
+17/10/2024 11:45:01 a. m._Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 'Apimarket.Model.Feeding' does not contain a definition for 'Count'
+   at CallSite.Target(Closure, CallSite, Object)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+   at Apimarket.Functions.GeneralFunctions.ValidModel(Object collection) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Functions\General.Functions.cs:line 81
+   at Apimarket.Controllers.FeedingController.Add(Feeding feeding) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Feeding.Controller.cs:line 36
+17/10/2024 11:45:26 a. m._Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 'Apimarket.Model.Feeding' does not contain a definition for 'Count'
+   at CallSite.Target(Closure, CallSite, Object)
+   at Apimarket.Functions.GeneralFunctions.ValidModel(Object collection) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Functions\General.Functions.cs:line 81
+   at Apimarket.Controllers.FeedingController.Add(Feeding feeding) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Feeding.Controller.cs:line 36
+17/10/2024 12:20:23 p. m._Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 'Apimarket.Model.Feeding' does not contain a definition for 'Count'
+   at CallSite.Target(Closure, CallSite, Object)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+   at Apimarket.Functions.GeneralFunctions.ValidModel(Object collection) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Functions\General.Functions.cs:line 81
+   at Apimarket.Controllers.FeedingController.Add(Feeding feeding) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Feeding.Controller.cs:line 36
+17/10/2024 3:28:57 p. m._Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 'Apimarket.Model.Feeding' does not contain a definition for 'Count'
+   at CallSite.Target(Closure, CallSite, Object)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+   at Apimarket.Functions.GeneralFunctions.ValidModel(Object collection) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Functions\General.Functions.cs:line 81
+   at Apimarket.Controllers.FeedingController.Add(Feeding feeding) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Feeding.Controller.cs:line 36

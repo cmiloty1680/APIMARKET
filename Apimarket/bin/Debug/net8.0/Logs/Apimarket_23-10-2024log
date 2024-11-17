@@ -1,0 +1,201 @@
+23/10/2024 2:26:48 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method7(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Apimarket.Services.ImplementService.GetAll() in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 18
+   at Apimarket.Controllers.ImplementController.GetsImplement(Int32 start, Int32 end) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 56
+23/10/2024 2:31:01 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method7(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Apimarket.Services.ImplementService.GetAll() in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 18
+   at Apimarket.Controllers.ImplementController.GetImplement(Int32 start, Int32 end) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 56
+23/10/2024 2:50:11 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method63(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Apimarket.Services.ImplementService.GetAll() in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 18
+   at Apimarket.Controllers.ImplementController.GetImplement(Int32 start, Int32 end) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 56
+23/10/2024 2:50:52 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method63(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Apimarket.Services.ImplementService.GetAll() in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 18
+   at Apimarket.Controllers.ImplementController.GetImplement(Int32 start, Int32 end) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 56
+23/10/2024 2:51:01 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method67(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method68(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at Apimarket.Services.ImplementService.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 29
+   at Apimarket.Controllers.ImplementController.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 81
+23/10/2024 3:11:43 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at lambda_method67(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method68(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at Apimarket.Services.ImplementService.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 29
+   at Apimarket.Controllers.ImplementController.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 81
+23/10/2024 3:17:31 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method23(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method24(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at Apimarket.Services.ImplementService.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 29
+   at Apimarket.Controllers.ImplementController.UpdateImplement(Implement implement) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 117
+23/10/2024 3:17:39 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method23(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method24(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at Apimarket.Services.ImplementService.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 29
+   at Apimarket.Controllers.ImplementController.UpdateImplement(Implement implement) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 117
+23/10/2024 4:39:48 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method7(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Apimarket.Services.ImplementService.GetAll() in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 18
+   at Apimarket.Controllers.ImplementController.GetsImplement(Int32 start, Int32 end) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 56
+23/10/2024 4:50:08 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method7(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Apimarket.Services.ImplementService.GetAll() in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 18
+   at Apimarket.Controllers.ImplementController.GetsImplement(Int32 start, Int32 end) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 56
+23/10/2024 4:50:36 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method11(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method12(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at Apimarket.Services.ImplementService.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 29
+   at Apimarket.Controllers.ImplementController.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 81
+23/10/2024 4:50:54 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method11(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method12(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at Apimarket.Services.ImplementService.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 29
+   at Apimarket.Controllers.ImplementController.DeleteImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 128
+23/10/2024 4:57:38 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method7(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Apimarket.Services.ImplementService.GetAll() in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 18
+   at Apimarket.Controllers.ImplementController.GetsImplement(Int32 start, Int32 end) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 56
+23/10/2024 4:58:02 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method11(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method12(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at Apimarket.Services.ImplementService.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 29
+   at Apimarket.Controllers.ImplementController.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 81
+23/10/2024 6:19:10 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method76(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Apimarket.Services.ImplementService.GetAll() in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 18
+   at Apimarket.Controllers.ImplementController.GetImplement(Int32 start, Int32 end) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 56
+23/10/2024 6:20:41 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method76(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Apimarket.Services.ImplementService.GetAll() in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 18
+   at Apimarket.Controllers.ImplementController.GetImplement(Int32 start, Int32 end) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 56
+23/10/2024 6:21:17 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method7(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method8(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at Apimarket.Services.ImplementService.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 29
+   at Apimarket.Controllers.ImplementController.GetImplement(Int32 id) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 81
+23/10/2024 6:21:41 p. m._Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> MySqlConnector.MySqlException (0x80004005): Truncated incorrect DOUBLE value: 'string'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior) in /_/src/MySqlConnector/MySqlCommand.cs:line 290
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(StateManager stateManager, Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.<>c.<SaveChanges>b__112_0(DbContext _, ValueTuple`2 t)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges()
+   at Apimarket.Services.ImplementService.Update(Implement implement) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 52
+   at Apimarket.Controllers.ImplementController.UpdateImplement(Implement implement) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 107
+23/10/2024 7:09:46 p. m._System.InvalidCastException: Can't convert VarChar to Int32
+   at MySqlConnector.Core.Row.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/Core/Row.cs:line 247
+   at MySqlConnector.MySqlDataReader.GetInt32(Int32 ordinal) in /_/src/MySqlConnector/MySqlDataReader.cs:line 240
+   at lambda_method76(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Apimarket.Services.ImplementService.GetAll() in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Services\Implement.Service.cs:line 18
+   at Apimarket.Controllers.ImplementController.GetImplement(Int32 start, Int32 end) in C:\Users\ASUS\Desktop\trabajos enbo\stefany.API\stefany\Apimarket\Apimarket\Controllers\Implement.Controller.cs:line 56
