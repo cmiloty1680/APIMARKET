@@ -1,0 +1,42 @@
+/* Estilo global */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f7fa; /* Fondo general */
+  margin: 0; 
+  padding: 0; 
+} 
+
+/* Contenedor principal */
+.documentacion-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+  background-size: cover;
+  background-position: center;
+  height: auto; /* Cambiado para acomodar el contenido */
+}
+
+/* Título principal */
+.documentacion-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0f0f0f;
+  text-align: center;
+
+  margin-top: 25px; /* Aumentar separación desde el header */
+  margin-bottom: 40px; /* Separación del título */
+}
+
+/* Marco del iframe para el PDF */
+.documentacion-frame {
+  width: 80%;
+  height: 80vh; /* Ajustar para ocupar menos espacio */
+  margin-bottom: 20px; /* Separación entre los PDFs */
+  border: 3px solid #1d3557;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}

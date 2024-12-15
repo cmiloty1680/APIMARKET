@@ -1,0 +1,90 @@
+/* Contenedor para filas de dos inputs */
+.create .form-row {
+  display: flex;
+  gap: 20px; /* Espacio entre columnas */
+  margin-bottom: 20px;
+}
+
+.create .form-group {
+  flex: 1;
+}
+
+.create .form-group.full-width {
+  flex: 100%;
+}
+
+/* Estilos generales del formulario */
+.create {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.create img.fot {
+  margin-bottom: 15px;
+}
+
+.create h2 {
+  font-size: 28px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.create p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.create label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #444;
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.create .form-control {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.create .form-control:focus {
+  border-color: #f57c00; /* Color de borde al enfocar */
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3); /* Sombra al enfocar */
+  outline: none;
+}
+
+.create .btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #e87204;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create .btn:hover {
+  background-color: black;
+}
+
+.create .btn:active {
+  background-color: #004080;
+}
