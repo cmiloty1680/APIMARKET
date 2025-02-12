@@ -66,6 +66,25 @@ namespace Apimarket.Controllers
             }
         }
 
+        [HttpGet("GetsAllReview")]
+
+        public IActionResult GetsAllReview()
+        {
+            try
+            {
+                var review = _reviewServices.GetAll();
+                if(review == null)
+                {
+                    return NotFound("No se encontraron los registros");
+                }
+                return Ok(review);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+        }
         [HttpGet("GetReview/{id}")]
         public IActionResult GetReview(int id)
         {

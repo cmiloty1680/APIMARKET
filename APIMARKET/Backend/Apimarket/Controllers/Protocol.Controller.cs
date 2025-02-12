@@ -34,6 +34,20 @@ namespace Apimarket.Controllers
             return Ok(new { registro = "Protocolo creada con exito" });
         }
         //[Authorize]
+        [HttpGet("GetsAllProtocol")]
+        public IActionResult GetsAllProtocol()
+        {
+            try
+            {
+                var protocol = _protocolServices.GetAll();
+                return Ok(protocol);
+            }
+            catch(Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
         [HttpGet("GetsProtocol")]
         public ActionResult<IEnumerable<Protocol>> GetsProtocol(int start, int end)
         {

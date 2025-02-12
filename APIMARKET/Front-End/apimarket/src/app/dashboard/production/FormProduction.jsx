@@ -64,118 +64,118 @@ function FormProduction() {
 
     return (
         <>
-                        <form
-                            className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md"
-                            onSubmit={handlerSubmit}
+            <form
+                className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md"
+                onSubmit={handlerSubmit}
+            >
+                {/* Título */}
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center">
+                        <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
+                            <Droplet className="h-5 w-5" />
+                        </div>
+                        <div className="ml-3">
+                            <h2 className="text-xl font-bold text-gray-900">Producción</h2>
+                            <p className="text-xs text-gray-500">Ingrese los datos de la producción</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Mensajes de error o éxito */}
+                {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
+                {msSuccess && <p className="text-green-500 mb-4 text-sm">{msSuccess}</p>}
+
+                <div className="space-y-6">
+                    {/* Descripción */}
+                    <div className="space-y-1">
+                        <label htmlFor="descripcion" className="text-sm font-medium text-gray-700">
+                            Fecha de Inicio
+                        </label>
+                        <input
+                            type="date"
+                            className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                            id="fecha"
+                            required
+                            name="fecha"
+                            value={fecha}
+                            onChange={(event) => setFecha(event.target.value)}
+                        />
+                    </div>
+
+                    {/* Estado y Número de cuadro */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                            <label htmlFor="estado" className="text-sm font-medium text-gray-700">
+                                Fecha Fin
+                            </label>
+                            <input
+                                type="date"
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                id="fecha"
+                                required
+                                name="fecha"
+                                value={fechaF}
+                                onChange={(event) => setFechaF(event.target.value)}
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label htmlFor="Ncuadro" className="text-sm font-medium text-gray-700">
+                                cantidad de abejas
+                            </label>
+                            <input
+                                type="number"
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                id="cantidad"
+                                required
+                                name="cantidad"
+                                value={cantidad}
+                                onChange={(event) => setCantidad(event.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                            <label htmlFor="estado" className="text-sm font-medium text-gray-700">
+                                Cantidad de Colmenas
+                            </label>
+                            <input
+                                type="number"
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                id="cantidad"
+                                required
+                                name="cantidad"
+                                value={total}
+                                onChange={(event) => setTotal(event.target.value)}
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label htmlFor="Ncuadro" className="text-sm font-medium text-gray-700">
+                                cantidad de produccion
+                            </label>
+                            <input
+                                type="number"
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                id="cantidad"
+                                required
+                                name="cantidad"
+                                value={tproduction}
+                                onChange={(event) => setTproduction(event.target.value)}
+                            />
+                        </div>
+                    </div>
+                    {/* Botón Guardar */}
+                    <div className="flex justify-end pt-3">
+                        <Button
+                            disabled={isSubmitting}
+                            type="submit"
+                            className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors"
                         >
-                            {/* Título */}
-                            <div className="flex items-center justify-between mb-6">
-                                <div className="flex items-center">
-                                    <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
-                                        <Droplet className="h-5 w-5" />
-                                    </div>
-                                    <div className="ml-3">
-                                        <h2 className="text-xl font-bold text-gray-900">Producción</h2>
-                                        <p className="text-xs text-gray-500">Ingrese los datos de la producción</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Mensajes de error o éxito */}
-                            {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
-                            {msSuccess && <p className="text-green-500 mb-4 text-sm">{msSuccess}</p>}
-
-                            <div className="space-y-6">
-                                {/* Descripción */}
-                                <div className="space-y-1">
-                                    <label htmlFor="descripcion" className="text-sm font-medium text-gray-700">
-                                        Fecha de Inicio
-                                    </label>
-                                    <input
-                                        type="date"
-                                        className="w-full px-3 py-1.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
-                                        id="fecha"
-                                        required
-                                        name="fecha"
-                                        value={fecha}
-                                        onChange={(event) => setFecha(event.target.value)}
-                                    />
-                                </div>
-
-                                {/* Estado y Número de cuadro */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="space-y-1">
-                                        <label htmlFor="estado" className="text-sm font-medium text-gray-700">
-                                            Fecha Fin
-                                        </label>
-                                        <input
-                                            type="date"
-                                            className="w-full px-3 py-1.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
-                                            id="fecha"
-                                            required
-                                            name="fecha"
-                                            value={fechaF}
-                                            onChange={(event) => setFechaF(event.target.value)}
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label htmlFor="Ncuadro" className="text-sm font-medium text-gray-700">
-                                            cantidad de abejas
-                                        </label>
-                                        <input
-                                            type="number"
-                                            className="w-full px-3 py-1.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
-                                            id="cantidad"
-                                            required
-                                            name="cantidad"
-                                            value={cantidad}
-                                            onChange={(event) => setCantidad(event.target.value)}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="space-y-1">
-                                        <label htmlFor="estado" className="text-sm font-medium text-gray-700">
-                                            Cantidad de Colmenas
-                                        </label>
-                                        <input
-                                            type="number"
-                                            className="w-full px-3 py-1.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
-                                            id="cantidad"
-                                            required
-                                            name="cantidad"
-                                            value={total}
-                                            onChange={(event) => setTotal(event.target.value)}
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label htmlFor="Ncuadro" className="text-sm font-medium text-gray-700">
-                                            cantidad de produccion
-                                        </label>
-                                        <input
-                                            type="number"
-                                            className="w-full px-3 py-1.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
-                                            id="cantidad"
-                                            required
-                                            name="cantidad"
-                                            value={tproduction}
-                                            onChange={(event) => setTproduction(event.target.value)}
-                                        />
-                                    </div>
-                                </div>
-                                {/* Botón Guardar */}
-                                <div className="flex justify-end pt-3">
-                                    <Button
-                                        disabled={isSubmitting}
-                                        type="submit"
-                                        className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors"
-                                    >
-                                        {isSubmitting ? "Guardando..." : "Guardar"}
-                                    </Button>
-                                </div>
-                            </div>
-                        </form>
+                            {isSubmitting ? "Guardando..." : "Guardar"}
+                        </Button>
+                    </div>
+                </div>
+            </form>
 
         </>
     );

@@ -95,7 +95,7 @@ function CreateResponsible() {
             type="text"
             id="nombre"
             placeholder="Ingrese Nombre"
-            className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
+            className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
             maxLength={20}
@@ -110,7 +110,7 @@ function CreateResponsible() {
             type="text"
             id="apellido"
             placeholder="Ingrese Apellido"
-            className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
+            className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
             value={apellido}
             onChange={(e) => setApellido(e.target.value)}
             maxLength={20}
@@ -129,7 +129,7 @@ function CreateResponsible() {
             type="number"
             id="documento"
             placeholder="Ingrese Documento"
-            className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
+            className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
             value={documento}
             onChange={(e) => setDocumento(e.target.value)}
             required
@@ -143,7 +143,7 @@ function CreateResponsible() {
             type="number"
             id="telefono"
             placeholder="Ingrese Teléfono"
-            className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
+            className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
             value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
             required
@@ -161,7 +161,7 @@ function CreateResponsible() {
             type="email"
             id="email"
             placeholder="Ingrese Correo Electrónico"
-            className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
+            className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             maxLength={40}
@@ -176,7 +176,7 @@ function CreateResponsible() {
             type="password"
             id="contraseña"
             placeholder="Ingrese Contraseña"
-            className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
+            className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
             value={contraseña}
             onChange={(e) => setContraseña(e.target.value)}
             required
@@ -193,7 +193,7 @@ function CreateResponsible() {
           type="password"
           id="confirmarContraseña"
           placeholder="Confirmar Contraseña"
-          className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
+          className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
           value={confirmarContraseña}
           onChange={(e) => setConfirmarContraseña(e.target.value)}
           required

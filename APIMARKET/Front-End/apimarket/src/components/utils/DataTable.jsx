@@ -13,7 +13,9 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 
+
 function DataTable({ Data, TitlesTable, Actions }) {
+    
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
@@ -120,38 +122,71 @@ function DataTable({ Data, TitlesTable, Actions }) {
 
             {/* Paginación */}
             <div className="flex items-center justify-between mt-4">
-                <div>
-                    Mostrando {indexOfFirstItem + 1} -{" "}
-                    {Math.min(indexOfLastItem, filteredData.length)} de {filteredData.length}{" "}
-                    resultados
+                <div className="text-sm text-gray-700">
+                    Mostrando {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, filteredData.length)} de {filteredData.length} resultados
                 </div>
-                <div className="flex space-x-2">
+                <div className="flex items-center gap-1">
                     <Button
-                        variant="outline"
+                        variant="ghost"
                         size="sm"
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
+                        className="px-2"
                     >
                         <ChevronLeft className="w-4 h-4" />
+                        <span className="ml-1">Previous</span>
                     </Button>
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                        <Button
-                            key={page}
-                            variant={currentPage === page ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => handlePageChange(page)}
-                            className="text-white bg-[#e87204] hover:bg-[#030712] focus:outline-none hover:text-white focus:ring-primary"
 
-                        >
-                            {page}
-                        </Button>
-                    ))}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                        .filter(page => {
+                            if (page === 1 || page === totalPages) return true;
+                            if (page >= currentPage - 1 && page <= currentPage + 1) return true;
+                            return false;
+                        })
+                        .map((page, index, array) => {
+                            if (index > 0 && array[index - 1] !== page - 1) {
+                                return [
+                                    <span key={`ellipsis-${page}`} className="px-2">...</span>,
+                                    <Button
+                                        key={page}
+                                        variant={currentPage === page ? "default" : "outline"}
+                                        size="sm"
+                                        onClick={() => handlePageChange(page)}
+                                        className={`min-w-[32px] ${
+                                            currentPage === page 
+                                            ? "text-white bg-[#e87204] hover:bg-[#030712]" 
+                                            : ""
+                                        }`}
+                                    >
+                                        {page}
+                                    </Button>
+                                ];
+                            }
+                            return (
+                                <Button
+                                    key={page}
+                                    variant={currentPage === page ? "default" : "outline"}
+                                    size="sm"
+                                    onClick={() => handlePageChange(page)}
+                                    className={`min-w-[32px] ${
+                                        currentPage === page 
+                                        ? "text-white bg-[#e87204] hover:bg-[#030712]" 
+                                        : ""
+                                    }`}
+                                >
+                                    {page}
+                                </Button>
+                            );
+                        })}
+
                     <Button
-                        variant="outline"
+                        variant="ghost"
                         size="sm"
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === totalPages}
+                        className="px-2"
                     >
+                        <span className="mr-1">Next</span>
                         <ChevronRight className="w-4 h-4" />
                     </Button>
                 </div>

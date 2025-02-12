@@ -44,7 +44,7 @@ namespace Apimarket.Controllers
 
         
 
-        [HttpGet("GetsFeeding")]
+        [HttpGet("GetsFeedings")]
         public ActionResult<IEnumerable<Feeding>> GetsFeeding(int start, int end)
         {
             try
@@ -71,6 +71,21 @@ namespace Apimarket.Controllers
             }
         }
 
+        [HttpGet("GetsFedding")]
+
+        public IActionResult GetsAllFeeding()
+        {
+            try
+            {
+                var Feeding = _feedingServices.GetAll();
+                return Ok(Feeding);
+            }
+            catch(Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         [Authorize]
         [HttpGet("GetFeeding/{id}")]

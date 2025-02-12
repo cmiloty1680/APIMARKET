@@ -90,6 +90,21 @@ namespace Apimarket.Controllers
             }
         }
 
+        [HttpGet("GetsImplement")]
+        public IActionResult GetsAllImplement()
+        {
+            try
+            {
+                var Implements = _implementServices.GetAll();
+                return Ok(Implements);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [Authorize]
 
         [HttpPut("UpdateImplement")]

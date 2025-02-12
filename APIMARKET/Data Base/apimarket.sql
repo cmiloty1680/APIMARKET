@@ -53,7 +53,9 @@ CREATE TABLE `extraction` (
   PRIMARY KEY (`Id_Extraction`),
   UNIQUE KEY `Id_Collecdrone_UNIQUE` (`Id_Collecdrone`),
   UNIQUE KEY `Id_Responsible_UNIQUE` (`Id_Responsible`),
-  UNIQUE KEY `Id_ProtocolImplement_UNIQUE` (`Id_ProtocolImplement`)
+  UNIQUE KEY `Id_ProtocolImplement_UNIQUE` (`Id_ProtocolImplement`),
+  CONSTRAINT `Id_Collecdrone` FOREIGN KEY (`Id_Collecdrone`) REFERENCES `collecdrone` (`Id_CollecDrone`),
+  CONSTRAINT `Id_ProtocolImplement` FOREIGN KEY (`Id_ProtocolImplement`) REFERENCES `protocolimplement` (`Id_ProtocolImplement`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -72,7 +74,7 @@ CREATE TABLE `feeding` (
   `Vlr_Feeding` int DEFAULT NULL,
   PRIMARY KEY (`Id_Feeding`),
   UNIQUE KEY `Id_Feeding_UNIQUE` (`Id_Feeding`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +92,8 @@ CREATE TABLE `fertilization` (
   `Id_Extraction` int DEFAULT NULL,
   PRIMARY KEY (`Id_Fertilization`),
   UNIQUE KEY `Id_Responsible_UNIQUE` (`Id_Responsible`),
-  UNIQUE KEY `Id_Extraction_UNIQUE` (`Id_Extraction`)
+  UNIQUE KEY `Id_Extraction_UNIQUE` (`Id_Extraction`),
+  CONSTRAINT `Id_Extraction` FOREIGN KEY (`Id_Extraction`) REFERENCES `extraction` (`Id_Extraction`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -158,9 +161,10 @@ CREATE TABLE `production` (
   `Can_Production` int DEFAULT NULL,
   `Cant_Abejas` int DEFAULT NULL,
   `Tot_Colmen` int DEFAULT NULL,
-  `Id_Race` int DEFAULT NULL,
+  `Id_Race` int NOT NULL,
   PRIMARY KEY (`Id_Production`),
-  UNIQUE KEY `Id_Race_UNIQUE` (`Id_Race`)
+  KEY `Id_Race_idx` (`Id_Race`),
+  CONSTRAINT `Id_Race` FOREIGN KEY (`Id_Race`) REFERENCES `race` (`Id_Race`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -198,7 +202,7 @@ CREATE TABLE `protocol` (
   `FecAct_Protocol` datetime NOT NULL,
   `Nom_Protocol` varchar(20) NOT NULL,
   PRIMARY KEY (`Id_Protocol`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,13 +276,16 @@ CREATE TABLE `reviews` (
   `Fec_Review` date NOT NULL,
   `Des_Review` text NOT NULL,
   `Id_Responsible` int DEFAULT NULL,
-  `Id_Protocolo` int DEFAULT NULL,
-  `Id_ProduccionColmena` int DEFAULT NULL,
+  `Id_Protocol` int DEFAULT NULL,
+  `Id_ProductionHive` int DEFAULT NULL,
   PRIMARY KEY (`Id_Review`),
-  UNIQUE KEY `Id_Protocolo_UNIQUE` (`Id_Protocolo`),
-  UNIQUE KEY `Id_ProduccionColmena_UNIQUE` (`Id_ProduccionColmena`),
-  UNIQUE KEY `Id_Responsible_UNIQUE` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `Id_Protocolo_UNIQUE` (`Id_Protocol`),
+  UNIQUE KEY `Id_ProduccionColmena_UNIQUE` (`Id_ProductionHive`),
+  UNIQUE KEY `Id_Responsible_UNIQUE` (`Id_Responsible`),
+  CONSTRAINT `Id_ProductionHive` FOREIGN KEY (`Id_ProductionHive`) REFERENCES `productionhive` (`Id_ProductionHive`),
+  CONSTRAINT `Id_Protocol` FOREIGN KEY (`Id_Protocol`) REFERENCES `protocol` (`Id_Protocol`),
+  CONSTRAINT `Id_Responsible` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -290,4 +297,4 @@ CREATE TABLE `reviews` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-15 22:28:29
+-- Dump completed on 2025-02-12 17:15:25

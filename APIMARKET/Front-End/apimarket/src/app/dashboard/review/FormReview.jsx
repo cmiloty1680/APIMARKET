@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import axiosInstance from "@/lib/axiosInstance";
+import {Eye } from "lucide-react";
 
 function FormReview() {
   const [fechaReview, setFechaReview] = useState("");
@@ -25,7 +26,7 @@ function FormReview() {
       Des_Review: descripcion,
     };
 
-    if (Object.values(body).includes("")) {
+    if (!body) {
       setError("Todos los campos son requeridos.");
       clearMessages();
       setSubmitting(false);
@@ -56,31 +57,23 @@ function FormReview() {
               className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md"
               onSubmit={handlerSubmitReview}
             >
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-gray-900">Registrar Revisión</h3>
-                <p className="text-xs text-gray-500">Complete los datos de la revisión</p>
-              </div>
+               {/* Título */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
+              <Eye className="h-5 w-5" />
+            </div>
+            <div className="ml-3">
+              <h2 className="text-xl font-bold text-gray-900">Revisión</h2>
+              <p className="text-xs text-gray-500">Ingrese los datos de la revisión</p>
+            </div>
+          </div>
+        </div>
 
               {/* Inputs organizados en grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label
-                    htmlFor="fechaReview"
-                    className="text-sm font-medium text-gray-700"
-                  >
-                    Fecha de Revisión
-                  </label>
-                  <input
-                    type="date"
-                    id="fechaReview"
-                    value={fechaReview}
-                    onChange={(e) => setFechaReview(e.target.value)}
-                    className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label
+                <label
                     htmlFor="descripcion"
                     className="text-sm font-medium text-gray-700"
                   >
@@ -91,8 +84,25 @@ function FormReview() {
                     placeholder="Ingrese la descripción"
                     value={descripcion}
                     onChange={(e) => setDescripcion(e.target.value)}
-                    className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
                   />
+                </div>
+
+                <div className="space-y-1">
+                <label
+                    htmlFor="fechaReview"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    Fecha de Revisión
+                  </label>
+                  <input
+                    type="date"
+                    id="fechaReview"
+                    value={fechaReview}
+                    onChange={(e) => setFechaReview(e.target.value)}
+                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                  />
+                  
                 </div>
               </div>
 
@@ -103,7 +113,7 @@ function FormReview() {
                   disabled={isSubmitting}
                   className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors"
                   >
-                  {isSubmitting ? "Guardando..." : "Guardar Revisión"}
+                  {isSubmitting ? "Guardando..." : "Guardar"}
                 </button>
               </div>
             </form>

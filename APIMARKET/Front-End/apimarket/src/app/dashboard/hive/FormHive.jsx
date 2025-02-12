@@ -79,7 +79,7 @@ function FormHive() {
         {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
         {msSuccess && <p className="text-green-500 mb-4 text-sm">{msSuccess}</p>}
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           {/* Descripción */}
           <div className="space-y-1">
             <label htmlFor="descripcion" className="text-sm font-medium text-gray-700">
@@ -87,7 +87,7 @@ function FormHive() {
             </label>
             <input
               type="text"
-              className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               id="descripcion"
               placeholder="Ingrese una descripción (máximo 50 caracteres)"
               required
@@ -105,7 +105,7 @@ function FormHive() {
                 Estado de la colmena
               </label>
               <select
-                className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
                 id="estado"
                 required
                 name="estado"
@@ -123,7 +123,7 @@ function FormHive() {
               </label>
               <input
                 type="number"
-                className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
                 id="Ncuadro"
                 placeholder="Ingrese N° cuadros"
                 required
@@ -141,7 +141,7 @@ function FormHive() {
             </label>
             <input
               type="number"
-              className="w-full px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:border-transparent"
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               id="Nalza"
               placeholder="Ingrese N° alzas"
               required
