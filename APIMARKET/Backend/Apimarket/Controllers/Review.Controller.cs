@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Apimarket.DTOs;
 
 namespace Apimarket.Controllers
 {
@@ -68,23 +69,51 @@ namespace Apimarket.Controllers
 
         [HttpGet("GetsAllReview")]
 
-        public IActionResult GetsAllReview()
+        public ActionResult <IEnumerable<ReviewDTO>> GetAllReview()
         {
             try
             {
-                var review = _reviewServices.GetAll();
-                if(review == null)
-                {
-                    return NotFound("No se encontraron los registros");
-                }
-                return Ok(review);
+            var reviews = _reviewServices.GetAll().Select(p => new ReviewDTO
+            {
+                Id_Review = p.Id_Review,
+                Fec_Review = p.Fec_Review,
+                Des_Review = p.Des_Review,
+                Tip_Protocol = p.protocol.Tip_Protocol,
+                Nom_Protocol = p.protocol.Nom_Protocol,
+                Nam_Responsible = p.responsible.Nam_Responsible,
+                LasNam_Responsible= p.responsible.LasNam_Responsible,
+                Tip_Responsible = p.responsible.Tip_Responsible,
+      
+
+            }).ToList();
+
+            return Ok(reviews);
             }
             catch (Exception ex)
             {
                 _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.Message);
             }
+
         }
+
+        //public IActionResult GetsAllReview()
+        //{
+        //    try
+        //    {
+        //        var review = _reviewServices.GetAll();
+        //        if(review == null)
+        //        {
+        //            return NotFound("No se encontraron los registros");
+        //        }
+        //        return Ok(review);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _functionsGeneral.Addlog(ex.ToString());
+        //        return StatusCode(500, ex.Message);
+        //    }
+        //}
         [HttpGet("GetReview/{id}")]
         public IActionResult GetReview(int id)
         {

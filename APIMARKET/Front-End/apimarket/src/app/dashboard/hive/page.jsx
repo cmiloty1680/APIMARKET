@@ -7,6 +7,7 @@ import FormHive from "./FormHive";
 import FormUpdateHive from "./FormUpdateHive";
 import axiosInstance from "@/lib/axiosInstance";
 import ConfirmationModal from "@/components/utils/ConfirmationModal";
+import ModalDialog from "@/components/utils/ModalDialog";
 
 
 function HivePage() {
@@ -14,6 +15,7 @@ function HivePage() {
   const TitlePage = "COLMENA";
   const TitlesPage = "Gestionar Información de las Colmena";
   const [regisColmena, setRegisColmena] = useState([]);
+  const [isOpen, setIsOpen] = useState(false); // Estado para controlar el modal
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -90,6 +92,15 @@ function HivePage() {
     }
   }
 
+  
+
+  const openModalForm = (isOpen) => {
+    setSelectedProduction();
+    // console.log(isOpen);
+    setIsOpen(isOpen);
+    
+  }
+
 
   useEffect(() => {
     fetchHives();
@@ -131,10 +142,18 @@ function HivePage() {
                     Data={regisColmena}
                     TitlesTable={titlesColmena}
                     Actions={actions}
-                    FormPage={FormHive}
+                    // FormPage={FormHive}
                   />
+                  
                 )}
               </div>
+              <ModalDialog
+       isOpen={isOpen} 
+       setIsOpen={openModalForm} 
+       FormPage={FormHive} 
+      //  action={action} 
+      //  production={production}
+       />
             </div>
           </div>
         </main>

@@ -11,9 +11,15 @@ function ReviewPage() {
     const [error , setError] = useState(null);
     const titlesColmena = [
         "Codigo",
-        "Fecha de Revisión",
         "Descripción",
+        "Fecha de Revisión",
+        "Tip_protocolo",
+        "Nom_protocolo",
+        "Nom_responsable",
+        "Ape_responsable",
+        "Tip_responsable"
     ];
+    
 
     async function fetchReview(){
       try {
@@ -23,6 +29,11 @@ function ReviewPage() {
             review.id_Review || "-",
             review.des_Review || "-",
             review.fec_Review || "-",
+            review.tip_Protocol != null ? review.tip_Protocol: "-",
+            review.nom_Protocol != null ? review.nom_Protocol: "-",
+            review.nam_Responsible != null ? review.nam_Responsible: "-",
+            review.lasNam_Responsible != null ? review.lasNam_Responsible: "-",
+            review.tip_Responsible != null ? review.tip_Responsible: "-",
           ]);
           setRegisReview(data);
         }

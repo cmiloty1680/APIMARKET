@@ -1,4 +1,5 @@
-﻿using Apimarket.Functions;
+﻿using Apimarket.DTOs;
+using Apimarket.Functions;
 using Apimarket.Models;
 using Apimarket.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -69,19 +70,40 @@ namespace Apimarket.Controllers
         }
 
         [HttpGet("GetsAllProduction")]
-        public IActionResult GetsAllProduccion()
+        //public IActionResult GetsAllProduccion()
+        //{
+        //    try
+        //    {
+        //        var productions = _productionService.GetAll();
+        //        return Ok(productions);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        FunctionsGeneral.Addlog(ex.ToString());
+        //        return StatusCode(500, ex.ToString());
+        //    }
+        //}
+        public ActionResult <IEnumerable<ProductionDTO>> GetsAllProduction()
         {
-            try
+            var productions = _productionService.GetAll().Select(p => new ProductionDTO
             {
-                var productions = _productionService.GetAll();
-                return Ok(productions);
-            }
-            catch (Exception ex)
-            {
-                FunctionsGeneral.Addlog(ex.ToString());
-                return StatusCode(500, ex.ToString());
-            }
+                Id_Production = p.Id_Production,
+                FecIni_Production = p.FecIni_Production,
+                FecFin_Production = p.FecFin_Production,
+                Cant_Abejas = p.Cant_Abejas,
+                Can_Production = p.Can_Production,
+                Tot_Colmen = p.Tot_Colmen,
+                Nom_Race = p.race.Nom_Race,
+            }).ToList();
+
+            return Ok(productions);
         }
+
+
+
+
+
+
         [HttpPut("UpdateProduction")]
         public IActionResult UpdateProduction(Production production)
         {
@@ -111,8 +133,8 @@ namespace Apimarket.Controllers
         {
             try
             {
-                var production = _productionService.GetProduction(id);
-                if (production == null)
+                var result = _productionService.GetProduction(id);
+                if (result == null)
                 {
                     return NotFound("La producción con ID " + id + " no se encontró.");
                 }
@@ -120,16 +142,14 @@ namespace Apimarket.Controllers
                 _productionService.Delete(id);
                 return Ok("Producción eliminada con éxito.");
             }
-            catch (KeyNotFoundException knfEx)
-            {
-                return NotFound(knfEx.Message);
-            }
             catch (Exception ex)
             {
                 FunctionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
+
+
         [HttpGet("AllProductionInRange")]
         public ActionResult<IEnumerable<Production>> GetAllInRange(int start, int end)
         {

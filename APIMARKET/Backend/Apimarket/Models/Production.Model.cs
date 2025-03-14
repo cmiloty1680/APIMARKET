@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
 namespace Apimarket.Models
@@ -16,6 +17,11 @@ namespace Apimarket.Models
        
         public int Cant_Abejas { get; set; }
         public int Tot_Colmen { get; set; }
+
+        public int Id_Race { get; set; }
+        [ForeignKey("Id_Race")]
+
+        public Race? race  { get; set; }
 
 
 

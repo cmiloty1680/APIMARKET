@@ -136,7 +136,7 @@ namespace Apimarket.Controllers
             }
         }
         //[Authorize]
-        [HttpDelete("DeleteProtocol/{id}")]
+        [HttpDelete("DeleteProtocol")]
         public async Task<IActionResult> DeleteProtocol(int id) 
         {
             try

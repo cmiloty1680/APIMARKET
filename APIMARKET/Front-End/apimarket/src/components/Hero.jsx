@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
+import { Link } from 'lucide-react'
+import Image from 'next/image'
 // import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const carouselItems = [
@@ -63,13 +65,13 @@ function Hero() {
         </div>
       </div>
       <div className="relative">
-        <img
+        <Image
           alt="Colmenas"
           className="mx-auto w-full aspect-video overflow-hidden rounded-xl object-cover object-center lg:aspect-square"
           height="550"
           src={carouselItems[currentSlide].image}
-          width="550"
-        />
+          width="550"/>
+        
       </div>
     </div>
   </div>

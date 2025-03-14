@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "../ui/button";
+import ModalDialog from "./ModalDialog";
 import { Search, Edit, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import {
     Table,
@@ -14,8 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 
 
-function DataTable({ Data, TitlesTable, Actions }) {
-    
+function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalForm, buttonForm}) {
+
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
@@ -59,66 +60,67 @@ function DataTable({ Data, TitlesTable, Actions }) {
             </div>
 
             <div className="border border-gray-200 rounded-lg shadow-sm bg-white">
-    <Table className="table">
-        <TableHeader>
-            <TableRow>
-                {TitlesTable.map((title, index) => (
-                    <TableHead
-                        key={index}
-                        className="text-gray-600 font-medium bg-gray-100 table-head"
-                    >
-                        {title}
-                    </TableHead>
-                ))}
-                {Actions && (
-                    <TableHead className="text-gray-600 font-medium bg-gray-100 table-head">
-                        Acciones
-                    </TableHead>
-                )}
-            </TableRow>
-        </TableHeader>
+                <Table className="table">
+                    <TableHeader>
+                        <TableRow>
+                            {TitlesTable.map((title, index) => (
+                                <TableHead
+                                    key={index}
+                                    className="text-gray-600 font-medium bg-gray-100 table-head"
+                                >
+                                    {title}
+                                </TableHead>
+                            ))}
+                            {Actions && (
+                                <TableHead className="text-gray-600 font-medium bg-gray-100 table-head">
+                                    Acciones
+                                </TableHead>
+                            )}
+                        </TableRow>
+                    </TableHeader>
 
-        <TableBody>
-            {currentItems.map((row, rowIndex) => (
-                <TableRow key={rowIndex}>
-                    {row.map((cell, cellIndex) => (
-                        <TableCell key={cellIndex} className="table-cell">
-                            {cell}
-                        </TableCell>
-                    ))}
-                    {Actions && (
-                        <TableCell className="table-cell">
-                            <div className="flex space-x-1">
-                                {Actions.update && (
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => Actions.update(row)}
-                                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 flex items-center gap-1 px-2 py-1 rounded-md"
-                                    >
-                                        <Edit className="w-4 h-4" />
-                                        <span>Editar</span>
-                                    </Button>
+                    <TableBody>
+                        {currentItems.map((row, rowIndex) => (
+                            <TableRow key={rowIndex}>
+                                {row.map((cell, cellIndex) => (
+                                    <TableCell key={cellIndex} className="table-cell">
+                                        {cell}
+                                    </TableCell>
+                                ))}
+                                {Actions && (
+                                    <TableCell className="table-cell">
+                                        <div className="flex space-x-1">
+                                            {Actions.update && (
+            
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => {updateTextTitleForm("Actualizar", row); openModalForm(true)} }
+                                                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 flex items-center gap-1 px-2 py-1 rounded-md"
+                                                >
+                                                    <Edit className="w-4 h-4" />
+                                                    <span>Editar</span>
+                                                </Button>
+                                            )}
+                                            {Actions.delete && (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => Actions.delete(row)}
+                                                    className="text-red-600 hover:text-red-700 hover:bg-red-50 flex items-center gap-1 px-2 py-1 rounded-md"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                    <span>Eliminar</span>
+                                                </Button>
+                                            )}
+                                        </div>
+                                    </TableCell>
                                 )}
-                                {Actions.delete && (
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => Actions.delete(row)}
-                                        className="text-red-600 hover:text-red-700 hover:bg-red-50 flex items-center gap-1 px-2 py-1 rounded-md"
-                                    >
-                                        <Trash2 className="w-4 h-4" />
-                                        <span>Eliminar</span>
-                                    </Button>
-                                )}
-                            </div>
-                        </TableCell>
-                    )}
-                </TableRow>
-            ))}
-        </TableBody>
-    </Table>
-</div>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
 
             {/* Paginación */}
             <div className="flex items-center justify-between mt-4">
@@ -152,11 +154,10 @@ function DataTable({ Data, TitlesTable, Actions }) {
                                         variant={currentPage === page ? "default" : "outline"}
                                         size="sm"
                                         onClick={() => handlePageChange(page)}
-                                        className={`min-w-[32px] ${
-                                            currentPage === page 
-                                            ? "text-white bg-[#e87204] hover:bg-[#030712]" 
-                                            : ""
-                                        }`}
+                                        className={`min-w-[32px] ${currentPage === page
+                                                ? "text-white bg-[#e87204] hover:bg-[#030712]"
+                                                : ""
+                                            }`}
                                     >
                                         {page}
                                     </Button>
@@ -168,11 +169,10 @@ function DataTable({ Data, TitlesTable, Actions }) {
                                     variant={currentPage === page ? "default" : "outline"}
                                     size="sm"
                                     onClick={() => handlePageChange(page)}
-                                    className={`min-w-[32px] ${
-                                        currentPage === page 
-                                        ? "text-white bg-[#e87204] hover:bg-[#030712]" 
-                                        : ""
-                                    }`}
+                                    className={`min-w-[32px] ${currentPage === page
+                                            ? "text-white bg-[#e87204] hover:bg-[#030712]"
+                                            : ""
+                                        }`}
                                 >
                                     {page}
                                 </Button>

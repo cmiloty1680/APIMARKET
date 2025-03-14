@@ -66,6 +66,22 @@ namespace Apimarket.Controllers
             }
         }
 
+        [HttpGet("GetsAllRace")]
+        public IActionResult GetsAllRace()
+        {
+            try
+            {
+                var races = _raceServices.GetAll();
+
+                return Ok(races);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("GetRace/{id}")]
         public IActionResult GetRace(int id)
         {

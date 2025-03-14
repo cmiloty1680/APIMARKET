@@ -18,7 +18,8 @@ namespace Apimarket.Services
         // Obtiene todas las producciones
         public IEnumerable<Production> GetAll()
         {
-            return _context.production.ToList();
+            //return _context.production.ToList();
+            return _context.production.Include(p => p.race  ).ToList();
         }
 
         // Añade una nueva producción
@@ -37,24 +38,41 @@ namespace Apimarket.Services
         // Elimina una producción por su ID
         public void Delete(int id)
         {
-            var production = _context.production.FirstOrDefault(p => p.Id_Production == id);
-            if (production != null)
+            try
             {
-                try
+                var production = _context.production.Find(id);
+                if (production == null)
                 {
-                    _context.production.Remove(production);
-                    _context.SaveChanges();
+                    Console.WriteLine($"No se encontró la revision con ID {id}");
+                    return;
                 }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error al eliminar la producción: " + ex.Message);
-                }
+
+                _context.production.Remove(production);
+                _context.SaveChanges();
             }
-            else
+            catch (Exception ex)
             {
-                throw new KeyNotFoundException("La producción con ID " + id + " no se encontró.");
+                Console.WriteLine($"Error al eliminar la production con ID {id}: {ex.Message}");
+                throw;
             }
         }
+        //public void Delete(int id)
+        //{
+        //    var production = _context.production.FirstOrDefault(p => p.Id_Production == id);
+        //    if (production != null)
+        //    {
+        //        try
+        //        {
+        //            _context.production.Remove(production);
+        //            _context.SaveChanges();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine($"Error al eliminar la produccion con ID {id}: {ex.Message}");
+        //            throw;
+        //        }
+        //    }
+        //}
 
         // Actualiza una producción existente
         public void Update(Production production)

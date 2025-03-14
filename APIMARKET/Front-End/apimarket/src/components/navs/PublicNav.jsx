@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { Menu, Users, Mail, BookOpen } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,14 +11,16 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet";
+import Image from "next/image";
 
 function PublicNav() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-[#030712] backdrop-blur supports-[backdrop-filter]:bg-[#030712]">
-      <div className="container flex h-20 items-center">
+      <div className="container flex h-20 items-center justify-between flex-wrap max-w-full overflow-hidden">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 ml-4 flex items-center space-x-2">
-            <img
+          
+            <Image
               className="imag"
               src="/assets/img/apimar.png"
               alt="Apimarket"
@@ -27,10 +29,16 @@ function PublicNav() {
             />
           </Link>
 
-          <nav className="flex items-center space-x-6 text-white font-medium">
-            <Link href="/we"> Quienes Somos</Link>
-            <Link href="/contact">Contacto</Link>
-            <Link href="/documentation">Documentación</Link>
+          <nav className="hidden md:flex items-center space-x-6 text-white font-medium flex-wrap justify-center gap-x-4">
+            <Link href="/we" className="whitespace-nowrap flex items-center gap-2">
+              <Users className="w-5 h-5" /> Quienes Somos
+            </Link>
+            <Link href="/contact" className="whitespace-nowrap flex items-center gap-2">
+              <Mail className="w-5 h-5" /> Contacto
+            </Link>
+            <Link href="/documentation" className="whitespace-nowrap flex items-center gap-2">
+              <BookOpen className="w-5 h-5" /> Documentación
+            </Link>
           </nav>
         </div>
         <Sheet>
@@ -53,12 +61,9 @@ function PublicNav() {
             </nav>
           </SheetContent>
         </Sheet>
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
-            {/* Add search functionality if needed */}
-          </div>
+        <div className="flex items-center flex-shrink-0">
           <nav className="flex items-center">
-            <Button asChild className="bg-[#e87204] hover:bg-transparent hover:text-white border hover:border-[#e87204]">
+            <Button asChild className="bg-[#e87204] hover:bg-transparent hover:text-white border hover:border-[#e87204] mr-8">
               <Link href="/responsible/login">Iniciar Sesión</Link>
             </Button>
           </nav>

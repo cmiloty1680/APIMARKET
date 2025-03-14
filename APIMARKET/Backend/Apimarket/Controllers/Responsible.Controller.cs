@@ -209,6 +209,26 @@ namespace Apimarket.Controllers
             }
         }
 
+
+        [HttpGet("GetsAllResponsible")]
+        public IActionResult GetResponsible()
+        {
+            try
+            {
+
+                var responsible = _responsibleService.GetAll();
+                return Ok(responsible);
+            }
+            catch (Exception ex)
+            {
+
+                FunctionsGeneral.Addlog(ex.ToString());
+
+
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [Authorize]
         [HttpGet("GetsResponsible")]
         public ActionResult<IEnumerable<Responsible>> GetsResponsible(int start, int end)

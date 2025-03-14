@@ -22,7 +22,12 @@ namespace Apimarket.Services
         /// <returns>Lista de todas las reseñas.</returns>
         public IEnumerable<Review> GetAll()
         {
-            return _context.review.AsNoTracking().ToList();
+            //return _context.review.AsNoTracking().ToList();
+            return _context.review
+                               .Include(p => p.protocol)
+                               .Include(p => p.responsible)
+                               .ToList();
+
         }
 
         /// <summary>
