@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
-function ModalDialog({ isOpen, setIsOpen, FormPage, action }) {
+function ModalDialog({ isOpen, setIsOpen, FormPage, action, buttonForm }) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent>
@@ -8,7 +8,8 @@ function ModalDialog({ isOpen, setIsOpen, FormPage, action }) {
           <DialogTitle>{action}</DialogTitle>
         </DialogHeader>
         <div>
-          <FormPage/> {/* Aquí se mostrará el formulario */}
+          {/* <FormPage/> Aquí se mostrará el formulario */}
+          {FormPage && <FormPage buttonForm={buttonForm} />}
         </div>
       </DialogContent>
     </Dialog>

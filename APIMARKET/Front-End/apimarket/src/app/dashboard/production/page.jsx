@@ -11,14 +11,14 @@ import FormProduction from "./FormProduction";
 function ProductionPage() {
   const TitlePage = "Producción";
   const eliminar = "La producción";
-  const [action , setAction] = useState("Registrar");
-  const [isOpen, setIsOpen] = useState(false); // Estado para controlar el modal
+  const [action, setAction] = useState("Registrar");
+  const [isOpen, setIsOpen] = useState(false);
   const [regisProduction, setRegisProduction] = useState([]);
   const [error, setError] = useState(null);
   const [selectedProduction, setSelectedProduction] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isUpdate, setIsUpdate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [buttonForm, setButtonForm] = useState("Registrar");
 
   const titlesProduction = [
     "Código",
@@ -31,13 +31,14 @@ function ProductionPage() {
   ];
 
   const [production, setProduction] = useState({
-        id_Production: '',
-        fecIni_Production: '',
-        fecFin_Production: '',
-        cant_Abejas: '',
-        can_Production: '',
-        nom_Race: ''
-    })
+    id_Production: '',
+    fecIni_Production: '',
+    fecFin_Production: '',
+    cant_Abejas: '',
+    tot_Colmen: '',
+    can_Production: '',
+    nom_Race: ''
+  });
 
   // Obtener producción
   async function fetchProduction() {
@@ -51,11 +52,10 @@ function ProductionPage() {
           production.fecFin_Production || "Sin estado",
           production.cant_Abejas != null ? production.cant_Abejas : "-",
           production.tot_Colmen != null ? production.tot_Colmen : "-",
-          production.can_Production != null ? production.can_Production: "-",
-          production.nom_Race != null ? production.nom_Race: "-"
+          production.can_Production != null ? production.can_Production : "-",
+          production.nom_Race != null ? production.nom_Race : "-"
         ]);
         setRegisProduction(data);
-        console.log(data);
       }
     } catch (error) {
       console.error("Error al obtener la producción:", error);
@@ -63,33 +63,54 @@ function ProductionPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   useEffect(() => {
     fetchProduction();
   }, []);
 
+  const getProduction = async (id_Production) => {
+    try {
+      const response = await axiosInstance.get(`/Api/Production/GetProduction?id=${id_Production}`);
+      if (response.status === 200) {
+        setProduction({
+          id_Production: response.data.id_Production,
+          fecIni_Production: response.data.fecIni_Production,
+          fecFin_Production: response.data.fecFin_Production,
+          cant_Abejas: response.data.cant_Abejas,
+          tot_Colmen: response.data.tot_Colmen,
+          can_Production: response.data.can_Production,
+          nom_Race: response.data.nom_Race,
+        });
 
-  //funcion para cambiar el titulo del formulario
-  const updateTextTitleForm = (texto, rowData) => {
-    setAction(texto)
-    if (texto === "Actualizar"){
-      console.log("Actualizando....")
-      actions.update(rowData)
-      console.log(rowData)
-    } else {
-      console.log("Registrando...")
+        setAction("Actualizar");
+        setButtonForm("Actualizar");
+        setIsOpen(true);
+      }
+    } catch (error) {
+      console.error("Error al obtener la producción:", error);
     }
-  }
+  };
 
+  // Función para cambiar el título del formulario y acción
+  const updateTextTitleForm = (texto, rowData) => {
+    setAction(texto);
+    setButtonForm(texto);
 
-  //open modal para abrir form
+    if (texto === "Actualizar") {
+      console.log("Actualizando...");
+      console.log(rowData)
+      getProduction(rowData[0]);  // Llamar directamente la función correcta
+    } else {
+      console.log("Registrando...");
+    }
+  };
+
+  // Función para abrir el modal
   const openModalForm = (isOpen) => {
-    setSelectedProduction();
-    // console.log(isOpen);
+    setSelectedProduction(null);
     setIsOpen(isOpen);
-    
-  }
+  };
 
   // Eliminar producción
   async function deleteProduction() {
@@ -108,28 +129,16 @@ function ProductionPage() {
     }
   }
 
-  
   // Acciones de la tabla
   const actions = {
     delete: (rowData) => {
       setSelectedProduction(rowData[0]);
       setIsModalOpen(true);
     },
-
-
     update: (rowData) => {
-      setProduction({
-        id: rowData[0],
-        fecIni_Production: rowData[1],
-        fecFin_Production: rowData[2],
-        cant_Abejas: rowData[3],
-        tot_Colmen: rowData[4],
-        can_Production: rowData[5],
-        nom_Race: rowData[6],
-      });
+      getProduction(rowData[0]);
     }
   };
-
 
   return (
     <div className="flex h-screen bg-gray-200">
@@ -160,7 +169,6 @@ function ProductionPage() {
                     updateTextTitleForm={updateTextTitleForm}
                     openModalForm={openModalForm}
                   />
-                  
                 )}
               </div>
             </div>
@@ -168,20 +176,20 @@ function ProductionPage() {
         </main>
       </div>
 
-      {/* Modal que se abrirá al hacer clic en "Agregar" */}
       <ModalDialog
-       isOpen={isOpen} 
-       setIsOpen={openModalForm} 
-       FormPage={FormProduction} 
-       action={action} 
-       production={production}
-       />
-       {/* Modal de confirmación */}
+        isOpen={isOpen}
+        setIsOpen={openModalForm}
+        FormPage={FormProduction}
+        action={action}
+        production={production}
+        buttonForm={buttonForm}
+      />
+
       <ConfirmationModal
-         isOpen={isModalOpen}
-         onClose={() => setIsModalOpen(false)}
-         onConfirm={deleteProduction}
-         DeleteTitle={eliminar}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={deleteProduction}
+        DeleteTitle={eliminar}
       />
     </div>
   );

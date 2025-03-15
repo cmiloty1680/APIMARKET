@@ -6,7 +6,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { Dialog } from "@headlessui/react"; // Para el modal
 import { Droplet } from "lucide-react";
 
-function FormProduction({production}) {
+function FormProduction({production, buttonForm}) {
     const router = useRouter();
     const [fecha, setFecha] = useState("");
     const [fechaF, setFechaF] = useState("");
@@ -20,7 +20,6 @@ function FormProduction({production}) {
     const [isModalOpen, setModalOpen] = useState(false);
     const [msSuccess, setMsSuccess] = useState("");
     const [razas, setRazas] = useState([]);
-    const [buttonForm, setButtonForm] = useState("Enviar"); // Estado para determinar si es creación o actualización
     const [id_Production, setIdProduction] = useState(null); // ID de producción para actualizar
 
     //JORGE
@@ -33,28 +32,6 @@ function FormProduction({production}) {
     //     setIdProduction(production.id_Production);
     // };
     
-    const setDataProductionForUpdate = (production) => {
-        if (production) {
-            setIdProduction(production.id_Production || null);
-            setFecha(production.fecIni_Production ? new Date(production.fecIni_Production).toISOString().split("T")[0] : "");
-            setFechaF(production.fecFin_Production ? new Date(production.fecFin_Production).toISOString().split("T")[0] : "");
-            setCantidad(production.cant_Abejas || "");
-            setTotal(production.tot_Colmen || "");
-            setTproduction(production.can_Production || "");
-            setNomrace(production.id_Race || "");
-            setButtonForm("Actualizar");
-        } else {
-            setIdProduction(null);
-            setFecha("");
-            setFechaF("");
-            setCantidad("");
-            setTotal("");
-            setTproduction("");
-            setNomrace("");
-            setButtonForm("Enviar");
-        }
-    };
-    
 
     useEffect(() => {
         async function fetchRazas() {
@@ -66,9 +43,9 @@ function FormProduction({production}) {
             }
         }
         fetchRazas();
-        if (production) {
-            setDataProductionForUpdate(production);
-        }        
+        // if (production) {
+        //     setDataProductionForUpdate(production);
+        // }        
     }, []);
 
 
@@ -87,25 +64,7 @@ function FormProduction({production}) {
         const formattedFechas = new Date(fechaF).toISOString().split("T")[0];
 
         try {
-            if (buttonForm === "Enviar") {
-                const response = await axiosInstance.post("/Api/Production/CreateProduction", {
-                    fecIni_Production: formattedFecha,
-                    fecFin_Production: formattedFechas,
-                    cant_Abejas: cantidad,
-                    tot_Colmen: total,
-                    can_Production: tproduction,
-                    id_Race: nomrace
-                }); 
-
-
-                if (response.status === 200) {
-                    setModalMessage(response.data.registrado);
-                    setModalOpen(true);
-                    localStorage.setItem("registroProduccion", response.data.registrado);
-                    alert(response.data.registrado);
-                    router.push("");
-                }
-            } else if (buttonForm === "Actualizar" && id_Production) {
+            if (buttonForm == "Actualizar") {
                 const response = await axiosInstance.put(`/Api/Production/UpdateProduction/${id_Production}`, {
                     fecIni_Production: formattedFecha,
                     fecFin_Production: formattedFechas,
@@ -120,6 +79,24 @@ function FormProduction({production}) {
                     setModalMessage("Producción actualizada correctamente.");
                     setModalOpen(true);
                     console.log(response);
+                }
+            } else if (buttonForm === "Registrar") {
+                 const response = await axiosInstance.post("/Api/Production/CreateProduction", {
+                    fecIni_Production: formattedFecha,
+                    fecFin_Production: formattedFechas,
+                    cant_Abejas: cantidad,
+                    tot_Colmen: total,
+                    can_Production: tproduction,
+                    id_Race: nomrace
+                }); 
+
+
+                if (response.status === 200) {
+                    setModalMessage(response.data.registrado);
+                    setModalOpen(true);
+                    localStorage.setItem("registroProduccion", response.data.registrado);
+                    alert(response.data.registrado);
+                    // router.push("");
                 }
             }
         } catch (error) {
@@ -256,6 +233,7 @@ function FormProduction({production}) {
                         <Button
                             disabled={isSubmitting}
                             type="submit"
+                            value={buttonForm}
                             className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors"
                         >
                             {isSubmitting ? "Guardando..." : buttonForm }
