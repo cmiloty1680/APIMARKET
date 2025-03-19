@@ -16,6 +16,7 @@ namespace Apimarket.DTOs
         public int Cant_Abejas { get; set; }
         public int Tot_Colmen { get; set; }
 
+        public int Id_Race { get; set; } 
         public string Nom_Race { get; set; }
        
         public int Can_Production { get; set; }

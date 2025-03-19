@@ -1,27 +1,24 @@
-"use client"
-import { useEffect, useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import NavPrivate from "@/components/navs/NavPrivate";
 import ContentPage from "@/components/utils/ContentPage";
 import Sidebar from "@/components/navs/Siderbar";
-import FormHive from "./FormHive";
-import FormUpdateHive from "./FormUpdateHive";
 import axiosInstance from "@/lib/axiosInstance";
 import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import ModalDialog from "@/components/utils/ModalDialog";
-
+import FormHive from "./FormHive";
 
 function HivePage() {
-  const eliminar = "Las colmenas";
-  const TitlePage = "COLMENA";
-  const TitlesPage = "Gestionar Información de las Colmena";
-  const [regisColmena, setRegisColmena] = useState([]);
-  const [isOpen, setIsOpen] = useState(false); // Estado para controlar el modal
+  const TitlePage = "Colmena";
+  const eliminar = "La colmena";
+  const [action, setAction] = useState("Registrar");
+  const [isOpen, setIsOpen] = useState(false);
+  const [regisHive, setRegisHive] = useState([]);
   const [error, setError] = useState(null);
+  const [selectedProduction, setSelectedProduction] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [selectedHive, setSelectedHive] = useState(null);
-  const [selectedRowData, setSelectedRowData] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [buttonForm, setButtonForm] = useState("Registrar");
 
   const titlesColmena = [
     "Código",
@@ -31,8 +28,20 @@ function HivePage() {
     "N° Alzas",
   ];
 
+  const [hive, setHive] = useState({
+    id_Production: '',
+    fecIni_Production: '',
+    fecFin_Production: '',
+    cant_Abejas: '',
+    tot_Colmen: '',
+    can_Production: '',
+    nom_Race: '',
+    id_Race: ''
+  });
 
+  // Obtener producción
   async function fetchHives() {
+    setIsLoading(true);
     try {
       const response = await axiosInstance.get("/Api/Hive/AllHive");
       if (response.status === 200) {
@@ -42,18 +51,62 @@ function HivePage() {
           hive.est_Hive || "Sin estado",
           hive.numCua_Hive != null ? hive.numCua_Hive : "-",
           hive.numAlz_Hive != null ? hive.numAlz_Hive : "-",
+          
         ]);
-        setRegisColmena(data);
+        setRegisHive(data);
       }
     } catch (error) {
-      console.error("Error al obtener los registros:", error);
-      setError("No se pudieron cargar los datos de las colmenas.");
+      console.error("Error al obtener la colmenas:", error);
+      setError("No se pudo cargar la colmenas.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
-  async function deleteHive() {
-    if (!selectedHive) {
-      setError("Debe seleccionar una colmena.");
+  useEffect(() => {
+    fetchHives();
+  }, []);
+
+  // Función para cambiar el título del formulario y acción
+  const updateTextTitleForm = (texto, rowData) => {
+    console.log(rowData);
+    setAction(texto);
+    setButtonForm(texto);
+
+    setHive({})
+
+
+    if (texto === "Actualizar") {
+      console.log("Actualizando...");
+     
+
+      setHive({
+        id_Hive: rowData[0], 
+        des_Hive: rowData[1], 
+        est_Hive: rowData[2], 
+        numCua_Hive: rowData[3],
+        numAlz_Hive: rowData[4]
+      });
+      
+      console.log(hive)
+  
+      // Llamar directamente la función correcta
+    } else {
+      console.log("Registrando...");
+
+    }
+  };
+
+  // Función para abrir el modal
+  const openModalForm = (isOpen) => {
+    setSelectedProduction(null);
+    setIsOpen(isOpen);
+  };
+
+  // Eliminar producción
+  async function deleteProduction() {
+    if (!selectedProduction) {
+      setError("Debe seleccionar una producción.");
       return;
     }
 
@@ -66,120 +119,67 @@ function HivePage() {
       setError("No se pudo eliminar la colmena.");
     }
   }
-  async function updateHive(formData) {
-    try {
-      const formattedData = {
-        id_Hive: formData.id_Hive,
-        des_Hive: formData.des_Hive,
-        est_Hive: formData.est_Hive,
-        numCua_Hive: parseInt(formData.numCua_Hive, 10),
-        numAlz_Hive: parseInt(formData.numAlz_Hive, 10),
-      };
 
-      console.log("Datos enviados al backend:", formattedData);
-
-      const response = await axiosInstance.put("/Api/Hive/UpdateHive", formattedData);
-
-      if (response.status === 200) {
-        console.log(response.data.message);
-        await fetchHives();
-        setIsUpdateModalOpen(false);
-      } else {
-        console.error("Error al actualizar:", response.data);
-      }
-    } catch (error) {
-      console.error("Error en la solicitud PUT:", error);
-    }
-  }
-
-  
-
-  const openModalForm = (isOpen) => {
-    setSelectedProduction();
-    // console.log(isOpen);
-    setIsOpen(isOpen);
-    
-  }
-
-
-  useEffect(() => {
-    fetchHives();
-    const interval = setInterval(fetchHives, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
+  // Acciones de la tabla
   const actions = {
     delete: (rowData) => {
-      setSelectedHive(rowData[0]);
+      setSelectedProduction(rowData[0]);
       setIsModalOpen(true);
     },
     update: (rowData) => {
-      setSelectedRowData({
-        id_Hive: rowData[0], // Código
-        des_Hive: rowData[1], // Descripción
-        est_Hive: rowData[2], // Estado
-        numCua_Hive: isNaN(rowData[3]) ? 0 : parseInt(rowData[3], 10), // Número de cuadros
-        numAlz_Hive: isNaN(rowData[4]) ? 0 : parseInt(rowData[4], 10), // Número de alzas
-      });
-      setIsUpdateModalOpen(true);
-    },
+
+    }
   };
 
   return (
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
-        <NavPrivate TitlePage={TitlesPage} />
+        <NavPrivate TitlePage={TitlePage} />
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
           <div className="container mx-auto px-6 py-8 mt-10">
             <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
               <div className="relative p-6">
-                {error ? (
-                  <p className="text-destructive">{error}</p>
+                {error && (
+                  <div className="bg-red-500 text-white p-2 rounded mb-4">
+                    {error}
+                  </div>
+                )}
+
+                {isLoading ? (
+                  <p className="text-gray-500 text-center">Cargando datos...</p>
+                ) : regisHive.length === 0 ? (
+                  <p className="text-gray-500 text-center">No hay datos de producción disponibles.</p>
                 ) : (
                   <ContentPage
-                    TitlesPage={TitlePage}
-                    Data={regisColmena}
+                    // TitlePage={TitlePage}
+                    Data={regisHive}
                     TitlesTable={titlesColmena}
                     Actions={actions}
-                    // FormPage={FormHive}
+                    action={action}
+                    updateTextTitleForm={updateTextTitleForm}
+                    openModalForm={openModalForm}
                   />
-                  
                 )}
               </div>
-              <ModalDialog
-       isOpen={isOpen} 
-       setIsOpen={openModalForm} 
-       FormPage={FormHive} 
-      //  action={action} 
-      //  production={production}
-       />
             </div>
           </div>
         </main>
-
       </div>
 
-      {/* Modal de Confirmación para eliminación */}
+      <ModalDialog
+        isOpen={isOpen}
+        setIsOpen={openModalForm}
+        FormPage={<FormHive buttonForm={buttonForm} hive={hive} />}
+        action={action}
+      />
+
       <ConfirmationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onConfirm={deleteHive}
+        onConfirm={deleteProduction}
         DeleteTitle={eliminar}
       />
-
-      {/* Modal de Actualización */}
-      {isUpdateModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg w-full max-w-md">
-            <FormUpdateHive
-              hiveData={selectedRowData}
-              onClose={() => setIsUpdateModalOpen(false)}
-              onUpdate={updateHive}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

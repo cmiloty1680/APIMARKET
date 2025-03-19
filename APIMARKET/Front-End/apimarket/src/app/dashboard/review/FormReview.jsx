@@ -4,7 +4,7 @@ import { useState } from "react";
 import axiosInstance from "@/lib/axiosInstance";
 import {Eye } from "lucide-react";
 
-function FormReview() {
+function FormReview({buttonForm}) {
   const [fechaReview, setFechaReview] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [error, setError] = useState("");
@@ -113,7 +113,7 @@ function FormReview() {
                   disabled={isSubmitting}
                   className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors"
                   >
-                  {isSubmitting ? "Guardando..." : "Guardar"}
+                  {isSubmitting ? "Guardando..." : buttonForm}
                 </button>
               </div>
             </form>

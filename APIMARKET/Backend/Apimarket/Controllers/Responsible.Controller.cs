@@ -67,7 +67,11 @@ namespace Apimarket.Controllers
                 responsible.Tok_Responsible = tokenString;
                 _responsibleService.Update(responsible);
 
-                return Ok(new { token = tokenString });
+                return Ok(new { 
+                    token = tokenString,
+                    username = responsible.Nam_Responsible,
+                    email = responsible.Emai_Responsible
+                });
             }
             catch (Exception ex)
             {

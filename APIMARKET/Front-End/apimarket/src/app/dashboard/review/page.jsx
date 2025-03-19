@@ -5,10 +5,16 @@ import  Sidebar  from "@/components/navs/Siderbar";
 import FormReview from "./FormReview";
 import axiosInstance from "@/lib/axiosInstance";
 import { useState, useEffect } from "react";
+import ModalDialog from "@/components/utils/ModalDialog";
 function ReviewPage() {
     const TitlePage = "Revisión";
     const [regisReview, setRegisReview] = useState([]);
     const [error , setError] = useState(null);
+    const [isOpen, setIsOpen] = useState();
+    const [selectedReview, setSelectedReview] = useState();
+    const [action, setAction] = useState("Registrar");
+    const [buttonForm, setButtonForm] = useState("Registrar");
+
     const titlesColmena = [
         "Codigo",
         "Descripción",
@@ -20,6 +26,17 @@ function ReviewPage() {
         "Tip_responsable"
     ];
     
+    const [review, setReview] = useState({
+      id_Review: "-",
+      des_Review: "-",
+      fec_Review: "-",
+      tip_Protocol: "-",
+      nom_Protocol: "-",
+      nam_Responsible: "-",
+      lasNam_Responsible: "-",
+      tip_Responsible: "-",
+
+    });
 
     async function fetchReview(){
       try {
@@ -44,10 +61,40 @@ function ReviewPage() {
     }
     useEffect(() => {
         fetchReview();
-        // Actualización periódica (cada 5 segundos)
-        const interval = setInterval(fetchReview, 5000);
-        return () => clearInterval(interval);
       }, []);
+
+      const updateTextTitleForm =  (texto, rowData) => {
+        console.log(rowData);
+        setAction(texto);
+        setButtonForm(texto);
+        setReview({})
+
+        if(texto === "Actualizar"){
+          console.log("Actualizando..");
+
+          setReview({
+            id_Review: rowData[0],
+            des_Review: rowData[1],
+            fec_Review: rowData[2],
+            tip_Protocol: rowData[3],
+            nom_Protocol: rowData[4],
+            nam_Responsible: rowData[5],
+            lasNam_Responsible: rowData[6],
+            tip_Responsible: rowData[7],
+          });
+
+        } else {
+          console.log("Registrando..");
+        }
+
+        
+      };
+
+      const openModalForm = (isOpen) => {
+        setSelectedReview(null);
+        setIsOpen();
+
+      }
     return ( 
         <>
         <div className="flex h-screen bg-gray-100">
@@ -67,6 +114,9 @@ function ReviewPage() {
                   FormPage={FormReview}/>
                 )}
             </div>
+            <ModalDialog
+            FormPage={<FormReview buttonForm={buttonForm} review={review} />}
+            />
           
           </div>
         </main>

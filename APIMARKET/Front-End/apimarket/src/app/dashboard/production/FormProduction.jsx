@@ -6,7 +6,8 @@ import axiosInstance from "@/lib/axiosInstance";
 import { Dialog } from "@headlessui/react"; // Para el modal
 import { Droplet } from "lucide-react";
 
-function FormProduction({production, buttonForm}) {
+function FormProduction({ buttonForm, production }) {
+
     const router = useRouter();
     const [fecha, setFecha] = useState("");
     const [fechaF, setFechaF] = useState("");
@@ -23,15 +24,6 @@ function FormProduction({production, buttonForm}) {
     const [id_Production, setIdProduction] = useState(null); // ID de producción para actualizar
 
     //JORGE
-    // const setDataProductionForUpdate = () => {
-    //     setFecha(production.fecIni_Production);
-    //     setFechaF(production.fecFin_Production);
-    //     setCantidad(production.can_Production);
-    //     setTotal(production.tot_Colmen);
-    //     setNomrace(production.nom_Race);
-    //     setIdProduction(production.id_Production);
-    // };
-    
 
     useEffect(() => {
         async function fetchRazas() {
@@ -62,10 +54,31 @@ function FormProduction({production, buttonForm}) {
 
         const formattedFecha = new Date(fecha).toISOString().split("T")[0];
         const formattedFechas = new Date(fechaF).toISOString().split("T")[0];
-
+        console.log("handler", buttonForm)
+        console.log(production)
         try {
             if (buttonForm == "Actualizar") {
-                const response = await axiosInstance.put(`/Api/Production/UpdateProduction/${id_Production}`, {
+                const updateProduction = {
+                    id_Production: id_Production,
+                    fecIni_Production: formattedFecha,
+                    fecFin_Production: formattedFechas,
+                    cant_Abejas: cantidad,
+                    tot_Colmen: total,
+                    can_Production: tproduction,
+                    id_Race: parseInt(nomrace, 10)
+                }
+                console.log(updateProduction);
+
+                // const response = await axiosInstance.put(`/Api/Production/UpdateProduction/${id_Production}`, production)
+                const response = await axiosInstance.put(`/Api/Production/UpdateProduction/${id_Production}`, updateProduction  )
+                console.log("pru",response);
+                if (response.status === 200) {
+                    console.log(response.data)
+                    console.log("Producción actualizada correctamente.", production);
+                    setModalOpen(true);
+                }
+            } else if (buttonForm === "Registrar") {
+                const response = await axiosInstance.post("/Api/Production/CreateProduction", {
                     fecIni_Production: formattedFecha,
                     fecFin_Production: formattedFechas,
                     cant_Abejas: cantidad,
@@ -73,22 +86,6 @@ function FormProduction({production, buttonForm}) {
                     can_Production: tproduction,
                     id_Race: nomrace
                 });
-
-
-                if (response.status === 200) {
-                    setModalMessage("Producción actualizada correctamente.");
-                    setModalOpen(true);
-                    console.log(response);
-                }
-            } else if (buttonForm === "Registrar") {
-                 const response = await axiosInstance.post("/Api/Production/CreateProduction", {
-                    fecIni_Production: formattedFecha,
-                    fecFin_Production: formattedFechas,
-                    cant_Abejas: cantidad,
-                    tot_Colmen: total,
-                    can_Production: tproduction,
-                    id_Race: nomrace
-                }); 
 
 
                 if (response.status === 200) {
@@ -100,12 +97,31 @@ function FormProduction({production, buttonForm}) {
                 }
             }
         } catch (error) {
-            console.log("Error:", error);
-            setModalMessage("Error al conectar con el servidor.");
-        } finally {
+            console.log("Error:", error.response || error.message);
+            setModalMessage(error.response?.data?.message || "Error al conectar con el servidor.");
+        }
+        finally {
             setSubmitting(false);
         }
     }
+
+    const setDataProductionForUpdate = () => {
+        setFecha(production.fecIni_Production ? new Date(production.fecIni_Production).toISOString().split("T")[0] : "");
+        setFechaF(production.fecFin_Production ? new Date(production.fecFin_Production).toISOString().split("T")[0] : "");
+        setCantidad(production.cant_Abejas);
+        setTproduction(production.can_Production);
+        setTotal(production.tot_Colmen);
+        setNomrace(production.id_Race);
+        setIdProduction(production.id_Production);
+    }
+
+    useEffect(() => {
+        setDataProductionForUpdate()
+    }, [production, razas]);
+
+
+
+
 
     return (
         <>
@@ -139,9 +155,9 @@ function FormProduction({production, buttonForm}) {
                         <input
                             type="date"
                             className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
-                            id="fecha"
+                            id="fechaI"
                             required
-                            name="fecha"
+                            name="  "
                             value={fecha || ""}
                             onChange={(event) => setFecha(event.target.value)}
                         />
@@ -202,7 +218,6 @@ function FormProduction({production, buttonForm}) {
                                 type="number"
                                 className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
                                 id="cantidad"
-                                required
                                 name="cantidad"
                                 value={tproduction || ""}
                                 onChange={(event) => setTproduction(event.target.value)}
@@ -219,7 +234,7 @@ function FormProduction({production, buttonForm}) {
                             onChange={(event) => setNomrace(event.target.value)}
                             required
                         >
-                            <option value="">Seleccione una raza</option>
+                            <option value="" disabled>Seleccione una raza</option>
                             {razas.map((raza) => (
                                 <option key={raza.id_Race} value={raza.id_Race}>
                                     {raza.nom_Race}
@@ -233,10 +248,9 @@ function FormProduction({production, buttonForm}) {
                         <Button
                             disabled={isSubmitting}
                             type="submit"
-                            value={buttonForm}
                             className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors"
                         >
-                            {isSubmitting ? "Guardando..." : buttonForm }
+                            {isSubmitting ? "Guardando..." : buttonForm}
                         </Button>
                     </div>
 

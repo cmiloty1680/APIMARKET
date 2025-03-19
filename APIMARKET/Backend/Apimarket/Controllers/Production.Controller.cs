@@ -94,6 +94,7 @@ namespace Apimarket.Controllers
                 Can_Production = p.Can_Production,
                 Tot_Colmen = p.Tot_Colmen,
                 Nom_Race = p.race.Nom_Race,
+                Id_Race = p.race.Id_Race
             }).ToList();
 
             return Ok(productions);
@@ -104,7 +105,7 @@ namespace Apimarket.Controllers
 
 
 
-        [HttpPut("UpdateProduction")]
+        [HttpPut("UpdateProduction/{id}")]
         public IActionResult UpdateProduction(Production production)
         {
             try
@@ -114,7 +115,8 @@ namespace Apimarket.Controllers
 
                 return Ok(new
                 {
-                    message = "Production actualizada con exito"
+                    message = "Production actualizada con exito",
+                    production
                 });
             }
             catch (Exception ex)

@@ -1,13 +1,23 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "@/lib/axiosInstance";
 import { Hexagon } from "lucide-react";
-import { Alert } from '@/components/Alert';
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog"; 
 
 
-function FormHive() {
+function FormHive({buttonForm, hive}) {
   const router = useRouter();
   const [estado, setEstado] = useState("");
   const [descripcion, setDescripcion] = useState(""); // Nuevo campo Des_Hive
@@ -16,46 +26,77 @@ function FormHive() {
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
   const [msSuccess, setMsSuccess] = useState("");
-  const [alert, setAlert] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [id_Hive, setIdHive] = useState(null);
 
 
   async function handlerSubmit(event) {
     event.preventDefault();
     setSubmitting(true);
 
-    // Validación básica
     if (!estado || !descripcion || !Ncuadro || !Nalza) {
       setError("Por favor, complete todos los campos.");
       setSubmitting(false);
       return;
     }
 
+    console.log("handler", buttonForm)
+    console.log(hive)
     try {
-      const response = await axiosInstance.post("/Api/Hive/Createhive", {
-        est_Hive: estado,
-        des_Hive: descripcion, // Nuevo campo enviado
-        numCua_Hive: Ncuadro,
-        numAlz_Hive: Nalza,
-      });
+        if (buttonForm == "Actualizar") {
+            const updateHive = {
+                id_Hive: id_Hive,
+                des_Hive: descripcion,
+                est_Hive: estado,
+                numCua_Hive: Ncuadro,
+                numAlz_Hive: Nalza,
+            }
+            console.log(updateHive);
 
-      if (response.status === 200) {
-        setMsSuccess(response.data.registrado);
-        setAlert({ message: ` ${response.data.registrado}`, type: "success" });
-        // alert(response.data.registrado);
-        localStorage.setItem("registroColmena", response.data.registrado); // Guardar en localStorage
-        // router.push("/dashboard"); // Redirigir al usuario
-      }
+            const response = await axiosInstance.put(`/Api/Hive/UpdateHive/${id_Hive}`, updateHive  )
+            if (response.status === 200) {
+                window.alert(response.data.message);
+                setModalOpen(true);
+            }
+        } else if (buttonForm === "Registrar") {
+            const response = await axiosInstance.post("/Api/Hive/CreateHive", {
+              id_Hive: id_Hive,
+              des_Hive: descripcion,
+              est_Hive: estado,
+              numCua_Hive: Ncuadro,
+              numAlz_Hive: Nalza
+            });
+
+
+            if (response.status === 200) {
+                window.alert(response.data.registrado);
+                setModalOpen(true);
+                alert(response.data.registrado);
+                // router.push("");
+            }
+        }
     } catch (error) {
-      console.error(error);
-      if (error.response) {
-        setError(`Error: ${error.response.data.title || "Error en la solicitud"}`);
-      } else {
-        setError("Error al intentar conectar con el servidor");
-      }
-    } finally {
-      setSubmitting(false);
+        console.log("Error:", error.response || error.message);
+        // setModalMessage(error.response?.data?.message || "Error al conectar con el servidor.");
     }
+    finally {
+        setSubmitting(false);
+    }
+}
+
+  const setDataHiveForUpdate = () => {
+    setDescripcion(hive.des_Hive);
+    setEstado(hive.est_Hive);
+    setNcuadro(hive.numCua_Hive);
+    setNalza(hive.numAlz_Hive);
+    setIdHive(hive.id_Hive);
+
   }
+
+  useEffect(() => {
+    setDataHiveForUpdate()
+  }, [hive]);
+
   return (
     <>
       <form
@@ -93,7 +134,7 @@ function FormHive() {
               required
               maxLength={50}
               name="descripcion"
-              value={descripcion}
+              value={descripcion || ""}
               onChange={(event) => setDescripcion(event.target.value)}
             />
           </div>
@@ -109,7 +150,7 @@ function FormHive() {
                 id="estado"
                 required
                 name="estado"
-                value={estado}
+                value={estado || ""}
                 onChange={(event) => setEstado(event.target.value)}
               >
                 <option value="">Seleccione el estado</option>
@@ -128,7 +169,7 @@ function FormHive() {
                 placeholder="Ingrese N° cuadros"
                 required
                 name="Ncuadro"
-                value={Ncuadro}
+                value={Ncuadro || ""}
                 onChange={(event) => setNcuadro(event.target.value)}
               />
             </div>
@@ -146,7 +187,7 @@ function FormHive() {
               placeholder="Ingrese N° alzas"
               required
               name="Nalza"
-              value={Nalza}
+              value={Nalza || ""}
               onChange={(event) => setNalza(event.target.value)}
             />
           </div>
@@ -158,12 +199,11 @@ function FormHive() {
               type="submit"
               className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors"
             >
-              {isSubmitting ? "Guardando..." : "Guardar"}
+              {isSubmitting ? "Guardando..." : buttonForm}
             </Button>
           </div>
         </div>
       </form>
-      {alert && <Alert message={alert.message} type={alert.type} />}
     </>
   );
 }

@@ -84,7 +84,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [HttpPut("UpdateHive")]
+        [HttpPut("UpdateHive/{id        }")]
         public IActionResult UpdateFeeding(Hive hive)
         {
             try

@@ -27,7 +27,7 @@ function ProductionPage() {
     "Cantidad de Abejas",
     "Cantidad de Colmenas",
     "Cantidad de Producción",
-    "Nom_Raza"
+    "Nom_Raza",
   ];
 
   const [production, setProduction] = useState({
@@ -37,7 +37,8 @@ function ProductionPage() {
     cant_Abejas: '',
     tot_Colmen: '',
     can_Production: '',
-    nom_Race: ''
+    nom_Race: '',
+    id_Race: ''
   });
 
   // Obtener producción
@@ -46,6 +47,7 @@ function ProductionPage() {
     try {
       const response = await axiosInstance.get("/Api/Production/GetsAllProduction");
       if (response.status === 200) {
+        console.log(response.id_Race)
         const data = response.data.map((production) => [
           production.id_Production || "-",
           production.fecIni_Production || "Sin descripción",
@@ -53,7 +55,9 @@ function ProductionPage() {
           production.cant_Abejas != null ? production.cant_Abejas : "-",
           production.tot_Colmen != null ? production.tot_Colmen : "-",
           production.can_Production != null ? production.can_Production : "-",
-          production.nom_Race != null ? production.nom_Race : "-"
+          production.nom_Race != null ? production.nom_Race : "-",
+          production.id_Race != null ? production.id_Race : "-",
+          
         ]);
         setRegisProduction(data);
       }
@@ -69,40 +73,35 @@ function ProductionPage() {
     fetchProduction();
   }, []);
 
-  const getProduction = async (id_Production) => {
-    try {
-      const response = await axiosInstance.get(`/Api/Production/GetProduction?id=${id_Production}`);
-      if (response.status === 200) {
-        setProduction({
-          id_Production: response.data.id_Production,
-          fecIni_Production: response.data.fecIni_Production,
-          fecFin_Production: response.data.fecFin_Production,
-          cant_Abejas: response.data.cant_Abejas,
-          tot_Colmen: response.data.tot_Colmen,
-          can_Production: response.data.can_Production,
-          nom_Race: response.data.nom_Race,
-        });
-
-        setAction("Actualizar");
-        setButtonForm("Actualizar");
-        setIsOpen(true);
-      }
-    } catch (error) {
-      console.error("Error al obtener la producción:", error);
-    }
-  };
-
   // Función para cambiar el título del formulario y acción
   const updateTextTitleForm = (texto, rowData) => {
+    console.log(rowData);
     setAction(texto);
     setButtonForm(texto);
 
+    setProduction({})
+
+
     if (texto === "Actualizar") {
       console.log("Actualizando...");
-      console.log(rowData)
-      getProduction(rowData[0]);  // Llamar directamente la función correcta
+     
+
+      setProduction({
+        id_Production: rowData[0],
+        fecIni_Production: rowData[1],
+        fecFin_Production: rowData[2],
+        cant_Abejas:rowData[3],
+        tot_Colmen: rowData[4],
+        can_Production: rowData[5],
+        id_Race: rowData[7],
+      });
+      
+      console.log(production)
+  
+      // Llamar directamente la función correcta
     } else {
       console.log("Registrando...");
+
     }
   };
 
@@ -136,7 +135,7 @@ function ProductionPage() {
       setIsModalOpen(true);
     },
     update: (rowData) => {
-      getProduction(rowData[0]);
+
     }
   };
 
@@ -161,7 +160,7 @@ function ProductionPage() {
                   <p className="text-gray-500 text-center">No hay datos de producción disponibles.</p>
                 ) : (
                   <ContentPage
-                    TitlePage={TitlePage}
+                    // TitlePage={TitlePage}
                     Data={regisProduction}
                     TitlesTable={titlesProduction}
                     Actions={actions}
@@ -179,10 +178,10 @@ function ProductionPage() {
       <ModalDialog
         isOpen={isOpen}
         setIsOpen={openModalForm}
-        FormPage={FormProduction}
+        FormPage={<FormProduction buttonForm={buttonForm} production={production} />}
         action={action}
-        production={production}
-        buttonForm={buttonForm}
+      // production={production}
+      // buttonForm={buttonForm}
       />
 
       <ConfirmationModal
