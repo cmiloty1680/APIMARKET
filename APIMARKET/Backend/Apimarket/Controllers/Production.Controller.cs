@@ -26,27 +26,19 @@ namespace Apimarket.Controllers
         [HttpPost("CreateProduction")]
         public IActionResult AddP([FromBody] Production entity)
         {
-            //if (entity == null)
-            //{
-            //    return BadRequest("La entidad de producción no puede ser nula.");
-            //}
-
-            //// Verificar que id_Produccion sea mayor que 0
-            //if (entity.Id_Produccion <= 0)
-            //{
-            //    return BadRequest("El ID de producción debe ser un valor positivo.");
-            //}
-
-
-            //// Verificar si ya existe una producción con el mismo ID
-            //var existingProduction = _productionService.GetProduction(entity.Id_Produccion);
-            //if (existingProduction != null)
-            //{
-            //    return Conflict("Ya existe una producción con este ID.");
-            //}
+            try
+            {
 
             _productionService.Add(entity);
             return Ok(new {registrado = "Producción creada con éxito." });
+            }
+            catch (Exception ex)
+            {
+                FunctionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+
+            }
+
         }
 
 
@@ -90,11 +82,14 @@ namespace Apimarket.Controllers
                 Id_Production = p.Id_Production,
                 FecIni_Production = p.FecIni_Production,
                 FecFin_Production = p.FecFin_Production,
-                Cant_Abejas = p.Cant_Abejas,
-                Can_Production = p.Can_Production,
-                Tot_Colmen = p.Tot_Colmen,
-                Nom_Race = p.race.Nom_Race,
-                Id_Race = p.race.Id_Race
+                TotColm_Hive = p.TotColm_Hive,
+                SubCen_Production= p.SubCen_Production,
+                CenCos_Production = p.CenCos_Production,
+                Nom_Production = p.Nom_Production,
+                Tot_Production = p.Tot_Production,
+                CanCua_Production = p.CanCua_Production,
+                Id_Race = p.race.Id_Race,
+                Nom_Race = p.race.Nom_Race
             }).ToList();
 
             return Ok(productions);
@@ -116,7 +111,6 @@ namespace Apimarket.Controllers
                 return Ok(new
                 {
                     message = "Production actualizada con exito",
-                    production
                 });
             }
             catch (Exception ex)

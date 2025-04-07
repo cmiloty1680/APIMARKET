@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Apimarket.Controllers
 {
@@ -32,6 +34,7 @@ namespace Apimarket.Controllers
 
         }
 
+        //[Authorize]
         [HttpPost("Login")]
         public IActionResult Login(LoginResponsible login)
         {
@@ -70,7 +73,8 @@ namespace Apimarket.Controllers
                 return Ok(new { 
                     token = tokenString,
                     username = responsible.Nam_Responsible,
-                    email = responsible.Emai_Responsible
+                    email = responsible.Emai_Responsible,
+                    lastname = responsible.LasNam_Responsible
                 });
             }
             catch (Exception ex)
@@ -81,41 +85,141 @@ namespace Apimarket.Controllers
             }
         }
 
+        //[HttpPost("ResetPassUser")]
+        //public async Task<IActionResult> Resetpassword([FromBody]ResetPassUser responsible)
+        //{
+        //    try
+        //    {
+        //        if (responsible == null || string.IsNullOrEmpty(responsible.Emai_Responsible))
+        //        {
+        //            return BadRequest("El objeto de solicitud o el correo electrónico es inválido.");
+        //        }
+
+        //        // Llama al método de servicio para verificar si el correo existe
+        //        var emailExists = _responsibleService.CheckEmailExists(responsible.Emai_Responsible);
+        //        if (!emailExists)
+        //        {
+        //            return NotFound(new { message = "El correo no se encuentra registrado." });
+        //        }
+
+        //        // Generar un token único
+        //        var emailResponse = await FunctionsGeneral.SendEmail(responsible.Emai_Responsible);
+
+        //        // Aquí había un error de lógica en la condición
+        //        if (!emailResponse.Status)
+        //        {
+        //            // Si el envío falló, retornamos un error
+        //            return BadRequest(new { message = "Error al enviar el correo de restablecimiento." });
+        //        }
+
+        //        // Si todo salió bien, retornamos éxito
+        //        return Ok(new { enviado = "Correo de restablecimiento de contraseña enviado correctamente." });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        FunctionsGeneral.Addlog(ex.ToString());
+        //        return StatusCode(500, "Ocurrió un error interno. Por favor, intenta nuevamente.");
+        //    }
+        //}
+
         [HttpPost("ResetPassUser")]
-        public async Task<IActionResult> Resetpassword(ResetPassUser responsible)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPassUser model)
         {
             try
             {
-                if (responsible == null || string.IsNullOrEmpty(responsible.Emai_Responsible))
+                var responsible = await _responsibleService.GetByEmailAsync(model.Emai_Responsible);
+                if (responsible == null)
                 {
-                    return BadRequest("El objeto de solicitud o el correo electrónico es inválido.");
+                    return NotFound(new { message = "El correo electrónico no está registrado." });
                 }
 
-                // Llama al método de servicio para verificar si el correo existe
-                var emailExists = _responsibleService.CheckEmailExists(responsible.Emai_Responsible);
-                if (!emailExists)
-                {
-                    return NotFound(new { message = "El correo no se encuentra registrado." });
-                }
+                // Generar un token único y fecha de expiración
+                var token = Convert.ToBase64String(Encoding.UTF8.GetBytes(Guid.NewGuid().ToString()));
+                responsible.ResetToken = token;
+                responsible.ResetTokenExpiration = DateTime.UtcNow.AddMinutes(30); // Expira en 30 minutos
+                await _responsibleService.UpdateUserAsync(responsible);
 
-                var emailResponse = await FunctionsGeneral.SendEmail(responsible.Emai_Responsible);
+                // Enlace para restablecer la contraseña
+                string resetLink = $"http://localhost:3000/reset_password?token={token}";
 
-                // Aquí había un error de lógica en la condición
+                // Enviar correo con el enlace
+                var emailResponse = await FunctionsGeneral.SendEmail(model.Emai_Responsible, resetLink);
                 if (!emailResponse.Status)
                 {
-                    // Si el envío falló, retornamos un error
-                    return BadRequest(new { message = "Error al enviar el correo de restablecimiento." });
+                    return BadRequest(new { message = "Error al enviar el correo." });
                 }
 
-                // Si todo salió bien, retornamos éxito
-                return Ok(new { enviado = "Correo de restablecimiento de contraseña enviado correctamente." });
+                return Ok(new { message = "Correo de restablecimiento de contraseña enviado correctamente." });
             }
             catch (Exception ex)
             {
                 FunctionsGeneral.Addlog(ex.ToString());
-                return StatusCode(500, "Ocurrió un error interno. Por favor, intenta nuevamente.");
+                return StatusCode(500, ex.ToString());
             }
         }
+
+        [HttpPost("ValidateToken")]
+        public async Task<IActionResult> ValidateToken([FromBody] TokenRequest model_tok)
+        {
+            if (string.IsNullOrEmpty(model_tok.Tok_Responsible))
+                return Unauthorized(new { message = "Token no proporcionado" });
+
+            try
+            {
+                var responsible = await _responsibleService.GetByTokenAsync(model_tok.Tok_Responsible);
+
+                if (responsible == null || responsible.ResetTokenExpiration < DateTime.UtcNow)
+                {
+                    return Unauthorized(new { message = "Token inválido o expirado" });
+                }
+
+                return Ok(new { message = "Token válido", email = responsible.Emai_Responsible });
+            }
+            catch (Exception ex)
+            {
+                FunctionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, new { message = "Error en el servidor", error = ex.Message });
+            }
+        }
+
+        [HttpPost("ResetPasswordConfirm")]
+        public async Task<IActionResult> ResetPasswordConfirm([FromBody] ResetPasswordModel model)
+        {
+            if (string.IsNullOrEmpty(model.Token) || string.IsNullOrEmpty(model.NewPassword))
+            {
+                return BadRequest(new { message = "Token y nueva contraseña son obligatorios." });
+            }
+
+            try
+            {
+                var responsible = await _responsibleService.GetByTokenAsync(model.Token);
+
+                if (responsible == null || responsible.ResetTokenExpiration < DateTime.UtcNow)
+                {
+                    return BadRequest(new { message = "Token inválido o expirado." });
+                }
+
+                // Generar nuevo hash de contraseña
+                string salt = BCrypt.Net.BCrypt.GenerateSalt();
+                responsible.Hashed_Password = BCrypt.Net.BCrypt.HashPassword(model.NewPassword + salt);
+                responsible.Salt = salt;
+
+                // Borrar el token de restablecimiento después de cambiar la contraseña
+                responsible.ResetToken = null;
+                responsible.ResetTokenExpiration = null;
+
+                // Guardar cambios en la base de datos
+                await _responsibleService.UpdateUserAsync(responsible);
+
+                return Ok(new { message = "Contraseña restablecida correctamente." });
+            }
+            catch (Exception ex)
+            {
+                FunctionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, new { message = "Error en el servidor", error = ex.Message });
+            }
+        }
+
 
 
         [HttpPost("CreateResponsible")]

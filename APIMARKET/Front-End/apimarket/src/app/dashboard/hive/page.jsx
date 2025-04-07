@@ -15,7 +15,7 @@ function HivePage() {
   const [isOpen, setIsOpen] = useState(false);
   const [regisHive, setRegisHive] = useState([]);
   const [error, setError] = useState(null);
-  const [selectedProduction, setSelectedProduction] = useState(null);
+  const [selectedHive, setSelectedHive] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [buttonForm, setButtonForm] = useState("Registrar");
@@ -67,6 +67,11 @@ function HivePage() {
     fetchHives();
   }, []);
 
+  const handleDataUpdated = () => {
+    fetchHives(); // Refresca los datos de la tabla
+  };
+
+  
   // Función para cambiar el título del formulario y acción
   const updateTextTitleForm = (texto, rowData) => {
     console.log(rowData);
@@ -99,14 +104,14 @@ function HivePage() {
 
   // Función para abrir el modal
   const openModalForm = (isOpen) => {
-    setSelectedProduction(null);
+    setSelectedHive(null);
     setIsOpen(isOpen);
   };
 
-  // Eliminar producción
-  async function deleteProduction() {
-    if (!selectedProduction) {
-      setError("Debe seleccionar una producción.");
+  // Eliminar colmena
+  async function deleteHive() {
+    if (!selectedHive) {
+      setError("Debe seleccionar una colmena.");
       return;
     }
 
@@ -123,11 +128,11 @@ function HivePage() {
   // Acciones de la tabla
   const actions = {
     delete: (rowData) => {
-      setSelectedProduction(rowData[0]);
+      setSelectedHive(rowData[0]);
       setIsModalOpen(true);
     },
     update: (rowData) => {
-
+      
     }
   };
 
@@ -140,17 +145,7 @@ function HivePage() {
           <div className="container mx-auto px-6 py-8 mt-10">
             <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
               <div className="relative p-6">
-                {error && (
-                  <div className="bg-red-500 text-white p-2 rounded mb-4">
-                    {error}
-                  </div>
-                )}
-
-                {isLoading ? (
-                  <p className="text-gray-500 text-center">Cargando datos...</p>
-                ) : regisHive.length === 0 ? (
-                  <p className="text-gray-500 text-center">No hay datos de producción disponibles.</p>
-                ) : (
+                
                   <ContentPage
                     // TitlePage={TitlePage}
                     Data={regisHive}
@@ -159,8 +154,9 @@ function HivePage() {
                     action={action}
                     updateTextTitleForm={updateTextTitleForm}
                     openModalForm={openModalForm}
+                    ignorar={[]}
                   />
-                )}
+                
               </div>
             </div>
           </div>
@@ -170,14 +166,20 @@ function HivePage() {
       <ModalDialog
         isOpen={isOpen}
         setIsOpen={openModalForm}
-        FormPage={<FormHive buttonForm={buttonForm} hive={hive} />}
+        FormPage={<FormHive buttonForm={buttonForm} hive={hive} 
+        onDataUpdated={handleDataUpdated}
+        // onSuccessSubmit={() => {
+        //   fetchHives();  // recarga la tabla
+        //   setIsOpen(false);  // cierra el modal
+        // }}
+        />}
         action={action}
       />
 
       <ConfirmationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onConfirm={deleteProduction}
+        onConfirm={deleteHive}
         DeleteTitle={eliminar}
       />
     </div>

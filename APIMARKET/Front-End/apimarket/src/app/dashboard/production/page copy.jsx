@@ -28,7 +28,6 @@ function ProductionPage() {
     "Centro Costo",
     "Cantidad de Colmenas",
     "Nombre producción",
-    "Id Raza",
     "Nom_Raza",
     "Tot Producción",
     "Cantidad de cuadro"
@@ -43,6 +42,7 @@ function ProductionPage() {
     nom_Production: '',
     totColm_Hive: '',
     tot_Production: '',
+    nom_Race: '',
     id_Race: ''
   });
 
@@ -52,7 +52,7 @@ function ProductionPage() {
     try {
       const response = await axiosInstance.get("/Api/Production/GetsAllProduction");
       if (response.status === 200) {
-        // console.log(response.data);
+        console.log(response.id_Race)
         const data = response.data.map((production) => [
           production.id_Production || "-",
           production.fecIni_Production || "Sin descripción",
@@ -61,7 +61,6 @@ function ProductionPage() {
           production.cenCos_Production || "-",
           production.totColm_Hive || "-",
           production.nom_Production || "-",
-          production.id_Race || "-",
           production.nom_Race || "-",
           production.tot_Production || "-",
           production.canCua_Production || "-",
@@ -101,13 +100,11 @@ function ProductionPage() {
         // subCen_Production: rowData[3],
         // cenCos_Production: rowData[4],
         totColm_Hive: rowData[5],
-        // nom_Race: rowData[7],
-        
+        // nom_Production: rowData[6],
         id_Race: rowData[7],
-        tot_Production: rowData[10],
+        tot_Production: rowData[8],
         canCua_Production: rowData[9]
       });
-      console.log("hola", rowData);
       
       // Llamar directamente la función correcta
     } else {
@@ -175,8 +172,6 @@ function ProductionPage() {
                     action={action}
                     updateTextTitleForm={updateTextTitleForm}
                     openModalForm={openModalForm}
-                    ignorar={[7]}
-
                   />
                 
               </div>

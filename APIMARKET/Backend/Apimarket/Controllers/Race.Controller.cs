@@ -71,9 +71,9 @@ namespace Apimarket.Controllers
         {
             try
             {
-                var races = _raceServices.GetAll();
 
-                return Ok(races);
+                var race = _raceServices.GetAll();
+                return Ok(_raceServices.GetAll());
             }
             catch (Exception ex)
             {

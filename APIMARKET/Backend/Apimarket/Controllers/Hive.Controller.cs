@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Apimarket.Controllers
 {
+    //[Authorize]
     [ApiController]
     [Route("Api/[controller]")]
    
@@ -25,25 +26,12 @@ namespace Apimarket.Controllers
             _hiveService = hiveService;
 
         }
+        //[Authorize]
         [HttpPost("Createhive")]
 
         public IActionResult AddC([FromBody] Hive entity)
         {
-            //if (entity == null)
-            //{
-            //    return BadRequest("La entidad de colmena no puede ser nula.");
-            //}
 
-            //if (entity.Id_Hive <= 0)
-            //{
-            //    return BadRequest("El ID de colmena debe ser un valor positivo.");
-            //}
-
-            //var existingHive = _hiveService.GetHive(entity.Id_Hive);
-            //if (existingHive != null)
-            //{
-            //    return Conflict("Ya existe una colmena con este ID.");
-            //}
 
             _hiveService.Add(entity);
             return Ok(new { registrado = "Colmena creada con éxito." });
@@ -84,7 +72,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [HttpPut("UpdateHive/{id        }")]
+        [HttpPut("UpdateHive/{id}")]
         public IActionResult UpdateFeeding(Hive hive)
         {
             try

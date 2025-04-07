@@ -1,9 +1,11 @@
-﻿using Apimarket.Functions;
+﻿using Apimarket.DTOs;
+using Apimarket.Functions;
 using Apimarket.Model;
 using Apimarket.Models;
 using Apimarket.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Apimarket.Controllers
 {
@@ -26,65 +28,67 @@ namespace Apimarket.Controllers
         }
 
 
-
         [HttpPost("CreateFeeding")]
         public IActionResult AddP([FromBody] Feeding entity)
-            {
-            if (entity ==null)
+        {
 
-            {
-                return BadRequest("la entidad de alimentación no puede ser nula");
-            
-            }
-           
+
             _feedingServices.Add(entity);
-            return Ok(new { creada="alimentacion creada con exito" });
+            return Ok(new { registrado = "Alimentacion creada con éxito." });
         }
 
 
-        
 
-        [HttpGet("GetsFeedings")]
-        public ActionResult<IEnumerable<Feeding>> GetsFeeding(int start, int end)
+
+
+
+
+
+
+
+
+        [HttpGet("GetAllFeeding")]
+
+        //public IActionResult GetsAllFeeding()
+        //{
+        //    try
+        //    {
+        //        var Feeding = _feedingServices.GetAll();
+        //        return Ok(Feeding);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        _functionsGeneral.Addlog(ex.ToString());
+        //        return StatusCode(500, ex.Message);
+        //    }
+        //}
+
+
+        public ActionResult<IEnumerable<FeedingDTO>> GetAllFeeding()
         {
-            try
+            var feeding = _feedingServices.GetAll().Select(p => new FeedingDTO
             {
-                if(start <=0)
-                {
-                    start = 0;
-                }
-                var feedings = _feedingServices.GetAll()
-                                                   .Skip(start)
-                                                   .Take(end )
-                                                   .ToList();
-                if (!feedings.Any())
-                {
-                    return NotFound("no se encontro la alimentacion en el rango");
-                }
-                return Ok(feedings);
+                Id_Feeding = p.Id_Feeding,
+                Tip_Feeding = p.Tip_Feeding,
+                Fec_Feeding = p.Fec_Feeding,
+                Can_Feeding = p.Can_Feeding,
+                Vlr_Feeding = p.Vlr_Feeding,
+                Des_Hive = p.hive != null ? p.hive.Des_Hive : "Sin colmena"                //Nam_Responsible = p.responsible.Nam_Responsible,
+                //LasNam_Responsible = p.responsible.LasNam_Responsible,
+                //NumDoc_Responsible = p.responsible .NumDoc_Responsible,
+                //Tip_Responsible = p.responsible.Tip_Responsible,
+                //Pho_Responsible = p.responsible.Pho_Responsible,
+                //Emai_Responsible = p.responsible.Emai_Responsible,
 
-            }
-            catch (Exception ex)
-            {
-                _functionsGeneral.Addlog(ex.ToString());
-                return StatusCode(500, ex.Message);
-            }
-        }
 
-        [HttpGet("GetsFedding")]
 
-        public IActionResult GetsAllFeeding()
-        {
-            try
-            {
-                var Feeding = _feedingServices.GetAll();
-                return Ok(Feeding);
-            }
-            catch(Exception ex)
-            {
-                _functionsGeneral.Addlog(ex.ToString());
-                return StatusCode(500, ex.Message);
-            }
+
+
+
+
+            }).ToList();
+
+            return Ok(feeding);
         }
 
         [Authorize]
@@ -93,7 +97,7 @@ namespace Apimarket.Controllers
         {
             try
             {
-          
+
                 var feeding = _feedingServices.GetFeeding(id);
 
                 // Verifica si se encontró el objeto 'Feeding'
@@ -102,7 +106,7 @@ namespace Apimarket.Controllers
                     return NotFound("alimentacion no encontrado");
                 }
 
-               
+
                 return Ok(feeding);
             }
             catch (Exception ex)
@@ -113,8 +117,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        [Authorize]
-        [HttpPut("UpdateFeeding")]
+        //[Authorize]
+        [HttpPut("UpdateFeeding/{id}")]
         public IActionResult UpdateFeeding(Feeding feeding)
         {
             try
@@ -133,7 +137,7 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        [Authorize]
+
         [HttpDelete("DeleteFeeding")]
         public IActionResult DeleteFeeding(int id)
         {
@@ -142,26 +146,21 @@ namespace Apimarket.Controllers
                 var result = _feedingServices.GetFeeding(id);
                 if (result == null)
                 {
-                    return NotFound("La alimentacion con ID"  + id +  "no se encontro.");
-
+                    return NotFound("La alimentacion con ID " + id + " no se encontró.");
                 }
-                _feedingServices.DeleteFeeding(id);
 
-                return Ok("alimentacion eliminado con exito");
-            }
-            catch (KeyNotFoundException knfex)
-
-            {
-
-                return NotFound(knfex.Message);
-
+                _feedingServices.Delete(id);
+                return Ok("Producción eliminada con éxito.");
             }
             catch (Exception ex)
             {
                 _functionsGeneral.Addlog(ex.ToString());
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, ex.ToString());
             }
         }
+
+
+
         [Authorize]
         [HttpPost("PDF")]
         public IActionResult PdfFeeding(string NombrePlantilla, string NombreReporte)
@@ -218,7 +217,7 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
-       
+
         [HttpPost("XLSX")]
         public IActionResult XlsxProtocol(string NombrePlantilla, string NombreReporte)
         {
@@ -285,8 +284,6 @@ namespace Apimarket.Controllers
         }
     }
 }
-
-
 
 
 

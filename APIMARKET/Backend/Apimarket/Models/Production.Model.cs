@@ -14,20 +14,22 @@ namespace Apimarket.Models
         [DataType(DataType.Date)]
         public DateTime FecIni_Production { get; set; }
         public DateTime FecFin_Production { get; set; }
-       
-        public int Cant_Abejas { get; set; }
-        public int Tot_Colmen { get; set; }
+        public string SubCen_Production { get; set; } = "Apicultura";
+
+        public string CenCos_Production { get; set; } = "Pecuaria";
+
+        public string Nom_Production { get; set; } = "Miel de Abeja";
+
+        public int TotColm_Hive { get; set; }
+
+        public int Tot_Production { get; set; }
+
+        public int CanCua_Production {get; set; }
 
         public int Id_Race { get; set; }
         [ForeignKey("Id_Race")]
 
         public Race? race  { get; set; }
 
-
-
-
-        [Required(ErrorMessage = "El {1} es requerido")]
-        [Range(1, 100, ErrorMessage = "Este el maximo de este es {1}")]
-        public int Can_Production { get; set; }
     }
 }

@@ -30,7 +30,6 @@ function FormProduction({ buttonForm, production }) {
             try {
                 const response = await axiosInstance.get("/Api/Race/GetsAllRace"); // Ajusta la URL según tu API
                 setRazas(response.data); // Guardar las razas en el estado
-                // console.log(response.data)
             } catch (error) {
                 console.error("Error al obtener razas:", error);
             }
@@ -46,7 +45,7 @@ function FormProduction({ buttonForm, production }) {
         event.preventDefault();
         setSubmitting(true);
 
-        if (!fecha || !canCua) {
+        if (!fecha || !cantidad) {
             setModalMessage("Todos los campos son requeridos.");
             setModalOpen(true);
             setSubmitting(false);
@@ -67,14 +66,14 @@ function FormProduction({ buttonForm, production }) {
                     totColm_Hive: totColm,
                     tot_Production: totalProd,
                     canCua_Production: canCua,
-                    // nom_Race: nomrace,
-                    id_Race: nomrace,
+                    nom_Race: nomrace,
+                    id_Race: parseInt(nomrace, 10),
                 }
                 // console.log(updateProduction);
 
                 // const response = await axiosInstance.put(`/Api/Production/UpdateProduction/${id_Production}`, production)
                 const response = await axiosInstance.put(`/Api/Production/UpdateProduction/${id_Production}`, updateProduction)
-                console.log("pru", response);
+                // console.log("pru", response);
                 if (response.status === 200) {
                     // console.log(response.data)
                     console.log("Producción actualizada correctamente.", production);
@@ -109,24 +108,18 @@ function FormProduction({ buttonForm, production }) {
     }
 
     const setDataProductionForUpdate = () => {
-        setFecha(production.fecIni_Production ? new Date(production.fecIni_Production).toLocaleDateString("sv-SE") : "");
-        setFechaF(production.fecFin_Production ? new Date(production.fecFin_Production).toLocaleDateString("sv-SE") : "");
-
+        setFecha(production.fecIni_Production ? new Date(production.fecIni_Production).toISOString().split("T")[0] : "");
+        setFechaF(production.fecFin_Production ? new Date(production.fecFin_Production).toISOString().split("T")[0] : "");
+        // setCenCosto(production.cenCos_Production);
         setTotColm(production.totColm_Hive);
         setNomrace(production.id_Race);
-        // setNomrace(production.id_Race?.toString());
-
-        // setNomrace(production.id_Race);
-        
         setTotalPro(production.tot_Production);
-        setCanCua(production.canCua_Production);
         setIdProduction(production.id_Production);
     }
-    
+
     useEffect(() => {
         setDataProductionForUpdate()
-    }, [production]);
-    // console.log(production.id_Race);
+    }, [production, razas]);
 
 
 

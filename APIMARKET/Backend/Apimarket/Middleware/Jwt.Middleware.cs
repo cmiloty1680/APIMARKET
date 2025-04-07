@@ -52,10 +52,10 @@ namespace Apimarket.Middleware
                         context.Response.ContentType = "application/json";
                         await context.Response.WriteAsync("{\"error\": \"Token no proporcionado.\"}");
                         return;
-   
-                            //}
 
-                    if(!AttachUserToContext(context, responsibleService, token))
+            }
+
+            if (!AttachUserToContext(context, responsibleService, token))
                     {
                         context.Response.StatusCode = 403;
                         context.Response.ContentType = "application/json";  
@@ -67,7 +67,7 @@ namespace Apimarket.Middleware
 
                     //break;
             }
-        }
+        //}
         private bool AttachUserToContext(HttpContext context, ResponsibleService responsibleService, string token)
         {
             try

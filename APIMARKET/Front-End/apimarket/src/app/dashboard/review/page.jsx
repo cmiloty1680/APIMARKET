@@ -111,11 +111,13 @@ function ReviewPage() {
                   TitlePage={TitlePage} 
                   Data={regisReview} 
                   TitlesTable={titlesColmena} 
-                  FormPage={FormReview}/>
+                  />
                 )}
             </div>
             <ModalDialog
-            FormPage={<FormReview buttonForm={buttonForm} review={review} />}
+            FormPage={<FormReview buttonForm={buttonForm} review={review}
+            setIsOpen={openModalForm}
+            action={action} />}
             />
           
           </div>

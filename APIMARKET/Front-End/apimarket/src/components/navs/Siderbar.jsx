@@ -17,8 +17,10 @@ import {
   Zap, 
   Sprout, 
   Menu, 
+
   X 
 } from "lucide-react";
+import { Flower } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -28,7 +30,7 @@ const menuItems = [
   { href: "/dashboard/hive", icon: Hexagon, label: "Colmena" },
   { href: "/dashboard/production", icon: Droplet, label: "Producción" },
   { href: "/dashboard/protocol", icon: Clipboard, label: "Protocolo" },
-  { href: "/dashboard/feeding", icon: Apple, label: "Alimentación" },
+  { href: "/dashboard/feeding", icon: Flower, label: "Alimentación" },
   { href: "/dashboard/review", icon: Eye, label: "Revisión" },
   { href: "/dashboard/implement", icon: Tool, label: "Implemento" },
   { href: "/dashboard/race", icon: Bug, label: "Raza" },

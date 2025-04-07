@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import DataTable from "./DataTable";
 
-function ContentPage({ TitlePage, Data, TitlesTable, Actions, updateTextTitleForm, openModalForm}) {
+function ContentPage({ TitlePage, Data, TitlesTable, Actions, updateTextTitleForm, openModalForm,ignorar}) {
 
 
   return (
@@ -27,7 +27,7 @@ function ContentPage({ TitlePage, Data, TitlesTable, Actions, updateTextTitleFor
       
 
       {/* Tabla de datos */}
-      <DataTable Data={Data} TitlesTable={TitlesTable} Actions={Actions} updateTextTitleForm={updateTextTitleForm} openModalForm={openModalForm} />
+      <DataTable Data={Data} TitlesTable={TitlesTable} Actions={Actions} updateTextTitleForm={updateTextTitleForm} openModalForm={openModalForm} ignorar={ignorar} />
     </div>
   );
 }

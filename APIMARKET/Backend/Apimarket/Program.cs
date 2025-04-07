@@ -83,7 +83,7 @@ builder.Services.AddScoped<FertilizationServices>();
 //                if (string.IsNullOrEmpty(context.ErrorDescription))
 //                    context.ErrorDescription = "Esta solicitud requiere que se proporcione un token de acceso JWT válido";
 
-//                if(context.AuthenticateFailure != null && context.AuthenticateFailure.GetType() == typeof(SecurityTokenExpiredException))
+//                if (context.AuthenticateFailure != null && context.AuthenticateFailure.GetType() == typeof(SecurityTokenExpiredException))
 //                {
 //                    var authenticationExcepcion = context.AuthenticateFailure as SecurityTokenExpiredException;
 //                    context.Response.Headers.Add("x-token-expired", authenticationExcepcion.Expires.ToString("o"));

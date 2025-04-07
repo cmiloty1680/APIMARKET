@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/alert-dialog"; 
 
 
-function FormHive({buttonForm, hive}) {
+function FormHive({buttonForm, hive, onDataUpdated  }) {
   const router = useRouter();
   const [estado, setEstado] = useState("");
   const [descripcion, setDescripcion] = useState(""); // Nuevo campo Des_Hive
@@ -54,9 +54,11 @@ function FormHive({buttonForm, hive}) {
             console.log(updateHive);
 
             const response = await axiosInstance.put(`/Api/Hive/UpdateHive/${id_Hive}`, updateHive  )
+            setDataHiveForUpdate();
             if (response.status === 200) {
                 window.alert(response.data.message);
                 setModalOpen(true);
+                onDataUpdated(); // <<-- Aquí se notifica al padre
             }
         } else if (buttonForm === "Registrar") {
             const response = await axiosInstance.post("/Api/Hive/CreateHive", {
@@ -73,6 +75,7 @@ function FormHive({buttonForm, hive}) {
                 setModalOpen(true);
                 alert(response.data.registrado);
                 // router.push("");
+                onDataUpdated(); // <<-- Aquí se notifica al padre
             }
         }
     } catch (error) {
@@ -83,6 +86,7 @@ function FormHive({buttonForm, hive}) {
         setSubmitting(false);
     }
 }
+
 
   const setDataHiveForUpdate = () => {
     setDescripcion(hive.des_Hive);

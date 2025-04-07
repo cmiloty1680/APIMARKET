@@ -28,21 +28,6 @@ namespace Apimarket.Controllers
         [HttpPost("CreateCollecDrone")]
         public IActionResult AddP([FromBody] CollecDrone entity)
         {
-            //if (entity == null)
-            //{
-            //    return BadRequest("La entidad de CollecDrone no puede ser nula");
-            //}
-
-            //if (entity.Id_CollecDrone <= 0)
-            //{
-            //    return BadRequest("El Id de CollecDrone debe ser un valor positivo");
-            //}
-
-            //var existingCollecDrone = _collecDroneServices.GetCollecDrone(entity.Id_CollecDrone);
-            //if (existingCollecDrone != null)
-            //{
-            //    return Conflict("Ya existe un CollecDrone con ese ID");
-            //}
 
             _collecDroneServices.Add(entity);
             return Ok(new { registrado = "CollecDrone creado con éxito" });

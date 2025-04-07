@@ -13,12 +13,21 @@ namespace Apimarket.DTOs
         public DateTime FecIni_Production { get; set; }
         public DateTime FecFin_Production { get; set; }
 
-        public int Cant_Abejas { get; set; }
-        public int Tot_Colmen { get; set; }
+        public string SubCen_Production { get; set; }
 
-        public int Id_Race { get; set; } 
+        public string CenCos_Production { get; set; }
+
+        public string Nom_Production { get; set; }
+
+        public int TotColm_Hive { get; set; }
+
+
+        public int Tot_Production { get; set; }
+
+        public int CanCua_Production { get; set; }
+
+        public int Id_Race { get; set; }
         public string Nom_Race { get; set; }
        
-        public int Can_Production { get; set; }
     }
 }

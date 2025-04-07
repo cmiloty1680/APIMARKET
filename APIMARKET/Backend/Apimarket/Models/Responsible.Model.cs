@@ -66,7 +66,23 @@ namespace Apimarket.Models
 
         public int Int_Responsible { get; set; }
 
+        public string? ResetToken { get; set; } = null;
+        public DateTime? ResetTokenExpiration { get; set; }
 
 
+
+    }
+
+    public class TokenRequest
+    {
+        [Required(ErrorMessage = "El token es requerido")]
+        public string Tok_Responsible { get; set; }
+    }
+
+
+    public class ResetPasswordModel
+    {
+        public string? Token { get; set; } = null;
+        public string? NewPassword { get; set; } = null;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Apimarket.model;
+﻿using Apimarket.DTOs;
+using Apimarket.model;
 using Apimarket.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ namespace Apimarket.Models
         public DbSet<Race> race { get; set; }
         public DbSet<Review> review { get; set; }
         public DbSet<Fertilization> fertilization { get; set; }
+
         public DbSet<Extraction> extraction { get; set; }
         public DbSet<CollecDrone> collecDrone { get; set; }
 

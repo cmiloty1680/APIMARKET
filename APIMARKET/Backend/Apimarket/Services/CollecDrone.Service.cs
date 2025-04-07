@@ -1,5 +1,7 @@
-﻿using Apimarket.Model;
+﻿
+using Apimarket.Model;
 using Apimarket.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,10 @@ namespace Apimarket.Services
 
         public IEnumerable<CollecDrone> GetAll()
         {
-            return _context.collecDrone.ToList();
+            //return _context.collecDrone.ToList();
+            return _context.collecDrone
+                .Include(cd => cd.responsible)
+                .ToList();
         }
 
         public void Add(CollecDrone entity)

@@ -15,8 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 
 
-function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalForm, buttonForm}) {
-
+function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalForm,ignorar, buttonForm}) {
+    console.log(Data)
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
@@ -64,12 +64,21 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                     <TableHeader>
                         <TableRow>
                             {TitlesTable.map((title, index) => (
+                            //     <TableHead
+                            //         key={index}
+                            //         className="text-gray-600 font-medium bg-gray-100 table-head"
+                            //     >
+                            //         {title}
+                            //     </TableHead>
+                            // ))}
+                            !ignorar.includes(index) && (
                                 <TableHead
-                                    key={index}
-                                    className="text-gray-600 font-medium bg-gray-100 table-head"
+                                  key={index}
+                                  className="text-gray-600 font-medium bg-gray-100 table-head"
                                 >
-                                    {title}
+                                  {title}
                                 </TableHead>
+                              )
                             ))}
                             {Actions && (
                                 <TableHead className="text-gray-600 font-medium bg-gray-100 table-head">
@@ -81,11 +90,20 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
 
                     <TableBody>
                         {currentItems.map((row, rowIndex) => (
-                            <TableRow key={rowIndex}>
+                                //     <TableRow key={rowIndex}>
+                                //     {row.map((cell, cellIndex) => (
+                                //         <TableCell key={cellIndex} className="table-cell">
+                                //             {cell}
+                                //         </TableCell>
+                                // ))}
+                                <TableRow key={rowIndex}>
                                 {row.map((cell, cellIndex) => (
+                                  // Verificar si la columna debe ser visible
+                                  !ignorar.includes(cellIndex) && (
                                     <TableCell key={cellIndex} className="table-cell">
-                                        {cell}
+                                      {cell}
                                     </TableCell>
+                                  )
                                 ))}
                                 {Actions && (
                                     <TableCell className="table-cell">
@@ -99,7 +117,7 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                                                     className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 flex items-center gap-1 px-2 py-1 rounded-md"
                                                 >
                                                     <Edit className="w-4 h-4" />
-                                                    <span>Editar</span>
+                                                    <span></span>
                                                 </Button>
                                             )}
                                             {Actions.delete && (
@@ -110,7 +128,7 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                                                     className="text-red-600 hover:text-red-700 hover:bg-red-50 flex items-center gap-1 px-2 py-1 rounded-md"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
-                                                    <span>Eliminar</span>
+                                                    <span></span>
                                                 </Button>
                                             )}
                                         </div>
@@ -136,7 +154,7 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                         className="px-2"
                     >
                         <ChevronLeft className="w-4 h-4" />
-                        <span className="ml-1">Previous</span>
+                        <span className="ml-1">Volver</span>
                     </Button>
 
                     {Array.from({ length: totalPages }, (_, i) => i + 1)
@@ -186,7 +204,7 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                         disabled={currentPage === totalPages}
                         className="px-2"
                     >
-                        <span className="mr-1">Next</span>
+                        <span className="mr-1">Siguiente</span>
                         <ChevronRight className="w-4 h-4" />
                     </Button>
                 </div>
