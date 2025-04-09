@@ -3,17 +3,22 @@ import NavPrivate from "@/components/navs/NavPrivate";
 import ContentPage from "@/components/utils/ContentPage";
 import Sidebar from "@/components/navs/Siderbar";
 import FormProtocol from "./FormProtocol";
+import ModalDialog from "@/components/utils/ModalDialog";
+import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import React, { useState, useEffect } from "react";
 import axiosInstance from "@/lib/axiosInstance";
 
 function Protocol() {
   const TitlePage = "Protocolo";
   const DeleteRegistro = "¿Estás seguro de que deseas eliminar este protocolo?";
+
   const [regisProtocol, setRegisProtocol] = useState([]);
   const [selectedProtocol, setSelectedProtocol] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [error, setError] = useState(null);
+  const [action, setAction] = useState("Registrar");
+  const [buttonForm, setButtonForm] = useState("Registrar");
 
   const titlesProtocol = [
     "Código",
@@ -21,7 +26,17 @@ function Protocol() {
     "Tipo de protocolo",
     "Fecha de creación",
     "Fecha de Actualización",
+    "Nombre de Archivo",
   ];
+
+  const [protocol, setProtocol] = useState({
+    id_Protocol: "",
+    nom_Protocol: "",
+    tip_Protocol: "",
+    fecCre_Protocol: "",
+    fecAct_Protocol: "",
+    nomFile_Protocol: "",
+  });
 
   useEffect(() => {
     fetchProtocol();
@@ -42,9 +57,38 @@ function Protocol() {
     protocol.tip_Protocol || "Sin estado",
     protocol.fecCre_Protocol || "-",
     protocol.fecAct_Protocol || "-",
+    protocol.nomFile_Protocol || "-",
   ]);
 
-  // Función para eliminar
+  // Abrir formulario con acción
+  const updateTextTitleForm = (texto, rowData) => {
+    setAction(texto);
+    setButtonForm(texto);
+
+    if (texto === "Actualizar") {
+      setProtocol({
+        id_Protocol: rowData[0],
+        nom_Protocol: rowData[1],
+        tip_Protocol: rowData[2],
+        fecCre_Protocol: rowData[3],
+        fecAct_Protocol: rowData[4],
+        nomFile_Protocol: rowData[5],
+      });
+    } else {
+      setProtocol({
+        id_Protocol: "",
+        nom_Protocol: "",
+        tip_Protocol: "",
+        fecCre_Protocol: "",
+        fecAct_Protocol: "",
+        nomFile_Protocol: "",
+      });
+    }
+
+    setIsFormModalOpen(true);
+  };
+
+  // Eliminar protocolo
   async function deleteProtocol() {
     if (!selectedProtocol) {
       setError("Debe seleccionar un protocolo.");
@@ -61,34 +105,13 @@ function Protocol() {
     }
   }
 
-
-  async function handleEditProtocol(updatedData) {
-    try {
-      await axiosInstance.put(`/Api/Protocol/UpdateProtocol`, updatedData);
-  
-      // Actualizar el estado local sin necesidad de recargar todo
-      setRegisProtocol((prev) =>
-        prev.map((item) =>
-          item.id_Protocol === updatedData.id_Protocol ? updatedData : item
-        )
-      );
-  
-      setIsEditModalOpen(false);
-    } catch (error) {
-      console.error("Error al actualizar el protocolo:", error);
-    }
-  }
-  
+  const handleDataUpdated = () => {
+    fetchProtocol();
+  };
 
   const actions = {
     update: (rowData) => {
-      console.log("Datos de la fila seleccionada:", rowData);
-      setSelectedProtocol({
-        id: rowData[0],
-        name: rowData[1],
-        type: rowData[2],
-      });
-      setIsEditModalOpen(true);
+      updateTextTitleForm("Actualizar", rowData);
     },
     delete: (rowData) => {
       setSelectedProtocol(rowData[0]);
@@ -109,11 +132,13 @@ function Protocol() {
                   <p className="text-red-500">{error}</p>
                 ) : (
                   <ContentPage
-                    TitlePage={TitlePage}
                     Data={formattedData}
                     TitlesTable={titlesProtocol}
                     Actions={actions}
-                    FormPage={FormProtocol}
+                    action={action}
+                    updateTextTitleForm={updateTextTitleForm}
+                    openModalForm={setIsFormModalOpen}
+                    ignorar={[]}
                   />
                 )}
               </div>
@@ -121,6 +146,26 @@ function Protocol() {
           </main>
         </div>
       </div>
+
+      <ModalDialog
+        isOpen={isFormModalOpen}
+        setIsOpen={setIsFormModalOpen}
+        FormPage={
+          <FormProtocol
+            protocol={protocol}
+            buttonForm={buttonForm}
+            onDataUpdated={handleDataUpdated}
+          />
+        }
+        action={action}
+      />
+
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={deleteProtocol}
+        DeleteTitle={DeleteRegistro}
+      />
     </>
   );
 }

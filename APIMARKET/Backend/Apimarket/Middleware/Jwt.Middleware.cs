@@ -11,13 +11,13 @@ namespace Apimarket.Middleware
 {
     public class JwtMiddleware
     {
-        
+
         private readonly RequestDelegate _next;
         public JWTModel jwt = new JWTModel();
         private readonly GeneralFunctions _functionsGeneral;
         private readonly List<string> _publicRoutes;
-        
-   
+
+
 
         public JwtMiddleware(RequestDelegate next, IConfiguration _Configuration)
         {
@@ -40,34 +40,34 @@ namespace Apimarket.Middleware
             //        await _next(context);
             //        return;
             //    default:
-                    if (_publicRoutes.Contains(path))
-                    {
-                        await _next(context);
-                        return;
-                    }
-
-                    if (token != null)
-                    {
-                        context.Response.StatusCode = 401;
-                        context.Response.ContentType = "application/json";
-                        await context.Response.WriteAsync("{\"error\": \"Token no proporcionado.\"}");
-                        return;
-
+            if (_publicRoutes.Contains(path))
+            {
+                await _next(context);
+                return;
             }
 
-            if (!AttachUserToContext(context, responsibleService, token))
-                    {
-                        context.Response.StatusCode = 403;
-                        context.Response.ContentType = "application/json";  
-                        await context.Response.WriteAsync("{\"error\": \"Token no proporcionado.\"}");
-                        return;
-                    }
-                    await _next(context);
+            if (token != null)
+            {
+                context.Response.StatusCode = 401;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync("{\"error\": \"Token no proporcionado.\"}");
+                return;
+
+                //}
+
+                if (!AttachUserToContext(context, responsibleService, token))
+                {
+                    context.Response.StatusCode = 403;
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync("{\"error\": \"Token no proporcionado.\"}");
                     return;
+                }
+                await _next(context);
+                return;
 
-                    //break;
+                //break;
             }
-        //}
+        }
         private bool AttachUserToContext(HttpContext context, ResponsibleService responsibleService, string token)
         {
             try
@@ -84,18 +84,17 @@ namespace Apimarket.Middleware
                 }, out SecurityToken validatedToken);
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userEmail = jwtToken.Claims.First(x => x.Type == "Responsable").Value;
-              
+
                 context.Items["responsible"] = responsibleService.GetByEmail(userEmail);
                 return true;
             }
-           catch (Exception ex)
+            catch (Exception ex)
             {
-             
+
                 _functionsGeneral.Addlog(ex.ToString());
                 return false;
-                
+
             }
         }
     }
 }
-

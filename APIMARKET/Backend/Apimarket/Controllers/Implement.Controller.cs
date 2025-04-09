@@ -105,9 +105,8 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
 
-        [HttpPut("UpdateImplement")]
+        [HttpPut("UpdateImplement{id}")]
         public IActionResult UpdateImplement(Implement implement)
         {
             try
@@ -128,7 +127,6 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
         [HttpDelete("DeleteImplement")]
         public IActionResult DeleteImplement(int id)
         {

@@ -77,7 +77,7 @@ function WelcomeSection() {
     { name: "Revisión", href: "/dashboard/review", icon: <Eye size={24} /> },
     { name: "Implemento", href: "/dashboard/implement", icon: <Tool size={24} /> },
     { name: "Raza", href: "/dashboard/race", icon: <Bug size={24} /> },
-    { name: "Recolección", href: "/dashboard/collectdrone", icon: <Scissors size={24} /> },
+    { name: "Recolección", href: "/dashboard/collecdrone", icon: <Scissors size={24} /> },
     { name: "Extracción", href: "/dashboard/extractions", icon: <Flask size={24} /> },
     { name: "Fertilización", href: "/dashboard/fertilizations", icon: <Sprout size={24} /> },
     { name: "Responsable", href: "/dashboard/responsable", icon: <Users size={24} /> },

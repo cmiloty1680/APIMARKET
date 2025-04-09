@@ -102,7 +102,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [HttpPut("UpdateRace")]
+        [HttpPut("UpdateRace{id}")]
         public IActionResult UpdateRace(Race race)
         {
             try

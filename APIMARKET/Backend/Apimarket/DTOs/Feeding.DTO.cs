@@ -16,20 +16,17 @@ namespace Apimarket.DTOs
 
         public string Des_Hive { get; set; }
 
-        //public string Nam_Responsible { get; set; }
+        public string Nam_Responsible { get; set; }
 
 
-        //public string LasNam_Responsible { get; set; }
 
+        public int NumDoc_Responsible { get; set; }
 
-        //public int NumDoc_Responsible { get; set; }
+        public string Tip_Responsible { get; set; } = "pasante";
 
-        //public string Tip_Responsible { get; set; } = "pasante";
+        public int Id_Responsible { get; set; }
 
-        //public long Pho_Responsible { get; set; }
-        //public string Emai_Responsible { get; set;
-
-
+        public int Id_Hive { get; set; }
 
 
     }

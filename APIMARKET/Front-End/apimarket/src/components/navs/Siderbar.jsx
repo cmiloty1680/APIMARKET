@@ -29,6 +29,7 @@ const menuItems = [
   { href: "/dashboard", icon: Home, label: "Inicio" },
   { href: "/dashboard/hive", icon: Hexagon, label: "Colmena" },
   { href: "/dashboard/production", icon: Droplet, label: "Producción" },
+  { href: "/dashboard/recolection", icon: Flask, label: "Recoleción Miel" },
   { href: "/dashboard/protocol", icon: Clipboard, label: "Protocolo" },
   { href: "/dashboard/feeding", icon: Flower, label: "Alimentación" },
   { href: "/dashboard/review", icon: Eye, label: "Revisión" },
@@ -38,6 +39,7 @@ const menuItems = [
   { href: "/dashboard/extractions", icon: Flask, label: "Extracción" },
   { href: "/dashboard/fertilizations", icon: Sprout, label: "Fertilización" },
   { href: "/dashboard/responsable", icon: Users, label: "Responsable" },
+  { href: "/dashboard/insemination", icon: Users, label: "inseminación" },
 ];
 
 function Siderbar() {

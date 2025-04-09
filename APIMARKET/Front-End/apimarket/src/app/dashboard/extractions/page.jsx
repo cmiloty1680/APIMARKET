@@ -3,7 +3,7 @@
 import Sidebar from "@/components/navs/Siderbar";
 import Header from "@/components/navs/NavPrivate";
 import { useState } from "react";
-import "./page.css";
+import { FlaskRoundIcon as Flask } from "lucide-react";
 
 import axiosInstance from "@/lib/axiosInstance";
 
@@ -54,52 +54,90 @@ function ExtractionPage() {
         <Header />
         <main className="extraction">
           <div className="container mx-auto px-6 py-8">
-          {(success || error) && (
-            <div className="alert-overlay">
-              <div className={`alert-box ${success ? "success" : "error"}`}>
-                {success && <p>Extracción registrada exitosamente.</p>}
-                {error && <p>{error}</p>}
-                <button
-                  className="close-btn"
-                  onClick={() => {
-                    setSuccess(false);
-                    setError("");
-                  }}
-                >
-                  Cerrar
-                </button>
+            {(success || error) && (
+              <div className="alert-overlay">
+                <div className={`alert-box ${success ? "success" : "error"}`}>
+                  {success && <p>Extracción registrada exitosamente.</p>}
+                  {error && <p>{error}</p>}
+                  <button
+                    className="close-btn"
+                    onClick={() => {
+                      setSuccess(false);
+                      setError("");
+                    }}
+                  >
+                    Cerrar
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-            <form className="extraction form shadow-lg" onSubmit={handleSubmitExtraction}>
-              <h3 className="text-lg font-bold">Registrar Extraccion</h3>
-              <div className="input-container">
-                <label htmlFor="FecExtraction">Fecha del Extraction</label>
-                <input
-                  type="date"
-                  placeholder="Fecha del extraction"
-                  value={fecExtraction}
-                  onChange={(e) => setFecExtraction(e.target.value)}
-                  required
-                  className="input-field"
-                />
+            <form
+              className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md"
+              onSubmit={handleSubmitExtraction}
+            >
+              {/* Título */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
+                    <Flask className="h-4 w-4" />
+                  </div>
+                  <div className="ml-3">
+                    <h2 className="text-xl font-bold text-gray-900">Extracción</h2>
+                    <p className="text-xs text-gray-500">Ingrese los datos de la extracción</p>
+                  </div>
+                </div>
               </div>
-              <div className="input-container">
-                <label htmlFor="CanExtraction">Cantidad del Extraction</label>
-                <input
-                  type="number"
-                  placeholder="Cantidad del extraction"
-                  value={canExtraction}
-                  onChange={(e) => setCanExtraction(parseInt(e.target.value))}
-                  required
-                  className="input-field"
-                />
+
+              {/* Mensajes */}
+              {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
+
+              <div className="space-y-4">
+                {/* Fecha de extracción */}
+                <div className="space-y-1">
+                  <label htmlFor="FecExtraction" className="text-sm font-medium text-gray-700">
+                    Fecha de la Extracción
+                  </label>
+                  <input
+                    type="date"
+                    id="FecExtraction"
+                    placeholder="Fecha de la extracción"
+                    value={fecExtraction}
+                    onChange={(e) => setFecExtraction(e.target.value)}
+                    required
+                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
+                  />
+                </div>
+
+                {/* Cantidad de extracción */}
+                <div className="space-y-1">
+                  <label htmlFor="CanExtraction" className="text-sm font-medium text-gray-700">
+                    Cantidad de la Extracción
+                  </label>
+                  <input
+                    type="number"
+                    id="CanExtraction"
+                    placeholder="Cantidad extraída"
+                    value={canExtraction}
+                    onChange={(e) => setCanExtraction(parseInt(e.target.value))}
+                    required
+                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
+                  />
+                </div>
+
+                {/* Botón de envío */}
+                <div className="flex justify-end pt-3">
+                  <button
+                    type="submit"
+                    className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Enviando..." : "Guardar"}
+                  </button>
+                </div>
               </div>
-              <button type="submit" className="btn" disabled={isSubmitting}>
-                {isSubmitting ? "Enviando..." : "Guardar Extraction"}
-              </button>
             </form>
+
           </div>
         </main>
       </div>

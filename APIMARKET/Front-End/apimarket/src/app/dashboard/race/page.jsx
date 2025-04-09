@@ -1,131 +1,190 @@
 "use client";
-
+import { useState, useEffect } from "react";
+import NavPrivate from "@/components/navs/NavPrivate";
+import ContentPage from "@/components/utils/ContentPage";
 import Sidebar from "@/components/navs/Siderbar";
-import Header from "@/components/navs/NavPrivate";
-import { useState } from "react";
-// import "./page.css";
-
 import axiosInstance from "@/lib/axiosInstance";
-import Tablas from "@/components/navs/Tablas";
+import ConfirmationModal from "@/components/utils/ConfirmationModal";
+import ModalDialog from "@/components/utils/ModalDialog";
+import FormRace from "./FormRace";
+import DynamicAlert from "@/components/utils/DynamicAlert";
+import { ShieldCheck, AlertCircle } from "lucide-react";
 
 function RacePage() {
-  const [raceName, setRaceName] = useState("");
-  const [description, setDescription] = useState("");
-  const [error, setError] = useState("");
-  const [isSubmitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const TitlePage = "Raza";
+  const eliminar = "La raza";
+  const [action, setAction] = useState("Registrar");
+  const [isOpen, setIsOpen] = useState(false);
+  const [regisRace, setRegisRace] = useState([]);
+  const [selectedRace, setSelectedRace] = useState(null);
+  const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [buttonForm, setButtonForm] = useState("Registrar");
+
+  // Estados para las alertas (éxito y fallo)
+  const [isModalOpen, setModalOpen] = useState(false); // Para alerta de éxito
+  const [isModalOpenFall, setModalOpenFall] = useState(false); // Para alerta de fallo
   const [msSuccess, setMsSuccess] = useState("");
+  const [error, setError] = useState("");
 
-  async function handleSubmitRace(event) {
-    event.preventDefault();
-    setSubmitting(true);
+  const titlesRaza = ["Código", "Nombre", "Descripción"];
 
-    const body = {
-      nom_Race: raceName,
-      des_Race: description,
-    };
+  const [race, setRace] = useState({
+    id_Race: "",
+    nom_Race: "",
+    des_Race: "",
+  });
 
-    if (Object.values(body).includes("")) {
-      setError("Todos los campos son requeridos.");
-      setSubmitting(false);
-      return;
-    }
-
+  // Función para obtener las razas
+  async function fetchRaces() {
+    setIsLoading(true);
     try {
-      const response = await axiosInstance.post(`Api/Race/CreateRace`, body);
+      const response = await axiosInstance.get("/Api/Race/GetsAllRace");
       if (response.status === 200) {
-        setMsSuccess(response.data);
-        setSuccess(true);
-        setError("");
-      } else {
-        setError("Error desconocido");
+        const data = response.data.map((Race) => [
+          Race.id_Race || "-",
+          Race.nom_Race || "Sin descripción",
+          Race.des_Race || "Sin estado",
+        ]);
+        setRegisRace(data);
       }
-    } catch (error) {
-      setError(error.response ? error.response.data : "Error al conectar con el servidor");
-      setSuccess(false);
+    } catch (err) {
+      setError("No se pudo cargar la Raza.");
+      setModalOpenFall(true);
     } finally {
-      setSubmitting(false);
+      setIsLoading(false);
     }
   }
 
+  useEffect(() => {
+    fetchRaces();
+  }, []);
+
+  // Función para cambiar el título del formulario y cargar datos (para actualizar)
+  const updateTextTitleForm = (texto, rowData) => {
+    setAction(texto);
+    setButtonForm(texto);
+    if (texto === "Actualizar") {
+      setRace({
+        id_Race: rowData[0],
+        nom_Race: rowData[1],
+        des_Race: rowData[2],
+      });
+    } else {
+      setRace({ id_Race: "", nom_Race: "", des_Race: "" });
+    }
+  };
+
+  // Función para abrir o cerrar el modal del formulario
+  const openModalForm = (open) => {
+    setIsOpen(open);
+  };
+
+  // Función para manejar el éxito al registrar o actualizar la raza
+  const handleSuccess = () => {
+    const message =
+      action === "Registrar"
+        ? "La raza ha sido registrada correctamente."
+        : "La raza ha sido actualizada correctamente.";
+    setMsSuccess(message);
+    setModalOpen(true);
+    fetchRaces();
+    setIsOpen(false);
+  };
+
+  // Función para eliminar una raza
+  async function deleteRace() {
+    if (!selectedRace) {
+      setError("Debe seleccionar una Raza.");
+      setModalOpenFall(true);
+      return;
+    }
+    try {
+      await axiosInstance.delete(`/Api/Race/DeleteRace?id=${selectedRace}`);
+      setMsSuccess("La raza ha sido eliminada correctamente.");
+      setModalOpen(true);
+      fetchRaces();
+      setIsModalOpenDelete(false);
+    } catch (err) {
+      setError("No se pudo eliminar la Raza.");
+      setModalOpenFall(true);
+    }
+  }
+
+  // Acciones para la tabla
+  const actions = {
+    delete: (rowData) => {
+      setSelectedRace(rowData[0]);
+      setIsModalOpenDelete(true);
+    },
+    update: (rowData) => {
+      updateTextTitleForm("Actualizar", rowData);
+      openModalForm(true);
+    },
+  };
+
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-200">
       <Sidebar />
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <Header />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
-          <div className="container mx-auto px-6 py-8">
-            {/* Alerta personalizada */}
-            {(success || error) && (
-              <div className="alert-overlay">
-                <div className="alert-box">
-                  {success && <p className="text-green-500">{msSuccess}</p>}
-                  {error && <p className="text-red-500">{error}</p>}
-                  <button
-                    className="bg-transparent text-gray-600 font-semibold hover:text-gray-800 focus:outline-none"
-                    onClick={() => {
-                      setSuccess(false);
-                      setError("");
-                    }}
-                  >
-                    Cerrar
-                  </button>
-                </div>
+      <div className="flex flex-col flex-1 overflow-hidden text-white">
+        <NavPrivate TitlePage={TitlePage} />
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
+          <div className="container mx-auto px-6 py-8 mt-10">
+            <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
+              <div className="relative p-6">
+                <ContentPage
+                  Data={regisRace}
+                  TitlesTable={titlesRaza}
+                  Actions={actions}
+                  updateTextTitleForm={updateTextTitleForm}
+                  openModalForm={openModalForm}
+                  ignorar={[]}
+                />
               </div>
-            )}
-
-            {/* Formulario de Registro de Raza */}
-            <main className="race">
-              <form
-                className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md"
-                onSubmit={handleSubmitRace}
-              >
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Registrar Raza</h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label htmlFor="RaceName" className="text-sm font-medium text-gray-700">
-                      Nombre de la Raza
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Nombre de la raza"
-                      value={raceName}
-                      onChange={(e) => setRaceName(e.target.value)}
-                      required
-                      className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                    />
-                  </div>
-
-                  <div className="space-y-1">
-                    <label htmlFor="Description" className="text-sm font-medium text-gray-700">
-                      Descripción
-                    </label>
-                    <textarea
-                      placeholder="Descripción de la raza"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      required
-                      className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex justify-end pt-4">
-                  <button
-                    type="submit"
-                    className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Enviando..." : "Guardar Raza"}
-                  </button>
-                </div>
-              </form>
-              <Tablas/>
-            </main>
+            </div>
           </div>
         </main>
       </div>
+
+      {/* Modal del formulario para registrar/actualizar raza */}
+      <ModalDialog
+        isOpen={isOpen}
+        setIsOpen={openModalForm}
+        FormPage={
+          <FormRace
+            buttonForm={buttonForm}
+            race={race}
+            onSuccess={handleSuccess}
+          />
+        }
+        action={action}
+      />
+
+      {/* Modal de confirmación para eliminación */}
+      <ConfirmationModal
+        isOpen={isModalOpenDelete}
+        onClose={() => setIsModalOpenDelete(false)}
+        onConfirm={deleteRace}
+        DeleteTitle={eliminar}
+      />
+
+      {/* Modal de éxito usando DynamicAlert */}
+      <DynamicAlert
+        isOpen={isModalOpen}
+        onOpenChange={setModalOpen}
+        type="success"
+        message={msSuccess || "Operación exitosa"}
+        redirectPath=""
+      />
+
+      {/* Modal de error usando DynamicAlert */}
+      <DynamicAlert
+        isOpen={isModalOpenFall}
+        onOpenChange={setModalOpenFall}
+        type="error"
+        message={error || "Ha ocurrido un error inesperado"}
+        redirectPath=""
+      />
     </div>
   );
 }

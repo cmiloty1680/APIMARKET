@@ -33,6 +33,11 @@ namespace Apimarket.Model
 
         public virtual Hive? hive { get; set; }
 
+        public int Id_Responsible { get; set; }
+        [ForeignKey("Id_Responsible")]
+
+        public virtual Responsible? responsible { get; set; }
+
 
 
 

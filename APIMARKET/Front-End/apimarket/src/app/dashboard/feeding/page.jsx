@@ -30,15 +30,14 @@ function FeedingPage() {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [buttonForm, setButtonForm] = useState("Registrar");
-
-      // Estados para las alertas (éxito y fallo)
   const [isModalOpen, setModalOpen] = useState(false); // Para alerta de éxito
   const [isModalOpenFall, setModalOpenFall] = useState(false); // Para alerta de fallo
   const [msSuccess, setMsSuccess] = useState("");
   const [error, setError] = useState("");
+ 
 
   const titlesFeeding = [
-    "Código", "Tipo de alimentación", "Fecha de alimentación", "Cantidad de alimentación", "Valor de alimentación", "Descripción de la colmena"
+    "Código", "Tipo de alimentación", "Fecha de alimentación", "Cantidad de alimentación", "Valor de alimentación", "Descripción de la colmena","Nombre Responsable","Tipo Responsable","Numero de documento", "Id_Responsible",
   ];
 
   const [feeding, setFeeding] = useState({
@@ -48,6 +47,10 @@ function FeedingPage() {
     can_Feeding: '',
     vlr_Feeding: '',
     des_Hive: '',
+    nam_Responsible: '',
+    tip_Responsible: '',
+    numDoc_Responsible: '',
+    id_Responsible:'',
     id_Hive: ''
   });
 
@@ -56,15 +59,25 @@ function FeedingPage() {
     try {
       const response = await axiosInstance.get("/Api/Feeding/GetAllFeeding");
       if (response.status === 200) {
-        console.log(response.id_Hive)
+        // console.log(response.data.id_Hive?.id_responsible);
+        // console.log("Data de alimentación:", response.data);
 
         const data = response.data.map((feeding) => [
           feeding.id_Feeding || "-",
-          feeding.tip_Feeding || "Sin estado",
-          feeding.fec_Feeding || "Sin descripción",
+          feeding.tip_Feeding || "-",
+          feeding.fec_Feeding 
+          ? new Date(feeding.fec_Feeding).toLocaleDateString("es-CO", {
+            })
+          : "Sin descripción",    
+          // feeding.fec_Feeding || "Sin descripción",
           feeding.can_Feeding || "-",
           feeding.vlr_Feeding || "-",
-          feeding.des_Hive  || "Sin descripción"
+          feeding.des_Hive  || "-",
+          feeding.nam_Responsible || "-",
+          feeding.tip_Responsible ||"-",
+          feeding.numDoc_Responsible ||"",
+          feeding.id_Responsible || "",   
+          feeding.id_Hive || ""
           
         ]);
         setRegisFeeding(data);
@@ -80,40 +93,42 @@ function FeedingPage() {
   useEffect(() => {
     fetchFeeding();
   }, []);
-
   const updateTextTitleForm = (texto, rowData ) => {
     setAction(texto);
     setButtonForm(texto);
+    setFeeding({})
 
 
     if (texto === "Actualizar") {
-      // console.log("Actualizando...");
+      console.log("Actualizando...");
+
      
       setFeeding({
         id_Feeding: rowData[0],
         tip_Feeding: rowData[1],
-        fec_Feeding: rowData[2],
+        fec_Feeding: rowData[2] !== "Sin descripción" ? new Date().toISOString().split('T')[0] : '',
         can_Feeding: rowData[3],
         vlr_Feeding: rowData[4],
-        id_Hive: rowData[5],
+        des_Hive: rowData[5],         
+        nam_Responsible: rowData[6],
+        tip_Responsible: rowData[7],
+        numDoc_Responsible: rowData[8],
+        id_Responsible: rowData[9],
+        id_Hive: rowData[10],     
       });
-      // console.log(feeding)
-  
+      console.log("tod", rowData)
     } else {
-      setFeeding({
-        id_Feeding: "",
-        tip_Feeding: "",
-        fec_Feeding: "",
-        can_Feeding: "",
-        vlr_Feeding: "",
-        id_Hive:"",
-      // console.log("Registrando...");
-    });
+      console.log("Registrando...");
+      
     }
   };
+
+
+
   
   // Función para abrir el modal
   const openModalForm = (Open) => {
+    setSelectedFeeding(null);
     setIsOpen(Open);
   };
  // Función para manejar el éxito al registrar o actualizar la raza
@@ -124,7 +139,7 @@ function FeedingPage() {
       : "alimentacion ha sido actualizada correctamente.";
   setMsSuccess(message);
   setModalOpen(true);
-  fetchRaces();
+  fetchFeeding();
   setIsOpen(false);
 };
 
@@ -146,13 +161,12 @@ function FeedingPage() {
 
 
     } catch (error) {
-      // console.error("Error al eliminar la alimentación:", error);
+      console.error("Error al eliminar la alimentación:", error);
       setError("No se pudo eliminar la alimentación.");
       setModalOpenFall(true);
 
     }
   }
-  // Acciones de la tabla
   const actions = {
     delete: (rowData) => {
       setSelectedFeeding(rowData[0]);
@@ -160,8 +174,7 @@ function FeedingPage() {
 
     },
     update: (rowData) => {
-      updateTextTitleForm("Actualizar", rowData);
-      openModalForm(true);
+      // updateTextTitleForm("Actualizar", rowData);
 
     }
   };
@@ -189,8 +202,7 @@ function FeedingPage() {
                     // action={action}
                     updateTextTitleForm={updateTextTitleForm}
                     openModalForm={openModalForm}
-                    ignorar={[]}
-
+                    ignorar={[9,10]}
                   />
 
               </div>
@@ -228,8 +240,8 @@ function FeedingPage() {
           </AlertDialogHeader>
           <AlertDialogFooter className="mt-4">
             <AlertDialogAction
-              onClick={() => setModalOpen(false)}
-              className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-2 rounded-md hover:from-orange-600 hover:to-red-600 transition-all duration-300"
+
+className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-2 rounded-md hover:from-orange-600 hover:to-red-600 transition-all duration-300"
             >
               Ok
             </AlertDialogAction>

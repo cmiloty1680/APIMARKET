@@ -14,8 +14,12 @@ namespace Apimarket.Services
         }
         public IEnumerable<Feeding> GetAll()
         {
-            //return _context.feeding.ToList();
-            return _context.feeding.Include(p => p.hive).ToList();
+            //return _context.review.AsNoTracking().ToList();
+            return _context.feeding
+                               .Include(r => r.hive)
+                               .Include(r => r.responsible)
+                               .ToList();
+
         }
         public void Add(Feeding entity)
         {
