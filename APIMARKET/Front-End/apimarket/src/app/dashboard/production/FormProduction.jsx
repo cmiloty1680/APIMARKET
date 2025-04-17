@@ -5,8 +5,9 @@ import { useState, useEffect } from "react";
 import axiosInstance from "@/lib/axiosInstance";
 import { Dialog } from "@headlessui/react"; // Para el modal
 import { Droplet } from "lucide-react";
+import DynamicAlert from "@/components/utils/DynamicAlert";
 
-function FormProduction({ buttonForm, production }) {
+function FormProduction({ buttonForm, production, onDataUpdated }) {
 
     const router = useRouter();
     const [fecha, setFecha] = useState("");
@@ -22,6 +23,8 @@ function FormProduction({ buttonForm, production }) {
     const [msSuccess, setMsSuccess] = useState("");
     const [razas, setRazas] = useState([]);
     const [id_Production, setIdProduction] = useState(null); // ID de producción para actualizar
+    const [isModalOpenFall, setModalOpenFall] = useState(false);
+
 
     //JORGE
 
@@ -36,9 +39,6 @@ function FormProduction({ buttonForm, production }) {
             }
         }
         fetchRazas();
-        // if (production) {
-        //     setDataProductionForUpdate(production);
-        // }        
     }, []);
 
 
@@ -53,11 +53,10 @@ function FormProduction({ buttonForm, production }) {
             return;
         }
 
-        const formattedFecha = new Date(fecha).toISOString().split("T")[0];
-        const formattedFechas = new Date(fechaF).toISOString().split("T")[0];
+        const formattedFecha = fecha ? fecha.split('T')[0] : '';
+        const formattedFechas = fechaF ? fechaF.split('T')[0] : '';
 
-        // console.log("handler", buttonForm)
-        // console.log(production)
+
         try {
             if (buttonForm == "Actualizar") {
                 const updateProduction = {
@@ -67,18 +66,16 @@ function FormProduction({ buttonForm, production }) {
                     totColm_Hive: totColm,
                     tot_Production: totalProd,
                     canCua_Production: canCua,
-                    // nom_Race: nomrace,
                     id_Race: nomrace,
                 }
-                // console.log(updateProduction);
 
-                // const response = await axiosInstance.put(`/Api/Production/UpdateProduction/${id_Production}`, production)
                 const response = await axiosInstance.put(`/Api/Production/UpdateProduction/${id_Production}`, updateProduction)
                 console.log("pru", response);
                 if (response.status === 200) {
-                    // console.log(response.data)
                     console.log("Producción actualizada correctamente.", production);
                     setModalOpen(true);
+                    setMsSuccess(response.data.message || "producción Actualizada");
+                    onDataUpdated();
                 }
             } else if (buttonForm === "Registrar") {
                 const response = await axiosInstance.post("/Api/Production/CreateProduction", {
@@ -95,13 +92,14 @@ function FormProduction({ buttonForm, production }) {
                     setModalMessage(response.data.registrado);
                     setModalOpen(true);
                     localStorage.setItem("registroProduccion", response.data.registrado);
-                    alert(response.data.registrado);
+                    setMsSuccess(response.data.registrado || "Registro creado.");
+                    onDataUpdated();
                     // router.push("");
                 }
             }
         } catch (error) {
             console.log("Error:", error.response || error.message);
-            setModalMessage(error.response?.data?.message || "Error al conectar con el servidor.");
+            setError(error.response?.data?.message || "Error al conectar con el servidor.");
         }
         finally {
             setSubmitting(false);
@@ -109,24 +107,18 @@ function FormProduction({ buttonForm, production }) {
     }
 
     const setDataProductionForUpdate = () => {
-        setFecha(production.fecIni_Production ? new Date(production.fecIni_Production).toLocaleDateString("sv-SE") : "");
-        setFechaF(production.fecFin_Production ? new Date(production.fecFin_Production).toLocaleDateString("sv-SE") : "");
-
+        setFecha(production.fecIni_Production ? new Date(production.fecIni_Production).toLocaleDateString("es-CO") : "");
+        setFechaF(production.fecFin_Production);
         setTotColm(production.totColm_Hive);
         setNomrace(production.id_Race);
-        // setNomrace(production.id_Race?.toString());
-
-        // setNomrace(production.id_Race);
-        
         setTotalPro(production.tot_Production);
         setCanCua(production.canCua_Production);
         setIdProduction(production.id_Production);
     }
-    
+
     useEffect(() => {
         setDataProductionForUpdate()
-    }, [production]);
-    // console.log(production.id_Race);
+    }, []);
 
 
 
@@ -228,7 +220,7 @@ function FormProduction({ buttonForm, production }) {
 
 
                         <div className="space-y-1">
-                        <label htmlFor="estado" className="text-sm font-medium text-gray-700">
+                            <label htmlFor="estado" className="text-sm font-medium text-gray-700">
                                 Cantidad de Cuadro
                             </label>
                             <input
@@ -273,6 +265,23 @@ function FormProduction({ buttonForm, production }) {
                     </div>
                 </div>
             </form>
+
+            <DynamicAlert
+                isOpen={isModalOpen}
+                onOpenChange={setModalOpen}
+                type="success"
+                message={msSuccess || "Operación exitosa"}
+                redirectPath=""
+            />
+
+            {/* Modal de fallido usando el componente dinámico */}
+            <DynamicAlert
+                isOpen={isModalOpenFall}
+                onOpenChange={setModalOpenFall}
+                type="error"
+                message={error || "Ha ocurrido un error inesperado"}
+                redirectPath=""
+            />
 
         </>
     );

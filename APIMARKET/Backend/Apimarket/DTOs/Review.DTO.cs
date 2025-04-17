@@ -10,17 +10,17 @@ namespace Apimarket.DTOs
 
         public string Des_Review { get; set; }
 
-
-        public string Tip_Protocol { get; set; }
-
-        public string Nom_Protocol { get; set; }
+        public DateTime Fec_Review { get; set; } = DateTime.Now;
 
         public string Nam_Responsible { get; set; }
-        public string LasNam_Responsible { get; set; }
 
-        public string Tip_Responsible { get; set; }
+        public string LasNam_Responsible  { get; set; }
 
-        public DateTime Fec_Review { get; set; } = DateTime.Now;
+        public int Id_Hive { get; set; }
+
+        public int Id_Responsible { get; set; }
+     
+
 
     }
 }

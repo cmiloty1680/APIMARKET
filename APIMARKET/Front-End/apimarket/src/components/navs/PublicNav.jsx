@@ -55,7 +55,7 @@ function PublicNav() {
             <SheetTitle className="text-left mb-4">Menú</SheetTitle>
             <nav className="flex flex-col gap-4">
               <Link href="/">Inicio</Link>
-              <Link href="/we">Acerca de</Link>
+              <Link href="/we">Quienes Somos</Link>
               <Link href="/contact">Contacto</Link>
               <Link href="/documentation">Documentación</Link>
             </nav>

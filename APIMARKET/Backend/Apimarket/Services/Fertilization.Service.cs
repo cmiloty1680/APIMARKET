@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Apimarket.Services
 {
-    public class FertilizationServices
+    public class FertilizationService
     {
         private readonly AppDbContext _context;
 
-        public FertilizationServices(AppDbContext context)
+        public FertilizationService(AppDbContext context)
         {
             _context = context;
         }

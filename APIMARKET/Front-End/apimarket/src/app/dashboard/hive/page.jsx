@@ -7,10 +7,11 @@ import axiosInstance from "@/lib/axiosInstance";
 import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import ModalDialog from "@/components/utils/ModalDialog";
 import FormHive from "./FormHive";
+import DynamicAlert from "@/components/utils/DynamicAlert";
 
 function HivePage() {
   const TitlePage = "Colmena";
-  const eliminar = "La colmena";
+  const eliminar = "¿Estás seguro de que deseas eliminar esta colmena?";
   const [action, setAction] = useState("Registrar");
   const [isOpen, setIsOpen] = useState(false);
   const [regisHive, setRegisHive] = useState([]);
@@ -19,6 +20,9 @@ function HivePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [buttonForm, setButtonForm] = useState("Registrar");
+  const [isModalOpenSuccess, setIsModalOpenSuccess] = useState(false);
+  const [isModalOpenError, setIsModalOpenError] = useState(false);
+
 
   const titlesColmena = [
     "Código",
@@ -29,14 +33,11 @@ function HivePage() {
   ];
 
   const [hive, setHive] = useState({
-    id_Production: '',
-    fecIni_Production: '',
-    fecFin_Production: '',
-    cant_Abejas: '',
-    tot_Colmen: '',
-    can_Production: '',
-    nom_Race: '',
-    id_Race: ''
+    id_Hive: "",
+    des_Hive: "",
+    est_Hive: "",
+    numCua_Hive: "",
+    numAlz_Hive: "",
   });
 
   // Obtener producción
@@ -51,7 +52,7 @@ function HivePage() {
           hive.est_Hive || "Sin estado",
           hive.numCua_Hive != null ? hive.numCua_Hive : "-",
           hive.numAlz_Hive != null ? hive.numAlz_Hive : "-",
-          
+
         ]);
         setRegisHive(data);
       }
@@ -71,7 +72,7 @@ function HivePage() {
     fetchHives(); // Refresca los datos de la tabla
   };
 
-  
+
   // Función para cambiar el título del formulario y acción
   const updateTextTitleForm = (texto, rowData) => {
     console.log(rowData);
@@ -83,18 +84,18 @@ function HivePage() {
 
     if (texto === "Actualizar") {
       console.log("Actualizando...");
-     
+
 
       setHive({
-        id_Hive: rowData[0], 
-        des_Hive: rowData[1], 
-        est_Hive: rowData[2], 
+        id_Hive: rowData[0],
+        des_Hive: rowData[1],
+        est_Hive: rowData[2],
         numCua_Hive: rowData[3],
         numAlz_Hive: rowData[4]
       });
-      
-      console.log(hive)
-  
+
+      console.log(rowData)
+
       // Llamar directamente la función correcta
     } else {
       console.log("Registrando...");
@@ -119,9 +120,11 @@ function HivePage() {
       await axiosInstance.delete(`/Api/Hive/DeleteHive?id=${selectedHive}`);
       fetchHives();
       setIsModalOpen(false);
+      setIsModalOpenSuccess(true); 
     } catch (error) {
       console.error("Error al eliminar la colmena:", error);
       setError("No se pudo eliminar la colmena.");
+      setIsModalOpenError(true); 
     }
   }
 
@@ -132,7 +135,7 @@ function HivePage() {
       setIsModalOpen(true);
     },
     update: (rowData) => {
-      
+
     }
   };
 
@@ -145,18 +148,18 @@ function HivePage() {
           <div className="container mx-auto px-6 py-8 mt-10">
             <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
               <div className="relative p-6">
-                
-                  <ContentPage
-                    // TitlePage={TitlePage}
-                    Data={regisHive}
-                    TitlesTable={titlesColmena}
-                    Actions={actions}
-                    action={action}
-                    updateTextTitleForm={updateTextTitleForm}
-                    openModalForm={openModalForm}
-                    ignorar={[]}
-                  />
-                
+
+                <ContentPage
+                  // TitlePage={TitlePage}
+                  Data={regisHive}
+                  TitlesTable={titlesColmena}
+                  Actions={actions}
+                  action={action}
+                  updateTextTitleForm={updateTextTitleForm}
+                  openModalForm={openModalForm}
+                  ignorar={[]}
+                />
+
               </div>
             </div>
           </div>
@@ -166,12 +169,8 @@ function HivePage() {
       <ModalDialog
         isOpen={isOpen}
         setIsOpen={openModalForm}
-        FormPage={<FormHive buttonForm={buttonForm} hive={hive} 
+        FormPage={<FormHive buttonForm={buttonForm} hive={hive}
         onDataUpdated={handleDataUpdated}
-        // onSuccessSubmit={() => {
-        //   fetchHives();  // recarga la tabla
-        //   setIsOpen(false);  // cierra el modal
-        // }}
         />}
         action={action}
       />
@@ -181,6 +180,22 @@ function HivePage() {
         onClose={() => setIsModalOpen(false)}
         onConfirm={deleteHive}
         DeleteTitle={eliminar}
+      />
+
+       {/* MODALES DE ALERTA */}
+       <DynamicAlert
+        isOpen={isModalOpenSuccess}
+        onOpenChange={setIsModalOpenSuccess}
+        type="success"
+        redirectPath="" // o déjalo vacío si no deseas redirigir
+      />
+
+      <DynamicAlert
+        isOpen={isModalOpenError}
+        onOpenChange={setIsModalOpenError}
+        type="error"
+        message={error || "Ha ocurrido un error inesperado"}
+        redirectPath=""
       />
     </div>
   );

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Apimarket.Services
 {
-    public class FeedingServices
+    public class FeedingService
     {
         private readonly AppDbContext _context;
 
-        public FeedingServices(AppDbContext context)
+        public FeedingService(AppDbContext context)
         {
             _context = context;
         }

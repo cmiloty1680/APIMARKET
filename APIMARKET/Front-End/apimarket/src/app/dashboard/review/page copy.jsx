@@ -7,12 +7,11 @@ import axiosInstance from "@/lib/axiosInstance";
 import ModalDialog from "@/components/utils/ModalDialog";
 import ConfirmationModal from "@/components/utils/ConfirmationModal"; // si luego deseas agregar eliminar
 import { useState, useEffect } from "react";
-import DynamicAlert from "@/components/utils/DynamicAlert";
-
 
 function ReviewPage() {
   const TitlePage = "Revisión";
-  const eliminar = "¿Estás seguro de que deseas eliminar esta revisión?";
+  const eliminar = "La revisión";
+
   const [regisReview, setRegisReview] = useState([]);
   const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -20,36 +19,31 @@ function ReviewPage() {
   const [selectedReview, setSelectedReview] = useState(null);
   const [action, setAction] = useState("Registrar");
   const [buttonForm, setButtonForm] = useState("Registrar");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isModalOpenSuccess, setIsModalOpenSuccess] = useState(false);
-  const [isModalOpenError, setIsModalOpenError] = useState(false);
-  
-  
 
   const titlesColmena = [
-    "ID",
+    "Código",
     "Descripción",
-    "Fecha",
-    "ID Colmena",
-    "Nombre",
-    "Apellido",
-    "ID Responsable"
-
-    
+    "Fecha de Revisión",
+    "Tip. protocolo",
+    "Nom. protocolo",
+    "Nom. responsable",
+    "Ape. responsable",
+    "Tip. responsable"
   ];
 
   const [review, setReview] = useState({
-    id_Review: '',
-    des_Review: '',
-    fec_Review: '',
-    id_Responsible: '',
-    id_Hive: '',  
-
+    id_Review: "",
+    des_Review: "",
+    fec_Review: "",
+    tip_Protocol: "",
+    nom_Protocol: "",
+    nam_Responsible: "",
+    lasNam_Responsible: "",
+    tip_Responsible: ""
   });
 
   // Obtener revisiones
   async function fetchReview() {
-    setIsLoading(true)
     try {
       const response = await axiosInstance.get("/Api/Review/GetsAllReview");
       if (response.status === 200) {
@@ -57,19 +51,17 @@ function ReviewPage() {
           review.id_Review || "-",
           review.des_Review || "-",
           review.fec_Review || "-",
-          review.id_Hive || "-",
+          review.tip_Protocol || "-",
+          review.nom_Protocol || "-",
           review.nam_Responsible || "-",
           review.lasNam_Responsible || "-",
-          review.id_Responsible || "-",
-
+          review.tip_Responsible || "-"
         ]);
         setRegisReview(data);
       }
     } catch (error) {
       console.log("Error al obtener los registros:", error);
       setError("No se pudieron cargar los datos de las revisiones.");
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -77,58 +69,30 @@ function ReviewPage() {
     fetchReview();
   }, []);
 
-  const handleDataUpdated = () => {
-    fetchHives(); // Refresca los datos de la tabla
+  // Abrir modal para crear o actualizar
+  const openModalForm = (open) => {
+    setSelectedReview(null);
+    setIsOpen(open);
   };
 
   // Configurar formulario para actualizar o registrar
   const updateTextTitleForm = (texto, rowData) => {
-    console.log(rowData);
     setAction(texto);
     setButtonForm(texto);
 
     setReview({});
 
     if (texto === "Actualizar") {
-      console.log("Actualizando...")
-
-
       setReview({
         id_Review: rowData[0],
         des_Review: rowData[1],
         fec_Review: rowData[2],
-        id_Hive: rowData[3],
-        id_Responsible: rowData[6]
+        tip_Protocol: rowData[3],
+        nom_Protocol: rowData[4],
+        nam_Responsible: rowData[5],
+        lasNam_Responsible: rowData[6],
+        tip_Responsible: rowData[7]
       });
-
-      console.log(rowData)
-    } else {
-      console.log("Registrando...");
-    }
-  };
-
-  const openModalForm = (isOpen) => {
-    setSelectedReview(null);
-    setIsOpen(isOpen);
-  };
-  
-  //coliminar revicion 
-  async function deleteReview() {
-    if (!selectedReview){
-      setError("Debe seleccionar una colmena.");
-      return;
-    }
-    try {
-      await axiosInstance.delete(`/Api/Review/DeleteReview?id=${selectedReview}`);
-      fetchReview();
-      setIsModalOpen(false);
-      setIsModalOpenSuccess(true); 
-
-    } catch (error) {
-      console.error("Error al eliminar la revicion:",error);
-      setError("No se puede eliminar la colmena.");
-      setIsModalOpenError(true); 
-
     }
   };
 
@@ -139,7 +103,8 @@ function ReviewPage() {
       setIsModalOpen(true);
     },
     update: (rowData) => {
-    
+      updateTextTitleForm("Actualizar", rowData);
+      openModalForm(true);
     }
   };
 
@@ -152,6 +117,11 @@ function ReviewPage() {
           <div className="container mx-auto px-6 py-8 mt-10">
             <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
               <div className="relative p-6">
+                {/* {error && (
+                  <div className="bg-red-500 text-white p-2 rounded mb-4">
+                    {error}
+                  </div>
+                )} */}
 
                 <ContentPage
                   Data={regisReview}
@@ -171,31 +141,24 @@ function ReviewPage() {
       <ModalDialog
         isOpen={isOpen}
         setIsOpen={openModalForm}
-        FormPage={<FormReview buttonForm={buttonForm} review={review} />}
+        FormPage={
+          <FormReview
+            buttonForm={buttonForm}
+            review={review}
+            setIsOpen={openModalForm}
+            action={action}
+          />
+        }
         action={action}
       />
 
       <ConfirmationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onConfirm={deleteReview}
+        onConfirm={() => {
+          // Implementar la lógica de eliminación si lo deseas
+        }}
         DeleteTitle={eliminar}
-      />
-
-       {/* MODALES DE ALERTA */}
-       <DynamicAlert
-        isOpen={isModalOpenSuccess}
-        onOpenChange={setIsModalOpenSuccess}
-        type="success"
-        redirectPath="" // o déjalo vacío si no deseas redirigir
-      />
-
-      <DynamicAlert
-        isOpen={isModalOpenError}
-        onOpenChange={setIsModalOpenError}
-        type="error"
-        message={error || "Ha ocurrido un error inesperado"}
-        redirectPath=""
       />
     </div>
   );

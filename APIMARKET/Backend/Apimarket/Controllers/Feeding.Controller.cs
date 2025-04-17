@@ -16,11 +16,11 @@ namespace Apimarket.Controllers
     {
         private readonly GeneralFunctions _functionsGeneral;
 
-        private readonly FeedingServices _feedingServices;
+        private readonly FeedingService _feedingServices;
         private readonly IConfiguration _configuration;
 
 
-        public FeedingController(IConfiguration configuration, FeedingServices feedingServices)
+        public FeedingController(IConfiguration configuration, FeedingService feedingServices)
         {
             _configuration = configuration;
             _feedingServices = feedingServices;
@@ -31,41 +31,31 @@ namespace Apimarket.Controllers
         [HttpPost("CreateFeeding")]
         public IActionResult AddP([FromBody] Feeding entity)
         {
-
+            try
+            {
 
             _feedingServices.Add(entity);
             return Ok(new { registrado = "Alimentacion creada con éxito." });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+
         }
-
-
-
-
-
-
-
 
 
 
 
         [HttpGet("GetAllFeeding")]
 
-        //public IActionResult GetsAllFeeding()
-        //{
-        //    try
-        //    {
-        //        var Feeding = _feedingServices.GetAll();
-        //        return Ok(Feeding);
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        _functionsGeneral.Addlog(ex.ToString());
-        //        return StatusCode(500, ex.Message);
-        //    }
-        //}
-
 
         public ActionResult<IEnumerable<FeedingDTO>> GetAllFeeding()
         {
+            try
+            {
+
             var feeding = _feedingServices.GetAll().Select(p => new FeedingDTO
             {
                 Id_Feeding = p.Id_Feeding,
@@ -80,16 +70,15 @@ namespace Apimarket.Controllers
                 Id_Hive = p.hive.Id_Hive,
                 Id_Responsible = p.responsible.Id_Responsible
 
-
-
-
-
-
-
-
             }).ToList();
 
             return Ok(feeding);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [Authorize]
@@ -114,7 +103,6 @@ namespace Apimarket.Controllers
             {
                 // Registra el error en los logs
                 _functionsGeneral.Addlog(ex.ToString());
-
                 return StatusCode(500, ex.Message);
             }
         }

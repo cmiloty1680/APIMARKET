@@ -12,10 +12,10 @@ namespace Apimarket.Controllers
     public class ProtocolController : ControllerBase
     {
         private readonly GeneralFunctions _functionsGeneral;
-        private readonly ProtocolServices _protocolServices;
+        private readonly ProtocolService _protocolServices;
         private readonly IConfiguration _configuration;
 
-        public ProtocolController(IConfiguration configuration, ProtocolServices protocolServices)
+        public ProtocolController(IConfiguration configuration, ProtocolService protocolServices)
         {
             _configuration = configuration; 
             _protocolServices = protocolServices; 
@@ -25,13 +25,22 @@ namespace Apimarket.Controllers
         [HttpPost("CreateProtocol")]
         public IActionResult AddP([FromBody] Protocol entity)
         {
-            if (entity == null)
+            try
             {
-                return BadRequest("la entidad de Protocolo no puede ser nula");
+                if (entity == null)
+                {
+                    return BadRequest("la entidad de Protocolo no puede ser nula");
 
+                }
+                _protocolServices.Add(entity);
+                return Ok(new { registro = "Protocolo creada con exito" });
             }
-            _protocolServices.Add(entity);
-            return Ok(new { registro = "Protocolo creada con exito" });
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+
         }
         //[Authorize]
         [HttpGet("GetsAllProtocol")]

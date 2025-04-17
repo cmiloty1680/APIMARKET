@@ -27,17 +27,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseMySql(builder.Configuration.GetConnectionString("DefaultConection"),
 new MySqlServerVersion(new Version(8, 0, 23)))
 );
-builder.Services.AddScoped<ProtocolServices>();
-builder.Services.AddScoped<FeedingServices>();
+builder.Services.AddScoped<ProtocolService>();
+builder.Services.AddScoped<HoneyCollectionService>();
+builder.Services.AddScoped<FeedingService>();
 builder.Services.AddScoped<ImplementService>();
 builder.Services.AddScoped<ResponsibleService>();
 builder.Services.AddScoped<ProductionService>();
 builder.Services.AddScoped<HiveService>();
 builder.Services.AddScoped<ReviewService>();
-builder.Services.AddScoped<RaceServices>();
-builder.Services.AddScoped<CollecDroneServices>();
-builder.Services.AddScoped<ExtractionServices>();
-builder.Services.AddScoped<FertilizationServices>();
+builder.Services.AddScoped<RaceService>();
+builder.Services.AddScoped<CollecDroneService>();
+builder.Services.AddScoped<ExtractionService>();
+builder.Services.AddScoped<FertilizationService>();
 
 
 

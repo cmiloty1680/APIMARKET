@@ -15,8 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 
 
-function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalForm,ignorar, buttonForm}) {
-    console.log(Data)
+function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalForm,ignorar}) {
+    // console.log(Data)
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;

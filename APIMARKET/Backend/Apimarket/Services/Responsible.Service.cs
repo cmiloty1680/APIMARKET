@@ -1,5 +1,4 @@
-﻿
-using Apimarket.Models;
+﻿using Apimarket.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Apimarket.Services
@@ -168,4 +167,3 @@ namespace Apimarket.Services
 
     }
 }
-

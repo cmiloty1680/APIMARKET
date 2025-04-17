@@ -15,10 +15,10 @@ namespace Apimarket.Controllers
     public class ExtractionController : ControllerBase
     {
         private readonly GeneralFunctions _functionsGeneral;
-        private readonly ExtractionServices _extractionServices;
+        private readonly ExtractionService _extractionServices;
         private readonly IConfiguration _configuration;
 
-        public ExtractionController(IConfiguration configuration, ExtractionServices extractionServices)
+        public ExtractionController(IConfiguration configuration, ExtractionService extractionServices)
         {
             _configuration = configuration;
             _extractionServices = extractionServices;
@@ -28,24 +28,18 @@ namespace Apimarket.Controllers
         [HttpPost("CreateExtraction")]
         public IActionResult AddP([FromBody] Extraction entity)
         {
-            //if (entity == null)
-            //{
-            //    return BadRequest("La entidad de extracción no puede ser nula");
-            //}
-
-            //if (entity.Id_Extraction <= 0)
-            //{
-            //    return BadRequest("El Id de extracción debe ser un valor positivo");
-            //}
-
-            //var existingExtraction = _extractionServices.GetExtraction(entity.Id_Extraction);
-            //if (existingExtraction != null)
-            //{
-            //    return Conflict("Ya existe una extracción con ese ID");
-            //}
-
+            try
+            {
             _extractionServices.Add(entity);
             return Ok("Extracción creada con éxito");
+
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
         [HttpGet("GetsExtraction")]

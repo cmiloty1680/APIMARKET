@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace Apimarket.Services
 {
-    public class RaceServices
+    public class RaceService
     {
         private readonly AppDbContext _context;
 
-        public RaceServices(AppDbContext context)
+        public RaceService(AppDbContext context)
         {
             _context = context;
         }

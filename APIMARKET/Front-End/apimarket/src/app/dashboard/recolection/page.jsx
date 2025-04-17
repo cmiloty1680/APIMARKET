@@ -7,6 +7,9 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import React, { useState, useEffect } from "react";
 import axiosInstance from "@/lib/axiosInstance";
+import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
+import { Button } from "@/components/ui/button"; // 👈 necesario para el botón de exportar
+
 
 function HoneyCollection() {
   const TitlePage = "Recolección de Miel";
@@ -14,11 +17,14 @@ function HoneyCollection() {
 
   const [regisHoney, setRegisHoney] = useState([]);
   const [selectedHoney, setSelectedHoney] = useState(null);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [action, setAction] = useState("Registrar");
   const [buttonForm, setButtonForm] = useState("Registrar");
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false); // 👈 Para controlar el modal de exportación
+  
 
   const titlesHoney = [
     "ID",
@@ -28,18 +34,28 @@ function HoneyCollection() {
     "Frascos 250ml",
     "Unidad",
     "Responsable",
-    "Producción",
+    "ID Producción",
+    "ID Responsable",
+    "Nombre de producción",
+    "Fecha de inicio de producción",
+    "Fecha de Fin de producción",
+    "Subcentro",
+    "Centro de costo",
+    "total Colmena",
+    "total produccion",
+    "cantidad de cuadros",
+
   ];
 
   const [honeyCollection, setHoneyCollection] = useState({
     id_HoneyCollection: "",
     des_HoneyCollection: "",
     fec_HoneyCollection: "",
-    canFra125_HoneyCollection: 0,
-    canFra250_HoneyCollection: 0,
-    uniMed_HoneyCollection: "ml",
-    nom_Responsible: 0,
-    id_Production: 0,
+    canFra125_HoneyCollection: "",
+    canFra250_HoneyCollection: "",
+    uniMed_HoneyCollection: "",
+    nam_Responsible: "",
+    id_Production: "",
   });
 
   useEffect(() => {
@@ -49,26 +65,41 @@ function HoneyCollection() {
   const fetchHoneyCollections = async () => {
     try {
       const response = await axiosInstance.get("/Api/HoneyCollection/GetAllHoneyCollection");
-      setRegisHoney(response.data);
+      if(response.status === 200){
+        const data = response.data.map((honey) => [
+          honey.id_HoneyCollection || "-",
+          honey.des_HoneyCollection || "Sin descripción",
+          honey.fec_HoneyCollection || "-",
+          honey.canFra125_HoneyCollection || "-",
+          honey.canFra250_HoneyCollection || "-",
+          honey.uniMed_HoneyCollection || "ml",
+          honey.nam_Responsible || "-",
+          honey.id_Production || "-",
+          honey.id_Responsible || "-",
+          honey.nom_Production || "-",
+          honey.fecIni_Production || "-",
+          honey.fecFin_Production || "-",
+          honey.subCen_Production || "-",
+          honey.cenCos_Production || "-",
+          honey.totColm_Hive || "-",
+          honey.tot_Production || "-",
+          honey.canCua_Production || "-",
+        ]);
+        setRegisHoney(data);
+      }
     } catch (error) {
       console.error("Error al obtener la lista de recolecciones:", error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
-  const formattedData = regisHoney.map((honey) => [
-    honey.id_HoneyCollection || "-",
-    honey.des_HoneyCollection || "Sin descripción",
-    honey.fec_HoneyCollection ? new Date(honey.fec_HoneyCollection).toLocaleString() : "-",
-    honey.canFra125_HoneyCollection || 0,
-    honey.canFra250_HoneyCollection || 0,
-    honey.uniMed_HoneyCollection || "ml",
-    honey.nom_Responsible || "-",
-    honey.id_Production || "-",
-  ]);
+
 
   const updateTextTitleForm = (texto, rowData) => {
     setAction(texto);
     setButtonForm(texto);
+    setHoneyCollection({});
 
     if (texto === "Actualizar") {
       setHoneyCollection({
@@ -78,23 +109,19 @@ function HoneyCollection() {
         canFra125_HoneyCollection: rowData[3],
         canFra250_HoneyCollection: rowData[4],
         uniMed_HoneyCollection: rowData[5],
-        nom_Responsible: rowData[6],
         id_Production: rowData[7],
+        id_Responsible: rowData[8],
       });
+      console.log(rowData);
     } else {
-      setHoneyCollection({
-        id_HoneyCollection: "",
-        des_HoneyCollection: "",
-        fec_HoneyCollection: "",
-        canFra125_HoneyCollection: 0,
-        canFra250_HoneyCollection: 0,
-        uniMed_HoneyCollection: "ml",
-        nom_Responsible: 0,
-        id_Production: 0,
-      });
+     
+      console.log("Registrando...");
     }
+  };
 
-    setIsFormModalOpen(true);
+  const openModalForm = (isOpen) => {
+    setSelectedHoney(null);
+    setIsOpen(isOpen);
   };
 
   async function deleteHoney() {
@@ -106,7 +133,7 @@ function HoneyCollection() {
     try {
       await axiosInstance.delete(`/Api/HoneyCollection/DeleteHoneyCollection?id=${selectedHoney}`);
       fetchHoneyCollections();
-      setIsDeleteModalOpen(false);
+      setIsModalOpen(false);
     } catch (error) {
       console.error("Error al eliminar la recolección:", error);
       setError("No se pudo eliminar la recolección.");
@@ -117,14 +144,17 @@ function HoneyCollection() {
     fetchHoneyCollections();
   };
 
-  const actions = {
-    update: (rowData) => {
-      updateTextTitleForm("Actualizar", rowData);
-    },
+   // Acciones de la tabla
+   const actions = {
     delete: (rowData) => {
       setSelectedHoney(rowData[0]);
-      setIsDeleteModalOpen(true);
+      setIsModalOpen(true);
     },
+    update: (rowData) => {
+    
+    }
+
+ 
   };
 
   return (
@@ -136,19 +166,22 @@ function HoneyCollection() {
           <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
             <div className="container mx-auto px-6 py-8 border-4 mt-10 bg-white">
               <div className="relative p-6">
-                {error ? (
-                  <p className="text-red-500">{error}</p>
-                ) : (
+              {error && (
+                  <div className="bg-red-500 text-white p-2 rounded mb-4">
+                    {error}
+                  </div>
+                )}
                   <ContentPage
-                    Data={formattedData}
+                    Data={regisHoney}
                     TitlesTable={titlesHoney}
                     Actions={actions}
                     action={action}
                     updateTextTitleForm={updateTextTitleForm}
-                    openModalForm={setIsFormModalOpen}
-                    ignorar={[]}
+                    openModalForm={openModalForm}
+                    ignorar={[8, 9, 10, 11, 12, 13, 14, 15, 16 ]}
+                    setIsExportModalOpen={setIsExportModalOpen}
                   />
-                )}
+             
               </div>
             </div>
           </main>
@@ -156,8 +189,8 @@ function HoneyCollection() {
       </div>
 
       <ModalDialog
-        isOpen={isFormModalOpen}
-        setIsOpen={setIsFormModalOpen}
+        isOpen={isOpen}
+        setIsOpen={openModalForm}
         FormPage={
           <FormHoneyCollection
             honeyCollection={honeyCollection}
@@ -169,10 +202,19 @@ function HoneyCollection() {
       />
 
       <ConfirmationModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
         onConfirm={deleteHoney}
         DeleteTitle={DeleteRegistro}
+      />
+
+       {/* Modal de exportación a PDF */}
+       <ExportToPDFDialog
+        isOpen={isExportModalOpen}
+        setIsOpen={setIsExportModalOpen}
+        TitlePage={TitlePage}
+        Data={regisHoney}
+        TitlesTable={titlesHoney}
       />
     </>
   );

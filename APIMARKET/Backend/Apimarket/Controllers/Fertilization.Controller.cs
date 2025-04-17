@@ -14,10 +14,10 @@ namespace Apimarket.Controllers
     public class FertilizationController : ControllerBase
     {
         private readonly GeneralFunctions _functionsGeneral;
-        private readonly FertilizationServices _fertilizationServices;
+        private readonly FertilizationService _fertilizationServices;
         private readonly IConfiguration _configuration;
 
-        public FertilizationController(IConfiguration configuration, FertilizationServices fertilizationServices)
+        public FertilizationController(IConfiguration configuration, FertilizationService fertilizationServices)
         {
             _configuration = configuration;
             _fertilizationServices = fertilizationServices;
@@ -27,21 +27,18 @@ namespace Apimarket.Controllers
         [HttpPost("CreateFertilization")]
         public IActionResult AddP([FromBody] Fertilization entity)
         {
-            //if (entity == null)
-            //{
-            //    return BadRequest("La entidad de fertilización no puede ser nula");
-            //}
-            //if (entity.Id_Fertilization <= 0)
-            //{
-            //    return BadRequest("El Id de fertilización debe ser un valor positivo");
-            //}
-            //var existingFertilization = _fertilizationServices.GetFertilization(entity.Id_Fertilization);
-            //if (existingFertilization != null)
-            //{
-            //    return Conflict("Ya existe una fertilización con ese ID");
-            //}
+            try
+            {
             _fertilizationServices.Add(entity);
             return Ok("Fertilización creada con éxito");
+
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
         [HttpGet("GetsFertilization")]

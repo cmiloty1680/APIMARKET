@@ -12,7 +12,7 @@ import { ShieldCheck, AlertCircle } from "lucide-react";
 
 function RacePage() {
   const TitlePage = "Raza";
-  const eliminar = "La raza";
+  const eliminar = "¿Estás seguro de que deseas eliminar esta raza?";
   const [action, setAction] = useState("Registrar");
   const [isOpen, setIsOpen] = useState(false);
   const [regisRace, setRegisRace] = useState([]);

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Apimarket.Services
 {
-    public class CollecDroneServices
+    public class CollecDroneService
     {
         private readonly AppDbContext _context;
 
-        public CollecDroneServices(AppDbContext context)
+        public CollecDroneService(AppDbContext context)
         {
             _context = context;
         }

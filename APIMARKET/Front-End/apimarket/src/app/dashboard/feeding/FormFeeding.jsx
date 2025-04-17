@@ -4,18 +4,9 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/lib/axiosInstance";
-import { Droplet } from "lucide-react";
+import { Flower } from "lucide-react";
 import { ShieldCheck, AlertCircle } from "lucide-react";
-
-import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogAction,
-} from "@/components/ui/alert-dialog";
+import DynamicAlert from "@/components/utils/DynamicAlert";
 
 
 function FormFeeding({ buttonForm, feeding }) {
@@ -77,7 +68,8 @@ function FormFeeding({ buttonForm, feeding }) {
             return;
         }
 
-        const formattedFecha = fecha ? fecha.split('T')[0] : '';
+        const formattedFecha = fecha ? new Date(fecha).toISOString().split('T')[0] : '';
+        
 
         try {
             if (buttonForm == "Actualizar") {
@@ -135,10 +127,11 @@ function FormFeeding({ buttonForm, feeding }) {
 
 
     const setDataFeedingForUpdate = () => {
-        const fecha = feeding.fec_Feeding
-            ? new Date(feeding.fec_Feeding).toISOString().split("T")[0]
-            : "";
-        setFecha(fecha);
+        setFecha(feeding.fec_Feeding);  
+        // const fecha = feeding.fec_Feeding
+        //     ? new Date(feeding.fec_Feeding).toISOString().split("T")[0]
+        //     : "";
+        // setFecha(fecha);
         setTipoAlimentacion(feeding.tip_Feeding);
         setCantidad(feeding.can_Feeding);
         setValor(feeding.vlr_Feeding);
@@ -171,7 +164,7 @@ function FormFeeding({ buttonForm, feeding }) {
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center">
                         <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
-                            <Droplet className="h-5 w-5" />
+                            <Flower className="h-5 w-5" />
                         </div>
                         <div className="ml-3">
                             <h2 className="text-lg font-bold text-gray-900">Alimentación</h2>
@@ -276,54 +269,23 @@ function FormFeeding({ buttonForm, feeding }) {
                 </div>
             </form>
 
-            <AlertDialog open={isModalOpen} onOpenChange={setModalOpen}>
-                <AlertDialogContent className="bg-white p-6 rounded-lg shadow-lg border-t-4 border-green-500">
-                    <AlertDialogHeader>
-                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-                            <ShieldCheck className="h-6 w-6 text-green-600" />
-                        </div>
-                        <AlertDialogTitle className="text-center text-lg font-medium text-gray-900">
-                            ¡Operación Exitosa!
-                        </AlertDialogTitle>
-                        <AlertDialogDescription className="text-center text-sm text-gray-500 mt-2">
-                            {msSuccess || "Operación exitosa"}
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter className="mt-4">
-                        <AlertDialogAction
-                            onClick={() => setModalOpen(false)}
-                            className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-2 rounded-md hover:from-orange-600 hover:to-red-600 transition-all duration-300"
-                        >
-                            Ok
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+           {/* Modal de éxito usando el componente dinámico */}
+      <DynamicAlert
+        isOpen={isModalOpen}
+        onOpenChange={setModalOpen}
+        type="success"
+        message={msSuccess || "Operación exitosa"}
+        redirectPath=""
+      />
 
-            {/* AlertDialog para operaciones fallidas */}
-            <AlertDialog open={isModalOpenFall} onOpenChange={setModalOpenFall}>
-                <AlertDialogContent className="bg-white p-6 rounded-lg shadow-lg border-t-4 border-red-500">
-                    <AlertDialogHeader>
-                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
-                            <AlertCircle className="h-6 w-6 text-red-600" />
-                        </div>
-                        <AlertDialogTitle className="text-center text-lg font-medium text-gray-900">
-                            ¡Operación Fallida!
-                        </AlertDialogTitle>
-                        <AlertDialogDescription className="text-center text-sm text-gray-500 mt-2">
-                            {error || "Ha ocurrido un error inesperado"}
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter className="mt-4">
-                        <AlertDialogAction
-                            onClick={() => setModalOpenFall(false)}
-                            className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-2 rounded-md hover:from-orange-600 hover:to-red-600 transition-all duration-300"
-                        >
-                            Ok
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+      {/* Modal de fallido usando el componente dinámico */}
+      <DynamicAlert
+        isOpen={isModalOpenFall}
+        onOpenChange={setModalOpenFall}
+        type="error"
+        message={error || "Ha ocurrido un error inesperado"}
+        redirectPath=""
+      />
         </>
 
     );

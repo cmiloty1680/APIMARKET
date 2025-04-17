@@ -21,13 +21,13 @@ namespace Apimarket.Controllers
     public class ResponsibleController : Controller
     {
         public IConfiguration _Configuration { get; set; }
-        public GeneralFunctions FunctionsGeneral;
+        public GeneralFunctions _functionsGeneral;
         public JWTModel JWT;
         private readonly ResponsibleService _responsibleService;
 
         public ResponsibleController(IConfiguration configuration, ResponsibleService responsibleService)
         {
-            FunctionsGeneral = new GeneralFunctions(configuration);
+            _functionsGeneral = new GeneralFunctions(configuration);
             _Configuration = configuration;
             JWT = _Configuration.GetSection("JWT").Get<JWTModel>();
             _responsibleService = responsibleService;
@@ -70,7 +70,8 @@ namespace Apimarket.Controllers
                 responsible.Tok_Responsible = tokenString;
                 _responsibleService.Update(responsible);
 
-                return Ok(new { 
+                return Ok(new
+                {
                     token = tokenString,
                     username = responsible.Nam_Responsible,
                     email = responsible.Emai_Responsible,
@@ -80,47 +81,10 @@ namespace Apimarket.Controllers
             catch (Exception ex)
             {
 
-                FunctionsGeneral.Addlog(ex.Message);
+                _functionsGeneral.Addlog(ex.Message);
                 return StatusCode(500, ex.ToString());
             }
         }
-
-        //[HttpPost("ResetPassUser")]
-        //public async Task<IActionResult> Resetpassword([FromBody]ResetPassUser responsible)
-        //{
-        //    try
-        //    {
-        //        if (responsible == null || string.IsNullOrEmpty(responsible.Emai_Responsible))
-        //        {
-        //            return BadRequest("El objeto de solicitud o el correo electrónico es inválido.");
-        //        }
-
-        //        // Llama al método de servicio para verificar si el correo existe
-        //        var emailExists = _responsibleService.CheckEmailExists(responsible.Emai_Responsible);
-        //        if (!emailExists)
-        //        {
-        //            return NotFound(new { message = "El correo no se encuentra registrado." });
-        //        }
-
-        //        // Generar un token único
-        //        var emailResponse = await FunctionsGeneral.SendEmail(responsible.Emai_Responsible);
-
-        //        // Aquí había un error de lógica en la condición
-        //        if (!emailResponse.Status)
-        //        {
-        //            // Si el envío falló, retornamos un error
-        //            return BadRequest(new { message = "Error al enviar el correo de restablecimiento." });
-        //        }
-
-        //        // Si todo salió bien, retornamos éxito
-        //        return Ok(new { enviado = "Correo de restablecimiento de contraseña enviado correctamente." });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        FunctionsGeneral.Addlog(ex.ToString());
-        //        return StatusCode(500, "Ocurrió un error interno. Por favor, intenta nuevamente.");
-        //    }
-        //}
 
         [HttpPost("ResetPassUser")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPassUser model)
@@ -143,7 +107,7 @@ namespace Apimarket.Controllers
                 string resetLink = $"http://localhost:3000/reset_password?token={token}";
 
                 // Enviar correo con el enlace
-                var emailResponse = await FunctionsGeneral.SendEmail(model.Emai_Responsible, resetLink);
+                var emailResponse = await _functionsGeneral.SendEmail(model.Emai_Responsible, resetLink);
                 if (!emailResponse.Status)
                 {
                     return BadRequest(new { message = "Error al enviar el correo." });
@@ -153,7 +117,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -177,7 +141,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, new { message = "Error en el servidor", error = ex.Message });
             }
         }
@@ -215,7 +179,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, new { message = "Error en el servidor", error = ex.Message });
             }
         }
@@ -228,25 +192,6 @@ namespace Apimarket.Controllers
             try
             {
 
-
-                //if (entity == null)
-                //{
-                //    return BadRequest(new { message = "La entidad de responsable no puede ser nula." });
-                //}
-
-
-                //if (entity.Id_Responsible <= 0)
-                //{
-                //    return BadRequest(new { message = "El ID de responsable debe ser un valor positivo." });
-                //}
-
-
-
-                //var existingResponsible = _responsibleService.GetResponsible(entity.Id_Responsible);
-                //if (existingResponsible != null)
-                //{
-                //    return Conflict(new { message = "Ya existe un responsable con este ID." });
-                //}
 
                 string salt = BCrypt.Net.BCrypt.GenerateSalt();
                 entity.Hashed_Password = BCrypt.Net.BCrypt.HashPassword(entity.Hashed_Password + salt);
@@ -275,12 +220,12 @@ namespace Apimarket.Controllers
 
 
                 _responsibleService.Add(entity);
-                return Ok(new { creado = "Responsable creado con éxito" });
+                return Ok(new { message = "Responsable creado con éxito" });
             }
             catch (Exception ex)
             {
 
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
 
@@ -310,9 +255,7 @@ namespace Apimarket.Controllers
             catch (Exception ex)
             {
 
-                FunctionsGeneral.Addlog(ex.ToString());
-
-
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.Message);
             }
         }
@@ -330,9 +273,7 @@ namespace Apimarket.Controllers
             catch (Exception ex)
             {
 
-                FunctionsGeneral.Addlog(ex.ToString());
-
-
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.Message);
             }
         }
@@ -362,7 +303,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.Message);
             }
         }
@@ -383,17 +324,9 @@ namespace Apimarket.Controllers
                 _responsibleService.Update(responsible);
                 return Ok("Responsible actualizado exitosamente");
             }
-            catch (ArgumentNullException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.Message);
             }
         }
@@ -412,17 +345,11 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
 
-        //[HttpGet("ProtectedRoute")]
-        //public IActionResult ProtectedRoute()
-        //{
-        //    var responsible = (Responsible)HttpContext.Items["Responsable"];
-        //    return Ok(new { message = $"Bienvenido, {responsible.Emai_Responsible}" });
-        //}
 
 
         [HttpGet("PDF")]
@@ -451,7 +378,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -469,7 +396,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -487,7 +414,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -509,7 +436,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -531,17 +458,14 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
-    
+
 
 
     }
 
 
 }
-
-
-

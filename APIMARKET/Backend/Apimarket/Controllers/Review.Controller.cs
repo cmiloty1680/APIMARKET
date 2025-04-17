@@ -28,14 +28,18 @@ namespace Apimarket.Controllers
         [HttpPost("CreateReview")]
         public IActionResult AddP([FromBody] Review entity)
         {
-            if (entity == null)
+            try
             {
-                return BadRequest("la entidad de Raza no puede ser nula");
+            _reviewServices.Add(entity);
+            return Ok( new { message = "revision creado con éxito" });
 
             }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
 
-            _reviewServices.Add(entity);
-            return Ok("revision creado con éxito");
         }
 
         [HttpGet("GetsReview")]
@@ -78,12 +82,10 @@ namespace Apimarket.Controllers
                 Id_Review = p.Id_Review,
                 Fec_Review = p.Fec_Review,
                 Des_Review = p.Des_Review,
-                Tip_Protocol = p.protocol.Tip_Protocol,
-                Nom_Protocol = p.protocol.Nom_Protocol,
                 Nam_Responsible = p.responsible.Nam_Responsible,
-                LasNam_Responsible= p.responsible.LasNam_Responsible,
-                Tip_Responsible = p.responsible.Tip_Responsible,
-      
+                LasNam_Responsible = p.responsible.LasNam_Responsible,
+                Id_Hive = p.hive.Id_Hive,
+                Id_Responsible = p.responsible.Id_Responsible
 
             }).ToList();
 
@@ -134,7 +136,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [HttpPut("UpdateReview")]
+        [HttpPut("UpdateReview/{id}")]
         public IActionResult UpdateReview(Review review)
         {
             try

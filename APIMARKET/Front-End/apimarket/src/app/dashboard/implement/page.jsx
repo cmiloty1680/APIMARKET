@@ -21,7 +21,7 @@ import {
 
 function ImplementPage() {
   const TitlePage = "Implemento";
-  const eliminar = "El implemento";
+  const eliminar = "¿Estás seguro de que deseas eliminar esta implemento?";
   const [action, setAction] = useState("Registrar");
   const [isOpen, setIsOpen] = useState(false);
   const [regisImplement, setRegisImplement] = useState([]);

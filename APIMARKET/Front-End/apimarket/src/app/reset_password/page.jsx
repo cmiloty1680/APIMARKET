@@ -1,182 +1,5 @@
 
 
-// "use client"
-// import { Button } from "@/components/ui/button"
-// import { useRouter, useSearchParams } from "next/navigation"
-// import { useEffect, useState } from "react"
-// import axiosInstance from "@/lib/axiosInstance"
-// import { KeyRound, Eye, EyeOff, Lock, AlertCircle } from "lucide-react"
-// import {
-//   AlertDialog,
-//   AlertDialogContent,
-//   AlertDialogHeader,
-//   AlertDialogTitle,
-//   AlertDialogDescription,
-//   AlertDialogFooter,
-//   AlertDialogAction,
-// } from "@/components/ui/alert-dialog"
-
-// function FormResetPassword({ buttonForm = "Restablecer" }) {
-//   const router = useRouter()
-//   const searchParams = useSearchParams()
-//   const token = searchParams.get("token")
-
-//   const [password, setPassword] = useState("")
-//   const [confirmPassword, setConfirmPassword] = useState("")
-//   const [error, setError] = useState("")
-//   const [isSubmitting, setSubmitting] = useState(false)
-//   const [msSuccess, setMsSuccess] = useState("")
-//   const [isModalOpen, setModalOpen] = useState(false)
-//   const [showPassword, setShowPassword] = useState(false)
-//   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
-//   useEffect(() => {
-//     if (!token) {
-//       setError("Token inválido o no proporcionado.");
-//       return;
-//     }
-  
-//     const validateToken = async () => {
-//       try {
-//         console.log("Token enviado al backend:", token); // Verifica que el token está llegando
-//         const response = await axiosInstance.post("/Api/Responsible/ValidateToken", { Tok_Responsible: token });
-  
-//         console.log("Respuesta de validación:", response.data);
-//         if (response.status !== 200) {
-//           setError("Token expirado o inválido.");
-//         }
-//       } catch (error) {
-//         // console.alert("Error en la validación:", error.response?.data || error.message);
-//         setError(error.response?.data?.message || "Error al validar el token.");
-//       }
-//     };
-  
-//     validateToken();
-//   }, [token]);
-  
-
-//   async function handlerSubmit(event) {
-//     event.preventDefault()
-//     setSubmitting(true)
-//     setError("") // Limpiar errores anteriores
-
-//     if (!password || !confirmPassword) {
-//       setError("Por favor, complete todos los campos.")
-//       setSubmitting(false)
-//       return
-//     }
-
-//     if (password !== confirmPassword) {
-//       setError("Las contraseñas no coinciden.")
-//       setSubmitting(false)
-//       return
-//     }
-
-//     try {
-//       const response = await axiosInstance.post("/Api/Responsible/ResetPasswordConfirm", {
-//         token,
-//         newPassword: password,
-//       })
-
-//       if (response.status === 200) {
-//         setMsSuccess("Contraseña restablecida con éxito. Redirigiendo al inicio de sesión...")
-//         setModalOpen(true)
-
-//         setTimeout(() => {
-//           router.push("/responsible/login")
-//         }, 2000)
-//       }
-//     } catch (error) {
-//       setError(error.response?.data?.message || "Error al conectar con el servidor.")
-//     } finally {
-//       setSubmitting(false)
-//     }
-//   }
-
-//   if (!token) {
-//     return (
-//       <div className="text-center text-red-500">
-//         <AlertCircle className="inline-block mr-2" /> {error}
-//       </div>
-//     )
-//   }
-
-//   return (
-//     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-//       <h2 className="text-lg font-semibold mb-4">Restablecer Contraseña</h2>
-
-//       {error && (
-//         <div className="text-red-500 mb-3">
-//           <AlertCircle className="inline-block mr-2" /> {error}
-//         </div>
-//       )}
-
-//       <form onSubmit={handlerSubmit}>
-//         <div className="mb-4 relative">
-//           <label className="block text-sm font-medium">Nueva Contraseña</label>
-//           <div className="relative">
-//             <input
-//               type={showPassword ? "text" : "password"}
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               className="w-full px-4 py-2 border rounded-md"
-//               required
-//             />
-//             <button
-//               type="button"
-//               className="absolute inset-y-0 right-2 flex items-center"
-//               onClick={() => setShowPassword(!showPassword)}
-//             >
-//               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-//             </button>
-//           </div>
-//         </div>
-
-//         <div className="mb-4 relative">
-//           <label className="block text-sm font-medium">Confirmar Contraseña</label>
-//           <div className="relative">
-//             <input
-//               type={showConfirmPassword ? "text" : "password"}
-//               value={confirmPassword}
-//               onChange={(e) => setConfirmPassword(e.target.value)}
-//               className="w-full px-4 py-2 border rounded-md"
-//               required
-//             />
-//             <button
-//               type="button"
-//               className="absolute inset-y-0 right-2 flex items-center"
-//               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-//             >
-//               {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-//             </button>
-//           </div>
-//         </div>
-
-//         <Button type="submit" className="w-full" disabled={isSubmitting}>
-//           {isSubmitting ? "Procesando..." : buttonForm}
-//         </Button>
-//       </form>
-
-//       <AlertDialog open={isModalOpen}>
-//         <AlertDialogContent>
-//           <AlertDialogHeader>
-//             <AlertDialogTitle>Contraseña Restablecida</AlertDialogTitle>
-//             <AlertDialogDescription>{msSuccess}</AlertDialogDescription>
-//           </AlertDialogHeader>
-//           <AlertDialogFooter>
-//             <AlertDialogAction onClick={() => router.push("/responsible/login")}>
-//               Ir al Login
-//             </AlertDialogAction>
-//           </AlertDialogFooter>
-//         </AlertDialogContent>
-//       </AlertDialog>
-//     </div>
-//   )
-// }
-
-// export default FormResetPassword
-
-
 "use client"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
@@ -195,17 +18,7 @@ import {
 } from "@/components/ui/alert-dialog"
 
 function FormResetPassword({ buttonForm = "Restablecer" }) {
-  // const router = useRouter()
-  // const [password, setPassword] = useState("")
-  // const searchParams = useSearchParams();
-  // const token = searchParams.get('token');
-  // const [confirmPassword, setConfirmPassword] = useState("")
-  // const [error, setError] = useState("")
-  // const [isSubmitting, setSubmitting] = useState(false)
-  // const [msSuccess, setMsSuccess] = useState("")
-  // const [isModalOpen, setModalOpen] = useState(false)
-  // const [showPassword, setShowPassword] = useState(false)
-  // const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
   const router = useRouter()
   const searchParams = useSearchParams()
   const token = searchParams.get("token")
@@ -219,24 +32,32 @@ function FormResetPassword({ buttonForm = "Restablecer" }) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
+  const [tokenValidated, setTokenValidated] = useState(false)
+  const [loadingToken, setLoadingToken] = useState(true)
+
+
   useEffect(() => {
     if (!token) {
       setError("Token inválido o no proporcionado.");
+      setLoadingToken(false)
       return;
     }
   
     const validateToken = async () => {
       try {
-        console.log("Token enviado al backend:", token); // Verifica que el token está llegando
         const response = await axiosInstance.post("/Api/Responsible/ValidateToken", { Tok_Responsible: token });
   
-        console.log("Respuesta de validación:", response.data);
-        if (response.status !== 200) {
-          setError("Token expirado o inválido.");
+        if (response.status === 200) {
+          setTokenValidated(true)
+        } else {
+          setError("Token expirado o inválido.")
         }
       } catch (error) {
         // console.alert("Error en la validación:", error.response?.data || error.message);
         setError(error.response?.data?.message || "Error al validar el token.");
+      }
+      finally {
+        setLoadingToken(false)
       }
     };
   
@@ -281,14 +102,21 @@ function FormResetPassword({ buttonForm = "Restablecer" }) {
     }
   }
 
-  if (!token) {
+  
+  if (loadingToken) {
     return (
-      <div className="text-center text-red-500">
-        <AlertCircle className="inline-block mr-2" /> {error}
+      <div className="text-center text-gray-500 py-10">Validando token...</div>
+    )
+  }
+
+  if (!tokenValidated) {
+    return (
+      <div className="text-center text-red-500 py-10">
+        <AlertCircle className="inline-block mr-2" />
+        {error || "Token inválido."}
       </div>
     )
   }
-  
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -429,6 +257,7 @@ function FormResetPassword({ buttonForm = "Restablecer" }) {
         </div>
       </div>
 
+
       {/* Modal de éxito */}
       <AlertDialog open={isModalOpen} onOpenChange={setModalOpen}>
         <AlertDialogContent className="bg-white p-6 rounded-lg shadow-lg border-t-4 border-green-500">
@@ -457,4 +286,4 @@ function FormResetPassword({ buttonForm = "Restablecer" }) {
   )
 }
 
-export default FormResetPassword
+export default FormResetPassword;

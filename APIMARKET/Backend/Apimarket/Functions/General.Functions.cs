@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Apimarket.Functions
 {
-    
+
     public class GeneralFunctions
     {
 
@@ -177,7 +177,7 @@ namespace Apimarket.Functions
 
 
 
-public void Addlog(string newlog)
+        public void Addlog(string newlog)
         {
             string Carpetalog = AppDomain.CurrentDomain.BaseDirectory + "Logs//";
             if (!Directory.Exists(Carpetalog))
@@ -190,7 +190,7 @@ public void Addlog(string newlog)
             using (FileStream log = File.Open(Rutalog, FileMode.Append))
             {
 
-                log.Write(bytsNewLog,0, bytsNewLog.Length);
+                log.Write(bytsNewLog, 0, bytsNewLog.Length);
             }
 
         }
@@ -200,16 +200,16 @@ public void Addlog(string newlog)
             int indice = 0;
             foreach (var item in collection)
             {
-                
-                    if (item == string.Empty)
-                    {
-                        errores[indice] = "el campo item es requerido";
-                    }
-                    indice++;
-                
+
+                if (item == string.Empty)
+                {
+                    errores[indice] = "el campo item es requerido";
+                }
+                indice++;
+
             }
-                return errores;
-          
+            return errores;
+
         }
 
 
@@ -248,10 +248,7 @@ public void Addlog(string newlog)
                 return (false, ex.Message);
             }
         }
-    
-  
+
+
     }
 }
-    
-
-

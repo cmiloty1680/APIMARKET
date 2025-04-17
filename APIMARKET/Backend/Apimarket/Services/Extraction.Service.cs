@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Apimarket.Services
 {
-    public class ExtractionServices
+    public class ExtractionService
     {
         private readonly AppDbContext _context;
 
-        public ExtractionServices(AppDbContext context)
+        public ExtractionService(AppDbContext context)
         {
             _context = context;
         }

@@ -16,13 +16,13 @@ namespace Apimarket.Controllers
    
     public class HiveController : ControllerBase
     {
-        public IConfiguration _Configuration { get; set; }
-        public GeneralFunctions FunctionsGeneral;
+        public IConfiguration _configuration { get; set; }
+        public GeneralFunctions _functionsGeneral;
         private readonly HiveService _hiveService;
         public HiveController(IConfiguration configuration, HiveService hiveService)
         {
-            FunctionsGeneral = new GeneralFunctions(configuration);
-            _Configuration = configuration;
+            _functionsGeneral = new GeneralFunctions(configuration);
+            _configuration = configuration;
             _hiveService = hiveService;
 
         }
@@ -31,10 +31,17 @@ namespace Apimarket.Controllers
 
         public IActionResult AddC([FromBody] Hive entity)
         {
-
-
-            _hiveService.Add(entity);
-            return Ok(new { registrado = "Colmena creada con éxito." });
+            try
+            {
+                _hiveService.Add(entity);
+                return Ok(new { registrado = "Colmena creada con éxito." });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+           
         }
         [HttpGet("GetHive")]
         public IActionResult GetHive(int id)
@@ -51,7 +58,7 @@ namespace Apimarket.Controllers
             catch (Exception ex)
             {
 
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -67,7 +74,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.Message);
+                _functionsGeneral.Addlog(ex.Message);
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -87,7 +94,7 @@ namespace Apimarket.Controllers
 
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.Message);
             }
         }
@@ -108,7 +115,7 @@ namespace Apimarket.Controllers
             catch (Exception ex)
             {
 
-                FunctionsGeneral.Addlog(ex.Message);
+                _functionsGeneral.Addlog(ex.Message);
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -136,7 +143,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.Message);
+                _functionsGeneral.Addlog(ex.Message);
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -158,13 +165,13 @@ namespace Apimarket.Controllers
                 //    }
 
                 //return Ok(new { protocols });
-                string RutaPlantilla = _Configuration["Rutas:Plantilla:Path"] + _Configuration["Rutas:Plantilla:File"];
+                string RutaPlantilla = _configuration["Rutas:Plantilla:Path"] + _configuration["Rutas:Plantilla:File"];
                 return Ok(RutaPlantilla);
             }
 
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -191,7 +198,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -217,7 +224,7 @@ namespace Apimarket.Controllers
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -227,14 +234,14 @@ namespace Apimarket.Controllers
         {
             try
             {
-                string RutaArchivo = _Configuration["Rutas:Archivo:Path"] + _Configuration["Rutas :ArchivoFile"];
+                string RutaArchivo = _configuration["Rutas:Archivo:Path"] + _configuration["Rutas :ArchivoFile"];
                 return Ok(RutaArchivo);
 
 
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
 
             }
@@ -246,14 +253,14 @@ namespace Apimarket.Controllers
 
             try
             {
-                string RutaTemp = _Configuration["Rutas:Archivo:Path"];
+                string RutaTemp = _configuration["Rutas:Archivo:Path"];
                 return Ok(RutaTemp);
 
 
             }
             catch (Exception ex)
             {
-                FunctionsGeneral.Addlog(ex.ToString());
+                _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
 
             }

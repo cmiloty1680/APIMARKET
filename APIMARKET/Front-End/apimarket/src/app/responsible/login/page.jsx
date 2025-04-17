@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/lib/axiosInstance";
 import Image from "next/image";
+import { KeyRound, Eye, EyeOff, ShieldCheck, Lock, AlertCircle } from "lucide-react"
 // import { KeyRound, Eye, EyeOff, ShieldCheck, Lock, AlertCircle } from "lucide-react"
 import DynamicAlert from '@/components/utils/DynamicAlert';
 
@@ -39,6 +40,7 @@ function LoginPage() {
     const [isModalOpenFall, setModalOpenFall] = useState(false);
     const [error, setError] = useState(null);
     const [loginToken, setLoginToken] = useState(""); 
+    const [showPassword, setShowPassword] = useState(false)
     // const [alert, setAlert] = useState(null);
     const router = useRouter();
 
@@ -161,7 +163,8 @@ function LoginPage() {
                                             />
                                         </div>
                                         <input
-                                            type="password"
+                    type={showPassword ? "text" : "password"}
+
                                             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#e87204]  sm:text-sm"
                                             placeholder="Ingresar Contraseña"
                                             name="password"
@@ -169,6 +172,13 @@ function LoginPage() {
                                             value={password}
                                             onChange={(event) => setPassword(event.target.value)}
                                         />
+                                        <button
+                                        type="button"
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                    </button>
                                     </div>
                                 </div>
 

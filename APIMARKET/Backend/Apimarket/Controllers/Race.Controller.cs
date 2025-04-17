@@ -14,11 +14,11 @@ namespace Apimarket.Controllers
     public class RaceController : ControllerBase
     {
         private readonly GeneralFunctions _functionsGeneral;
-        private readonly RaceServices _raceServices;
+        private readonly RaceService _raceServices;
         private readonly IConfiguration _configuration;
 
 
-        public RaceController(IConfiguration configuration, RaceServices raceServices)
+        public RaceController(IConfiguration configuration, RaceService raceServices)
         {
             _configuration = configuration;
             _raceServices = raceServices;
@@ -28,13 +28,22 @@ namespace Apimarket.Controllers
         [HttpPost("CreateRace")]
         public IActionResult AddP([FromBody] Race entity)
         {
-            if (entity == null)
+            try
             {
-                return BadRequest("la entidad de Raza no puede ser nula");
+                if (entity == null)
+                {
+                    return BadRequest("la entidad de Raza no puede ser nula");
 
+                }
+                _raceServices.Add(entity);
+                return Ok("Raza creado con éxito");
             }
-            _raceServices.Add(entity);
-            return Ok("Raza creado con éxito");
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+
         }
 
         [HttpGet("GetsRace")]

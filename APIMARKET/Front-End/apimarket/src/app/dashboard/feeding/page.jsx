@@ -7,22 +7,12 @@ import axiosInstance from "@/lib/axiosInstance";
 import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import ModalDialog from "@/components/utils/ModalDialog";
 import FormFeeding from "./FormFeeding";
-import { ShieldCheck, AlertCircle } from "lucide-react";
-
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogAction,
-} from "@/components/ui/alert-dialog";
+import DynamicAlert from "@/components/utils/DynamicAlert";
 
 
 function FeedingPage() {
   const TitlePage = "Alimentación";
-  const eliminar = "La alimentación";
+  const eliminar = "¿Estás seguro de que deseas eliminar esta alimentación?";
   const [action, setAction] = useState("Registrar");
   const [isOpen, setIsOpen] = useState(false);
   const [regisFeeding, setRegisFeeding] = useState([]);
@@ -93,6 +83,11 @@ function FeedingPage() {
   useEffect(() => {
     fetchFeeding();
   }, []);
+
+  const handleDataUpdated = () => {
+    fetchFeeding(); // Refresca los datos de la tabla
+  };
+
   const updateTextTitleForm = (texto, rowData ) => {
     setAction(texto);
     setButtonForm(texto);
@@ -106,7 +101,12 @@ function FeedingPage() {
       setFeeding({
         id_Feeding: rowData[0],
         tip_Feeding: rowData[1],
-        fec_Feeding: rowData[2] !== "Sin descripción" ? new Date().toISOString().split('T')[0] : '',
+        fec_Feeding: rowData[2],
+        // fec_Feeding: rowData[2] !== "Sin descripción"
+        // ? new Date().toLocaleDateString('en-CA') // formato: yyyy-mm-dd
+        // : '',
+        
+      
         can_Feeding: rowData[3],
         vlr_Feeding: rowData[4],
         des_Hive: rowData[5],         
@@ -214,7 +214,9 @@ function FeedingPage() {
       <ModalDialog
         isOpen={isOpen}
         setIsOpen={openModalForm}
-        FormPage={<FormFeeding buttonForm={buttonForm} feeding={feeding} onSuccess={handleSuccess}  />}
+        FormPage={<FormFeeding buttonForm={buttonForm} feeding={feeding} onSuccess={handleSuccess}  
+        onDataUpdated={handleDataUpdated}
+        />}
         action={action}
       />
 
@@ -224,55 +226,22 @@ function FeedingPage() {
         onConfirm={deleteFeeding}
         DeleteTitle={eliminar}
       />
-      {/* AlertDialog para operaciones exitosas */}
-      <AlertDialog open={isModalOpen} onOpenChange={setModalOpen}>
-        <AlertDialogContent className="bg-white p-6 rounded-lg shadow-lg border-t-4 border-green-500">
-          <AlertDialogHeader>
-            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-              <ShieldCheck className="h-6 w-6 text-green-600" />
-            </div>
-            <AlertDialogTitle className="text-center text-lg font-medium text-gray-900">
-              ¡Operación Exitosa!
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-center text-sm text-gray-500 mt-2">
-              {msSuccess || "Operación exitosa"}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="mt-4">
-            <AlertDialogAction
 
-className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-2 rounded-md hover:from-orange-600 hover:to-red-600 transition-all duration-300"
-            >
-              Ok
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+       {/* MODALES DE ALERTA */}
+       <DynamicAlert
+        isOpen={isModalOpen}
+        onOpenChange={setModalOpen}
+        type="success"
+        redirectPath="" // o déjalo vacío si no deseas redirigir
+      />
 
-      {/* AlertDialog para operaciones fallidas */}
-      <AlertDialog open={isModalOpenFall} onOpenChange={setModalOpenFall}>
-        <AlertDialogContent className="bg-white p-6 rounded-lg shadow-lg border-t-4 border-red-500">
-          <AlertDialogHeader>
-            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
-              <AlertCircle className="h-6 w-6 text-red-600" />
-            </div>
-            <AlertDialogTitle className="text-center text-lg font-medium text-gray-900">
-              ¡Operación Fallida!
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-center text-sm text-gray-500 mt-2">
-              {error || "Ha ocurrido un error inesperado"}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="mt-4">
-            <AlertDialogAction
-              onClick={() => setModalOpenFall(false)}
-              className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-2 rounded-md hover:from-orange-600 hover:to-red-600 transition-all duration-300"
-            >
-              Ok
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DynamicAlert
+        isOpen={isModalOpenFall}
+        onOpenChange={setModalOpenFall}
+        type="error"
+        message={error || "Ha ocurrido un error inesperado"}
+        redirectPath=""
+      />
     </div>
   );
 }

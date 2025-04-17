@@ -1,11 +1,11 @@
 ﻿using Apimarket.Model;
 using Apimarket.Models;
 
-public class ProtocolServices
+public class ProtocolService
 {
     private readonly AppDbContext _context;
 
-    public ProtocolServices(AppDbContext context)
+    public ProtocolService(AppDbContext context)
     {
         _context = context;
     }

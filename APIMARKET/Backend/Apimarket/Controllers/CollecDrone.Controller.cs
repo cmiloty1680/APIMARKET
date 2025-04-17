@@ -15,10 +15,10 @@ namespace Apimarket.Controllers
     public class CollecDroneController : ControllerBase
     {
         private readonly GeneralFunctions _functionsGeneral;
-        private readonly CollecDroneServices _collecDroneServices;
+        private readonly CollecDroneService _collecDroneServices;
         private readonly IConfiguration _configuration;
 
-        public CollecDroneController(IConfiguration configuration, CollecDroneServices collecDroneServices)
+        public CollecDroneController(IConfiguration configuration, CollecDroneService collecDroneServices)
         {
             _configuration = configuration;
             _collecDroneServices = collecDroneServices;
@@ -28,9 +28,16 @@ namespace Apimarket.Controllers
         [HttpPost("CreateCollecDrone")]
         public IActionResult AddP([FromBody] CollecDrone entity)
         {
-
-            _collecDroneServices.Add(entity);
-            return Ok(new { registrado = "CollecDrone creado con éxito" });
+            try
+            {
+                _collecDroneServices.Add(entity);
+                return Ok(new { registrado = "CollecDrone creado con éxito" });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("GetsCollecDrone")]
@@ -82,13 +89,13 @@ namespace Apimarket.Controllers
             }
         }
 
-        [HttpPut("UpdateCollecDrone")]
+        [HttpPut("UpdateCollecDrone/{id}")]
         public IActionResult UpdateCollecDrone(CollecDrone collecDrone)
         {
             try
             {
                 _collecDroneServices.Update(collecDrone);
-                return Ok(new { message = "CollecDrone actualizado con éxito" });
+                return Ok(new { message = "Recolección de zanganos actualizado con éxito" });
             }
             catch (Exception ex)
             {
@@ -109,7 +116,7 @@ namespace Apimarket.Controllers
                 }
 
                 _collecDroneServices.DeleteCollecDrone(id);
-                return Ok("CollecDrone eliminado con éxito");
+                return Ok(new { message = "Recolección de zanganos eliminado con éxito" });
             }
             catch (KeyNotFoundException knfex)
             {

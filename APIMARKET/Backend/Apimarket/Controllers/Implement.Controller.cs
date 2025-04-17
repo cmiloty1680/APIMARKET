@@ -25,14 +25,22 @@ namespace Apimarket.Controllers
         [HttpPost("CreateImplement")]
         public IActionResult AddP([FromBody] Implement entity)
         {
-            if (entity == null)
+            try
             {
-                return BadRequest("la entidad de implemento no puede ser nula");
+                if (entity == null)
+                {
+                    return BadRequest("la entidad de implemento no puede ser nula");
 
+                }
+
+                _implementServices.Add(entity);
+                return Ok("Implemento creada con exito");
             }
-           
-            _implementServices.Add(entity);
-            return Ok("Implemento creada con exito");
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [Authorize]

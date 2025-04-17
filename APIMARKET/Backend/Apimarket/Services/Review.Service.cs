@@ -16,25 +16,17 @@ namespace Apimarket.Services
             _context = context;
         }
 
-        /// <summary>
-        /// Obtiene todas las reseñas.
-        /// </summary>
-        /// <returns>Lista de todas las reseñas.</returns>
+
         public IEnumerable<Review> GetAll()
         {
-            //return _context.review.AsNoTracking().ToList();
             return _context.review
-                               .Include(p => p.protocol)
                                .Include(p => p.responsible)
+                               .Include(p => p.hive)
                                .ToList();
 
         }
 
-        /// <summary>
-        /// Obtiene una reseña por su ID.
-        /// </summary>
-        /// <param name="id">ID de la reseña.</param>
-        /// <returns>Reseña encontrada o null si no existe.</returns>
+       
         public Review GetReview(int id)
         {
             try
@@ -48,10 +40,7 @@ namespace Apimarket.Services
             }
         }
 
-        /// <summary>
-        /// Agrega una nueva reseña.
-        /// </summary>
-        /// <param name="review">Objeto de la reseña a agregar.</param>
+       
         public void Add(Review review)
         {
             try
@@ -66,10 +55,7 @@ namespace Apimarket.Services
             }
         }
 
-        /// <summary>
-        /// Actualiza una reseña existente.
-        /// </summary>
-        /// <param name="review">Objeto de la reseña con los datos actualizados.</param>
+       
         public void Update(Review review)
         {
             try
@@ -91,10 +77,7 @@ namespace Apimarket.Services
             }
         }
 
-        /// <summary>
-        /// Elimina una reseña por su ID.
-        /// </summary>
-        /// <param name="id">ID de la reseña a eliminar.</param>
+       
         public void DeleteReview(int id)
         {
             try

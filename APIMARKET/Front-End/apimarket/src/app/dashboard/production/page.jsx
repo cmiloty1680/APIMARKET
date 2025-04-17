@@ -7,10 +7,12 @@ import axiosInstance from "@/lib/axiosInstance";
 import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import ModalDialog from "@/components/utils/ModalDialog";
 import FormProduction from "./FormProduction";
+import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
+import { Button } from "@/components/ui/button"; // 👈 necesario para el botón de exportar
 
 function ProductionPage() {
   const TitlePage = "Producción";
-  const eliminar = "La producción";
+  const eliminar = "¿Estás seguro de que deseas eliminar esta producción?";
   const [action, setAction] = useState("Registrar");
   const [isOpen, setIsOpen] = useState(false);
   const [regisProduction, setRegisProduction] = useState([]);
@@ -19,6 +21,7 @@ function ProductionPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [buttonForm, setButtonForm] = useState("Registrar");
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false); // 👈 Para controlar el modal de exportación
 
   const titlesProduction = [
     "Código",
@@ -52,11 +55,14 @@ function ProductionPage() {
     try {
       const response = await axiosInstance.get("/Api/Production/GetsAllProduction");
       if (response.status === 200) {
-        // console.log(response.data);
         const data = response.data.map((production) => [
           production.id_Production || "-",
-          production.fecIni_Production || "Sin descripción",
-          production.fecFin_Production || "Sin estado",
+          production.fecIni_Production 
+            ? new Date(production.fecIni_Production).toLocaleDateString("es-CO")
+            : "Sin descripción", 
+          production.fecFin_Production 
+            ? new Date(production.fecFin_Production).toLocaleDateString("es-CO")
+            : "Sin descripción", 
           production.subCen_Production || "-",
           production.cenCos_Production || "-",
           production.totColm_Hive || "-",
@@ -65,7 +71,6 @@ function ProductionPage() {
           production.nom_Race || "-",
           production.tot_Production || "-",
           production.canCua_Production || "-",
-          
         ]);
         setRegisProduction(data);
       }
@@ -81,48 +86,35 @@ function ProductionPage() {
     fetchProduction();
   }, []);
 
+  const handleDataUpdate = () => {
+    fetchProduction();
+  }
+
   // Función para cambiar el título del formulario y acción
   const updateTextTitleForm = (texto, rowData) => {
-    console.log(rowData);
     setAction(texto);
     setButtonForm(texto);
-
-    setProduction({})
-
+    setProduction({});
 
     if (texto === "Actualizar") {
-      console.log("Actualizando...");
-     
-
       setProduction({
         id_Production: rowData[0],
         fecIni_Production: rowData[1],
         fecFin_Production: rowData[2],
-        // subCen_Production: rowData[3],
-        // cenCos_Production: rowData[4],
         totColm_Hive: rowData[5],
-        // nom_Race: rowData[7],
-        
         id_Race: rowData[7],
         tot_Production: rowData[10],
         canCua_Production: rowData[9]
       });
-      console.log("hola", rowData);
-      
-      // Llamar directamente la función correcta
-    } else {
-      console.log("Registrando...");
-
     }
   };
 
-  // Función para abrir el modal
   const openModalForm = (isOpen) => {
     setSelectedProduction(null);
     setIsOpen(isOpen);
   };
+  
 
-  // Eliminar producción
   async function deleteProduction() {
     if (!selectedProduction) {
       setError("Debe seleccionar una producción.");
@@ -139,15 +131,14 @@ function ProductionPage() {
     }
   }
 
-  // Acciones de la tabla
   const actions = {
     delete: (rowData) => {
       setSelectedProduction(rowData[0]);
       setIsModalOpen(true);
     },
     update: (rowData) => {
-      // updateTextTitleForm(rowData)
-
+      updateTextTitleForm("Actualizar", rowData);
+      setIsOpen(true);
     }
   };
 
@@ -166,37 +157,49 @@ function ProductionPage() {
                   </div>
                 )}
 
-                
-                  <ContentPage
-                    // TitlePage={TitlePage}
-                    Data={regisProduction}
-                    TitlesTable={titlesProduction}
-                    Actions={actions}
-                    action={action}
-                    updateTextTitleForm={updateTextTitleForm}
-                    openModalForm={openModalForm}
-                    ignorar={[7]}
 
-                  />
-                
+                <ContentPage
+                  Data={regisProduction}
+                  TitlesTable={titlesProduction}
+                  Actions={actions}
+                  action={action}
+                  updateTextTitleForm={updateTextTitleForm}
+                  openModalForm={openModalForm}
+                  setIsExportModalOpen={setIsExportModalOpen}
+                  ignorar={[7]}
+                  
+                />
               </div>
             </div>
           </div>
         </main>
       </div>
 
+      {/* Modal para formulario */}
       <ModalDialog
         isOpen={isOpen}
         setIsOpen={openModalForm}
-        FormPage={<FormProduction buttonForm={buttonForm} production={production} />}
+        FormPage={<FormProduction buttonForm={buttonForm} production={production} 
+        onDataUpdated={handleDataUpdate}/>}
         action={action}
+
       />
 
+      {/* Modal de confirmación para eliminar */}
       <ConfirmationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={deleteProduction}
         DeleteTitle={eliminar}
+      />
+
+      {/* Modal de exportación a PDF */}
+      <ExportToPDFDialog
+        isOpen={isExportModalOpen}
+        setIsOpen={setIsExportModalOpen}
+        TitlePage={TitlePage}
+        Data={regisProduction}
+        TitlesTable={titlesProduction}
       />
     </div>
   );

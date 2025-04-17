@@ -1,151 +1,304 @@
-"use client";
+"use client"
 
-import { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
-import useEmblaCarousel from 'embla-carousel-react';
-import PublicNav from '@/components/navs/PublicNav';
+import { useState } from "react"
+import Image from "next/image"
+import PublicNav from "@/components/navs/PublicNav"
+import { Mail, Phone, Calendar, User, MessageCircle, Briefcase, Code } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 
 const teamMembers = [
   {
+    id: "cristian",
     name: "Cristian Camilo Tique Tique",
     role: "Analista y Desarrollador de Software",
     image: "/assets/img/tique.jpg?height=400&width=400",
     fullName: "Cristian Camilo Tique Tique",
     phone: "312-539-6493",
     email: "cmiloty1680@gmail.com",
-    age: 19
+    whatsapp: "312-539-6493",
+    age: 19,
+    skills: ["React", "Node.js", "JavaScript", "CSS"],
+    bio: "Desarrollador apasionado por crear soluciones innovadoras y eficientes.",
   },
   {
+    id: "stefany",
     name: "Stefany Vaquiro Bocanegra",
     role: "Analista y Desarrollador de Software",
     image: "/assets/img/stefany.jpg?height=400&width=400",
     fullName: "Stefany Vaquiro Bocanegra",
     phone: "314-765-4321",
     email: "stefanyvaquiro15@gmail.com",
-    age: 18
+    whatsapp: "314-765-4321",
+    age: 18,
+    skills: ["UI/UX", "React", "HTML", "CSS"],
+    bio: "Especialista en diseño de interfaces y experiencia de usuario.",
   },
   {
+    id: "jhonnier",
     name: "Jhonnier Fernando Tique",
     role: "Analista y Desarrollador de Software",
     image: "/assets/img/jhonnier.jpg?height=400&width=400",
     fullName: "Jhonnier Fernando Tique",
     phone: "321-123-4567",
     email: "jhonniertique@gmail.com",
-    age: 18
+    whatsapp: "321-123-4567",
+    age: 18,
+    skills: ["Java", "Python", "Bases de datos", "Backend"],
+    bio: "Enfocado en el desarrollo de sistemas robustos y escalables.",
   },
   {
+    id: "victor",
     name: "Victor David Ruiz Padilla",
     role: "Analista y Desarrollador de Software",
     image: "/assets/img/victor.jpg?height=400&width=400",
     fullName: "Victor David Ruiz",
     phone: "322-555-6666",
     email: "victorruiz@gmail.com",
-    age: 22
+    whatsapp: "322-555-6666",
+    age: 22,
+    skills: ["DevOps", "Cloud", "Seguridad", "Arquitectura"],
+    bio: "Especialista en infraestructura y despliegue de aplicaciones.",
   },
-];
-
-const OPTIONS = { loop: true };
-const AUTOPLAY_INTERVAL = 5000; // 5 segundos
+]
 
 function InformationPage() {
-  const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
-  const [isPaused, setIsPaused] = useState(false);
-
-  const autoplay = useCallback(() => {
-    if (isPaused || !emblaApi) return;
-
-    if (emblaApi.canScrollNext()) {
-      emblaApi.scrollNext();
-    } else {
-      emblaApi.scrollTo(0);
-    }
-  }, [emblaApi, isPaused]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const onPointerDown = () => setIsPaused(true);
-    const onSettle = () => setIsPaused(false);
-
-    emblaApi.on('pointerDown', onPointerDown);
-    emblaApi.on('settle', onSettle);
-
-    return () => {
-      emblaApi.off('pointerDown', onPointerDown);
-      emblaApi.off('settle', onSettle);
-    };
-  }, [emblaApi]);
-
-  useEffect(() => {
-    const timer = setInterval(autoplay, AUTOPLAY_INTERVAL);
-    return () => clearInterval(timer);
-  }, [autoplay]);
+  const [activeTab, setActiveTab] = useState("equipo")
+  const [selectedMember, setSelectedMember] = useState(teamMembers[0])
 
   return (
     <>
       <PublicNav />
 
-      <div className="min-h-screen bg-gradient-to-b from-gray-200 to-gray-200 p-8">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center relative">
-            <span className="absolute -top-4 -left-4 text-5xl" aria-hidden="true">🐝</span>
-            Quiénes Somos
-            <span className="absolute -bottom-4 -right-4 text-5xl" aria-hidden="true">🐝</span>
-          </h1>
+      <div className="min-h-screen bg-gray-50">
+        {/* Encabezado */}
+        <div className="bg-primary/5 from-gray-400 to-gray-500 py-2">
+          <div className="max-w-6xl mx-auto px-4">
+            <h1 className="text-4xl font-bold md:text-5xl sm:text-5xl xl:text-5xl/none text-center mb-4">Quiénes Somos</h1>
+            <p className="text-gray-500 text-center max-w-2xl mx-auto">
+              Un equipo de profesionales dedicados a crear soluciones tecnológicas innovadoras y de alta calidad.
+            </p>
+          </div>
+        </div>
 
-          <div className="relative mb-12 max-w-2xl mx-auto">
-            <div className="overflow-hidden" ref={emblaRef}>
-              <div className="flex">
-                {teamMembers.map((member, index) => (
-                  <div key={index} className="flex-[0_0_100%] min-w-0 px-4">
-                    <div className="bg-white-100 border-2 border-gray-300 rounded-lg p-6 flex items-center">
-                      <div className="relative w-40 h-56 mr-6 overflow-hidden rounded-lg shadow-lg">
+        {/* Contenido principal */}
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <Tabs defaultValue="equipo" value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-8">
+              <TabsTrigger value="equipo">Nuestro Equipo</TabsTrigger>
+              <TabsTrigger value="nosotros">Sobre Nosotros</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="equipo" className="space-y-8">
+              {/* Selector de miembros */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {teamMembers.map((member) => (
+                  <div
+                    key={member.id}
+                    className={`cursor-pointer transition-all duration-300 text-center ${
+                      selectedMember.id === member.id ? "scale-105" : "opacity-70 hover:opacity-100"
+                    }`}
+                    onClick={() => setSelectedMember(member)}
+                  >
+                    <div
+                      className={`relative w-20 h-20 mx-auto rounded-full overflow-hidden border-4 ${
+                        selectedMember.id === member.id ? "border-yellow-400" : "border-gray-200"
+                      }`}
+                    >
+                      <Image src={member.image || "/placeholder.svg"} alt={member.name} fill className="object-cover" />
+                    </div>
+                    <p className="mt-2 font-medium text-sm">{member.name.split(" ")[0]}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Información detallada del miembro seleccionado */}
+              <Card className="overflow-hidden">
+                <CardContent className="p-6">
+                  <div className="flex flex-col md:flex-row gap-8">
+                    <div className="md:w-1/3">
+                      <div className="relative w-full aspect-square md:max-w-xs mx-auto rounded-xl overflow-hidden border-4 border-yellow-400 shadow-lg">
                         <Image
-                          src={member.image}
-                          alt={member.name}
+                          src={selectedMember.image || "/placeholder.svg"}
+                          alt={selectedMember.name}
                           fill
                           className="object-cover"
                         />
                       </div>
-                      <div className="flex flex-col justify-center">
-                        <div className="relative">
-                          <h3 className="text-2xl font-semibold text-gray-800 mb-2 inline-block bg-gray-200 px-4 py-2 rounded shadow">
-                            {member.name}
-                          </h3>
+
+                      <h2 className="text-2xl font-bold text-center mt-4">{selectedMember.name}</h2>
+                      <p className="text-yellow-600 font-medium text-center mb-4">{selectedMember.role}</p>
+
+                      <div className="flex flex-wrap justify-center gap-2 mt-4">
+                        {selectedMember.skills.map((skill, index) => (
+                          <Badge key={index} variant="outline" className="bg-yellow-50">
+                            {skill}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="md:w-2/3">
+                      <h3 className="text-xl font-semibold mb-4">Información de Contacto</h3>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Nombre Completo */}
+                        <div className="flex items-start gap-3">
+                          <div className="bg-yellow-100 p-3 rounded-full mt-1">
+                            <User className="h-5 w-5 text-yellow-600" />
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-500">Nombre Completo</p>
+                            <p className="font-medium">{selectedMember.fullName}</p>
+                          </div>
                         </div>
-                        <p className="text-gray-700 mt-2 inline-block bg-transparent">
-                          {member.role}
-                        </p>
-                        <p className="text-gray-700 mt-2 bg-transparent">
-                          <strong>Nombre Completo:</strong> {member.fullName}<br />
-                          <strong>Teléfono:</strong> {member.phone}<br />
-                          <strong>Correo:</strong> {member.email}<br />
-                          <strong>Edad:</strong> {member.age}
-                        </p>
+
+                        {/* Teléfono */}
+                        <div className="flex items-start gap-3">
+                          <div className="bg-blue-100 p-3 rounded-full mt-1">
+                            <Phone className="h-5 w-5 text-blue-600" />
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-500">Teléfono</p>
+                            <a
+                              href={`tel:${selectedMember.phone}`}
+                              className="font-medium hover:text-blue-600 hover:underline transition-colors"
+                            >
+                              {selectedMember.phone}
+                            </a>
+                          </div>
+                        </div>
+
+                        {/* Correo */}
+                        <div className="flex items-start gap-3">
+                          <div className="bg-green-100 p-3 rounded-full mt-1">
+                            <Mail className="h-5 w-5 text-green-600" />
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-500">Correo</p>
+                            <a
+                              href={`mailto:${selectedMember.email}`}
+                              className="font-medium hover:text-green-600 hover:underline transition-colors"
+                            >
+                              {selectedMember.email}
+                            </a>
+                          </div>
+                        </div>
+
+                        {/* Edad */}
+                        <div className="flex items-start gap-3">
+                          <div className="bg-purple-100 p-3 rounded-full mt-1">
+                            <Calendar className="h-5 w-5 text-purple-600" />
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-500">Edad</p>
+                            <p className="font-medium">{selectedMember.age} años</p>
+                          </div>
+                        </div>
+
+                        {/* WhatsApp */}
+                        <div className="flex items-start gap-3">
+                          <div className="bg-green-100 p-3 rounded-full mt-1">
+                            <MessageCircle className="h-5 w-5 text-green-600" />
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-500">WhatsApp</p>
+                            <a
+                              href={`https://wa.me/${selectedMember.whatsapp.replace(/[^0-9]/g, "")}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-medium text-green-600 hover:underline"
+                            >
+                              Enviar mensaje
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-8">
+                        <h3 className="text-xl font-semibold mb-2">Biografía</h3>
+                        <p className="text-gray-700">{selectedMember.bio}</p>
                       </div>
                     </div>
                   </div>
-                ))}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="nosotros">
+              <div className="bg-white rounded-xl shadow-sm p-8">
+                <div className="flex flex-col lg:flex-row gap-8">
+                  <div className="lg:w-1/3">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-4">Nuestra Misión</h2>
+                    <div className="h-1 w-20 bg-yellow-400 mb-6"></div>
+                    <p className="text-gray-600 mb-6">
+                      Desarrollar soluciones tecnológicas innovadoras que transformen y mejoren los procesos de nuestros
+                      clientes, aportando valor real a través de la excelencia técnica y el compromiso con la calidad.
+                    </p>
+
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="bg-yellow-100 p-3 rounded-full">
+                        <Code className="h-5 w-5 text-yellow-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">Desarrollo de Software</h3>
+                        <p className="text-sm text-gray-500">Soluciones a medida para cada necesidad</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <div className="bg-yellow-100 p-3 rounded-full">
+                        <Briefcase className="h-5 w-5 text-yellow-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">Consultoría Tecnológica</h3>
+                        <p className="text-sm text-gray-500">Asesoramiento experto para tu negocio</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="lg:w-2/3">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-4">Nuestro Equipo</h2>
+                    <div className="h-1 w-20 bg-yellow-400 mb-6"></div>
+                    <p className="text-gray-600 mb-4">
+                      Somos un equipo diverso y apasionado de profesionales en tecnología, unidos por nuestra dedicación
+                      a la excelencia en programación. Cada miembro aporta habilidades únicas y especializadas,
+                      trabajando en armonía para crear soluciones innovadoras y eficientes.
+                    </p>
+                    <p className="text-gray-600 mb-6">
+                      Nuestra ética de trabajo se basa en la colaboración y el compromiso con la calidad, siempre
+                      buscando la mejora continua y la adaptación a nuevas tecnologías para ofrecer el mejor servicio a
+                      nuestros clientes.
+                    </p>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="bg-gray-50 p-4 rounded-lg text-center">
+                        <div className="text-yellow-600 font-bold text-2xl">4+</div>
+                        <div className="text-gray-600 text-sm">Años de experiencia</div>
+                      </div>
+                      <div className="bg-gray-50 p-4 rounded-lg text-center">
+                        <div className="text-yellow-600 font-bold text-2xl">20+</div>
+                        <div className="text-gray-600 text-sm">Proyectos completados</div>
+                      </div>
+                      <div className="bg-gray-50 p-4 rounded-lg text-center">
+                        <div className="text-yellow-600 font-bold text-2xl">100%</div>
+                        <div className="text-gray-600 text-sm">Satisfacción</div>
+                      </div>
+                      <div className="bg-gray-50 p-4 rounded-lg text-center">
+                        <div className="text-yellow-600 font-bold text-2xl">24/7</div>
+                        <div className="text-gray-600 text-sm">Soporte técnico</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-
-          <div className="bg-gray-200 p-8 rounded-lg shadow-lg border-2 border-gray-300 relative">
-            <h2 className="text-2xl font-bold text-blue-800 mb-4">Nuestro Equipo</h2>
-            <p className="text-gray-800 leading-relaxed">
-              Somos un equipo diverso y apasionado de profesionales en tecnología, unidos por nuestra dedicación a la excelencia en programación. Como una colmena bien organizada, cada miembro aporta habilidades únicas y especializadas, trabajando en armonía para crear soluciones innovadoras y eficientes. Nuestra ética de trabajo se inspira en la diligencia y colaboración de las abejas, siempre buscando la mejora continua y la adaptación a nuevas tecnologías.
-            </p>
-            <span className="absolute -bottom-4 -right-4 text-5xl" aria-hidden="true">🐝</span>
-          </div>
+            </TabsContent>
+          </Tabs>
         </div>
-
-        {/* Decoraciones de abejas */}
-        <div className="fixed top-1/4 left-4 text-4xl animate-bounce" style={{ animationDuration: '1s' }} aria-hidden="true">🐝</div>
-        <div className="fixed top-1/2 right-4 text-4xl animate-bounce" style={{ animationDuration: '1s', animationDelay: '0.5s' }} aria-hidden="true">🐝</div>
-        <div className="fixed bottom-1/4 left-4 text-4xl animate-bounce" style={{ animationDuration: '1s', animationDelay: '1s' }} aria-hidden="true">🐝</div>
       </div>
     </>
-  );
+  )
 }
 
 export default InformationPage;

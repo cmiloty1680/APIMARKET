@@ -12,6 +12,8 @@ namespace Apimarket.Models
         public DbSet<Feeding> feeding { get; set; }
         public DbSet<Implement> implement { get; set; }
         public DbSet<Responsible> responsible { get; set; }
+
+        public DbSet<HoneyCollection> honeyCollection { get; set; }
         public DbSet<Hive> hive { get; set; }
         public DbSet<Production> production { get; set; }
         public DbSet<Race> race { get; set; }
