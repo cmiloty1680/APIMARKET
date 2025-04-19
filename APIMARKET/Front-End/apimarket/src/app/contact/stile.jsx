@@ -144,10 +144,10 @@ function ContactPage() {
 
       <div className="min-h-screen">
         {/* Encabezado */}
-        <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 py-16 contact-header">
+        <div className="bg-primary/5 from-gray-400 to-gray-500 py-2">
           <div className="max-w-6xl mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Contáctanos</h1>
-            <p className="text-white text-lg max-w-2xl mx-auto">
+            <h1 className="text-4xl font-bold md:text-5xl sm:text-5xl xl:text-5xl/none mb-4">Contáctanos</h1>
+            <p className="text-gray-500 text-lg max-w-2xl mx-auto">
               Estamos aquí para responder tus preguntas y ayudarte con cualquier información que necesites sobre
               nuestros servicios.
             </p>
@@ -165,35 +165,35 @@ function ContactPage() {
                 <div className="space-y-6">
                   {[
                     {
-                      icon: <FaMapMarkerAlt className="text-yellow-500" />,
+                      icon: <FaMapMarkerAlt className="text-red-600" />,
                       title: "Dirección",
                       content: "Centro Agropecuario La Granja, Sena Espinal, Tolima",
                       link: "https://www.google.com/maps?q=Sena+Espinal+Tolima",
                       index: 1,
                     },
                     {
-                      icon: <FaPhone className="text-yellow-500" />,
+                      icon: <FaPhone className="text-blue-600" />,
                       title: "Teléfono",
                       content: "(314) 123-4567",
                       link: "tel:3141234567",
                       index: 2,
                     },
                     {
-                      icon: <FaWhatsapp className="text-yellow-500" />,
+                      icon: <FaWhatsapp className="font-medium text-green-600 hover:underline" />,
                       title: "WhatsApp",
-                      content: "(321) 456-7890",
+                      content: "(312) 539-6493",
                       link: "https://wa.me/573214567890",
                       index: 3,
                     },
                     {
-                      icon: <FaEnvelope className="text-yellow-500" />,
+                      icon: <FaEnvelope className="font-medium text-green-600 hover:underline" />,
                       title: "Correo Electrónico",
-                      content: "apimarket@email.com",
+                      content: "apimarketproyect@gmail.com",
                       link: "mailto:apimarket@email.com",
                       index: 4,
                     },
                     {
-                      icon: <FaClock className="text-yellow-500" />,
+                      icon: <FaClock className="text-gray-600" />,
                       title: "Horario de Atención",
                       content: "Lunes a Viernes: 7:00 AM - 4:00 PM",
                       link: null,
@@ -323,7 +323,7 @@ function ContactPage() {
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white pulse-animation"
+                      className="bg-[#e87204] hover:bg-[#030712] text-white pulse-animation"
                     >
                       {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
                     </Button>
@@ -354,22 +354,22 @@ function ContactPage() {
         </div>
 
         {/* Banner de llamada a la acción */}
-        <div className="bg-yellow-500 py-12 mt-12">
+        <div className="bg-primary/5 from-gray-400 to-gray-500 py-12 mt-12">
           <div className="max-w-6xl mx-auto px-4 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">¿Tienes alguna pregunta?</h2>
-            <p className="text-white text-lg mb-6">
+            <h2 className="text-2xl font-bold md:text-3xl sm:text-3xl xl:text-3xl/none mb-4">¿Tienes alguna pregunta?</h2>
+            <p className="text-gray-500 text-lg mb-6">
               Nuestro equipo está listo para ayudarte con cualquier consulta sobre nuestros servicios.
             </p>
             <div className="flex justify-center gap-4 flex-wrap">
               <a
-                href="tel:3141234567"
-                className="bg-white text-yellow-600 px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+                href="tel:3125396493"
+                className="bg-white text-[#e87204] px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
               >
                 <FaPhone /> Llamar Ahora
               </a>
               <a
-                href="https://wa.me/573214567890"
-                className="bg-[#25D366] text-white px-6 py-3 rounded-full font-medium hover:bg-[#128C7E] transition-colors inline-flex items-center gap-2"
+                href="https://wa.me/573125396493"
+                className="bg-green-600 text-white px-6 py-3 rounded-full font-medium hover:bg-[#25D366] transition-colors inline-flex items-center gap-2"
                 target="_blank"
                 rel="noopener noreferrer"
               >

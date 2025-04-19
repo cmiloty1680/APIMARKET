@@ -8,7 +8,6 @@ import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import ModalDialog from "@/components/utils/ModalDialog";
 import FormProduction from "./FormProduction";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
-import { Button } from "@/components/ui/button"; // 👈 necesario para el botón de exportar
 
 function ProductionPage() {
   const TitlePage = "Producción";
@@ -180,7 +179,8 @@ function ProductionPage() {
         isOpen={isOpen}
         setIsOpen={openModalForm}
         FormPage={<FormProduction buttonForm={buttonForm} production={production} 
-        onDataUpdated={handleDataUpdate}/>}
+        onDataUpdated={handleDataUpdate}
+        closeModal={openModalForm}/>}
         action={action}
 
       />

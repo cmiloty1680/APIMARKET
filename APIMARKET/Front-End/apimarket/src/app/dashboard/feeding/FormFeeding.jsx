@@ -9,7 +9,7 @@ import { ShieldCheck, AlertCircle } from "lucide-react";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
 
-function FormFeeding({ buttonForm, feeding }) {
+function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
     const router = useRouter();
     const [fecha, setFecha] = useState("");
     const [cantidad, setCantidad] = useState("");
@@ -94,6 +94,7 @@ function FormFeeding({ buttonForm, feeding }) {
                 if (response.status === 200) {
                     setMsSuccess(response.data.message || "alimentacion actualizada correctamente.");
                     setModalOpen(true);
+                    onDataUpdated();
 
                 }
             } else if (buttonForm === "Registrar") {
@@ -113,6 +114,7 @@ function FormFeeding({ buttonForm, feeding }) {
                 if (response.status === 200) {
                     setMsSuccess(response.data.registrado || "alimentacion registrada correctamente.");
                     setModalOpen(true);
+                    onDataUpdated();
 
                 }
             }
@@ -200,7 +202,7 @@ function FormFeeding({ buttonForm, feeding }) {
                             <input
                                 type="text"
                                 required
-                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm"
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
                                 value={numDocResponsible || ""}
                                 onChange={(e) => setnumDocResponsible(e.target.value)}
                             />
@@ -211,7 +213,7 @@ function FormFeeding({ buttonForm, feeding }) {
                     <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Tipo</label>
-                            <select className="w-full px-3 py-1.5 border rounded-md text-sm" required value={tipoAlimentacion || ""} onChange={(e) => setTipoAlimentacion(e.target.value)}>
+                            <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={tipoAlimentacion || ""} onChange={(e) => setTipoAlimentacion(e.target.value)}>
                                 <option value="">Seleccione</option>
                                 <option value="Mango">Mango</option>
                                 <option value="Azúcar">Azúcar</option>
@@ -219,18 +221,18 @@ function FormFeeding({ buttonForm, feeding }) {
                         </div>
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Cantidad (Kg)</label>
-                            <input type="number" className="w-full px-3 py-1.5 border rounded-md text-sm" required value={cantidad || ""} onChange={(e) => setCantidad(e.target.value)} />
+                            <input type="number" className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={cantidad || ""} onChange={(e) => setCantidad(e.target.value)} />
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Valor</label>
-                            <input type="number" className="w-full px-3 py-1.5 border rounded-md text-sm" required value={valor || ""} onChange={(e) => setValor(e.target.value)} />
+                            <input type="number" className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={valor || ""} onChange={(e) => setValor(e.target.value)} />
                         </div>
 
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Colmena</label>
-                            <select className="w-full px-3 py-1.5 border rounded-md text-sm" required value={deshive || ""} onChange={(e) => setDesHive(e.target.value)}>
+                            <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={deshive || ""} onChange={(e) => setDesHive(e.target.value)}>
                                 <option value="">Seleccione</option>
                                 {hives.map((hive) => (
                                     <option key={hive.id_Hive} value={hive.id_Hive}>{hive.des_Hive}</option>
@@ -241,7 +243,7 @@ function FormFeeding({ buttonForm, feeding }) {
                     <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Nombre Responsable </label>
-                            <select className="w-full px-3 py-1.5 border rounded-md text-sm" required value={idResponsible || ""} onChange={(e) => setIdResponsible(e.target.value)}>
+                            <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={idResponsible || ""} onChange={(e) => setIdResponsible(e.target.value)}>
                                 <option value="">Seleccione</option>
                                 {responsibles.map((responsible) => (
                                     <option key={responsible.id_Responsible} value={responsible.id_Responsible}> {responsible.nam_Responsible}</option>
@@ -250,7 +252,7 @@ function FormFeeding({ buttonForm, feeding }) {
                         </div>
                         <div className="space-y-1">
                             <span className="text-sm font-medium text-gray-700">Tipo responsable</span>
-                            <select className="w-full px-3 py-1.5 border rounded-md text-sm" required value={tipResponsible || ""} onChange={(e) => setTipResponsible(e.target.value)}>
+                            <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={tipResponsible || ""} onChange={(e) => setTipResponsible(e.target.value)}>
                                 <option value="">Seleccione</option>
                                 <option value="pasante">pasante</option>
                                 <option value="aprendiz">aprendiz</option>
@@ -272,7 +274,12 @@ function FormFeeding({ buttonForm, feeding }) {
            {/* Modal de éxito usando el componente dinámico */}
       <DynamicAlert
         isOpen={isModalOpen}
-        onOpenChange={setModalOpen}
+        onOpenChange={(isOpen) => {
+            setModalOpen(isOpen); // Cambia el estado del modal
+            if (!isOpen) {
+              closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+            }
+          }}
         type="success"
         message={msSuccess || "Operación exitosa"}
         redirectPath=""
@@ -281,7 +288,12 @@ function FormFeeding({ buttonForm, feeding }) {
       {/* Modal de fallido usando el componente dinámico */}
       <DynamicAlert
         isOpen={isModalOpenFall}
-        onOpenChange={setModalOpenFall}
+        onOpenChange={(isOpen) => {
+            setModalOpenFall(isOpen); // Cambia el estado del modal
+            if (!isOpen) {
+              closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+            }
+          }}
         type="error"
         message={error || "Ha ocurrido un error inesperado"}
         redirectPath=""

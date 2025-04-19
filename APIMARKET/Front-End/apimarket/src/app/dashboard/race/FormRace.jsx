@@ -6,7 +6,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { Bug } from "lucide-react";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
-function FormRace({ buttonForm, race }) {
+function FormRace({ buttonForm, race, onDataUpdated, closeModal }) {
   const router = useRouter();
   const [nomRace, setNomRace] = useState("");
   const [desRace, setDesRace] = useState("");
@@ -43,6 +43,7 @@ function FormRace({ buttonForm, race }) {
         if (response.status === 200) {
           setMsSuccess(response.data.message || "Raza actualizada correctamente.");
           setModalOpen(true);
+          onDataUpdated();
         }
       } else if (buttonForm === "Registrar") {
         const response = await axiosInstance.post("/Api/Race/CreateRace", {
@@ -53,6 +54,7 @@ function FormRace({ buttonForm, race }) {
         if (response.status === 200) {
           setMsSuccess(response.data.registrado || "Raza registrada correctamente.");
           setModalOpen(true);
+          onDataUpdated();
         }
       }
     } catch (err) {
@@ -122,7 +124,7 @@ function FormRace({ buttonForm, race }) {
             <label htmlFor="desRace" className="text-sm font-medium text-gray-700">
               Descripción de la Raza
             </label>
-            <input
+            <textarea
               type="text"
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               id="desRace"
@@ -150,7 +152,12 @@ function FormRace({ buttonForm, race }) {
       {/* Modal de éxito usando DynamicAlert */}
       <DynamicAlert
         isOpen={isModalOpen}
-        onOpenChange={setModalOpen}
+        onOpenChange={(isOpen) => {
+          setModalOpen(isOpen); // Cambia el estado del modal
+          if (!isOpen) {
+            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+          }
+        }}
         type="success"
         message={msSuccess || "Operación exitosa"}
         redirectPath=""
@@ -159,7 +166,12 @@ function FormRace({ buttonForm, race }) {
       {/* Modal de error usando DynamicAlert */}
       <DynamicAlert
         isOpen={isModalOpenFall}
-        onOpenChange={setModalOpenFall}
+        onOpenChange={(isOpen) => {
+          setModalOpenFall(isOpen); // Cambia el estado del modal
+          if (!isOpen) {
+            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+          }
+        }}
         type="error"
         message={error || "Ha ocurrido un error inesperado"}
         redirectPath=""

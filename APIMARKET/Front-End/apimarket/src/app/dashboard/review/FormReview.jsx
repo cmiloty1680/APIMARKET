@@ -5,10 +5,8 @@ import { useState, useEffect } from "react";
 import axiosInstance from "@/lib/axiosInstance";
 import { ClipboardCheck } from "lucide-react";
 import DynamicAlert from "@/components/utils/DynamicAlert";
-import { fetchServerResponse } from "next/dist/client/components/router-reducer/fetch-server-response";
-import { Description } from "@headlessui/react";
 
-function FormReview({ buttonForm, review, onDataUpdated }) {
+function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
@@ -85,6 +83,7 @@ function FormReview({ buttonForm, review, onDataUpdated }) {
           // console.log(response.data)
           setMsSuccess(response.data.message || "revicion actualizada correctamente.")
           setModalOpen(true);
+          onDataUpdated();
         }
       } else if (buttonForm === "Registrar") {
         const response = await axiosInstance.post("/Api/Review/CreateReview", {
@@ -95,10 +94,9 @@ function FormReview({ buttonForm, review, onDataUpdated }) {
         });
 
         if (response.status === 200) {
-          setMsSuccess(
-            response.data.message || "revicion registrada correctamente."
-          );
+          setMsSuccess(response.data.message || "revicion registrada correctamente.");
           setModalOpen(true);
+          onDataUpdated();
         }
       }
     } catch (error) {
@@ -171,7 +169,7 @@ function FormReview({ buttonForm, review, onDataUpdated }) {
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">ID Colmena</label>
             <select
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm"
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               value={idHives || ""}
               onChange={(event) => setIdHives(event.target.value)}
               required
@@ -191,7 +189,7 @@ function FormReview({ buttonForm, review, onDataUpdated }) {
         <div className="space-y-1">
           <label className="text-sm font-medium text-gray-700">Nombre de responsable</label>
           <select
-            className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm"
+            className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
             value={nomResponsible || ""}
             onChange={(event) => setNomResponsible(event.target.value)}
             required
@@ -235,20 +233,30 @@ function FormReview({ buttonForm, review, onDataUpdated }) {
 
       <DynamicAlert
         isOpen={isModalOpen}
-        onOpenChange={setModalOpen}
+        onOpenChange={(isOpen) => {
+          setModalOpen(isOpen); // Cambia el estado del modal
+          if (!isOpen) {
+            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+          }
+        }}
         type="success"
         message={msSuccess || "Operación exitosa"}
         redirectPath=""
       />
 
-      {/* Modal de fallido usando el componente dinámico */}
+      {/* Modal de fallido usando el componente dinámico
       <DynamicAlert
         isOpen={isModalOpenFall}
-        onOpenChange={setModalOpenFall}
+        onOpenChange={(isOpen) => {
+          setModalOpenFall(isOpen); // Cambia el estado del modal
+          if (!isOpen) {
+            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+          }
+        }}
         type="error"
         message={error || "Ha ocurrido un error inesperado"}
         redirectPath=""
-      />
+      /> */}
     </>
   );
 }

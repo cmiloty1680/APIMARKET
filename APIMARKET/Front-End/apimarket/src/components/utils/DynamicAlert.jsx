@@ -11,7 +11,6 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog"
 import { ShieldCheck, AlertCircle } from "lucide-react"
-
 function DynamicAlert({
   isOpen,
   onOpenChange,
@@ -21,11 +20,13 @@ function DynamicAlert({
   actionLabel = "Ok",
   redirectPath,
   icon,
+  closeModal,  // Asegúrate de pasar esta función desde el componente principal
 }) {
   const router = useRouter()
 
   const handleAction = () => {
-    onOpenChange(false)
+    onOpenChange(false)  // Cierra el Alert
+    if (closeModal) closeModal()  // Cierra el modal principal (padre)
     if (redirectPath) {
       router.push(redirectPath)
     }
@@ -87,5 +88,5 @@ function DynamicAlert({
   )
 }
 
-export default DynamicAlert
+export default DynamicAlert;
 

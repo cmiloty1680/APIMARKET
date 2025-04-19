@@ -171,6 +171,7 @@ function HivePage() {
         setIsOpen={openModalForm}
         FormPage={<FormHive buttonForm={buttonForm} hive={hive}
         onDataUpdated={handleDataUpdated}
+        closeModal={openModalForm}
         />}
         action={action}
       />

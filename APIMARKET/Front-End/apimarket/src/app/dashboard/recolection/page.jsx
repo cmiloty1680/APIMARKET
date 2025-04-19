@@ -8,7 +8,6 @@ import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import React, { useState, useEffect } from "react";
 import axiosInstance from "@/lib/axiosInstance";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
-import { Button } from "@/components/ui/button"; // 👈 necesario para el botón de exportar
 
 
 function HoneyCollection() {
@@ -69,7 +68,10 @@ function HoneyCollection() {
         const data = response.data.map((honey) => [
           honey.id_HoneyCollection || "-",
           honey.des_HoneyCollection || "Sin descripción",
-          honey.fec_HoneyCollection || "-",
+          honey.fec_HoneyCollection 
+          ? new Date(honey.fec_HoneyCollection).toLocaleDateString("es-CO")
+          : "Sin descripción", 
+          // honey.fec_HoneyCollection || "-",
           honey.canFra125_HoneyCollection || "-",
           honey.canFra250_HoneyCollection || "-",
           honey.uniMed_HoneyCollection || "ml",
@@ -196,6 +198,7 @@ function HoneyCollection() {
             honeyCollection={honeyCollection}
             buttonForm={buttonForm}
             onDataUpdated={handleDataUpdated}
+            closeModal={openModalForm}
           />
         }
         action={action}

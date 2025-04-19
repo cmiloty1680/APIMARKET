@@ -6,7 +6,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { Droplet } from "lucide-react";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
-function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated }) {
+function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, closeModal }) {
   const router = useRouter();
   const [canFra125, setCanFra125] = useState("");
   const [canFra250, setCanFra250] = useState("");
@@ -170,7 +170,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated }) {
             <select
               value={uniMed || ""}
               onChange={(e) => setUniMed(e.target.value)}
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm"
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
             >
               <option value="ml">ml</option>
             </select>
@@ -205,7 +205,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated }) {
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Nombre de responsable</label>
             <select
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm"
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               value={nomResponsible || ""}
               onChange={(event) => setNomResponsible(event.target.value)}
               required
@@ -222,7 +222,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated }) {
           {/* Producción */}
           <div className="space-y-1 col-span-1 md:col-span-2">
             <label className="text-sm font-medium text-gray-700">Descripción</label>
-            <input
+            <textarea
               type="text"
               value={descripcion || ""}
               onChange={(e) => setDescripcion(e.target.value)}
@@ -248,7 +248,12 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated }) {
       {/* Modal de éxito usando DynamicAlert */}
       <DynamicAlert
         isOpen={isModalOpen}
-        onOpenChange={setModalOpen}
+        onOpenChange={(isOpen) => {
+          setModalOpen(isOpen); // Cambia el estado del modal
+          if (!isOpen) {
+            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+          }
+        }}
         type="success"
         message={msSuccess || "Operación exitosa"}
         redirectPath=""
@@ -257,7 +262,12 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated }) {
       {/* Modal de error usando DynamicAlert */}
       <DynamicAlert
         isOpen={isModalOpenFall}
-        onOpenChange={setModalOpenFall}
+        onOpenChange={(isOpen) => {
+          setModalOpenFall(isOpen); // Cambia el estado del modal
+          if (!isOpen) {
+            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+          }
+        }}
         type="error"
         message={error || "Ha ocurrido un error inesperado"}
         redirectPath=""

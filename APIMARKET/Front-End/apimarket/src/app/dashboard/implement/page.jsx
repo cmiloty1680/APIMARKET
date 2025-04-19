@@ -7,17 +7,9 @@ import axiosInstance from "@/lib/axiosInstance";
 import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import ModalDialog from "@/components/utils/ModalDialog";
 import FormImplement from "./FormImplement";
-import { ShieldCheck, AlertCircle } from "lucide-react";
+import DynamicAlert from "@/components/utils/DynamicAlert";
+import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogAction,
-} from "@/components/ui/alert-dialog";
 
 function ImplementPage() {
   const TitlePage = "Implemento";
@@ -34,6 +26,8 @@ function ImplementPage() {
   const [isModalOpenFall, setModalOpenFall] = useState(false); // Para alerta de fallo
   const [msSuccess, setMsSuccess] = useState("");
   const [error, setError] = useState("");
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false); // 👈 Para controlar el modal de exportación
+
 
   const titlesImplement = [
     "Código",
@@ -113,6 +107,10 @@ function ImplementPage() {
     }
   };
 
+  const handleDataUpdated = () => {
+    fetchImplement(); // Refresca los datos de la tabla
+  };
+
   const openModalForm = (Open) => {
     setIsOpen(Open);
   };
@@ -183,6 +181,7 @@ function ImplementPage() {
                     updateTextTitleForm={updateTextTitleForm}
                     openModalForm={openModalForm}
                     ignorar={[]}
+                    setIsExportModalOpen={setIsExportModalOpen}
                   />
                 
               </div>
@@ -194,7 +193,10 @@ function ImplementPage() {
       <ModalDialog
         isOpen={isOpen}
         setIsOpen={openModalForm}
-        FormPage={<FormImplement buttonForm={buttonForm} implement={implement} onSuccess={handleSuccess}  />}
+        FormPage={<FormImplement buttonForm={buttonForm} implement={implement} onSuccess={handleSuccess}  
+        onDataUpdated={handleDataUpdated}
+        closeModal={openModalForm}
+        />}
         action={action}
       />
 
@@ -204,55 +206,30 @@ function ImplementPage() {
         onConfirm={deleteImplement}
         DeleteTitle={eliminar}
       />
-      {/* Modal de alerta de éxito */}
-            <AlertDialog open={isModalOpen} onOpenChange={setModalOpen}>
-              <AlertDialogContent className="bg-white p-6 rounded-lg shadow-lg border-t-4 border-green-500">
-                <AlertDialogHeader>
-                  <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-                    <ShieldCheck className="h-6 w-6 text-green-600" />
-                  </div>
-                  <AlertDialogTitle className="text-center text-lg font-medium text-gray-900">
-                    ¡Operación Exitosa!
-                  </AlertDialogTitle>
-                  <AlertDialogDescription className="text-center text-sm text-gray-500 mt-2">
-                    La alimentacion ha sido eliminada correctamente.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter className="mt-4">
-                  <AlertDialogAction
-                    onClick={() => setModalOpenFall(false)}
-                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-2 rounded-md hover:from-orange-600 hover:to-red-600 transition-all duration-300"
-                  >
-                    Ok
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-      
-            {/* Modal de alerta de fallo */}
-            <AlertDialog open={isModalOpenFall} onOpenChange={setModalOpenFall}>
-              <AlertDialogContent className="bg-white p-6 rounded-lg shadow-lg border-t-4 border-red-500">
-                <AlertDialogHeader>
-                  <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
-                    <AlertCircle className="h-6 w-6 text-red-600" />
-                  </div>
-                  <AlertDialogTitle className="text-center text-lg font-medium text-gray-900">
-                    ¡Operación Fallida!
-                  </AlertDialogTitle>
-                  <AlertDialogDescription className="text-center text-sm text-gray-500 mt-2">
-                    {error || "Ha ocurrido un error inesperado."}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter className="mt-4">
-                  <AlertDialogAction
-                    onClick={() => setModalOpenFall(false)}
-                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-2 rounded-md hover:from-orange-600 hover:to-red-600 transition-all duration-300"
-                  >
-                    Ok
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+      {/* MODALES DE ALERTA */}
+      <DynamicAlert
+        isOpen={isModalOpen}
+        onOpenChange={setModalOpen}
+        type="success"
+        redirectPath="" // o déjalo vacío si no deseas redirigir
+      />
+
+      <DynamicAlert
+        isOpen={isModalOpenFall}
+        onOpenChange={setModalOpenFall}
+        type="error"
+        message={error || "Ha ocurrido un error inesperado"}
+        redirectPath=""
+      />
+
+       {/* Modal de exportación a PDF */}
+       <ExportToPDFDialog
+        isOpen={isExportModalOpen}
+        setIsOpen={setIsExportModalOpen}
+        TitlePage={TitlePage}
+        Data={regisImplement}
+        TitlesTable={titlesImplement}
+      />
     </div>
   );
 }

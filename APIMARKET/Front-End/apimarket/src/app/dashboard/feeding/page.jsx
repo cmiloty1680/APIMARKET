@@ -8,6 +8,8 @@ import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import ModalDialog from "@/components/utils/ModalDialog";
 import FormFeeding from "./FormFeeding";
 import DynamicAlert from "@/components/utils/DynamicAlert";
+import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
+
 
 
 function FeedingPage() {
@@ -24,10 +26,13 @@ function FeedingPage() {
   const [isModalOpenFall, setModalOpenFall] = useState(false); // Para alerta de fallo
   const [msSuccess, setMsSuccess] = useState("");
   const [error, setError] = useState("");
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false); // 👈 Para controlar el modal de exportación
+  
+  
  
 
   const titlesFeeding = [
-    "Código", "Tipo de alimentación", "Fecha de alimentación", "Cantidad de alimentación", "Valor de alimentación", "Descripción de la colmena","Nombre Responsable","Tipo Responsable","Numero de documento", "Id_Responsible",
+    "Código", "Tipo de alimentación", "Fecha de alimentación", "Cantidad de alimentación", "Valor de alimentación", "Descripción de la colmena","Nombre Responsable","Tipo Responsable","Numero de documento", "Id_Responsible", "ID colmena",
   ];
 
   const [feeding, setFeeding] = useState({
@@ -203,6 +208,7 @@ function FeedingPage() {
                     updateTextTitleForm={updateTextTitleForm}
                     openModalForm={openModalForm}
                     ignorar={[9,10]}
+                    setIsExportModalOpen={setIsExportModalOpen}
                   />
 
               </div>
@@ -216,6 +222,7 @@ function FeedingPage() {
         setIsOpen={openModalForm}
         FormPage={<FormFeeding buttonForm={buttonForm} feeding={feeding} onSuccess={handleSuccess}  
         onDataUpdated={handleDataUpdated}
+        closeModal={openModalForm}
         />}
         action={action}
       />
@@ -241,6 +248,15 @@ function FeedingPage() {
         type="error"
         message={error || "Ha ocurrido un error inesperado"}
         redirectPath=""
+      />
+
+       {/* Modal de exportación a PDF */}
+       <ExportToPDFDialog
+        isOpen={isExportModalOpen}
+        setIsOpen={setIsExportModalOpen}
+        TitlePage={TitlePage}
+        Data={regisFeeding}
+        TitlesTable={titlesFeeding}
       />
     </div>
   );

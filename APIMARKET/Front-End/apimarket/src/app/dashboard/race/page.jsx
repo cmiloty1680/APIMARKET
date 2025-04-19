@@ -75,6 +75,9 @@ function RacePage() {
     }
   };
 
+  const handleDataUpdated = () => {
+    fetchRaces(); // Refresca los datos de la tabla
+  };
   // Función para abrir o cerrar el modal del formulario
   const openModalForm = (open) => {
     setIsOpen(open);
@@ -154,7 +157,8 @@ function RacePage() {
           <FormRace
             buttonForm={buttonForm}
             race={race}
-            onSuccess={handleSuccess}
+            onDataUpdated={handleDataUpdated}
+            closeModal={openModalForm}
           />
         }
         action={action}

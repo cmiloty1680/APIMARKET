@@ -7,7 +7,7 @@ import { Dialog } from "@headlessui/react"; // Para el modal
 import { Droplet } from "lucide-react";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
-function FormProduction({ buttonForm, production, onDataUpdated }) {
+function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
 
     const router = useRouter();
     const [fecha, setFecha] = useState("");
@@ -237,7 +237,7 @@ function FormProduction({ buttonForm, production, onDataUpdated }) {
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Seleccionar Raza</label>
                             <select
-                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm"
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
                                 value={nomrace || ""}
                                 onChange={(event) => setNomrace(event.target.value)}
                                 required
@@ -268,7 +268,12 @@ function FormProduction({ buttonForm, production, onDataUpdated }) {
 
             <DynamicAlert
                 isOpen={isModalOpen}
-                onOpenChange={setModalOpen}
+                onOpenChange={(isOpen) => {
+                    setModalOpen(isOpen); // Cambia el estado del modal
+                    if (!isOpen) {
+                      closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+                    }
+                  }}
                 type="success"
                 message={msSuccess || "Operación exitosa"}
                 redirectPath=""
@@ -277,7 +282,12 @@ function FormProduction({ buttonForm, production, onDataUpdated }) {
             {/* Modal de fallido usando el componente dinámico */}
             <DynamicAlert
                 isOpen={isModalOpenFall}
-                onOpenChange={setModalOpenFall}
+                onOpenChange={(isOpen) => {
+                    setModalOpenFall(isOpen); // Cambia el estado del modal
+                    if (!isOpen) {
+                      closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+                    }
+                  }}
                 type="error"
                 message={error || "Ha ocurrido un error inesperado"}
                 redirectPath=""

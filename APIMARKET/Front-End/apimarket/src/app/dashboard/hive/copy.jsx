@@ -7,7 +7,7 @@ import { Hexagon } from "lucide-react";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
 
-function FormHive({buttonForm, hive, onDataUpdated, closeModal   }) {
+function FormHive({buttonForm, hive, onDataUpdated  }) {
   const router = useRouter();
   const [estado, setEstado] = useState("");
   const [descripcion, setDescripcion] = useState(""); // Nuevo campo Des_Hive
@@ -18,6 +18,7 @@ function FormHive({buttonForm, hive, onDataUpdated, closeModal   }) {
   const [msSuccess, setMsSuccess] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpenFall, setModalOpenFall] = useState(false);
+  const [isFormModalOpen, setFormModalOpen] = useState(true); // o false al inicio si prefieres
 
   const [id_Hive, setIdHive] = useState(null);
 
@@ -76,7 +77,10 @@ function FormHive({buttonForm, hive, onDataUpdated, closeModal   }) {
     }
 }
 
-
+const handleSuccessClose = () => {
+  setModalOpen(false);        // Cierra el alert
+  setFormModalOpen(false);    // Oculta el formulario también
+};
 
 
   const setDataHiveForUpdate = () => {
@@ -95,7 +99,7 @@ function FormHive({buttonForm, hive, onDataUpdated, closeModal   }) {
   return (
     <>
       <form
-        className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md"
+        className={`max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md ${isFormModalOpen ? '' : 'hidden'}`}
         onSubmit={handlerSubmit}
       >
         {/* Título */}
@@ -121,7 +125,7 @@ function FormHive({buttonForm, hive, onDataUpdated, closeModal   }) {
             <label htmlFor="descripcion" className="text-sm font-medium text-gray-700">
               Descripción
             </label>
-            <textarea
+            <input
               type="text"
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               id="descripcion"
@@ -203,27 +207,16 @@ function FormHive({buttonForm, hive, onDataUpdated, closeModal   }) {
       {/* Modal de éxito usando el componente dinámico */}
       <DynamicAlert
         isOpen={isModalOpen}
-        onOpenChange={(isOpen) => {
-          setModalOpen(isOpen); // Cambia el estado del modal
-          if (!isOpen) {
-            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
-          }
-        }}
+        onOpenChange={handleSuccessClose}
         type="success"
         message={msSuccess || "Operación exitosa"}
         redirectPath=""
-        
       />
 
       {/* Modal de fallido usando el componente dinámico */}
       <DynamicAlert
         isOpen={isModalOpenFall}
-        onOpenChange={(isOpen) => {
-          setModalOpenFall(isOpen); // Cambia el estado del modal
-          if (!isOpen) {
-            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
-          }
-        }}
+        onOpenChange={setModalOpenFall}
         type="error"
         message={error || "Ha ocurrido un error inesperado"}
         redirectPath=""

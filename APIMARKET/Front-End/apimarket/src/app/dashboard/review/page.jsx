@@ -56,7 +56,10 @@ function ReviewPage() {
         const data = response.data.map((review) => [
           review.id_Review || "-",
           review.des_Review || "-",
-          review.fec_Review || "-",
+          review.fec_Review 
+          ? new Date(review.fec_Review).toLocaleDateString("es-CO")
+          : "Sin descripción", 
+          // review.fec_Review || "-",
           review.id_Hive || "-",
           review.nam_Responsible || "-",
           review.lasNam_Responsible || "-",
@@ -78,7 +81,7 @@ function ReviewPage() {
   }, []);
 
   const handleDataUpdated = () => {
-    fetchHives(); // Refresca los datos de la tabla
+    fetchReview(); // Refresca los datos de la tabla
   };
 
   // Configurar formulario para actualizar o registrar
@@ -171,7 +174,9 @@ function ReviewPage() {
       <ModalDialog
         isOpen={isOpen}
         setIsOpen={openModalForm}
-        FormPage={<FormReview buttonForm={buttonForm} review={review} />}
+        FormPage={<FormReview buttonForm={buttonForm} review={review} 
+        onDataUpdated={handleDataUpdated}
+        closeModal={openModalForm}/>}
         action={action}
       />
 
