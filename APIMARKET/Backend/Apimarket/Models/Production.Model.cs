@@ -22,7 +22,7 @@ namespace Apimarket.Models
 
         public int TotColm_Hive { get; set; }
 
-        public int Tot_Production { get; set; }
+        //public int Tot_Production { get; set; }
 
         public int CanCua_Production {get; set; }
 
@@ -30,6 +30,8 @@ namespace Apimarket.Models
         [ForeignKey("Id_Race")]
 
         public Race? race  { get; set; }
+
+        public int? Id_Hive { get; set; } // Cambio a nullable (int?)
 
     }
 }

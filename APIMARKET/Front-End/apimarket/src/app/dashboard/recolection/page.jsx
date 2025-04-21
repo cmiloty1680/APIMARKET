@@ -28,6 +28,7 @@ function HoneyCollection() {
   const titlesHoney = [
     "ID",
     "Descripción",
+    "Cantidad de Miel",
     "Fecha",
     "Frascos 125ml",
     "Frascos 250ml",
@@ -49,13 +50,22 @@ function HoneyCollection() {
   const [honeyCollection, setHoneyCollection] = useState({
     id_HoneyCollection: "",
     des_HoneyCollection: "",
+    tot_HoneyCollection: "",
     fec_HoneyCollection: "",
     canFra125_HoneyCollection: "",
     canFra250_HoneyCollection: "",
     uniMed_HoneyCollection: "",
-    nam_Responsible: "",
+    id_Responsible: "",
     id_Production: "",
   });
+
+  function formatDateToISO(dateString) {
+    // Espera algo como "20/04/2025"
+    const [day, month, year] = dateString.split("/");
+    if (!day || !month || !year) return "";
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  }
+  
 
   useEffect(() => {
     fetchHoneyCollections();
@@ -68,8 +78,8 @@ function HoneyCollection() {
         const data = response.data.map((honey) => [
           honey.id_HoneyCollection || "-",
           honey.des_HoneyCollection || "Sin descripción",
-          honey.fec_HoneyCollection 
-          ? new Date(honey.fec_HoneyCollection).toLocaleDateString("es-CO")
+          honey.tot_HoneyCollection || "-",
+          honey.fec_HoneyCollection ? new Date(honey.fec_HoneyCollection).toLocaleDateString("es-CO")
           : "Sin descripción", 
           // honey.fec_HoneyCollection || "-",
           honey.canFra125_HoneyCollection || "-",
@@ -107,12 +117,13 @@ function HoneyCollection() {
       setHoneyCollection({
         id_HoneyCollection: rowData[0],
         des_HoneyCollection: rowData[1],
-        fec_HoneyCollection: rowData[2],
-        canFra125_HoneyCollection: rowData[3],
-        canFra250_HoneyCollection: rowData[4],
-        uniMed_HoneyCollection: rowData[5],
-        id_Production: rowData[7],
-        id_Responsible: rowData[8],
+        tot_HoneyCollection: rowData[2],
+        fec_HoneyCollection: formatDateToISO(rowData[3]),
+        canFra125_HoneyCollection: rowData[4],
+        canFra250_HoneyCollection: rowData[5],
+        uniMed_HoneyCollection: rowData[6],
+        id_Responsible: rowData[9],
+        id_Production: rowData[8],
       });
       console.log(rowData);
     } else {

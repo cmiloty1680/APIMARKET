@@ -15,12 +15,14 @@ namespace Apimarket.Controllers
         public IConfiguration _configuration { get; set; }
         public GeneralFunctions _functionsGeneral;
         private readonly ProductionService _productionService;
+        private readonly HiveService _hiveService;
 
-        public ProductionController(IConfiguration configuration, ProductionService productionService)
+        public ProductionController(IConfiguration configuration, ProductionService productionService, HiveService hiveService)
         {
             _functionsGeneral = new GeneralFunctions(configuration);
             _configuration = configuration;
             _productionService = productionService;
+            _hiveService = hiveService;
         }
 
         [HttpPost("CreateProduction")]
@@ -28,18 +30,24 @@ namespace Apimarket.Controllers
         {
             try
             {
+                //// Calcular y asignar TotColm_Hive aquí
+                //entity.TotColm_Hive = _hiveService.CountActiveHives();
 
-            _productionService.Add(entity);
-            return Ok(new {registrado = "Producción creada con éxito." });
+                //// Verificar el valor antes de enviar al servicio
+                //Console.WriteLine($"TotColm_Hive recibido en el controlador: {entity.TotColm_Hive}");
+
+                // Llamar al servicio para agregar la producción
+                _productionService.Add(entity);
+
+                return Ok(new { registrado = "Producción creada con éxito.", totalColmenasActivas = entity.TotColm_Hive });
             }
             catch (Exception ex)
             {
                 _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
-
             }
-
         }
+
 
 
         [HttpGet("GetProduction")]
@@ -75,7 +83,7 @@ namespace Apimarket.Controllers
                     SubCen_Production = p.SubCen_Production,
                     CenCos_Production = p.CenCos_Production,
                     Nom_Production = p.Nom_Production,
-                    Tot_Production = p.Tot_Production,
+                    //Tot_Production = p.Tot_Production,
                     CanCua_Production = p.CanCua_Production,
                     Id_Race = p.race.Id_Race,
                     Nom_Race = p.race.Nom_Race

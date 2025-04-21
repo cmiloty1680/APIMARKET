@@ -49,12 +49,12 @@ namespace Apimarket.Controllers
                 var honeyCollection = _honeyCollectionServices.GetAll().Select(h => new HoneyCollectionDTO
                 {
                     Id_HoneyCollection = h.Id_HoneyCollection,
+                    Tot_HoneyCollection = h.Tot_HoneyCollection,
                     CanFra125_HoneyCollection = h.CanFra125_HoneyCollection,
                     CanFra250_HoneyCollection = h.CanFra250_HoneyCollection,
                     UniMed_HoneyCollection = h.UniMed_HoneyCollection,
                     Des_HoneyCollection = h.Des_HoneyCollection,
                     Fec_HoneyCollection = h.Fec_HoneyCollection,
-                    //Can_HoneyCollection = h.Can_HoneyCollection,
                     Id_Responsible = h.Id_Responsible,
                     Nam_Responsible = h.responsible.Nam_Responsible,
                     Id_Production = h.Id_Production,
@@ -64,7 +64,7 @@ namespace Apimarket.Controllers
                     SubCen_Production = h.production.SubCen_Production,
                     CenCos_Production = h.production.CenCos_Production,
                     TotColm_Hive = h.production.TotColm_Hive,
-                    Tot_Production = h.production.Tot_Production,
+                    //Tot_Production = h.production.Tot_Production,
                     CanCua_Production = h.production.CanCua_Production
                 }).ToList();
 

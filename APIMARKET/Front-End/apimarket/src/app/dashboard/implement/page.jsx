@@ -47,6 +47,14 @@ function ImplementPage() {
     exi_Implement: "",
   });
 
+  function formatDateToISO(dateString) {
+    // Espera algo como "20/04/2025"
+    const [day, month, year] = dateString.split("/");
+    if (!day || !month || !year) return "";
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  }
+  
+
   async function fetchImplement() {
     setIsLoading(true);
     try {
@@ -57,14 +65,9 @@ function ImplementPage() {
           implement.id_Implement || "-",
           implement.nom_Implement || "Sin descripción",
           implement.tip_Implement || "-",
-          implement.fechIng_Implement 
-          ? new Date(implement.fechIng_Implement).toLocaleDateString("es-CO", {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-            })
+          implement.fechIng_Implement ? new Date(implement.fechIng_Implement).toLocaleDateString("es-CO")
           : "Sin descripción",    
-                implement.vlr_Implement != null ? implement.vlr_Implement : "-",
+          implement.vlr_Implement != null ? implement.vlr_Implement : "-",
           implement.exi_Implement || "-",
         ]);
         setRegisImplement(data);
@@ -91,7 +94,7 @@ function ImplementPage() {
         id_Implement: rowData[0],
         nom_Implement: rowData[1],
         tip_Implement: rowData[2],
-        fechIng_Implement: rowData[3],
+        fechIng_Implement: formatDateToISO(rowData[3]),
         vlr_Implement: rowData[4],
         exi_Implement: rowData[5],
       });

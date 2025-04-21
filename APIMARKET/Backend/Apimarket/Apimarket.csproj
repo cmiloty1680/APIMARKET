@@ -9,6 +9,7 @@
 	<ItemGroup>
 	  <Compile Remove="Controllers\ProductionHive.Controller.cs" />
 	  <Compile Remove="DTOs\ProductionHive.DTO.cs" />
+	  <Compile Remove="Services\Email.Service.cs" />
 	  <Compile Remove="Services\ProductionHive.Service.cs" />
 	</ItemGroup>
 

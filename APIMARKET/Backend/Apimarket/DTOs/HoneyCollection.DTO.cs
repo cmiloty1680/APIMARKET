@@ -4,6 +4,8 @@
     {
         public int Id_HoneyCollection { get; set; }
 
+        public int Tot_HoneyCollection { get; set; }
+
         public int CanFra125_HoneyCollection { get; set; }
 
         public int CanFra250_HoneyCollection { get; set; }

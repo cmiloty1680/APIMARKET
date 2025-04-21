@@ -32,7 +32,7 @@ function ProductionPage() {
     "Nombre producción",
     "Id Raza",
     "Nom_Raza",
-    "Tot Producción",
+    // "Tot Producción",
     "Cantidad de cuadro"
   ];
 
@@ -48,6 +48,14 @@ function ProductionPage() {
     id_Race: ''
   });
 
+  function formatDateToISO(dateString) {
+    // Espera algo como "20/04/2025"
+    const [day, month, year] = dateString.split("/");
+    if (!day || !month || !year) return "";
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  }
+  
+
   // Obtener producción
   async function fetchProduction() {
     setIsLoading(true);
@@ -56,8 +64,7 @@ function ProductionPage() {
       if (response.status === 200) {
         const data = response.data.map((production) => [
           production.id_Production || "-",
-          production.fecIni_Production 
-            ? new Date(production.fecIni_Production).toLocaleDateString("es-CO")
+          production.fecIni_Production ? new Date(production.fecIni_Production).toLocaleDateString("es-CO")
             : "Sin descripción", 
           production.fecFin_Production 
             ? new Date(production.fecFin_Production).toLocaleDateString("es-CO")
@@ -68,7 +75,7 @@ function ProductionPage() {
           production.nom_Production || "-",
           production.id_Race || "-",
           production.nom_Race || "-",
-          production.tot_Production || "-",
+          // production.tot_Production || "-",
           production.canCua_Production || "-",
         ]);
         setRegisProduction(data);
@@ -98,13 +105,15 @@ function ProductionPage() {
     if (texto === "Actualizar") {
       setProduction({
         id_Production: rowData[0],
-        fecIni_Production: rowData[1],
-        fecFin_Production: rowData[2],
+        fecIni_Production:formatDateToISO(rowData[1]),
+        fecFin_Production: formatDateToISO(rowData[2]),
         totColm_Hive: rowData[5],
         id_Race: rowData[7],
-        tot_Production: rowData[10],
+        // tot_Production: rowData[9],
         canCua_Production: rowData[9]
+        
       });
+      console.log(rowData);
     }
   };
 

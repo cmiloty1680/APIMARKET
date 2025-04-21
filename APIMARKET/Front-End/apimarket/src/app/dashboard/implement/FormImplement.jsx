@@ -30,8 +30,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
     if (implement) {
       setNomImplement(implement.nom_Implement);
       setTipImplement(implement.tip_Implement);
-      setFecIngImplement(implement.fechIng_Implement);
-      // setFecIngImplement(implement.fechIng_Implement ? new Date(implement.fechIng_Implement).toLocaleDateString("sv-SE") : "");
+      setFecIngImplement(implement.fechIng_Implement ?? "");
       setVlrImplement(implement.vlr_Implement);
       setExiImplement(implement.exi_Implement);
       setIdImplement(implement.id_Implement);

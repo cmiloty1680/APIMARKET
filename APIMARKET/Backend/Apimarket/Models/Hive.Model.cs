@@ -10,18 +10,20 @@ namespace Apimarket.Models
 
         [Required(ErrorMessage = "La descripción es requerida")]
         [StringLength(50, ErrorMessage = "La descripción no debe exceder los 50 caracteres")]
-        public string Des_Hive { get; set; } // Campo para la descripción
+        public string Des_Hive { get; set; } 
 
         [Required(ErrorMessage = "El tipo de responsable es requerido")]
-        public string Est_Hive { get; set; } // Se puede crear un Enum para Tip_Responsible si es necesario
+        public string Est_Hive { get; set; } 
 
         [Required(ErrorMessage = "El número de cuadros es requerido")]
         [Range(1, 30, ErrorMessage = "El número de cuadros debe estar entre {1} y {2}")]
-        public int NumCua_Hive { get; set; } // Número de cuadros
+        public int NumCua_Hive { get; set; } 
 
         [Required(ErrorMessage = "El número de alzas es requerido")]
         [Range(1, 30, ErrorMessage = "El número de alzas debe estar entre {1} y {2}")]
-        public int NumAlz_Hive { get; set; } // Número de alzas
+        public int NumAlz_Hive { get; set; } 
+
+        public int CuaMiel_Hive { get; set; }
 
     }
 }

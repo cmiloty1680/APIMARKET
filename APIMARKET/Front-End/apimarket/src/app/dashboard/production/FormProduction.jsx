@@ -13,7 +13,7 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
     const [fecha, setFecha] = useState("");
     const [fechaF, setFechaF] = useState("");
     const [totColm, setTotColm] = useState("");
-    const [totalProd, setTotalPro] = useState("");
+    // const [totalProd, setTotalPro] = useState("");
     const [nomrace, setNomrace] = useState("");
     const [canCua, setCanCua] = useState("");
     const [error, setError] = useState("");
@@ -42,6 +42,37 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
     }, []);
 
 
+
+    useEffect(() => {
+        // Obtener el total de colmenas desde el backend
+        async function fetchTotalColmenas() {
+            try {
+                const response = await axiosInstance.get("/Api/Hive/GetTotalHives"); // Asumiendo que el endpoint es correcto
+                setTotColm(response.data.total); // Establecer el total de colmenas en el estado
+            } catch (error) {
+                console.error("Error al obtener total de colmenas:", error);
+            }
+        }
+        fetchTotalColmenas();
+    }, []);
+
+
+
+    useEffect(() => {
+        // Obtener el total de colmenas desde el backend
+        async function fetchTotalCudrosMiel() {
+            try {
+                const response = await axiosInstance.get("/Api/Hive/GetTotalCuaMielHives"); // Asumiendo que el endpoint es correcto
+                setCanCua(response.data.total); // Establecer el total de colmenas en el estado
+            } catch (error) {
+                console.error("Error al obtener total de colmenas:", error);
+            }
+        }
+        fetchTotalCudrosMiel();
+    }, []);
+
+
+
     async function handlerSubmit(event) {
         event.preventDefault();
         setSubmitting(true);
@@ -63,8 +94,8 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                     id_Production: id_Production,
                     fecIni_Production: formattedFecha,
                     fecFin_Production: formattedFechas,
-                    totColm_Hive: totColm,
-                    tot_Production: totalProd,
+                    totColm_Hive: buttonForm === "Actualizar" ? production.totColm_Hive : totColm, // Usamos el valor original si es actualización
+                    // tot_Production: totalProd,
                     canCua_Production: canCua,
                     id_Race: nomrace,
                 }
@@ -82,7 +113,7 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                     fecIni_Production: formattedFecha,
                     fecFin_Production: formattedFechas,
                     totColm_Hive: totColm,
-                    tot_Production: totalProd,
+                    // tot_Production: totalProd,
                     canCua_Production: canCua,
                     id_Race: nomrace,
                 });
@@ -107,11 +138,11 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
     }
 
     const setDataProductionForUpdate = () => {
-        setFecha(production.fecIni_Production ? new Date(production.fecIni_Production).toLocaleDateString("es-CO") : "");
+        setFecha(production.fecIni_Production ?? "");
         setFechaF(production.fecFin_Production);
         setTotColm(production.totColm_Hive);
         setNomrace(production.id_Race);
-        setTotalPro(production.tot_Production);
+        // setTotalPro(production.tot_Production);
         setCanCua(production.canCua_Production);
         setIdProduction(production.id_Production);
     }
@@ -195,12 +226,42 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                                 id="cantidad"
                                 required
                                 name="cantidad"
-                                value={totColm || ""}
+                                value={buttonForm === "Actualizar" ? production.totColm_Hive : totColm || ""}
+                                onChange={(event) => {
+                                    if (buttonForm !== "Actualizar") {
+                                        setTotColm(event.target.value);
+                                    }
+                                }}
+                                disabled={buttonForm === "Actualizar"} // Lo deshabilitamos si es actualización
+                            />
+                            {/* value={totColm || ""}
                                 onChange={(event) => setTotColm(event.target.value)}
+                            /> */}
+                        </div>
+
+                        <div className="space-y-1">
+                            <label htmlFor="estado" className="text-sm font-medium text-gray-700">
+                                Cantidad de Cuadro
+                            </label>
+                            <input
+                                type="number"
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                id="cantidad"
+                                required
+                                name="cantidad"
+                                value={buttonForm === "Actualizar" ? production.canCua_Production : canCua || ""}
+                                onChange={(event) => {
+                                    if (buttonForm !== "Actualizar") {
+                                        setCanCua(event.target.value);
+                                    }
+                                }}
+                                disabled={buttonForm === "Actualizar"}
+                            // value={canCua || ""}
+                            // onChange={(event) => setCanCua(event.target.value)}
                             />
                         </div>
                         {/* Selección de Raza */}
-                        <div className="space-y-1">
+                        {/* <div className="space-y-1">
                             <label htmlFor="estado" className="text-sm font-medium text-gray-700">
                                 Total de Producción
                             </label>
@@ -213,26 +274,10 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                                 value={totalProd || ""}
                                 onChange={(event) => setTotalPro(event.target.value)}
                             />
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-
-                        <div className="space-y-1">
-                            <label htmlFor="estado" className="text-sm font-medium text-gray-700">
-                                Cantidad de Cuadro
-                            </label>
-                            <input
-                                type="number"
-                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
-                                id="cantidad"
-                                required
-                                name="cantidad"
-                                value={canCua || ""}
-                                onChange={(event) => setCanCua(event.target.value)}
-                            />
-                        </div>
                         {/* Selección de Raza */}
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Seleccionar Raza</label>
@@ -250,6 +295,54 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                                 ))}
                             </select>
                         </div>
+                        <div className="space-y-1">
+                            <label htmlFor="descripcion" className="text-sm font-medium text-gray-700">
+                                SubCentro
+                            </label>
+                            <input
+                                type="text"
+                                value="Apicultura"
+                                readOnly
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                id="descripcion"
+                                placeholder=""
+                                required
+                            />
+                        </div>
+
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                            <label htmlFor="descripcion" className="text-sm font-medium text-gray-700">
+                                CentroCosto
+                            </label>
+                            <input
+                                type="text"
+                                value="Pecuaria"
+                                readOnly
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                id="descripcion"
+                                placeholder=""
+                                required
+                            />
+                        </div>
+
+                        <div className="space-y-1">
+                            <label htmlFor="descripcion" className="text-sm font-medium text-gray-700">
+                                Nombre de Producción
+                            </label>
+                            <input
+                                type="text"
+                                value="Miel de Abeja"
+                                readOnly
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                id="descripcion"
+                                placeholder=""
+                                required
+                            />
+                        </div>
+            
                     </div>
 
 
@@ -271,9 +364,9 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                 onOpenChange={(isOpen) => {
                     setModalOpen(isOpen); // Cambia el estado del modal
                     if (!isOpen) {
-                      closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+                        closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
                     }
-                  }}
+                }}
                 type="success"
                 message={msSuccess || "Operación exitosa"}
                 redirectPath=""
@@ -285,9 +378,9 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                 onOpenChange={(isOpen) => {
                     setModalOpenFall(isOpen); // Cambia el estado del modal
                     if (!isOpen) {
-                      closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+                        closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
                     }
-                  }}
+                }}
                 type="error"
                 message={error || "Ha ocurrido un error inesperado"}
                 redirectPath=""

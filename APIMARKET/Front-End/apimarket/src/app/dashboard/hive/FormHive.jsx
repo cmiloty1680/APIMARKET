@@ -7,12 +7,13 @@ import { Hexagon } from "lucide-react";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
 
-function FormHive({buttonForm, hive, onDataUpdated, closeModal   }) {
+function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
   const router = useRouter();
   const [estado, setEstado] = useState("");
   const [descripcion, setDescripcion] = useState(""); // Nuevo campo Des_Hive
   const [Ncuadro, setNcuadro] = useState("");
   const [Nalza, setNalza] = useState("");
+  const [CuaMiel, setCuaMiel] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
   const [msSuccess, setMsSuccess] = useState("");
@@ -33,48 +34,50 @@ function FormHive({buttonForm, hive, onDataUpdated, closeModal   }) {
     }
 
     try {
-        if (buttonForm == "Actualizar") {
-            const updateHive = {
-                id_Hive: id_Hive,
-                des_Hive: descripcion,
-                est_Hive: estado,
-                numCua_Hive: Ncuadro,
-                numAlz_Hive: Nalza,
-            }
-            // console.log(updateHive);
-
-            const response = await axiosInstance.put(`/Api/Hive/UpdateHive/${id_Hive}`, updateHive  )
-            if (response.status === 200) {
-                setMsSuccess(response.data.message || "Colmena actualizada.");
-                setModalOpen(true);
-                onDataUpdated(); // <<-- Aquí se notifica al padre
-            }
-        } else if (buttonForm === "Registrar") {
-            const response = await axiosInstance.post("/Api/Hive/CreateHive", {
-              id_Hive: id_Hive,
-              des_Hive: descripcion,
-              est_Hive: estado,
-              numCua_Hive: Ncuadro,
-              numAlz_Hive: Nalza
-            });
-
-
-            if (response.status === 200) {
-              setMsSuccess(response.data.registrado);
-                setModalOpen(true);
-                // router.push("");
-                onDataUpdated(); // <<-- Aquí se notifica al padre
-            }
+      if (buttonForm == "Actualizar") {
+        const updateHive = {
+          id_Hive: id_Hive,
+          des_Hive: descripcion,
+          est_Hive: estado,
+          numCua_Hive: Ncuadro,
+          numAlz_Hive: Nalza,
+          cuaMiel_Hive: CuaMiel,
         }
+        // console.log(updateHive);
+
+        const response = await axiosInstance.put(`/Api/Hive/UpdateHive/${id_Hive}`, updateHive)
+        if (response.status === 200) {
+          setMsSuccess(response.data.message || "Colmena actualizada.");
+          setModalOpen(true);
+          onDataUpdated(); // <<-- Aquí se notifica al padre
+        }
+      } else if (buttonForm === "Registrar") {
+        const response = await axiosInstance.post("/Api/Hive/CreateHive", {
+          id_Hive: id_Hive,
+          des_Hive: descripcion,
+          est_Hive: estado,
+          numCua_Hive: Ncuadro,
+          numAlz_Hive: Nalza,
+          cuaMiel_Hive: CuaMiel,
+        });
+
+
+        if (response.status === 200) {
+          setMsSuccess(response.data.registrado);
+          setModalOpen(true);
+          // router.push("");
+          onDataUpdated(); // <<-- Aquí se notifica al padre
+        }
+      }
     } catch (error) {
-        console.log("Error:", error.response || error.message);
-        setError(error.response?.data?.message || "Error al conectar con el servidor.");
-        setModalOpenFall(true)
+      console.log("Error:", error.response || error.message);
+      setError(error.response?.data?.message || "Error al conectar con el servidor.");
+      setModalOpenFall(true)
     }
     finally {
-        setSubmitting(false);
+      setSubmitting(false);
     }
-}
+  }
 
 
 
@@ -85,6 +88,7 @@ function FormHive({buttonForm, hive, onDataUpdated, closeModal   }) {
     setNcuadro(hive.numCua_Hive);
     setNalza(hive.numAlz_Hive);
     setIdHive(hive.id_Hive);
+    setCuaMiel(hive.cuaMiel_Hive);
 
   }
 
@@ -170,23 +174,40 @@ function FormHive({buttonForm, hive, onDataUpdated, closeModal   }) {
             </div>
           </div>
 
-          {/* Número de Alzas */}
-          <div className="space-y-1">
-            <label htmlFor="Nalza" className="text-sm font-medium text-gray-700">
-              Número de Alzas
-            </label>
-            <input
-              type="number"
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
-              id="Nalza"
-              placeholder="Ingrese N° alzas"
-              required
-              name="Nalza"
-              value={Nalza || ""}
-              onChange={(event) => setNalza(event.target.value)}
-            />
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Número de Alzas */}
+            <div className="space-y-1">
+              <label htmlFor="Nalza" className="text-sm font-medium text-gray-700">
+                Número de Alzas
+              </label>
+              <input
+                type="number"
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                id="Nalza"
+                placeholder="Ingrese N° alzas"
+                required
+                name="Nalza"
+                value={Nalza || ""}
+                onChange={(event) => setNalza(event.target.value)}
+              />
+            </div>
+            <div className="space-y-1">
+            <label htmlFor="CuaMiel" className="text-sm font-medium text-gray-700">
+                Cuadros de Miel
+              </label>
+              <input
+                type="number"
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                id="CuaMiel"
+                placeholder="Ingrese Cuadros de Miel"
+                required
+                name="CuaMiel"
+                value={CuaMiel || ""}
+                onChange={(event) => setCuaMiel(event.target.value)}
+              />
+            </div>
 
+          </div>
           {/* Botón Guardar */}
           <div className="flex justify-end pt-3">
             <Button
@@ -212,7 +233,7 @@ function FormHive({buttonForm, hive, onDataUpdated, closeModal   }) {
         type="success"
         message={msSuccess || "Operación exitosa"}
         redirectPath=""
-        
+
       />
 
       {/* Modal de fallido usando el componente dinámico */}

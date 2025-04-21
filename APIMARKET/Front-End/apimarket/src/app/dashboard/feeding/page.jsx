@@ -49,6 +49,14 @@ function FeedingPage() {
     id_Hive: ''
   });
 
+  function formatDateToISO(dateString) {
+    // Espera algo como "20/04/2025"
+    const [day, month, year] = dateString.split("/");
+    if (!day || !month || !year) return "";
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  }
+  
+
   async function fetchFeeding() {
     setIsLoading(true);
     try {
@@ -60,9 +68,7 @@ function FeedingPage() {
         const data = response.data.map((feeding) => [
           feeding.id_Feeding || "-",
           feeding.tip_Feeding || "-",
-          feeding.fec_Feeding 
-          ? new Date(feeding.fec_Feeding).toLocaleDateString("es-CO", {
-            })
+          feeding.fec_Feeding ? new Date(feeding.fec_Feeding).toLocaleDateString("es-CO")
           : "Sin descripción",    
           // feeding.fec_Feeding || "Sin descripción",
           feeding.can_Feeding || "-",
@@ -106,12 +112,7 @@ function FeedingPage() {
       setFeeding({
         id_Feeding: rowData[0],
         tip_Feeding: rowData[1],
-        fec_Feeding: rowData[2],
-        // fec_Feeding: rowData[2] !== "Sin descripción"
-        // ? new Date().toLocaleDateString('en-CA') // formato: yyyy-mm-dd
-        // : '',
-        
-      
+        fec_Feeding: formatDateToISO(rowData[2]),      
         can_Feeding: rowData[3],
         vlr_Feeding: rowData[4],
         des_Hive: rowData[5],         

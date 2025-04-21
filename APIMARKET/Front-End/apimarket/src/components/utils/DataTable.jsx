@@ -12,10 +12,20 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5
 
+  // Ordenar los datos por ID en orden descendente
+  // Asumiendo que el ID está en la primera posición (índice 0) de cada fila
+  const sortedData = [...Data].sort((a, b) => {
+    // Convertir a número si es posible, para asegurar ordenamiento numérico correcto
+    const idA = typeof a[0] === "number" ? a[0] : Number(a[0])
+    const idB = typeof b[0] === "number" ? b[0] : Number(b[0])
+
+    // Orden descendente (de mayor a menor)
+    return idB - idA
+  })
+
   // Filtrar los datos según el término de búsqueda
-  const filteredData = Data.filter((row) =>
-    row.some((cell) => 
-      cell.toString().toLowerCase().includes(searchTerm.toLowerCase())),
+  const filteredData = sortedData.filter((row) =>
+    row.some((cell) => cell.toString().toLowerCase().includes(searchTerm.toLowerCase())),
   )
 
   // Paginación sobre los datos filtrados
@@ -55,13 +65,6 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
             <TableRow>
               {TitlesTable.map(
                 (title, index) =>
-                  //     <TableHead
-                  //         key={index}
-                  //         className="text-gray-600 font-medium bg-gray-100 table-head"
-                  //     >
-                  //         {title}
-                  //     </TableHead>
-                  // ))}
                   !ignorar.includes(index) && (
                     <TableHead key={index} className="text-gray-600 font-medium bg-gray-100 table-head">
                       {title}
@@ -74,12 +77,6 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
 
           <TableBody>
             {currentItems.map((row, rowIndex) => (
-              //     <TableRow key={rowIndex}>
-              //     {row.map((cell, cellIndex) => (
-              //         <TableCell key={cellIndex} className="table-cell">
-              //             {cell}
-              //         </TableCell>
-              // ))}
               <TableRow key={rowIndex}>
                 {row.map(
                   (cell, cellIndex) =>

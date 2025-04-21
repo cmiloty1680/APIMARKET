@@ -129,11 +129,7 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
 
 
     const setDataFeedingForUpdate = () => {
-        setFecha(feeding.fec_Feeding);  
-        // const fecha = feeding.fec_Feeding
-        //     ? new Date(feeding.fec_Feeding).toISOString().split("T")[0]
-        //     : "";
-        // setFecha(fecha);
+        setFecha(feeding.fec_Feeding ?? "");  
         setTipoAlimentacion(feeding.tip_Feeding);
         setCantidad(feeding.can_Feeding);
         setValor(feeding.vlr_Feeding);

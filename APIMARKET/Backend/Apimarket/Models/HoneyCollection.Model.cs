@@ -8,6 +8,8 @@ namespace Apimarket.Models
         [Key]
         public int Id_HoneyCollection { get; set; }
 
+        public int Tot_HoneyCollection { get; set; }
+
         public int CanFra125_HoneyCollection { get; set; }
 
         public int CanFra250_HoneyCollection { get; set; }
@@ -20,7 +22,6 @@ namespace Apimarket.Models
         public DateTime Fec_HoneyCollection { get; set; }
 
         //[Required]
-        //public int Can_HoneyCollection { get; set; }
 
         public int Id_Responsible { get; set; }
         [ForeignKey("Id_Responsible")]

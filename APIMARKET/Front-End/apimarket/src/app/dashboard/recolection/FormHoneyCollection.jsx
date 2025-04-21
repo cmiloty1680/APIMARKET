@@ -14,6 +14,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
   const [descripcion, setDescripcion] = useState("");
   const [fecha, setFecha] = useState("");
   const [produccion, setProduccion] = useState("");
+  const [totMiel, setTotMiel] = useState("");
   const [msSuccess, setMsSuccess] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
@@ -26,6 +27,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
 
 
   useEffect(() => {
+    
     async function fetchresponsibles() {
       try {
         const response = await axiosInstance.get("/Api/Responsible/GetsAllResponsible");
@@ -51,12 +53,13 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
 
     const payload = {
       id_HoneyCollection: id_HoneyCollection,
+      tot_HoneyCollection: totMiel,
       canFra125_HoneyCollection: canFra125,
       canFra250_HoneyCollection: canFra250,
       uniMed_HoneyCollection: uniMed,
       des_HoneyCollection: descripcion,
       fec_HoneyCollection: fecha,
-      id_Responsible: nomResponsible,
+      id_Responsible: parseInt(nomResponsible),
       id_Production: produccion,
     };
 
@@ -74,7 +77,10 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
 
         }
       } else if (buttonForm === "Registrar") {
+
+        console.log(uniMed)
         const response = await axiosInstance.post("/Api/HoneyCollection/Create", {
+          tot_HoneyCollection: totMiel,
           canFra125_HoneyCollection: canFra125,
           canFra250_HoneyCollection: canFra250,
           uniMed_HoneyCollection: uniMed,
@@ -91,6 +97,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
       }
     } catch (error) {
       setError(error.response?.data?.message || "Error al conectar con el servidor.");
+      console.log(error.response?.data?.message || "Error al conectar con el servidor.");
     } finally {
       setSubmitting(false);
     }
@@ -99,7 +106,8 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
   const setDataHoneyForUpdate = () => {
     setIdHoneyCollection(honeyCollection.id_HoneyCollection);
     setDescripcion(honeyCollection.des_HoneyCollection);
-    setFecha(honeyCollection.fec_HoneyCollection);
+    setTotMiel(honeyCollection.tot_HoneyCollection);
+    setFecha(honeyCollection.fec_HoneyCollection ?? "");
     setCanFra125(honeyCollection.canFra125_HoneyCollection);
     setCanFra250(honeyCollection.canFra250_HoneyCollection);
     setUniMed(honeyCollection.uniMed_HoneyCollection);
@@ -109,8 +117,13 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
   }
 
   useEffect(() => {
-    setDataHoneyForUpdate()
-  }, []);
+
+    console.log(uniMed)
+    if(buttonForm == "Actualizar"){
+      setDataHoneyForUpdate()
+    }
+    
+  }, [buttonForm]);
 
   return (
     <>
@@ -135,6 +148,17 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
         {/* Campos */}
+        <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-700">Total de Miel</label>
+            <input
+              type="number"
+              value={totMiel || ""}
+              onChange={(e) => setTotMiel(e.target.value)}
+              placeholder="Cantidad Recolectada"
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              required
+            />
+          </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Frascos de 125ml */}
           <div className="space-y-1">
@@ -172,7 +196,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
               onChange={(e) => setUniMed(e.target.value)}
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
             >
-              <option value="ml">ml</option>
+              <option value={uniMed}>{uniMed}</option>
             </select>
           </div>
 
@@ -219,6 +243,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
             </select>
           </div>
 
+          
           {/* Producción */}
           <div className="space-y-1 col-span-1 md:col-span-2">
             <label className="text-sm font-medium text-gray-700">Descripción</label>

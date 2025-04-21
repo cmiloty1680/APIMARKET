@@ -35,11 +35,11 @@ const menuItems = [
   { href: "/dashboard/review", icon: Eye, label: "Revisión" },
   { href: "/dashboard/implement", icon: Tool, label: "Implemento" },
   { href: "/dashboard/race", icon: Bug, label: "Raza" },
-  { href: "/dashboard/collecdrone", icon: Scissors, label: "Recolección" },
-  { href: "/dashboard/extractions", icon: Flask, label: "Extracción" },
-  { href: "/dashboard/fertilizations", icon: Sprout, label: "Fertilización" },
+  // { href: "/dashboard/collecdrone", icon: Scissors, label: "Recolección" },
+  // { href: "/dashboard/extractions", icon: Flask, label: "Extracción" },
+  // { href: "/dashboard/fertilizations", icon: Sprout, label: "Fertilización" },
+  { href: "/dashboard/insemination", icon: Sprout, label: "inseminación" },
   { href: "/dashboard/responsable", icon: Users, label: "Responsable" },
-  { href: "/dashboard/insemination", icon: Users, label: "inseminación" },
 ];
 
 function Siderbar() {

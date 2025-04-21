@@ -62,6 +62,38 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [HttpGet("GetTotalHives")]
+        public IActionResult GetTotalHives()
+        {
+            try
+            {
+                var total = _hiveService.CountActiveHives();
+                return Ok(new { total });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+        [HttpGet("GetTotalCuaMielHives")]
+        public IActionResult GetTotalCuaMielHives()
+        {
+            try
+            {
+                var total = _hiveService.CountHoneyFramesInActiveHives();
+                return Ok(new { total });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+
         [HttpGet("AllHive")]
 
 

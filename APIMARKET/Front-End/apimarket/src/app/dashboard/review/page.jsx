@@ -47,6 +47,14 @@ function ReviewPage() {
 
   });
 
+  function formatDateToISO(dateString) {
+    // Espera algo como "20/04/2025"
+    const [day, month, year] = dateString.split("/");
+    if (!day || !month || !year) return "";
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  }
+  
+
   // Obtener revisiones
   async function fetchReview() {
     setIsLoading(true)
@@ -56,8 +64,7 @@ function ReviewPage() {
         const data = response.data.map((review) => [
           review.id_Review || "-",
           review.des_Review || "-",
-          review.fec_Review 
-          ? new Date(review.fec_Review).toLocaleDateString("es-CO")
+          review.fec_Review ? new Date(review.fec_Review).toLocaleDateString("es-CO")
           : "Sin descripción", 
           // review.fec_Review || "-",
           review.id_Hive || "-",
@@ -99,7 +106,7 @@ function ReviewPage() {
       setReview({
         id_Review: rowData[0],
         des_Review: rowData[1],
-        fec_Review: rowData[2],
+        fec_Review: formatDateToISO(rowData[2]),
         id_Hive: rowData[3],
         id_Responsible: rowData[6]
       });

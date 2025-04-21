@@ -17,11 +17,14 @@ namespace Apimarket.Models
         public DbSet<Hive> hive { get; set; }
         public DbSet<Production> production { get; set; }
         public DbSet<Race> race { get; set; }
+
         public DbSet<Review> review { get; set; }
         public DbSet<Fertilization> fertilization { get; set; }
 
         public DbSet<Extraction> extraction { get; set; }
         public DbSet<CollecDrone> collecDrone { get; set; }
+
+        public DbSet<ContactForm> contactForm { get; set; }
 
 
 

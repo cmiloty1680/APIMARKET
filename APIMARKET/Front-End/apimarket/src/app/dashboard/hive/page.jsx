@@ -30,6 +30,7 @@ function HivePage() {
     "Estado",
     "N° Cuadros",
     "N° Alzas",
+    "Cuadro de Miel"
   ];
 
   const [hive, setHive] = useState({
@@ -38,6 +39,7 @@ function HivePage() {
     est_Hive: "",
     numCua_Hive: "",
     numAlz_Hive: "",
+    cuaMiel_Hive: "",
   });
 
   // Obtener producción
@@ -52,6 +54,7 @@ function HivePage() {
           hive.est_Hive || "Sin estado",
           hive.numCua_Hive != null ? hive.numCua_Hive : "-",
           hive.numAlz_Hive != null ? hive.numAlz_Hive : "-",
+          hive.cuaMiel_Hive || "-"
 
         ]);
         setRegisHive(data);
@@ -91,7 +94,8 @@ function HivePage() {
         des_Hive: rowData[1],
         est_Hive: rowData[2],
         numCua_Hive: rowData[3],
-        numAlz_Hive: rowData[4]
+        numAlz_Hive: rowData[4],
+        cuaMiel_Hive: rowData[5]
       });
 
       console.log(rowData)

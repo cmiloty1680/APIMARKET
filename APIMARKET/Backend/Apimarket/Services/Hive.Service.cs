@@ -52,5 +52,19 @@ namespace Apimarket.Services
             _context.hive.Update(hive);
             _context.SaveChanges();
         }
+
+        // Método para contar el total de cuadros de miel en colmenas activas
+        public int CountHoneyFramesInActiveHives()
+        {
+            return _context.hive
+                .Where(h => h.Est_Hive == "activo")
+                .Sum(h => h.CuaMiel_Hive);
+        }
+
+        // Método para contar las colmenas activas
+        public int CountActiveHives()
+        {
+            return _context.hive.Count(h => h.Est_Hive == "activo");
+        }
     }
 }

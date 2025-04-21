@@ -111,7 +111,7 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
   }
 
   const setDataReviewForUpdate = () => {
-    setFecha(review.fec_Review ? new Date(review.fec_Review).toLocaleDateString("sv-SE") : "");
+    setFecha(review.fec_Review ?? "");
     setIdReview(review.id_Review);
     setIdHives(review.id_Hive);
     setNomResponsible(review.id_Responsible);

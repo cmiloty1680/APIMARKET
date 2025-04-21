@@ -9,10 +9,12 @@ namespace Apimarket.Services
     public class ProductionService
     {
         private readonly AppDbContext _context;
+        private readonly HiveService _hiveService;
 
-        public ProductionService(AppDbContext context)
+        public ProductionService(AppDbContext context, HiveService hiveService)
         {
             _context = context;
+            _hiveService = hiveService;
         }
 
         // Obtiene todas las producciones
@@ -25,6 +27,10 @@ namespace Apimarket.Services
         // Añade una nueva producción
         public void Add(Production entity)
         {
+            entity.TotColm_Hive = _hiveService.CountActiveHives();
+            // Obtiene el total de cuadros de miel en colmenas activas
+            entity.CanCua_Production = _hiveService.CountHoneyFramesInActiveHives();
+            //Console.WriteLine($"TotColm_Hive calculado: {entity.TotColm_Hive}");
             _context.production.Add(entity);
             _context.SaveChanges();
         }

@@ -39,6 +39,7 @@ builder.Services.AddScoped<RaceService>();
 builder.Services.AddScoped<CollecDroneService>();
 builder.Services.AddScoped<ExtractionService>();
 builder.Services.AddScoped<FertilizationService>();
+//builder.Services.AddScoped<EmailService>();
 
 
 
