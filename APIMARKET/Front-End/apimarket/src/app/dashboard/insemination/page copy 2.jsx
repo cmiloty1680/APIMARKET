@@ -10,7 +10,6 @@ import FormCollecDrone from "./FormCollecDrone"
 import FormExtraction from "./FormExtraction"
 import FormFertilization from "./FormFertilization"
 import { ArrowLeft } from 'lucide-react'
-import axiosInstance from "@/lib/axiosInstance";
 import { Button } from "@/components/ui/button"
 
 // Definir las constantes para los tipos de vista
@@ -43,46 +42,20 @@ function ColmenaRecoleccion() {
   const [fertilizationData, setFertilizationData] = useState([])
 
   // Títulos para las tablas
-  const titlesRecoleccion = [
-    "ID",
-    "Fecha", 
-    "Cantidad", 
-    "Responsable", 
-    "ID Colmena",
-    "Extracción"]
-  const titlesExtraccion = [
-    "ID",
-    "Fecha Extracción",
-    "Cantidad Extracción", 
-    "Responsable", 
-    "ID Recolección",
-    "Fertilización"]
-  const titlesFertilizacion = [
-    "ID",
-    "Fecha Fertilización", 
-    "Cantidad Fertilización", 
-    "Responsable",
-    "Id Extracción"]
+  const titlesRecoleccion = ["Fecha", "Cantidad", "Responsable", "Extracción"]
+  const titlesExtraccion = ["Fecha Extracción", "Cantidad Extracción", "Responsable", "Fertilización"]
+  const titlesFertilizacion = ["Fecha Fertilización", "Cantidad Fertilización", "Responsable"]
 
   // Obtener datos de recolección
   async function fetchRecolecciones() {
     setIsLoading(true)
     try {
-      const response = await axiosInstance.get("/Api/CollecDrone/GetAllCollecDrone");
-      if (response.status === 200) {
-        const data = response.data.map((collec) => [
-          collec.id_CollecDrone || "-",
-          collec.fec_CollecDrone ? new Date(collec.fec_CollecDrone).toLocaleDateString("es-CO")
-            : "Sin descripción", 
-          // collec.fec_CollecDrone || "Sin descripción
-          collec.can_CollecDrone || "Sin estado",
-          collec.nam_Responsible || "-",
-          collec.id_Hive || "-",
-
-        ]);
-        setRegistros(data);
-
-      }
+      // Simulación de datos para desarrollo
+      setRegistros([
+        ["01/04/2025", "2.5 kg", "Carlos Méndez", "Sí"],
+        ["03/04/2025", "1.8 kg", "Ana López", "Sí"],
+        ["05/04/2025", "3.2 kg", "Juan Pérez", "No"],
+      ])
     } catch (error) {
       console.error("Error al obtener las recolecciones:", error)
       setError("No se pudo cargar las recolecciones.")
@@ -92,29 +65,14 @@ function ColmenaRecoleccion() {
   }
 
   // Obtener datos de extracción
-  async function fetchExtracciones() {
+  async function fetchExtracciones(recoleccionId) {
     setIsLoading(true)
     try {
       // Simulación de datos para desarrollo
-      const response = await axiosInstance.get("/Api/Extraction/GetAllExtration");
-      if (response.status === 200) {
-        const data = response.data.map((extration) => [
-          extration.id_Extraction || "-",
-          extration.fec_Extraction ? new Date(extration.fec_Extraction).toLocaleDateString("es-CO")
-            : "Sin descripción", 
-          // collec.fec_CollecDrone || "Sin descripción
-          extration.can_Extraction || "Sin estado",
-          extration.nam_Responsible || "-",
-          extration.id_CollecDrone || "-",
-
-        ]);
-        setExtractionData(data);
-
-      }
-      // setExtractionData([
-      //   ["02/04/2025", "1.2 kg", "Carlos Méndez"],
-      //   ["05/04/2025", "0.8 kg", "Ana López"],
-      // ])
+      setExtractionData([
+        ["02/04/2025", "1.2 kg", "Carlos Méndez", "Sí"],
+        ["05/04/2025", "0.8 kg", "Ana López", "Sí"],
+      ])
     } catch (error) {
       console.error("Error al obtener las extracciones:", error)
       setError("No se pudo cargar las extracciones.")
@@ -124,21 +82,14 @@ function ColmenaRecoleccion() {
   }
 
   // Obtener datos de fertilización
-  async function fetchFertilizaciones() {
+  async function fetchFertilizaciones(extraccionId) {
     setIsLoading(true)
     try {
       // Simulación de datos para desarrollo
-      const response = await axiosInstance.get("/Api/Fertilization/GetsAllFertilization");
-      if(response.status === 200){
-        const data = response.data.map((fertilization) => [
-          fertilization.id_Fertilization || "-",
-          fertilization.fec_Fertilization ? new Date(fertilization.fec_Fertilization).toLocaleDateString("es-CO") : "-",
-          fertilization.can_Fertilization || "-",
-          fertilization.nam_Responsible|| "-",
-          fertilization.id_Extraction || "-"
-        ]);
-        setFertilizationData(data);
-      }
+      setFertilizationData([
+        ["03/04/2025", "0.5 kg", "Carlos Méndez"],
+        ["06/04/2025", "0.3 kg", "Ana López"],
+      ])
     } catch (error) {
       console.error("Error al obtener las fertilizaciones:", error)
       setError("No se pudo cargar las fertilizaciones.")

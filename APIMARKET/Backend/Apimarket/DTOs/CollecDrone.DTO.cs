@@ -15,9 +15,10 @@ namespace Apimarket.DTOs
 
         public int Can_CollecDrone { get; set; }
 
-        public string? Nam_Responsible { get; set; }
+        public string Nam_Responsible { get; set; }
 
-        public DateTime FecIni_Production { get; set; }
+        public int Id_Hive { get; set; }
+
     }
 }
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Apimarket.DTOs;
 
 namespace Apimarket.Controllers
 {
@@ -76,6 +77,29 @@ namespace Apimarket.Controllers
                 {
                     return NotFound("Fertilización no encontrada");
                 }
+                return Ok(fertilization);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("GetsAllFertilization")]
+        public ActionResult<IEnumerable<Fertilization>> GetAll()
+        {
+            try
+            {
+                var fertilization = _fertilizationServices.GetAll().Select(p => new FertilizationDTO
+                {
+                    Id_Fertilization = p.Id_Fertilization,
+                    Fec_Fertilization = p.Fec_Fertilization,
+                    Can_Fertilization = p.Can_Fertilization,
+                    Nam_Responsible = p.responsible.Nam_Responsible,
+                    Id_Extraction = p.extraction.Id_Extraction
+                }).ToList();
+
                 return Ok(fertilization);
             }
             catch (Exception ex)

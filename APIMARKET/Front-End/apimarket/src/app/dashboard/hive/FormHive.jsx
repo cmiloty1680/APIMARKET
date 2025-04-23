@@ -131,7 +131,6 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
               id="descripcion"
               placeholder="Ingrese una descripción (máximo 50 caracteres)"
               required
-              maxLength={50}
               name="descripcion"
               value={descripcion || ""}
               onChange={(event) => setDescripcion(event.target.value)}

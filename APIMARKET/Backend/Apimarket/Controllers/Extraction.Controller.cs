@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Apimarket.DTOs;
 
 
 namespace Apimarket.Controllers
@@ -80,6 +81,29 @@ namespace Apimarket.Controllers
                     return NotFound("Extracción no encontrada");
                 }
                 return Ok(extraction);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("GetAllExtration")]
+        public ActionResult<IEnumerable<CollecDrone>> GetAll()
+        {
+            try
+            {
+                var extration = _extractionServices.GetAll().Select(p => new ExtractionDTO
+                {
+                    Id_Extraction = p.Id_Extraction,
+                    Fec_Extraction = p.Fec_Extraction,
+                    Can_Extraction = p.Can_Extraction,
+                    Nam_Responsible = p.responsible.Nam_Responsible,
+                    Id_CollecDrone = p.collecDrone.Id_CollecDrone
+                }).ToList();
+
+                return Ok(extration);
             }
             catch (Exception ex)
             {

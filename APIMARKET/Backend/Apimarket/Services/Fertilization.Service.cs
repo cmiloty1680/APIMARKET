@@ -1,5 +1,6 @@
 ﻿using Apimarket.Model;
 using Apimarket.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,10 @@ namespace Apimarket.Services
 
         public IEnumerable<Fertilization> GetAll()
         {
-            return _context.fertilization.ToList();
+            return _context.fertilization
+                .Include(p => p.responsible)
+                .Include(p => p.extraction)
+                .ToList();
         }
 
         public void Add(Fertilization entity)

@@ -42,7 +42,7 @@ function HoneyCollection() {
     "Subcentro",
     "Centro de costo",
     "total Colmena",
-    "total produccion",
+    // "total produccion",
     "cantidad de cuadros",
 
   ];
@@ -81,7 +81,6 @@ function HoneyCollection() {
           honey.tot_HoneyCollection || "-",
           honey.fec_HoneyCollection ? new Date(honey.fec_HoneyCollection).toLocaleDateString("es-CO")
           : "Sin descripción", 
-          // honey.fec_HoneyCollection || "-",
           honey.canFra125_HoneyCollection || "-",
           honey.canFra250_HoneyCollection || "-",
           honey.uniMed_HoneyCollection || "ml",
@@ -89,12 +88,14 @@ function HoneyCollection() {
           honey.id_Production || "-",
           honey.id_Responsible || "-",
           honey.nom_Production || "-",
-          honey.fecIni_Production || "-",
-          honey.fecFin_Production || "-",
+          honey.fecIni_Production ? new Date(honey.fecIni_Production).toLocaleDateString("es-CO")
+          : "Sin descripción", 
+          honey.fecFin_Production ? new Date(honey.fecFin_Production).toLocaleDateString("es-CO")
+          : "Sin descripción", 
           honey.subCen_Production || "-",
           honey.cenCos_Production || "-",
           honey.totColm_Hive || "-",
-          honey.tot_Production || "-",
+          // honey.tot_Production || "-",
           honey.canCua_Production || "-",
         ]);
         setRegisHoney(data);
@@ -124,6 +125,8 @@ function HoneyCollection() {
         uniMed_HoneyCollection: rowData[6],
         id_Responsible: rowData[9],
         id_Production: rowData[8],
+        // fecIni_Production: formatDateToISO(rowData[11]),
+        // fecFin_Production: formatDateToISO(rowData[12])
       });
       console.log(rowData);
     } else {
@@ -191,7 +194,7 @@ function HoneyCollection() {
                     action={action}
                     updateTextTitleForm={updateTextTitleForm}
                     openModalForm={openModalForm}
-                    ignorar={[8, 9, 10, 11, 12, 13, 14, 15, 16 ]}
+                    ignorar={[ 9, 10, 11, 12, 13, 14, 15, 16 ]}
                     setIsExportModalOpen={setIsExportModalOpen}
                   />
              

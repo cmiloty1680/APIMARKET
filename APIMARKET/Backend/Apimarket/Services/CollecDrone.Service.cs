@@ -23,6 +23,7 @@ namespace Apimarket.Services
             //return _context.collecDrone.ToList();
             return _context.collecDrone
                 .Include(cd => cd.responsible)
+                .Include(cd => cd.hive)
                 .ToList();
         }
 

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Apimarket.Models;
+using Apimarket.DTOs;
 
 namespace Apimarket.Controllers
 {
@@ -79,6 +80,29 @@ namespace Apimarket.Controllers
                 {
                     return NotFound("CollecDrone no encontrado");
                 }
+
+                return Ok(collecDrone);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("GetAllCollecDrone")]
+        public ActionResult <IEnumerable<CollecDrone>> GetAll()
+        {
+            try
+            {
+                var collecDrone = _collecDroneServices.GetAll().Select(p => new CollecDroneDTO
+                {
+                    Id_CollecDrone = p.Id_CollecDrone,
+                    Fec_CollecDrone = p.Fec_CollecDrone,
+                    Can_CollecDrone = p.Can_CollecDrone,
+                    Nam_Responsible = p.responsible.Nam_Responsible,
+                    Id_Hive = p.hive.Id_Hive
+                }).ToList();
 
                 return Ok(collecDrone);
             }

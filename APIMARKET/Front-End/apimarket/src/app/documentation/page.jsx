@@ -98,10 +98,10 @@ const Documentacion = () => {
                       <h2 className="text-xl font-bold text-gray-800">{activeDoc.title}</h2>
                       <p className="text-sm text-gray-600">{activeDoc.description}</p>
                     </div>
-                    <Button variant="outline" className="flex items-center gap-2 self-start">
+                    {/* <Button variant="outline" className="flex items-center gap-2 self-start">
                       <Download className="h-4 w-4" />
                       <span>Descargar</span>
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
 

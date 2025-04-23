@@ -149,7 +149,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
 
         {/* Campos */}
         <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Total de Miel</label>
+            <label className="text-sm font-medium text-gray-700">Total de Miel en Kg</label>
             <input
               type="number"
               value={totMiel || ""}

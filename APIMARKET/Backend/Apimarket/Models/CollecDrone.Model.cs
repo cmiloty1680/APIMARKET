@@ -21,5 +21,10 @@ namespace Apimarket.Model
         public Responsible? responsible { get; set; }
 
 
+        public int Id_Hive { get; set; }
+        [ForeignKey("Id_Hive")]
+        public Hive? hive { get; set; }
+
+
     }
 }

@@ -8,6 +8,7 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import ConfirmationModal from "@/components/utils/ConfirmationModal"; // si luego deseas agregar eliminar
 import { useState, useEffect } from "react";
 import DynamicAlert from "@/components/utils/DynamicAlert";
+import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 
 
 function ReviewPage() {
@@ -23,6 +24,7 @@ function ReviewPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpenSuccess, setIsModalOpenSuccess] = useState(false);
   const [isModalOpenError, setIsModalOpenError] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false); // 👈 Para controlar el modal de exportación
   
   
 
@@ -170,6 +172,7 @@ function ReviewPage() {
                   action={action}
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
+                  setIsExportModalOpen={setIsExportModalOpen}
                   ignorar={[]}
                 />
               </div>
@@ -209,6 +212,15 @@ function ReviewPage() {
         message={error || "Ha ocurrido un error inesperado"}
         redirectPath=""
       />
+
+      {/* Modal de exportación a PDF */}
+            <ExportToPDFDialog
+              isOpen={isExportModalOpen}
+              setIsOpen={setIsExportModalOpen}
+              TitlePage={TitlePage}
+              Data={regisReview}
+              TitlesTable={titlesColmena}
+            />
     </div>
   );
 }

@@ -19,8 +19,8 @@ const teamMembers = [
     email: "cmiloty1680@gmail.com",
     whatsapp: "312-539-6493",
     age: 19,
-    skills: ["React", "Node.js", "JavaScript", "CSS"],
-    bio: "Desarrollador apasionado por crear soluciones innovadoras y eficientes.",
+    skills: ["React", "Node.js", "JavaScript", "Shacn.ui"],
+    bio: "Diseñador front-end enfocado en crear interfaces modernas, funcionales y orientadas a una buena experiencia de usuario.",
   },
   {
     id: "stefany",
@@ -32,8 +32,8 @@ const teamMembers = [
     email: "stefanyvaquiro15@gmail.com",
     whatsapp: "314-765-4321",
     age: 18,
-    skills: ["UI/UX", "React", "HTML", "CSS"],
-    bio: "Especialista en diseño de interfaces y experiencia de usuario.",
+    skills: ["C#", ".Net", "EntityFramework", "Swagger"],
+    bio: "Desarrollador backend enfocado en construir sistemas sólidos, eficientes y bien estructurados que aseguren un buen rendimiento y escalabilidad.",
   },
   {
     id: "jhonnier",
@@ -45,8 +45,8 @@ const teamMembers = [
     email: "jhonniertique@gmail.com",
     whatsapp: "321-123-4567",
     age: 18,
-    skills: ["Java", "Python", "Bases de datos", "Backend"],
-    bio: "Enfocado en el desarrollo de sistemas robustos y escalables.",
+    skills: ["JavaScript", "Pytest", "NUnit", "Postman"],
+    bio: "Especialista en testing enfocado en asegurar la calidad del software mediante pruebas precisas, detección de errores y validación de funcionalidades.",
   },
   {
     id: "victor",
@@ -58,8 +58,8 @@ const teamMembers = [
     email: "victorruiz@gmail.com",
     whatsapp: "322-555-6666",
     age: 22,
-    skills: ["DevOps", "Cloud", "Seguridad", "Arquitectura"],
-    bio: "Especialista en infraestructura y despliegue de aplicaciones.",
+    skills: ["Markdown", "Notion", "Confluence", "Swagger"],
+    bio: "Enfocado en crear documentación clara, estructurada y útil para facilitar la comprensión y el uso eficiente del software.",
   },
 ]
 
@@ -233,8 +233,8 @@ function InformationPage() {
                     <h2 className="text-2xl font-bold text-gray-800 mb-4">Nuestra Misión</h2>
                     <div className="h-1 w-20 bg-yellow-400 mb-6"></div>
                     <p className="text-gray-600 mb-6">
-                      Desarrollar soluciones tecnológicas innovadoras que transformen y mejoren los procesos de nuestros
-                      clientes, aportando valor real a través de la excelencia técnica y el compromiso con la calidad.
+                    Desarrollar e implementar un sistema de información para la gestión de las actividades productivas de la unidad de apicultura del centro agropecuario “La Granja” del SENA Espinal Regional Tolima, 
+                    a través de una aplicación web de software libre llamada APIMARKET, que sea sencilla y fácil de usar, beneficiando a la comunidad educativa de la unidad.
                     </p>
 
                     <div className="flex items-center gap-3 mb-4">
@@ -253,7 +253,7 @@ function InformationPage() {
                       </div>
                       <div>
                         <h3 className="font-medium">Consultoría Tecnológica</h3>
-                        <p className="text-sm text-gray-500">Asesoramiento experto para tu negocio</p>
+                        <p className="text-sm text-gray-500">Asesoramiento y preguntas en la pagina de contacto</p>
                       </div>
                     </div>
                   </div>
@@ -262,24 +262,23 @@ function InformationPage() {
                     <h2 className="text-2xl font-bold text-gray-800 mb-4">Nuestro Equipo</h2>
                     <div className="h-1 w-20 bg-yellow-400 mb-6"></div>
                     <p className="text-gray-600 mb-4">
-                      Somos un equipo diverso y apasionado de profesionales en tecnología, unidos por nuestra dedicación
+                      Somos un equipo diverso y apasionado en tecnologías, unidos por nuestra dedicación
                       a la excelencia en programación. Cada miembro aporta habilidades únicas y especializadas,
                       trabajando en armonía para crear soluciones innovadoras y eficientes.
                     </p>
                     <p className="text-gray-600 mb-6">
                       Nuestra ética de trabajo se basa en la colaboración y el compromiso con la calidad, siempre
-                      buscando la mejora continua y la adaptación a nuevas tecnologías para ofrecer el mejor servicio a
-                      nuestros clientes.
+                      buscando la mejora continua y la adaptación a nuevas tecnologías para ofrecer el mejor servicio.
                     </p>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div className="bg-gray-50 p-4 rounded-lg text-center">
-                        <div className="text-yellow-600 font-bold text-2xl">4+</div>
-                        <div className="text-gray-600 text-sm">Años de experiencia</div>
+                        <div className="text-yellow-600 font-bold text-2xl">18+</div>
+                        <div className="text-gray-600 text-sm">Meses de experiencia</div>
                       </div>
                       <div className="bg-gray-50 p-4 rounded-lg text-center">
-                        <div className="text-yellow-600 font-bold text-2xl">20+</div>
-                        <div className="text-gray-600 text-sm">Proyectos completados</div>
+                        <div className="text-yellow-600 font-bold text-2xl">1+</div>
+                        <div className="text-gray-600 text-sm">Proyecto curso</div>
                       </div>
                       <div className="bg-gray-50 p-4 rounded-lg text-center">
                         <div className="text-yellow-600 font-bold text-2xl">100%</div>
