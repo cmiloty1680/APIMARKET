@@ -1,5 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Apimarket.Models
 {
@@ -19,6 +23,9 @@ namespace Apimarket.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime FecAct_Protocol { get; set; }
+
+        [Column(TypeName = "LONGBLOB")]
+        public byte[] Archivo_Protocol { get; set; }
 
 
 

@@ -8,6 +8,8 @@
         public int Can_Extraction { get; set; }
         public string Nam_Responsible { get; set; }
 
+        public int Id_Responsible { get; set; }
+
         public int Id_CollecDrone { get; set; }
 
     }

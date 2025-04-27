@@ -15,14 +15,40 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
   const [msSuccess, setMsSuccess] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpenFall, setModalOpenFall] = useState(false);
+  const [nomResponsible, setNomResponsible] = useState("");
+  const [responsibles, setResponsibles] = useState([]);
+  const [extractions, setExtractions] = useState([]);
+  const [id_Extraction, setIdExtractions] = useState(null);
+
+  
 
   useEffect(() => {
-    if (fertilization) {
-      setFecFertilization(fertilization.fec_Fertilization);
-      setCanFertilization(fertilization.can_Fertilization);
-      setIdFertilization(fertilization.id_Fertilization);
-    }
-  }, [fertilization]);
+  
+      async function fetchresponsibles() {
+        try {
+          const response = await axiosInstance.get("/Api/Responsible/GetsAllResponsible");
+          setResponsibles(response.data);
+  
+        } catch (error) {
+          console.error("Error al octener responsable:", error);
+        }
+      }
+      fetchresponsibles();
+    }, []);
+
+    useEffect(() => {
+
+      async function fetchExtracciones() {
+        try {
+          const response = await axiosInstance.get("/Api/Extraction/GetAllExtration");
+          setExtractions(response.data);
+  
+        } catch (error) {
+          console.error("Error al octener responsable:", error);
+        }
+      }
+      fetchExtracciones();
+    }, []);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -55,7 +81,9 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
       } else if (buttonForm === "Registrar") {
         const response = await axiosInstance.post("/Api/Fertilization/CreateFertilization", {
           fec_Fertilization: fecFertilization,
-          can_Fertilization: parseInt(canFertilization),
+          can_Fertilization: canFertilization,
+          id_Responsible: nomResponsible,
+          id_Extraction: id_Extraction
         });
 
         if (response.status === 200) {
@@ -74,6 +102,16 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
       setSubmitting(false);
     }
   }
+
+  useEffect(() => {
+    if (fertilization) {
+      setIdFertilization(fertilization.id_Fertilization);
+      setFecFertilization(fertilization.fec_Fertilization ?? "");
+      setCanFertilization(fertilization.can_Fertilization);
+      setNomResponsible(fertilization.id_Responsible);
+      setIdExtractions(fertilization.id_Extraction);
+    }
+  }, [fertilization]);
 
   return (
     <>
@@ -100,34 +138,81 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
 
         <div className="space-y-4">
           {/* Fecha */}
-          <div className="space-y-1">
-            <label htmlFor="fecFertilization" className="text-sm font-medium text-gray-700">
-              Fecha de Fertilización
-            </label>
-            <input
-              type="date"
-              id="fecFertilization"
-              required
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
-              value={fecFertilization}
-              onChange={(e) => setFecFertilization(e.target.value)}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
+            <div className="space-y-1">
+              <label htmlFor="fecFertilization" className="text-sm font-medium text-gray-700">
+                Fecha de Fertilización
+              </label>
+              <input
+                type="date"
+                id="fecFertilization"
+                required
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
+                value={fecFertilization || ""}
+                onChange={(e) => setFecFertilization(e.target.value)}
+              />
+            </div>
+
+            {/* Cantidad */}
+            <div className="space-y-1">
+              <label htmlFor="canFertilization" className="text-sm font-medium text-gray-700">
+                Cantidad aplicada
+              </label>
+              <input
+                type="number"
+                id="canFertilization"
+                placeholder="Ingrese cantidad"
+                required
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
+                value={canFertilization || ""}
+                onChange={(e) => setCanFertilization(e.target.value)}
+              />
+            </div>
           </div>
 
-          {/* Cantidad */}
-          <div className="space-y-1">
-            <label htmlFor="canFertilization" className="text-sm font-medium text-gray-700">
-              Cantidad aplicada
-            </label>
-            <input
-              type="number"
-              id="canFertilization"
-              placeholder="Ingrese cantidad"
-              required
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
-              value={canFertilization}
-              onChange={(e) => setCanFertilization(e.target.value)}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
+            <div className="space-y-1">
+              <label htmlFor="fecFertilization" className="text-sm font-medium text-gray-700">
+                Responsable
+              </label>
+              <select
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                value={nomResponsible || ""}
+                onChange={(event) => setNomResponsible(event.target.value)}
+                required
+              >
+                <option value="" disabled>Seleccione</option>
+                {responsibles.map((responsible) => (
+                  <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
+                    {responsible.nam_Responsible}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Cantidad */}
+            <div className="space-y-1">
+              <label htmlFor="canFertilization" className="text-sm font-medium text-gray-700">
+                ID Extracción
+              </label>
+              <select
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                value={id_Extraction || ""}
+                onChange={(event) => setIdExtractions(event.target.value)}
+                required
+              >
+                <option value="" disabled>Seleccione</option>
+                {extractions.map((extration) => (
+                  <option key={extration.id_Extraction} value={extration.id_Extraction}>
+                    {extration.id_Extraction}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           {/* Botón */}

@@ -45,6 +45,15 @@ function CreateResponsible() {
       setIsSubmitting(false);
       return;
     }
+    // Validación del teléfono: debe tener exactamente 10 dígitos
+    if (telefono.length !== 10) {
+      setError("El número de teléfono debe tener exactamente 10 dígitos.");
+      setModalOpenFall(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+  
 
     try {
       const response = await axiosInstance.post("/Api/Responsible/CreateResponsible", {
@@ -56,24 +65,33 @@ function CreateResponsible() {
         tok_Responsible: "", // Inicializamos como vacío
         hashed_Password: contraseña,
         salt: "", // Inicializamos como vacío
-        // tip_Responsible: tipoResponsable, 
       });
-
+    
       if (response.status === 200) {
         setMsSuccess(response.data);
-        setModalOpen(true)
-        // alert("Registro creado con éxito.");
-        // localStorage.setItem("registroCreate", response.data.creado);
-        // router.push("/responsible/login");
+        setModalOpen(true);
       }
     } catch (error) {
-      setError(error.response?.data?.message || "Error al registrar el responsable.");
-      console.error(error);
-      setModalOpenFall(true)
+      // Verificar si el error tiene la estructura 'response'
+      if (error.response) {
+        // Si el código de error es 409 (conflicto), significa que el correo ya está registrado
+        if (error.response.status === 409) {
+          setError("El correo electrónico ya está registrado.");
+          setModalOpenFall(true);
+        } else {
+          // Otros errores del servidor o validaciones
+          setError("Error al registrar el responsable.");
+          setModalOpenFall(true);
+        }
+      } else {
+        // Si el error no tiene 'response', es un error que no proviene del servidor (por ejemplo, un error de red)
+        setError("Error al conectar con el servidor.");
+        setModalOpenFall(true);
+      }
     } finally {
       setIsSubmitting(false);
     }
-  }
+  }    
 
   return (
     <>

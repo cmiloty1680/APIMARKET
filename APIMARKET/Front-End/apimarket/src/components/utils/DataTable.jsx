@@ -78,35 +78,37 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
           <TableBody>
             {currentItems.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
-              {row.map(
-                (cell, cellIndex) =>
-                  !ignorar.includes(cellIndex) && (
-                    <TableCell key={cellIndex} className="table-cell">
-                      {typeof cell === "string" &&
-                      (cell.toLowerCase() === "activo" || cell.toLowerCase() === "inactivo") ? (
-                        <span
-                          className={`px-2 py-1 rounded-md text-xs font-medium ${
-                            cell.toLowerCase() === "activo"
-                              ? "bg-green-100 text-green-800 border border-green-200"
-                              : "bg-red-100 text-red-800 border border-red-200"
-                          }`}
-                        >
-                          {cell}
-                        </span>
-                      ) : (
-                        cell
-                      )}
-                    </TableCell>
-                  ),
-              )}
-            
-              {/* Botón "Ir" en celda separada */}
-              {Actions && (
-                <TableCell className="table-cell">
-                  {Actions.custom &&
-                    Actions.custom.map(
-                      (customAction, index) =>
-                        (customAction.name === "Extracción" || customAction.name === "Fertilización") && (
+                {row.map(
+                  (cell, cellIndex) =>
+                    !ignorar.includes(cellIndex) && (
+                      <TableCell key={cellIndex} className="table-cell">
+                        {typeof cell === "string" &&
+                          (cell.toLowerCase() === "activo" || cell.toLowerCase() === "inactivo") ? (
+                          <span
+                            className={`px-2 py-1 rounded-md text-xs font-medium ${cell.toLowerCase() === "activo"
+                                ? "bg-green-100 text-green-800 border border-green-200"
+                                : "bg-red-100 text-red-800 border border-red-200"
+                              }`}
+                          >
+                            {cell}
+                          </span>
+                        ) : (
+                          cell
+                        )}
+                      </TableCell>
+                    ),
+                )}
+
+                {/* Botón "Ir" en celda separada */}
+                {/* Celda "Ir" solo cuando haya una acción asociada */}
+                {Actions && (
+                  Actions.custom &&
+                  Actions.custom.some(customAction =>
+                    ["Extracción", "Fertilización"].includes(customAction.name)
+                  ) && (
+                    <TableCell className="table-cell">
+                      {Actions.custom.map((customAction, index) =>
+                        ["Extracción", "Fertilización"].includes(customAction.name) && (
                           <Button
                             key={index}
                             variant="ghost"
@@ -117,42 +119,43 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                             Ir
                           </Button>
                         )
-                    )}
-                </TableCell>
-              )}
-            
-              {/* Botones de editar y eliminar */}
-              {Actions && (
-                <TableCell className="table-cell">
-                  <div className="flex space-x-1">
-                    {Actions.update && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          updateTextTitleForm("Actualizar", row)
-                          openModalForm(true)
-                        }}
-                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 flex items-center gap-1 px-2 py-1 rounded-md"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                    )}
-                    {Actions.delete && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => Actions.delete(row)}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50 flex items-center gap-1 px-2 py-1 rounded-md"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    )}
-                  </div>
-                </TableCell>
-              )}
-            </TableRow>
-            
+                      )}
+                    </TableCell>
+                  )
+                )}
+
+                {/* Botones de editar y eliminar */}
+                {Actions && (
+                  <TableCell className="table-cell">
+                    <div className="flex space-x-1">
+                      {Actions.update && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            updateTextTitleForm("Actualizar", row)
+                            openModalForm(true)
+                          }}
+                          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 flex items-center gap-1 px-2 py-1 rounded-md"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      )}
+                      {Actions.delete && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => Actions.delete(row)}
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50 flex items-center gap-1 px-2 py-1 rounded-md"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                  </TableCell>
+                )}
+              </TableRow>
+
             ))}
           </TableBody>
         </Table>
@@ -193,9 +196,8 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                     variant={currentPage === page ? "default" : "outline"}
                     size="sm"
                     onClick={() => handlePageChange(page)}
-                    className={`min-w-[32px] ${
-                      currentPage === page ? "text-white bg-[#e87204] hover:bg-[#030712]" : ""
-                    }`}
+                    className={`min-w-[32px] ${currentPage === page ? "text-white bg-[#e87204] hover:bg-[#030712]" : ""
+                      }`}
                   >
                     {page}
                   </Button>,

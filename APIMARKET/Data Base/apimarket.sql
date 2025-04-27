@@ -33,6 +33,24 @@ CREATE TABLE `collecdrone` (
   KEY `Id_Hiv_idx` (`Id_Hive`),
   CONSTRAINT `Id_Hiv` FOREIGN KEY (`Id_Hive`) REFERENCES `hive` (`Id_Hive`),
   CONSTRAINT `Id_Respon` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `contactform`
+--
+
+DROP TABLE IF EXISTS `contactform`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contactform` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `NombreCompleto` varchar(150) NOT NULL,
+  `CorreoElectronico` varchar(150) NOT NULL,
+  `Asunto` varchar(200) NOT NULL,
+  `Mensaje` text NOT NULL,
+  `FechaRegistro` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -55,7 +73,7 @@ CREATE TABLE `extraction` (
   KEY `Id_responsas_idx` (`Id_Responsible`),
   CONSTRAINT `Id_collecdro` FOREIGN KEY (`Id_CollecDrone`) REFERENCES `collecdrone` (`Id_CollecDrone`),
   CONSTRAINT `Id_responsas` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,7 +98,7 @@ CREATE TABLE `feeding` (
   KEY `Id_respiles_idx` (`Id_Responsible`),
   CONSTRAINT `Id_hives` FOREIGN KEY (`Id_Hive`) REFERENCES `hive` (`Id_Hive`),
   CONSTRAINT `Id_responsiles` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +119,7 @@ CREATE TABLE `fertilization` (
   KEY `Id_responsabl_idx` (`Id_Responsible`),
   CONSTRAINT `Id_Extraction` FOREIGN KEY (`Id_Extraction`) REFERENCES `extraction` (`Id_Extraction`),
   CONSTRAINT `Id_responsabl` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,8 +135,9 @@ CREATE TABLE `hive` (
   `Est_Hive` enum('activo','inactivo') NOT NULL,
   `NumCua_Hive` int NOT NULL,
   `NumAlz_Hive` int NOT NULL,
+  `CuaMiel_Hive` int NOT NULL,
   PRIMARY KEY (`Id_Hive`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,12 +156,13 @@ CREATE TABLE `honeycollection` (
   `Fec_HoneyCollection` datetime NOT NULL,
   `Id_Responsible` int NOT NULL,
   `Id_Production` int NOT NULL,
+  `Tot_HoneyCollection` int NOT NULL,
   PRIMARY KEY (`Id_HoneyCollection`),
   KEY `Id_Responsible_idx` (`Id_Responsible`),
   KEY `Id_productiones_idx` (`Id_Production`),
   CONSTRAINT `Id_productions` FOREIGN KEY (`Id_Production`) REFERENCES `production` (`Id_Production`),
   CONSTRAINT `Id_Responsibles` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +180,7 @@ CREATE TABLE `implement` (
   `Vlr_Implement` int DEFAULT NULL,
   `Exi_Implement` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`Id_Implement`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,12 +199,16 @@ CREATE TABLE `production` (
   `SubCen_Production` enum('Apicultura') DEFAULT 'Apicultura',
   `CenCos_Production` enum('Pecuaria') DEFAULT 'Pecuaria',
   `Nom_Production` enum('Miel de Abeja','Propoleo','Jalea Real','Veneno','Cera') DEFAULT 'Miel de Abeja',
-  `Tot_Production` int NOT NULL,
+  `Tot_Production` int DEFAULT NULL,
   `CanCua_Production` int NOT NULL,
+  `Id_Hive` int DEFAULT NULL,
   PRIMARY KEY (`Id_Production`),
   KEY `Id_Race_idx` (`Id_Race`),
+  KEY `Id_Hive_idx` (`Id_Hive`),
+  KEY `Id_colmenasHives_idx` (`Id_Hive`),
+  CONSTRAINT `id_hive` FOREIGN KEY (`Id_Hive`) REFERENCES `hive` (`Id_Hive`),
   CONSTRAINT `Id_Race` FOREIGN KEY (`Id_Race`) REFERENCES `race` (`Id_Race`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -200,9 +224,9 @@ CREATE TABLE `protocol` (
   `FecCre_Protocol` datetime NOT NULL,
   `FecAct_Protocol` datetime NOT NULL,
   `Nom_Protocol` varchar(20) NOT NULL,
-  `Archivo_Protocol` varchar(255) NOT NULL,
+  `Archivo_Protocol` longblob NOT NULL,
   PRIMARY KEY (`Id_Protocol`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -217,7 +241,7 @@ CREATE TABLE `race` (
   `Nom_Race` varchar(25) NOT NULL,
   `Des_Race` text NOT NULL,
   PRIMARY KEY (`Id_Race`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -244,7 +268,7 @@ CREATE TABLE `responsible` (
   `ResetTokenExpiration` datetime DEFAULT NULL,
   PRIMARY KEY (`Id_Responsible`),
   UNIQUE KEY `Emai_Responsible_UNIQUE` (`Emai_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -265,7 +289,7 @@ CREATE TABLE `reviews` (
   KEY `Id_Hives_idx` (`Id_Hive`),
   CONSTRAINT `Id_colmena` FOREIGN KEY (`Id_Hive`) REFERENCES `hive` (`Id_Hive`),
   CONSTRAINT `Id_Responsible` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -277,4 +301,4 @@ CREATE TABLE `reviews` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-19 23:27:33
+-- Dump completed on 2025-04-27 18:31:28

@@ -17,6 +17,8 @@ namespace Apimarket.DTOs
 
         public string Nam_Responsible { get; set; }
 
+        public int Id_Responsible { get; set;  }
+
         public int Id_Hive { get; set; }
 
     }

@@ -101,7 +101,8 @@ namespace Apimarket.Controllers
                     Fec_CollecDrone = p.Fec_CollecDrone,
                     Can_CollecDrone = p.Can_CollecDrone,
                     Nam_Responsible = p.responsible.Nam_Responsible,
-                    Id_Hive = p.hive.Id_Hive
+                    Id_Hive = p.hive.Id_Hive,
+                    Id_Responsible = p.responsible.Id_Responsible
                 }).ToList();
 
                 return Ok(collecDrone);

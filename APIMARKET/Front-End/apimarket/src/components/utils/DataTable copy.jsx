@@ -78,60 +78,81 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
           <TableBody>
             {currentItems.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
-                {row.map(
-                  (cell, cellIndex) =>
-                    // Verificar si la columna debe ser visible
-                    !ignorar.includes(cellIndex) && (
-                      <TableCell key={cellIndex} className="table-cell">
-                        {typeof cell === "string" &&
-                        (cell.toLowerCase() === "activo" || cell.toLowerCase() === "inactivo") ? (
-                          <span
-                            className={`px-2 py-1 rounded-md text-xs font-medium ${
-                              cell.toLowerCase() === "activo"
-                                ? "bg-green-100 text-green-800 border border-green-200"
-                                : "bg-red-100 text-red-800 border border-red-200"
-                            }`}
+              {row.map(
+                (cell, cellIndex) =>
+                  !ignorar.includes(cellIndex) && (
+                    <TableCell key={cellIndex} className="table-cell">
+                      {typeof cell === "string" &&
+                      (cell.toLowerCase() === "activo" || cell.toLowerCase() === "inactivo") ? (
+                        <span
+                          className={`px-2 py-1 rounded-md text-xs font-medium ${
+                            cell.toLowerCase() === "activo"
+                              ? "bg-green-100 text-green-800 border border-green-200"
+                              : "bg-red-100 text-red-800 border border-red-200"
+                          }`}
+                        >
+                          {cell}
+                        </span>
+                      ) : (
+                        cell
+                      )}
+                    </TableCell>
+                  ),
+              )}
+            
+              {/* Botón "Ir" en celda separada */}
+              {Actions && (
+                <TableCell className="table-cell">
+                  {Actions.custom &&
+                    Actions.custom.map(
+                      (customAction, index) =>
+                        (customAction.name === "Extracción" || customAction.name === "Fertilización") && (
+                          <Button
+                            key={index}
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => customAction.action(row, rowIndex)}
+                            className="bg-green-100 text-green-800 border border-green-200"
                           >
-                            {cell}
-                          </span>
-                        ) : (
-                          cell
-                        )}
-                      </TableCell>
-                    ),
-                )}
-                {Actions && (
-                  <TableCell className="table-cell">
-                    <div className="flex space-x-1">
-                      {Actions.update && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            updateTextTitleForm("Actualizar", row)
-                            openModalForm(true)
-                          }}
-                          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 flex items-center gap-1 px-2 py-1 rounded-md"
-                        >
-                          <Edit className="w-4 h-4" />
-                          <span></span>
-                        </Button>
-                      )}
-                      {Actions.delete && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => Actions.delete(row)}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50 flex items-center gap-1 px-2 py-1 rounded-md"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                          <span></span>
-                        </Button>
-                      )}
-                    </div>
-                  </TableCell>
-                )}
-              </TableRow>
+                            Ir
+                          </Button>
+                        )
+                    )}
+                </TableCell>
+              )}
+            
+              {/* Botones de editar y eliminar */}
+              {Actions && (
+                <TableCell className="table-cell">
+                  <div className="flex space-x-1">
+                    {Actions.update && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          updateTextTitleForm("Actualizar", row)
+                          openModalForm(true)
+                        }}
+                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 flex items-center gap-1 px-2 py-1 rounded-md"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    )}
+                    {Actions.delete && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => Actions.delete(row)}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50 flex items-center gap-1 px-2 py-1 rounded-md"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                </TableCell>
+              )}
+            </TableRow>
+            
             ))}
           </TableBody>
         </Table>

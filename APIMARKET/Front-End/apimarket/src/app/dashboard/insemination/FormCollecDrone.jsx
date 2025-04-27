@@ -5,30 +5,47 @@ import axiosInstance from "@/lib/axiosInstance";
 import { Button } from "@/components/ui/button";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
-function FormCollecDrone({ buttonForm, droneData, onDataUpdated }) {
+function FormCollecDrone({ buttonForm, droneData, onDataUpdated, closeModal }) {
   const [fecCollecDrone, setFecCollecDrone] = useState("");
   const [canCollecDrone, setCanCollecDrone] = useState("");
   const [idCollecDrone, setIdCollecDrone] = useState(null);
-
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
   const [msSuccess, setMsSuccess] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpenFall, setModalOpenFall] = useState(false);
+  const [nomResponsible, setNomResponsible] = useState("");
+  const [responsibles, setResponsibles] = useState([]);
+  const [hives, setHives] = useState([]);
+  const [id_Hive, setIdHive] = useState(null);
 
-  // Función para cargar los datos cuando el formulario se usa para actualización
-  const setDataForUpdate = () => {
-    if (droneData) {
-      setFecCollecDrone(droneData.fec_CollecDrone);
-      setCanCollecDrone(droneData.can_CollecDrone);
-      setIdCollecDrone(droneData.id_CollecDrone);
-    }
-  };
-
-  // Se ejecuta cuando cambia `droneData`, para actualizar el estado con los datos correspondientes
   useEffect(() => {
-    setDataForUpdate();
-  }, [droneData]);
+
+    async function fetchresponsibles() {
+      try {
+        const response = await axiosInstance.get("/Api/Responsible/GetsAllResponsible");
+        setResponsibles(response.data);
+
+      } catch (error) {
+        console.error("Error al octener responsable:", error);
+      }
+    }
+    fetchresponsibles();
+  }, []);
+
+  useEffect(() => {
+
+    async function fetchHives() {
+      try {
+        const response = await axiosInstance.get("/Api/Hive/AllHive");
+        setHives(response.data);
+
+      } catch (error) {
+        console.error("Error al octener responsable:", error);
+      }
+    }
+    fetchHives();
+  }, []);
 
   // Manejo del envío del formulario
   const handleSubmit = async (e) => {
@@ -42,16 +59,18 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated }) {
       return;
     }
 
+    const updateBody = {
+      id_CollecDrone: idCollecDrone,
+      fec_CollecDrone: fecCollecDrone,
+      can_CollecDrone: canCollecDrone,
+      id_Responsible: parseInt(nomResponsible),
+      id_Hive: id_Hive
+    };
+
     try {
       if (buttonForm === "Actualizar") {
-        const updateBody = {
-          id_CollecDrone: idCollecDrone,
-          fec_CollecDrone: fecCollecDrone,
-          can_CollecDrone: canCollecDrone,
-        };
-
         const response = await axiosInstance.put(
-          `/Api/Collecdrone/UpdateCollecdrone/${idCollecDrone}`,
+          `/Api/CollecDrone/UpdateCollecDrone/${idCollecDrone}`,
           updateBody
         );
 
@@ -64,6 +83,8 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated }) {
         const createBody = {
           fec_CollecDrone: fecCollecDrone,
           can_CollecDrone: canCollecDrone,
+          id_Responsible: nomResponsible,
+          id_Hive: id_Hive
         };
 
         const response = await axiosInstance.post(`/Api/Collecdrone/CreateCollecdrone`, createBody);
@@ -71,7 +92,7 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated }) {
         if (response.status === 200) {
           setMsSuccess(response.data.message || "Recolección registrada.");
           setModalOpen(true);
-          onDataUpdated?.();
+          onDataUpdated();
           // Resetear campos después de registrar
           setFecCollecDrone("");
           setCanCollecDrone("");
@@ -85,6 +106,25 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated }) {
       setSubmitting(false);
     }
   };
+
+  
+  // Función para cargar los datos cuando el formulario se usa para actualización
+  const setDataForUpdate = () => {
+    // if (droneData) {
+      setIdCollecDrone(droneData.id_CollecDrone);
+      setFecCollecDrone(droneData.fec_CollecDrone ?? "");
+      setCanCollecDrone(droneData.can_CollecDrone);
+      setNomResponsible(droneData.id_Responsible);
+      setIdHive(droneData.id_Hive);
+    // }
+  };
+
+  // Se ejecuta cuando cambia `droneData`, para actualizar el estado con los datos correspondientes
+  useEffect(() => {
+    if(buttonForm == "Actualizar"){
+      setDataForUpdate();
+    }
+  }, [buttonForm]);
 
   return (
     <>
@@ -100,45 +140,88 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated }) {
             </div>
             <div className="ml-3">
               <h2 className="text-xl font-bold text-gray-900">Recolección de Zángano</h2>
+              <p className="text-xs text-gray-500">Ingrese los datos de la Recolección</p>
             </div>
           </div>
         </div>
+  
 
         {/* Mensajes */}
         {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
         {msSuccess && <p className="text-green-500 mb-4 text-sm">{msSuccess}</p>}
 
         <div className="space-y-4">
-          {/* Fecha */}
-          <div className="space-y-1">
-            <label htmlFor="FecCollecDrone" className="text-sm font-medium text-gray-700">
-              Fecha de Recolección
-            </label>
-            <input
-              type="date"
-              id="FecCollecDrone"
-              value={fecCollecDrone}
-              onChange={(e) => setFecCollecDrone(e.target.value)}
-              required
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-700">
+                Fecha de Recolección
+              </label>
+              <input
+                type="date"
+                id="FecCollecDrone"
+                value={fecCollecDrone || ""}
+                onChange={(e) => setFecCollecDrone(e.target.value)}
+                required
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
+              />
+            </div>
+
+            <div className="space-y-1">
+                <label className="text-sm font-medium text-gray-700">
+                Cantidad Recolectado
+                </label>
+                <input
+                type="number"
+                id="CanCollecDrone"
+                placeholder="Cantidad"
+                value={canCollecDrone || ""}
+                onChange={(e) => setCanCollecDrone(e.target.value)}
+                required
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
+              />
+              </div>
           </div>
 
-          {/* Cantidad */}
-          <div className="space-y-1">
-            <label htmlFor="CanCollecDrone" className="text-sm font-medium text-gray-700">
-              Cantidad Recolectada
-            </label>
-            <input
-              type="number"
-              id="CanCollecDrone"
-              placeholder="Cantidad"
-              value={canCollecDrone}
-              onChange={(e) => setCanCollecDrone(e.target.value)}
-              required
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-700">
+                Nombre de Responsable
+              </label>
+              <select
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                value={nomResponsible || ""}
+                onChange={(event) => setNomResponsible(event.target.value)}
+                required
+              >
+                <option value="" disabled>Seleccione</option>
+                {responsibles.map((responsible) => (
+                  <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
+                    {responsible.nam_Responsible}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-1">
+                <label className="text-sm font-medium text-gray-700">
+                  ID Colmena
+                </label>
+                <select
+                  className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                  value={id_Hive || ""}
+                  onChange={(event) => setIdHive(event.target.value)}
+                  required
+                >
+                  <option value="" disabled>Seleccione</option>
+                  {hives.map((hive) => (
+                    <option key={hive.id_Hive} value={hive.id_Hive}>
+                      {hive.id_Hive}
+                    </option>
+                  ))}
+                </select>
+              </div>
           </div>
+          
 
           {/* Botón */}
           <div className="flex justify-end pt-3">
@@ -156,7 +239,12 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated }) {
       {/* Modal éxito */}
       <DynamicAlert
         isOpen={isModalOpen}
-        onOpenChange={setModalOpen}
+        onOpenChange={(isOpen) => {
+          setModalOpen(isOpen); // Cambia el estado del modal
+          if (!isOpen) {
+            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+          }
+        }}
         type="success"
         message={msSuccess || "Operación exitosa"}
         redirectPath=""

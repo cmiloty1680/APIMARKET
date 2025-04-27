@@ -9,24 +9,44 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
   const [fecExtraction, setFecExtraction] = useState("");
   const [canExtraction, setCanExtraction] = useState("");
   const [idExtraction, setIdExtraction] = useState(null);
-
+  const [nomResponsible, setNomResponsible] = useState("");
+  const [responsibles, setResponsibles] = useState([]);
+  const [id_CollecDrone, setIdCollecDrone] = useState("");
+  const [collecDrones, setCollecDrones] = useState([]);
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
   const [msSuccess, setMsSuccess] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpenFall, setModalOpenFall] = useState(false);
 
-  const setDataForUpdate = () => {
-    if (extractionData) {
-      setFecExtraction(extractionData.fec_Extraction);
-      setCanExtraction(extractionData.can_Extraction);
-      setIdExtraction(extractionData.id_Extraction);
-    }
-  };
 
   useEffect(() => {
-    setDataForUpdate();
-  }, [extractionData]);
+
+    async function fetchresponsibles() {
+      try {
+        const response = await axiosInstance.get("/Api/Responsible/GetsAllResponsible");
+        setResponsibles(response.data);
+
+      } catch (error) {
+        console.error("Error al octener responsable:", error);
+      }
+    }
+    fetchresponsibles();
+  }, []);
+
+  useEffect(() => {
+
+    async function fetchCollecDrones() {
+      try {
+        const response = await axiosInstance.get("/Api/CollecDrone/GetAllCollecDrone");
+        setCollecDrones(response.data);
+
+      } catch (error) {
+        console.error("Error al octener las recolecciones:", error);
+      }
+    }
+    fetchCollecDrones();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,8 +79,11 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
         }
       } else if (buttonForm === "Registrar") {
         const createBody = {
+          id_Extraction: idExtraction,
           fec_Extraction: fecExtraction,
           can_Extraction: canExtraction,
+          id_Responsible: nomResponsible,
+          id_CollecDrone: id_CollecDrone
         };
 
         const response = await axiosInstance.post(`/Api/Extraction/CreateExtraction`, createBody);
@@ -83,6 +106,20 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
     }
   };
 
+  const setDataForUpdate = () => {
+    if (extractionData) {
+      setIdExtraction(extractionData.id_Extraction);
+      setFecExtraction(extractionData.fec_Extraction ?? "");
+      setCanExtraction(extractionData.can_Extraction);
+      setNomResponsible(extractionData.id_Responsible);
+      setIdCollecDrone(extractionData.id_CollecDrone);
+    }
+  };
+
+  useEffect(() => {
+    setDataForUpdate();
+  }, [extractionData]);
+
   return (
     <>
       <form
@@ -97,6 +134,7 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
             </div>
             <div className="ml-3">
               <h2 className="text-xl font-bold text-gray-900">Extracción</h2>
+              <p className="text-xs text-gray-500">Ingrese los datos de la Extracción</p>
             </div>
           </div>
         </div>
@@ -107,6 +145,8 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
 
         <div className="space-y-4">
           {/* Fecha */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+         
           <div className="space-y-1">
             <label htmlFor="FecExtraction" className="text-sm font-medium text-gray-700">
               Fecha de la Extracción
@@ -115,7 +155,7 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
               type="date"
               id="FecExtraction"
               placeholder="Fecha de la extracción"
-              value={fecExtraction}
+              value={fecExtraction || ""}
               onChange={(e) => setFecExtraction(e.target.value)}
               required
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
@@ -131,12 +171,54 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
               type="number"
               id="CanExtraction"
               placeholder="Cantidad extraída"
-              value={canExtraction}
+              value={canExtraction || ""}
               onChange={(e) => setCanExtraction(e.target.value)}
               required
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
             />
           </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-700">
+                Nombre de Responsable
+              </label>
+              <select
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                value={nomResponsible || ""}
+                onChange={(event) => setNomResponsible(event.target.value)}
+                required
+              >
+                <option value="" disabled>Seleccione</option>
+                {responsibles.map((responsible) => (
+                  <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
+                    {responsible.nam_Responsible}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-1">
+                <label className="text-sm font-medium text-gray-700">
+                  ID Recolección
+                </label>
+                <select
+                  className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                  value={id_CollecDrone || ""}
+                  onChange={(event) => setIdCollecDrone(event.target.value)}
+                  required
+                >
+                  <option value="" disabled>Seleccione</option>
+                  {collecDrones.map((collecDrone) => (
+                    <option key={collecDrone.id_CollecDrone} value={collecDrone.id_CollecDrone}>
+                      {collecDrone.id_CollecDrone}
+                    </option>
+                  ))}
+                </select>
+              </div>
+          </div>
+          
 
           {/* Botón de acción */}
           <div className="flex justify-end pt-3">

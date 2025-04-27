@@ -39,30 +39,66 @@ function ColmenaRecoleccion() {
   const [currentExtraccion, setCurrentExtraccion] = useState(null)
   const [currentFertilizacion, setCurrentFertilizacion] = useState(null)
   const [registros, setRegistros] = useState([])
-  const [extractionData, setExtractionData] = useState([])
+  const [extractionsData, setExtractionsData] = useState([])
   const [fertilizationData, setFertilizationData] = useState([])
 
   // Títulos para las tablas
   const titlesRecoleccion = [
     "ID",
-    "Fecha", 
-    "Cantidad", 
-    "Responsable", 
+    "Fecha",
+    "Cantidad",
+    "Responsable",
     "ID Colmena",
+    "ID Responsable",
     "Extracción"]
   const titlesExtraccion = [
     "ID",
     "Fecha Extracción",
-    "Cantidad Extracción", 
-    "Responsable", 
+    "Cantidad Extracción",
+    "Responsable",
     "ID Recolección",
+    "ID Responsable",
     "Fertilización"]
   const titlesFertilizacion = [
     "ID",
-    "Fecha Fertilización", 
-    "Cantidad Fertilización", 
+    "Fecha Fertilización",
+    "Cantidad Fertilización",
     "Responsable",
-    "Id Extracción"]
+    "ID Extracción"]
+
+
+
+
+  function formatDateToISO(dateString) {
+    // Espera algo como "20/04/2025"
+    const [day, month, year] = dateString.split("/");
+    if (!day || !month || !year) return "";
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  }
+
+  const [droneData, setDroneData] = useState({
+    id_CollecDrone: "",
+    fec_CollecDrone: "",
+    can_CollecDrone: "",
+    id_Responsible: "",
+    id_Hive: "",
+  });
+
+  const [extractionData, setExtractionData] = useState({
+    id_Extraction: "",
+    fec_extraction: "",
+    can_extraction: "",
+    id_CollecDrone: "",
+    id_Responsible: "",
+  });
+
+  const [fertilization, setFertilization] = useState({
+    id_Fertilization: "",
+    fec_Fertilization: "",
+    can_Fertilization: "",
+    id_Extraction: "",
+    id_Responsible: "",
+  });
 
   // Obtener datos de recolección
   async function fetchRecolecciones() {
@@ -72,12 +108,11 @@ function ColmenaRecoleccion() {
       if (response.status === 200) {
         const data = response.data.map((collec) => [
           collec.id_CollecDrone || "-",
-          collec.fec_CollecDrone ? new Date(collec.fec_CollecDrone).toLocaleDateString("es-CO")
-            : "Sin descripción", 
-          // collec.fec_CollecDrone || "Sin descripción
+          collec.fec_CollecDrone ? new Date(collec.fec_CollecDrone).toLocaleDateString("es-CO") : "-",
           collec.can_CollecDrone || "Sin estado",
           collec.nam_Responsible || "-",
           collec.id_Hive || "-",
+          collec.id_Responsible || "-",
 
         ]);
         setRegistros(data);
@@ -100,21 +135,17 @@ function ColmenaRecoleccion() {
       if (response.status === 200) {
         const data = response.data.map((extration) => [
           extration.id_Extraction || "-",
-          extration.fec_Extraction ? new Date(extration.fec_Extraction).toLocaleDateString("es-CO")
-            : "Sin descripción", 
-          // collec.fec_CollecDrone || "Sin descripción
+          extration.fec_Extraction ? new Date(extration.fec_Extraction).toLocaleDateString("es-CO") : "-",
           extration.can_Extraction || "Sin estado",
           extration.nam_Responsible || "-",
           extration.id_CollecDrone || "-",
+          extration.id_Responsible || "-",
 
         ]);
-        setExtractionData(data);
+        setExtractionsData(data);
 
       }
-      // setExtractionData([
-      //   ["02/04/2025", "1.2 kg", "Carlos Méndez"],
-      //   ["05/04/2025", "0.8 kg", "Ana López"],
-      // ])
+
     } catch (error) {
       console.error("Error al obtener las extracciones:", error)
       setError("No se pudo cargar las extracciones.")
@@ -129,12 +160,12 @@ function ColmenaRecoleccion() {
     try {
       // Simulación de datos para desarrollo
       const response = await axiosInstance.get("/Api/Fertilization/GetsAllFertilization");
-      if(response.status === 200){
+      if (response.status === 200) {
         const data = response.data.map((fertilization) => [
           fertilization.id_Fertilization || "-",
           fertilization.fec_Fertilization ? new Date(fertilization.fec_Fertilization).toLocaleDateString("es-CO") : "-",
           fertilization.can_Fertilization || "-",
-          fertilization.nam_Responsible|| "-",
+          fertilization.nam_Responsible || "-",
           fertilization.id_Extraction || "-"
         ]);
         setFertilizationData(data);
@@ -163,26 +194,35 @@ function ColmenaRecoleccion() {
   const updateTextTitleForm = (texto, rowData) => {
     setAction(texto)
     setButtonForm(texto)
+    setExtractionData({});
+    setFertilization({})
 
     if (texto === "Actualizar") {
       if (currentView === VIEW_MAIN) {
-        setCurrentRecoleccion({
-          fecha: rowData[0],
-          cantidad: rowData[1],
-          responsable: rowData[2],
-          extraccion: rowData[3] === "Sí",
+        setDroneData({
+          id_CollecDrone: [0],
+          fec_CollecDrone: formatDateToISO(rowData[1]),
+          can_CollecDrone: rowData[2],
+          id_Responsible: rowData[5],
+          id_Hive: rowData[4],
         })
+        console.log(rowData);
       } else if (currentView === VIEW_EXTRACTION) {
-        setCurrentExtraccion({
-          fec_extraction: rowData[0],
-          can_extraction: rowData[1],
-          responsable: rowData[2],
+        setExtractionData({
+          id_Extraction: rowData[0],
+          fec_Extraction: formatDateToISO(rowData[1]),
+          can_Extraction: rowData[2],
+          id_CollecDrone: rowData[4],
+          id_Responsible: rowData[5],
         })
+        console.log(rowData);
       } else if (currentView === VIEW_FERTILIZATION) {
-        setCurrentFertilizacion({
-          fec_fertilization: rowData[0],
-          can_fertilization: rowData[1],
-          responsable: rowData[2],
+        setFertilization({
+          id_Fertilization: rowData[0],
+          fec_Fertilization: formatDateToISO(rowData[1]),
+          can_Fertilization: rowData[2],
+          id_Extraction: rowData[3],
+          id_Responsible: rowData[4],
         })
       }
     } else {
@@ -286,16 +326,17 @@ function ColmenaRecoleccion() {
       return (
         <FormCollecDrone
           buttonForm={buttonForm}
-          recoleccion={currentRecoleccion}
+          // recoleccion={currentRecoleccion}
           onDataUpdated={handleDataUpdated}
           closeModal={openModalForm}
+          droneData={droneData}
         />
       )
     } else if (currentView === VIEW_EXTRACTION) {
       return (
         <FormExtraction
           buttonForm={buttonForm}
-          extraccion={currentExtraccion}
+          extractionData={extractionData}
           onDataUpdated={handleDataUpdated}
           closeModal={openModalForm}
           recoleccionId={selectedRecoleccion}
@@ -305,7 +346,7 @@ function ColmenaRecoleccion() {
       return (
         <FormFertilization
           buttonForm={buttonForm}
-          fertilizacion={currentFertilizacion}
+          fertilization={fertilization}
           onDataUpdated={handleDataUpdated}
           closeModal={openModalForm}
           extraccionId={selectedExtraccion}
@@ -320,7 +361,18 @@ function ColmenaRecoleccion() {
       <div className="flex h-screen bg-gray-200">
         <Siderbar />
         <div className="flex flex-col flex-1 overflow-hidden text-white">
-          <NavPrivate TitlePage={TitlePage} />
+          <NavPrivate
+            TitlePage={
+              currentView === VIEW_MAIN
+                ? "Recolección de Zanganos"
+                : currentView === VIEW_EXTRACTION
+                  ? "Extracción de Semen"
+                  : currentView === VIEW_FERTILIZATION
+                    ? "Fertilización"
+                    : ""
+            }
+          />
+
           <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
             <div className="container mx-auto px-6 py-8 mt-10">
               <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
@@ -355,7 +407,7 @@ function ColmenaRecoleccion() {
 
                   {currentView === VIEW_EXTRACTION && (
                     <ContentPage
-                      Data={extractionData}
+                      Data={extractionsData}
                       TitlesTable={titlesExtraccion}
                       Actions={actionsExtraccion}
                       action={action}
@@ -383,11 +435,11 @@ function ColmenaRecoleccion() {
         </div>
 
         {/* Modal para formularios */}
-        <ModalDialog 
-        isOpen={isOpen} 
-        setIsOpen={openModalForm} 
-        FormPage={renderFormComponent()} 
-        action={action} />
+        <ModalDialog
+          isOpen={isOpen}
+          setIsOpen={openModalForm}
+          FormPage={renderFormComponent()}
+          action={action} />
 
         {/* Modal de confirmación para eliminar */}
         <ConfirmationModal

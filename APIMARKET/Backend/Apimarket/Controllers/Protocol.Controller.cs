@@ -1,11 +1,15 @@
 ﻿using Apimarket.Functions;
+using Apimarket.Models;
+using Microsoft.AspNetCore.Mvc;
+using Apimarket.Functions;
 using Apimarket.Model;
 using Apimarket.Models; 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Apimarket.Services;
+using Apimarket.DTOs;
 
-namespace Apimarket.Controllers 
+namespace Apimarket.Controllers
 {
     [ApiController]
     [Route("Api/[controller]")]
@@ -17,31 +21,36 @@ namespace Apimarket.Controllers
 
         public ProtocolController(IConfiguration configuration, ProtocolService protocolServices)
         {
-            _configuration = configuration; 
-            _protocolServices = protocolServices; 
-            _functionsGeneral = new GeneralFunctions(configuration); 
+            _configuration = configuration;
+            _protocolServices = protocolServices;
+            _functionsGeneral = new GeneralFunctions(configuration);
         }
 
         [HttpPost("CreateProtocol")]
-        public IActionResult AddP([FromBody] Protocol entity)
+        public async Task<IActionResult> CreateProtocol([FromForm] protocolDTO model)
         {
             try
             {
-                if (entity == null)
-                {
-                    return BadRequest("la entidad de Protocolo no puede ser nula");
+                if (model == null)
+                    return BadRequest("La entidad de Protocolo no puede ser nula");
 
-                }
-                _protocolServices.Add(entity);
-                return Ok(new { registro = "Protocolo creada con exito" });
+                if (model.Archivo_Protocol == null || model.Archivo_Protocol.Length == 0)
+                    return BadRequest("El archivo no se ha recibido o está vacío");
+
+                await _protocolServices.Add(model);  // Ahora acepta directamente el DTO
+
+                return Ok(new { registro = "Protocolo creado con éxito" });
             }
             catch (Exception ex)
             {
                 _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
-
         }
+
+
+
+
         //[Authorize]
         [HttpGet("GetsAllProtocol")]
         public IActionResult GetsAllProtocol()
@@ -51,7 +60,7 @@ namespace Apimarket.Controllers
                 var protocol = _protocolServices.GetAll();
                 return Ok(protocol);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
@@ -86,7 +95,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        
+
         [HttpGet("GetProtocol/{id}")]
         public IActionResult GetProtocol(int id)
         {
@@ -146,11 +155,11 @@ namespace Apimarket.Controllers
         }
         //[Authorize]
         [HttpDelete("DeleteProtocol")]
-        public async Task<IActionResult> DeleteProtocol(int id) 
+        public async Task<IActionResult> DeleteProtocol(int id)
         {
             try
             {
-                var result = await _protocolServices.DeleteProtocol(id); 
+                var result = await _protocolServices.DeleteProtocol(id);
                 if (result)
                 {
                     return Ok("Protocol eliminado");
@@ -185,7 +194,7 @@ namespace Apimarket.Controllers
                 string RutaPlantilla = _configuration["Rutas:Plantilla:Path"] + _configuration["Rutas:Plantilla:File"];
                 return Ok(RutaPlantilla);
             }
-            
+
             catch (Exception ex)
             {
                 _functionsGeneral.Addlog(ex.ToString());

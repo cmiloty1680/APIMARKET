@@ -78,7 +78,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
         }
       } else if (buttonForm === "Registrar") {
 
-        console.log(uniMed)
+        // console.log(uniMed)
         const response = await axiosInstance.post("/Api/HoneyCollection/Create", {
           tot_HoneyCollection: totMiel,
           canFra125_HoneyCollection: canFra125,

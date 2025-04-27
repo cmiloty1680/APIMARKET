@@ -100,7 +100,8 @@ namespace Apimarket.Controllers
                     Fec_Extraction = p.Fec_Extraction,
                     Can_Extraction = p.Can_Extraction,
                     Nam_Responsible = p.responsible.Nam_Responsible,
-                    Id_CollecDrone = p.collecDrone.Id_CollecDrone
+                    Id_CollecDrone = p.collecDrone.Id_CollecDrone,
+                    Id_Responsible =p.responsible.Id_Responsible
                 }).ToList();
 
                 return Ok(extration);
