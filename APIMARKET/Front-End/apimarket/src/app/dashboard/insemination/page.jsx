@@ -41,6 +41,7 @@ function ColmenaRecoleccion() {
   const [registros, setRegistros] = useState([])
   const [extractionsData, setExtractionsData] = useState([])
   const [fertilizationData, setFertilizationData] = useState([])
+  const [selectedFertilization, setSelectedFertilization] = useState(null);
 
   // Títulos para las tablas
   const titlesRecoleccion = [
@@ -64,7 +65,8 @@ function ColmenaRecoleccion() {
     "Fecha Fertilización",
     "Cantidad Fertilización",
     "Responsable",
-    "ID Extracción"]
+    "ID Extracción",
+    "ID Responsable"]
 
 
 
@@ -166,7 +168,8 @@ function ColmenaRecoleccion() {
           fertilization.fec_Fertilization ? new Date(fertilization.fec_Fertilization).toLocaleDateString("es-CO") : "-",
           fertilization.can_Fertilization || "-",
           fertilization.nam_Responsible || "-",
-          fertilization.id_Extraction || "-"
+          fertilization.id_Extraction || "-",
+          fertilization.id_Responsible || "-",
         ]);
         setFertilizationData(data);
       }
@@ -200,13 +203,13 @@ function ColmenaRecoleccion() {
     if (texto === "Actualizar") {
       if (currentView === VIEW_MAIN) {
         setDroneData({
-          id_CollecDrone: [0],
+          id_CollecDrone: rowData[0],
           fec_CollecDrone: formatDateToISO(rowData[1]),
           can_CollecDrone: rowData[2],
           id_Responsible: rowData[5],
           id_Hive: rowData[4],
         })
-        console.log(rowData);
+        // console.log(rowData);
       } else if (currentView === VIEW_EXTRACTION) {
         setExtractionData({
           id_Extraction: rowData[0],
@@ -221,9 +224,10 @@ function ColmenaRecoleccion() {
           id_Fertilization: rowData[0],
           fec_Fertilization: formatDateToISO(rowData[1]),
           can_Fertilization: rowData[2],
-          id_Extraction: rowData[3],
-          id_Responsible: rowData[4],
+          id_Responsible: rowData[5],
+          id_Extraction: rowData[4],
         })
+        console.log(rowData);
       }
     } else {
       setCurrentRecoleccion(null)
@@ -236,6 +240,24 @@ function ColmenaRecoleccion() {
   const openModalForm = (isOpen) => {
     setSelectedId(null)
     setIsOpen(isOpen)
+  }
+
+  async function deleteFertilization() {
+    if (!selectedFertilization) {
+      setError("Debe seleccionar una colmena.");
+      return;
+    }
+
+    try {
+      await axiosInstance.delete(`/Api/Fertilization/DeleteFertilization?id=${selectedFertilization}`);
+      fetchFertilizaciones();
+      setIsModalOpen(false);
+      setIsModalOpenSuccess(true); 
+    } catch (error) {
+      console.error("Error al eliminar la colmena:", error);
+      setError("No se pudo eliminar la colmena.");
+      setIsModalOpenError(true); 
+    }
   }
 
   // Eliminar registro
@@ -306,8 +328,8 @@ function ColmenaRecoleccion() {
   }
 
   const actionsFertilizacion = {
-    delete: (rowData, rowIndex) => {
-      setSelectedId(rowIndex + 1)
+    delete: (rowData) => {
+      setSelectedFertilization(rowData[0]);
       setIsModalOpen(true)
     },
     update: (rowData) => {
@@ -445,7 +467,7 @@ function ColmenaRecoleccion() {
         <ConfirmationModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onConfirm={deleteRecord}
+          onConfirm={deleteFertilization}
           DeleteTitle={eliminar}
         />
 

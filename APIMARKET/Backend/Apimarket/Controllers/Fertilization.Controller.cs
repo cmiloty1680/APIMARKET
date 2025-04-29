@@ -97,7 +97,8 @@ namespace Apimarket.Controllers
                     Fec_Fertilization = p.Fec_Fertilization,
                     Can_Fertilization = p.Can_Fertilization,
                     Nam_Responsible = p.responsible.Nam_Responsible,
-                    Id_Extraction = p.extraction.Id_Extraction
+                    Id_Extraction = p.extraction.Id_Extraction,
+                    Id_Responsible = p.responsible.Id_Responsible
                 }).ToList();
 
                 return Ok(fertilization);
@@ -109,7 +110,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [HttpPut("UpdateFertilization")]
+        [HttpPut("UpdateFertilization/{id}")]
         public IActionResult UpdateFertilization(Fertilization fertilization)
         {
             try

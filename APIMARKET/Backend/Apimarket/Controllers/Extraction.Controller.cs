@@ -113,7 +113,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [HttpPut("UpdateExtraction")]
+        [HttpPut("UpdateExtraction/{id}")]
         public IActionResult UpdateExtraction(Extraction extraction)
         {
             try

@@ -6,12 +6,14 @@ import axiosInstance from "@/lib/axiosInstance";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
 function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
+  const [extractions, setExtractions] = useState([]);
+
   const [fecExtraction, setFecExtraction] = useState("");
   const [canExtraction, setCanExtraction] = useState("");
   const [idExtraction, setIdExtraction] = useState(null);
   const [nomResponsible, setNomResponsible] = useState("");
   const [responsibles, setResponsibles] = useState([]);
-  const [id_CollecDrone, setIdCollecDrone] = useState("");
+  const [id_CollecDrone, setIdCollecDrone] = useState(null);
   const [collecDrones, setCollecDrones] = useState([]);
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
@@ -33,6 +35,20 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
     }
     fetchresponsibles();
   }, []);
+
+  useEffect(() => {
+    async function fetchExtractions() {
+      try {
+        const response = await axiosInstance.get("/Api/Extraction/GetAllExtration");
+        setExtractions(response.data);
+      } catch (error) {
+        console.error("Error al obtener extracciones:", error);
+      }
+    }
+
+    fetchExtractions();
+  }, []);
+
 
   useEffect(() => {
 
@@ -65,6 +81,8 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
           id_Extraction: idExtraction,
           fec_Extraction: fecExtraction,
           can_Extraction: canExtraction,
+          id_CollecDrone: id_CollecDrone,
+          id_Responsible: parseInt(nomResponsible)
         };
 
         const response = await axiosInstance.put(
@@ -146,37 +164,37 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
         <div className="space-y-4">
           {/* Fecha */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-         
-          <div className="space-y-1">
-            <label htmlFor="FecExtraction" className="text-sm font-medium text-gray-700">
-              Fecha de la Extracción
-            </label>
-            <input
-              type="date"
-              id="FecExtraction"
-              placeholder="Fecha de la extracción"
-              value={fecExtraction || ""}
-              onChange={(e) => setFecExtraction(e.target.value)}
-              required
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
-            />
-          </div>
 
-          {/* Cantidad */}
-          <div className="space-y-1">
-            <label htmlFor="CanExtraction" className="text-sm font-medium text-gray-700">
-              Cantidad de la Extracción
-            </label>
-            <input
-              type="number"
-              id="CanExtraction"
-              placeholder="Cantidad extraída"
-              value={canExtraction || ""}
-              onChange={(e) => setCanExtraction(e.target.value)}
-              required
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
-            />
-          </div>
+            <div className="space-y-1">
+              <label htmlFor="FecExtraction" className="text-sm font-medium text-gray-700">
+                Fecha de la Extracción
+              </label>
+              <input
+                type="date"
+                id="FecExtraction"
+                placeholder="Fecha de la extracción"
+                value={fecExtraction || ""}
+                onChange={(e) => setFecExtraction(e.target.value)}
+                required
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
+              />
+            </div>
+
+            {/* Cantidad */}
+            <div className="space-y-1">
+              <label htmlFor="CanExtraction" className="text-sm font-medium text-gray-700">
+                Cantidad de la Extracción
+              </label>
+              <input
+                type="number"
+                id="CanExtraction"
+                placeholder="Cantidad extraída"
+                value={canExtraction || ""}
+                onChange={(e) => setCanExtraction(e.target.value)}
+                required
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -200,25 +218,33 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
             </div>
 
             <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">
-                  ID Recolección
-                </label>
-                <select
-                  className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
-                  value={id_CollecDrone || ""}
-                  onChange={(event) => setIdCollecDrone(event.target.value)}
-                  required
-                >
-                  <option value="" disabled>Seleccione</option>
-                  {collecDrones.map((collecDrone) => (
+              <label className="text-sm font-medium text-gray-700">
+                ID Recolección
+              </label>
+              <select
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                value={id_CollecDrone || ""}
+                onChange={(event) => setIdCollecDrone(event.target.value)}
+                required
+              >
+                <option value="" disabled>Seleccione</option>
+                {collecDrones
+                  .filter((collecDrone) => {
+                    const yaExtraido = extractions.some(
+                      (ext) => ext.id_CollecDrone === collecDrone.id_CollecDrone
+                    );
+                    return !yaExtraido; // Solo muestra si NO ha sido usado aún
+                  })
+                  .map((collecDrone) => (
                     <option key={collecDrone.id_CollecDrone} value={collecDrone.id_CollecDrone}>
                       {collecDrone.id_CollecDrone}
                     </option>
                   ))}
-                </select>
-              </div>
+
+              </select>
+            </div>
           </div>
-          
+
 
           {/* Botón de acción */}
           <div className="flex justify-end pt-3">
