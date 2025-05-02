@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 
 function ProgressCards() {
     const [totColm, setTotColm] = useState("");
+    const [totColmInactiva, setTotColmInactiva] = useState("");
     
   
     useEffect(() => {
@@ -23,8 +24,21 @@ function ProgressCards() {
             fetchTotalColmenas();
         }, []);
 
+      useEffect(() =>{
+        async function fetchTotalInactiva() {
+          try{
+            const response = await axiosInstance.get("/Api/Hive/GetTotalHivesInactivo");
+            setTotColmInactiva(response.data.total);
+          }
+          catch(error){
+            console.error("Error al traer las colmenas inactivas", error)
+          }
+        }
+        fetchTotalInactiva();
+      }, []);
+
   const cards = [
-    { title: 'Colmenas Saludables', icon: <CheckCircle2 className="w-4 h-4 text-emerald-600" />, value: 80, color: '#10b981', track: '#d1fae5', stats: [{ num: totColm, label: 'Saludables', bg: 'from-emerald-50 to-emerald-100/30', border: 'border-emerald-100' }, { num: 12, label: 'En riesgo', bg: 'from-slate-50 to-slate-100/30', border: 'border-slate-200' }] },
+    { title: 'Colmenas Saludables', icon: <CheckCircle2 className="w-4 h-4 text-emerald-600" />, value: 80, color: '#10b981', track: '#d1fae5', stats: [{ num: totColm, label: 'Saludables', bg: 'from-emerald-50 to-emerald-100/30', border: 'border-emerald-100' }, { num: totColmInactiva, label: 'En riesgo', bg: 'from-slate-50 to-slate-100/30', border: 'border-slate-200' }] },
     { title: 'Producción Actual', icon: <BarChart className="w-4 h-4 text-rose-600" />, value: 68, color: '#e11d48', track: '#ffe4e6', stats: [{ num: 68, label: 'Kg Producidos', bg: 'from-rose-50 to-rose-100/30', border: 'border-rose-100' }, { num: 100, label: 'Meta', bg: 'from-slate-50 to-slate-100/30', border: 'border-slate-200' }] },
     { title: 'Miel Recolectada', icon: <Droplets className="w-4 h-4 text-amber-600" />, value: 39, color: '#f59e0b', track: '#fef3c7', stats: [{ num: 39, label: 'Kg Recolectados', bg: 'from-amber-50 to-amber-100/30', border: 'border-amber-100' }, { num: 100, label: 'Meta', bg: 'from-slate-50 to-slate-100/30', border: 'border-slate-200' }] },
     { title: 'Revisiones', icon: <CheckCircle2 className="w-4 h-4 text-cyan-600" />, value: 95, color: '#0891b2', track: '#e0f2fe', stats: [{ num: 95, label: 'Completadas', bg: 'from-cyan-50 to-cyan-100/30', border: 'border-cyan-100' }, { num: 100, label: 'Total', bg: 'from-slate-50 to-slate-100/30', border: 'border-slate-200' }] }

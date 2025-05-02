@@ -97,7 +97,6 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
         }
       } else if (buttonForm === "Registrar") {
         const createBody = {
-          id_Extraction: idExtraction,
           fec_Extraction: fecExtraction,
           can_Extraction: canExtraction,
           id_Responsible: nomResponsible,

@@ -5,7 +5,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { Flower } from "lucide-react";
+import { Clipboard } from "lucide-react";
 import axiosInstance from "@/lib/axiosInstance";
 // import { Droplet } from "lucide-react";
 import {
@@ -179,7 +179,7 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
   <div className="flex items-center justify-between mb-6">
     <div className="flex items-center">
       <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
-        <Flower className="h-5 w-5" />
+        <Clipboard className="h-5 w-5" />
       </div>
       <div className="ml-3">
         <h2 className="text-xl font-bold text-gray-900">Protocolo</h2>

@@ -70,6 +70,33 @@ namespace Apimarket.Controllers
             }
         }
 
+        [HttpGet("GetExtractionByCollecDrone")]
+        public ActionResult<IEnumerable<ExtractionDTO>> GetExtractionByCollecDrone(int id)
+        {
+            try
+            {
+                var extractions = _extractionServices.GetAll()
+                    .Where(e => e.collecDrone.Id_CollecDrone == id)
+                    .Select(p => new ExtractionDTO
+                    {
+                        Id_Extraction = p.Id_Extraction,
+                        Fec_Extraction = p.Fec_Extraction,
+                        Can_Extraction = p.Can_Extraction,
+                        Nam_Responsible = p.responsible.Nam_Responsible,
+                        Id_CollecDrone = p.collecDrone.Id_CollecDrone,
+                        Id_Responsible = p.responsible.Id_Responsible
+                    })
+                    .ToList();
+
+                return Ok(extractions);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("GetExtraction/{id}")]
         public IActionResult GetExtraction(int id)
         {

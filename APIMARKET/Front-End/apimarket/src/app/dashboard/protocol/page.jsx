@@ -10,6 +10,7 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import FormProtocol from "./FormProtocol";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 // import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
+import { Clipboard } from "lucide-react";
 
 
 function ProtocolPage() {
@@ -207,7 +208,7 @@ function ProtocolPage() {
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden">
-        <NavPrivate TitlePage={TitlePage} />
+        <NavPrivate TitlePage={TitlePage} Icon={<Clipboard/>}/>
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
           <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
             <div className="container mx-auto px-6 py-8 border-4 mt-10 bg-white">
@@ -225,6 +226,7 @@ function ProtocolPage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   ignorar={[]}
+                  showAddButton={true} // 👈 aquí indicas que NO lo muestre
                 />
               </div>
             </div>

@@ -11,6 +11,7 @@ function ContentPage({
   openModalForm,
   ignorar,
   setIsExportModalOpen,
+  showAddButton
 }) {
   return (
     <div>
@@ -51,7 +52,7 @@ function ContentPage({
             <span>Descargar CSV</span>
           </Button>
 
-          <Button
+          {showAddButton && (<Button
             className="flex items-center space-x-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#e87204] hover:bg-[#30712] focus:outline-none px-4 py-2"
             onClick={() => {
               updateTextTitleForm("Registrar", {});
@@ -60,7 +61,7 @@ function ContentPage({
           >
             <PlusCircle size={18} />
             <span>Agregar</span>
-          </Button>
+          </Button>)}
         </div>
       </div>
 

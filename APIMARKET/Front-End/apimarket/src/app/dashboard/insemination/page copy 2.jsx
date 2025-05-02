@@ -50,30 +50,17 @@ function ColmenaRecoleccion() {
   
 
   // Si el modal de formulario se cierra sin guardar, volver a vista principal
-  // useEffect(() => {
-  //   if (!isOpen && !hasCreatedRecord) {
-  //     if (currentView === VIEW_FERTILIZATION) {
-  //       setCurrentView(VIEW_EXTRACTION);
-  //     } else if (currentView === VIEW_EXTRACTION) {
-  //       setCurrentView(VIEW_MAIN); // o VIEW_COLLEC_DRONE si existe
-  //     } else if (currentView === VIEW_MAIN) {
-  //       setCurrentView(VIEW_MAIN);
-  //     }
-  //   }
-  // }, [isOpen]);
-
   useEffect(() => {
-    if (!isOpen && !hasCreatedRecord && action !== "Actualizar") {
+    if (!isOpen && !hasCreatedRecord) {
       if (currentView === VIEW_FERTILIZATION) {
         setCurrentView(VIEW_EXTRACTION);
       } else if (currentView === VIEW_EXTRACTION) {
-        setCurrentView(VIEW_MAIN); // O VIEW_COLLEC_DRONE si lo tienes separado
+        setCurrentView(VIEW_MAIN); // o VIEW_COLLEC_DRONE si existe
       } else if (currentView === VIEW_MAIN) {
         setCurrentView(VIEW_MAIN);
       }
     }
   }, [isOpen]);
-  
   
 
   // Títulos para las tablas
@@ -366,12 +353,10 @@ function ColmenaRecoleccion() {
 
   // Acciones tablas
   const actionsRecoleccion = 
-  { 
-    // delete: (r,i)=>{ setSelectedId(i+1); setIsModalOpen(true) }, 
+  { delete: (r,i)=>{ setSelectedId(i+1); setIsModalOpen(true) }, 
   update:(r)=>{ updateTextTitleForm("Actualizar",r); openModalForm(true) }, custom:[{ name:"Extracción", action:handleExtractionClick }] }
   const actionsExtraccion   = 
-  { 
-    // delete: (r,i)=>{ setSelectedId(i+1); setIsModalOpen(true) }, 
+  { delete: (r,i)=>{ setSelectedId(i+1); setIsModalOpen(true) }, 
   update:(r)=>{ updateTextTitleForm("Actualizar",r); openModalForm(true) }, custom:[{ name:"Fertilización", action:handleFertilizationClick }] }
   const actionsFertilizacion = 
   { delete:(r)=>{ setSelectedFertilization(r[0]); setIsModalOpen(true) }, 
@@ -416,9 +401,7 @@ function ColmenaRecoleccion() {
                   updateTextTitleForm={updateTextTitleForm} 
                   openModalForm={openModalForm} 
                   ignorar={[]} 
-                  showAddButton={true} // 👈 aquí indicas que NO lo muestre
-                />
-                }
+                />}
 
                 {currentView===VIEW_EXTRACTION && 
                 <ContentPage 

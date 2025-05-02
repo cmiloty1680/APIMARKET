@@ -9,6 +9,7 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import FormRace from "./FormRace";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 import { ShieldCheck, AlertCircle } from "lucide-react";
+import { Bug } from "lucide-react";
 
 function RacePage() {
   const TitlePage = "Raza";
@@ -130,7 +131,7 @@ function RacePage() {
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
-        <NavPrivate TitlePage={TitlePage} />
+        <NavPrivate TitlePage={TitlePage} Icon={<Bug/>}/>
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
           <div className="container mx-auto px-6 py-8 mt-10">
             <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
@@ -142,6 +143,7 @@ function RacePage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   ignorar={[]}
+                  showAddButton={true} // 👈 aquí indicas que NO lo muestre
                 />
               </div>
             </div>

@@ -9,6 +9,7 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import FormFeeding from "./FormFeeding";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
+import { Flower } from "lucide-react";
 
 
 
@@ -191,7 +192,7 @@ function FeedingPage() {
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
-        <NavPrivate TitlePage={TitlePage} />
+        <NavPrivate TitlePage={TitlePage} Icon={<Flower/>}/>
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
           <div className="container mx-auto px-6 py-8 mt-10">
             <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
@@ -210,6 +211,7 @@ function FeedingPage() {
                     openModalForm={openModalForm}
                     ignorar={[9,10]}
                     setIsExportModalOpen={setIsExportModalOpen}
+                    showAddButton={true} // 👈 aquí indicas que NO lo muestre
                   />
 
               </div>

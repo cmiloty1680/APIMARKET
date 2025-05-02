@@ -9,7 +9,10 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import FormImplement from "./FormImplement";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
-
+import {
+  FlaskRoundIcon as Flask,
+  PenToolIcon as Tool,
+} from "lucide-react";
 
 function ImplementPage() {
   const TitlePage = "Implemento";
@@ -165,7 +168,7 @@ function ImplementPage() {
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
-        <NavPrivate TitlePage={TitlePage} />
+        <NavPrivate TitlePage={TitlePage} Icon={<Tool/>}/>
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
           <div className="container mx-auto px-6 py-8 mt-10">
             <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">

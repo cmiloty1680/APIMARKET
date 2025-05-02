@@ -230,7 +230,9 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                             <label className="text-sm font-medium text-gray-700">Colmena</label>
                             <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={deshive || ""} onChange={(e) => setDesHive(e.target.value)}>
                                 <option value="">Seleccione</option>
-                                {hives.map((hive) => (
+                                {hives
+                                .filter((hive) => hive.est_Hive === "activo")
+                                .map((hive) => (
                                     <option key={hive.id_Hive} value={hive.id_Hive}>{hive.des_Hive}</option>
                                 ))}
                             </select>
@@ -241,7 +243,8 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                             <label className="text-sm font-medium text-gray-700">Nombre Responsable </label>
                             <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={idResponsible || ""} onChange={(e) => setIdResponsible(e.target.value)}>
                                 <option value="">Seleccione</option>
-                                {responsibles.map((responsible) => (
+                                {responsibles
+                                .map((responsible) => (
                                     <option key={responsible.id_Responsible} value={responsible.id_Responsible}> {responsible.nam_Responsible}</option>
                                 ))}
                             </select>

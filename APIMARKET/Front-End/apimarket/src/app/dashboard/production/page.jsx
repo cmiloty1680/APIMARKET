@@ -8,6 +8,7 @@ import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import ModalDialog from "@/components/utils/ModalDialog";
 import FormProduction from "./FormProduction";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
+import { Droplet } from "lucide-react";
 
 function ProductionPage() {
   const TitlePage = "Producción";
@@ -154,7 +155,7 @@ function ProductionPage() {
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
-        <NavPrivate TitlePage={TitlePage} />
+        <NavPrivate TitlePage={TitlePage} Icon={<Droplet/>}/>
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
           <div className="container mx-auto px-6 py-8 mt-10">
             <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
@@ -174,6 +175,7 @@ function ProductionPage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   setIsExportModalOpen={setIsExportModalOpen}
+                  showAddButton={true} // 👈 aquí indicas que NO lo muestre
                   ignorar={[7]}
                   
                 />

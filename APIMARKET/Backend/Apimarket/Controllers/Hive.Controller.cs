@@ -93,6 +93,21 @@ namespace Apimarket.Controllers
             }
         }
 
+        [HttpGet("GetTotalHivesInactivo")]
+        public IActionResult GetTotalHivesInactivo()
+        {
+            try
+            {
+                var total = _hiveService.CountInactivoHives();
+                return Ok(new { total });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
 
         [HttpGet("AllHive")]
 

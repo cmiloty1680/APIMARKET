@@ -237,7 +237,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Settings, LogOut } from "lucide-react";
 
-function NavPrivate({ TitlePage }) {
+function NavPrivate({ TitlePage, Icon }) {
   const [userName, setUserName] = useState("");
   const [lastname, setLastname] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -311,8 +311,9 @@ function NavPrivate({ TitlePage }) {
   return (
     <header className="bg-[#030712] border-b px-4 py-3">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold italic font-[Papyrus] text-[#e87204]">
+      <h1 className="flex items-center text-2xl font-semibold italic font-[Papyrus] text-[#e87204]">
           {TitlePage}
+          {Icon && <span className="mr-2 ml-2">{Icon}</span>} {/* Para dar espacio entre el ícono y el título */}
         </h1>
 
         <div className="flex items-center space-x-4">
