@@ -174,13 +174,12 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
 
   }
   return (
-    <>
-<<<<<<< HEAD
-      <form onSubmit={handlerSubmit} className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<>
+<form onSubmit={handlerSubmit} className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
             <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
-              <Flower className="h-5 w-5" />
+              <Tool className="h-5 w-5" />
             </div>
             <div className="ml-3">
               <h2 className="text-xl font-bold text-gray-900">Protocolo</h2>
@@ -188,20 +187,7 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
             </div>
           </div>
         </div>
-=======
-   <form onSubmit={handlerSubmit} className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
-  <div className="flex items-center justify-between mb-6">
-    <div className="flex items-center">
-      <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
-        <Clipboard className="h-5 w-5" />
-      </div>
-      <div className="ml-3">
-        <h2 className="text-xl font-bold text-gray-900">Protocolo</h2>
-        <p className="text-xs text-gray-500">Ingrese los datos del protocolo</p>
-      </div>
-    </div>
-  </div>
->>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
+
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Campo Nombre */}
@@ -220,7 +206,8 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
              
             
             </div>
-                        
+                          
+                 
           
 
           
@@ -325,6 +312,7 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
         redirectPath=""
       />
     </>
+    
   );
 }
 

@@ -9,11 +9,8 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import FormRace from "./FormRace";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 import { ShieldCheck, AlertCircle } from "lucide-react";
-<<<<<<< HEAD
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
-=======
 import { Bug } from "lucide-react";
->>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
 
 function RacePage() {
   const TitlePage = "Raza";
@@ -148,14 +145,11 @@ function RacePage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   ignorar={[]}
-<<<<<<< HEAD
                   setIsExportModalOpen={setIsExportModalOpen}
 
                   tableName="implemento"
 
-=======
                   showAddButton={true} // 👈 aquí indicas que NO lo muestre
->>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
                 />
               </div>
             </div>

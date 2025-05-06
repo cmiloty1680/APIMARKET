@@ -164,12 +164,9 @@ function HivePage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   ignorar={[]}
-<<<<<<< HEAD
                   tableName="colmena"
 
-=======
                   showAddButton={true} // 👈 aquí indicas que NO lo muestre
->>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
                 />
 
               </div>

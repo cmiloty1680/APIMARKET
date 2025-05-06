@@ -211,11 +211,11 @@ function FeedingPage() {
                     openModalForm={openModalForm}
                     ignorar={[9,10]}
                     setIsExportModalOpen={setIsExportModalOpen}
-<<<<<<< HEAD
+
                      tableName="alimentacion"
-=======
+
                     showAddButton={true} // 👈 aquí indicas que NO lo muestre
->>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
+
                   />
 
               </div>
