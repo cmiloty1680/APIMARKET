@@ -189,6 +189,8 @@ function ImplementPage() {
                     ignorar={[]}
                     setIsExportModalOpen={setIsExportModalOpen}
                     tableName="implemento"
+                    showAddButton={true} // 👈 aquí indicas que NO lo muestre
+
 
                   />
                 
