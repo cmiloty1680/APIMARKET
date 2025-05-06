@@ -402,6 +402,8 @@ function ColmenaRecoleccion() {
                       updateTextTitleForm={updateTextTitleForm}
                       openModalForm={openModalForm}
                       ignorar={[]}
+                      tableName="recoleccio - extraccion - inseminacion"
+
                     />
                   )}
 

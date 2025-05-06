@@ -67,9 +67,28 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
             setModalOpenFall(true);
             return;
         }
+        if (valor.length <= 100) {
+            setError("El valor de la alimentacion debe ir sin puntos(.) y menos de 100 dijitos.");
+            setModalOpenFall(false);
+            setSubmitting(false);
+            return;
+          };
+          if (cantidad.length <= 100) {
+            setError("La cantidad debe tener menos de 100 dígitos.");
+            setModalOpenFall(true);
+            setSubmitting(false);
+            return;
+          }
+          if (numDocResponsible.length !== 10) {
+            setError("El numero de telefono debe tener exactamente 10 dígitos.");
+            setModalOpenFall(true);
+            setSubmitting(false);
+            return;
+          }
+        
 
         const formattedFecha = fecha ? new Date(fecha).toISOString().split('T')[0] : '';
-        
+
 
         try {
             if (buttonForm == "Actualizar") {
@@ -129,7 +148,7 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
 
 
     const setDataFeedingForUpdate = () => {
-        setFecha(feeding.fec_Feeding ?? "");  
+        setFecha(feeding.fec_Feeding ?? "");
         setTipoAlimentacion(feeding.tip_Feeding);
         setCantidad(feeding.can_Feeding);
         setValor(feeding.vlr_Feeding);
@@ -148,8 +167,8 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
             setDataFeedingForUpdate();
         }
     }, [feeding]);
-    
-    
+
+
 
 
 
@@ -198,6 +217,7 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                             <input
                                 type="text"
                                 required
+                                placeholder="numero de documento"
                                 className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
                                 value={numDocResponsible || ""}
                                 onChange={(e) => setnumDocResponsible(e.target.value)}
@@ -217,13 +237,15 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                         </div>
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Cantidad (Kg)</label>
-                            <input type="number" className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={cantidad || ""} onChange={(e) => setCantidad(e.target.value)} />
+                            <input type="number" placeholder="cantidad alimentacion"
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={cantidad || ""} onChange={(e) => setCantidad(e.target.value)} />
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Valor</label>
-                            <input type="number" className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={valor || ""} onChange={(e) => setValor(e.target.value)} />
+                            <input type="number" placeholder="valor de alimentacion"
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={valor || ""} onChange={(e) => setValor(e.target.value)} />
                         </div>
 
                         <div className="space-y-1">
@@ -267,33 +289,33 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                 </div>
             </form>
 
-           {/* Modal de éxito usando el componente dinámico */}
-      <DynamicAlert
-        isOpen={isModalOpen}
-        onOpenChange={(isOpen) => {
-            setModalOpen(isOpen); // Cambia el estado del modal
-            if (!isOpen) {
-              closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
-            }
-          }}
-        type="success"
-        message={msSuccess || "Operación exitosa"}
-        redirectPath=""
-      />
+            {/* Modal de éxito usando el componente dinámico */}
+            <DynamicAlert
+                isOpen={isModalOpen}
+                onOpenChange={(isOpen) => {
+                    setModalOpen(isOpen); // Cambia el estado del modal
+                    if (!isOpen) {
+                        closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+                    }
+                }}
+                type="success"
+                message={msSuccess || "Operación exitosa"}
+                redirectPath=""
+            />
 
-      {/* Modal de fallido usando el componente dinámico */}
-      <DynamicAlert
-        isOpen={isModalOpenFall}
-        onOpenChange={(isOpen) => {
-            setModalOpenFall(isOpen); // Cambia el estado del modal
-            if (!isOpen) {
-              closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
-            }
-          }}
-        type="error"
-        message={error || "Ha ocurrido un error inesperado"}
-        redirectPath=""
-      />
+            {/* Modal de fallido usando el componente dinámico */}
+            <DynamicAlert
+                isOpen={isModalOpenFall}
+                onOpenChange={(isOpen) => {
+                    setModalOpenFall(isOpen); // Cambia el estado del modal
+                    if (!isOpen) {
+                        closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+                    }
+                }}
+                type="error"
+                message={error || "Ha ocurrido un error inesperado"}
+                redirectPath=""
+            />
         </>
 
     );

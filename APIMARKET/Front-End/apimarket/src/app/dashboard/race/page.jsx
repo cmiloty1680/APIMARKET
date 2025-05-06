@@ -9,6 +9,7 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import FormRace from "./FormRace";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 import { ShieldCheck, AlertCircle } from "lucide-react";
+import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 
 function RacePage() {
   const TitlePage = "Raza";
@@ -20,6 +21,7 @@ function RacePage() {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [buttonForm, setButtonForm] = useState("Registrar");
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false); // 👈 Para controlar el modal de exportación
 
   // Estados para las alertas (éxito y fallo)
   const [isModalOpen, setModalOpen] = useState(false); // Para alerta de éxito
@@ -142,6 +144,10 @@ function RacePage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   ignorar={[]}
+                  setIsExportModalOpen={setIsExportModalOpen}
+
+                  tableName="implemento"
+
                 />
               </div>
             </div>
@@ -188,6 +194,16 @@ function RacePage() {
         type="error"
         message={error || "Ha ocurrido un error inesperado"}
         redirectPath=""
+
+      />
+
+      {/* Modal de exportación a PDF */}
+      <ExportToPDFDialog
+        isOpen={isExportModalOpen}
+        setIsOpen={setIsExportModalOpen}
+        TitlePage={TitlePage}
+        Data={regisRace}
+        TitlesTable={titlesRaza}
       />
     </div>
   );

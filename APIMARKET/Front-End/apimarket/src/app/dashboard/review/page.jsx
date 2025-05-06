@@ -174,6 +174,8 @@ function ReviewPage() {
                   openModalForm={openModalForm}
                   setIsExportModalOpen={setIsExportModalOpen}
                   ignorar={[]}
+                  tableName="Revision"
+
                 />
               </div>
             </div>

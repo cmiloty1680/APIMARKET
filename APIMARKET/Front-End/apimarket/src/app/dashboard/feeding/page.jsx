@@ -210,6 +210,7 @@ function FeedingPage() {
                     openModalForm={openModalForm}
                     ignorar={[9,10]}
                     setIsExportModalOpen={setIsExportModalOpen}
+                     tableName="alimentacion"
                   />
 
               </div>

@@ -99,6 +99,8 @@ function
                   Data={formattedData}
                   TitlesTable={titlesResponsable}
                   Actions={actions}
+                  tableName="Responsables"
+
                 />
               </div>
 

@@ -175,7 +175,8 @@ function ProductionPage() {
                   openModalForm={openModalForm}
                   setIsExportModalOpen={setIsExportModalOpen}
                   ignorar={[7]}
-                  
+                  tableName="producción"
+
                 />
               </div>
             </div>

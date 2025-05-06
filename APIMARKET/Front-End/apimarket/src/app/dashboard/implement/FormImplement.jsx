@@ -64,7 +64,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
           setModalOpen(true);
           onDataUpdated();
         }
-      }  else if (buttonForm === "Registrar") {
+      } else if (buttonForm === "Registrar") {
         const response = await axiosInstance.post("/Api/Implement/CreateImplement", {
           nom_Implement: nomImplement,
           tip_Implement: tipImplement,
@@ -106,27 +106,59 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Nombre del Implemento</label>
-            <input type="text" value={nomImplement} onChange={(e) => setNomImplement(e.target.value)} className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required />
+            <input
+              type="text"
+              value={nomImplement}
+              onChange={(e) => setNomImplement(e.target.value)}
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              required
+            />
           </div>
 
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Tipo de Implemento</label>
-            <input type="text" value={tipImplement} onChange={(e) => setTipImplement(e.target.value)} className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required />
+            <select
+              value={tipImplement}
+              onChange={(e) => setTipImplement(e.target.value)}
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              required
+            >
+              <option value="">Seleccione</option>
+              <option value="Herramientas">Herramientas</option>
+              <option value="Trajes">Trajes</option>
+            </select>
           </div>
 
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Fecha de Ingreso</label>
-            <input type="date" value={fecIngImplement} onChange={(e) => setFecIngImplement(e.target.value)} className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required />
+            <input
+              type="date"
+              value={fecIngImplement}
+              onChange={(e) => setFecIngImplement(e.target.value)}
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              required
+            />
           </div>
 
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Valor del Implemento</label>
-            <input type="number" value={vlrImplement} onChange={(e) => setVlrImplement(e.target.value)} className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required />
+            <input
+              type="number"
+              value={vlrImplement}
+              onChange={(e) => setVlrImplement(e.target.value)}
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              required
+            />
           </div>
 
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Existencia</label>
-            <select value={exiImplement} onChange={(e) => setExiImplement(e.target.value)} className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required>
+            <select
+              value={exiImplement}
+              onChange={(e) => setExiImplement(e.target.value)}
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              required
+            >
               <option value="">Seleccione</option>
               <option value="Sí">Sí</option>
               <option value="No">No</option>
@@ -135,11 +167,16 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
         </div>
 
         <div className="flex justify-end pt-6">
-          <Button disabled={isSubmitting} type="submit" className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors">
+          <Button
+            disabled={isSubmitting}
+            type="submit"
+            className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors"
+          >
             {isSubmitting ? "Guardando..." : buttonForm}
           </Button>
         </div>
       </form>
+
 
       <DynamicAlert
         isOpen={isModalOpen}

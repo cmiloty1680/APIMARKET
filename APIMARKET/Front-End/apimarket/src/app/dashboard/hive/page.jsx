@@ -162,6 +162,8 @@ function HivePage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   ignorar={[]}
+                  tableName="colmena"
+
                 />
 
               </div>
