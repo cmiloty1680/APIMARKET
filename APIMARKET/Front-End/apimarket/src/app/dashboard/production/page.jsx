@@ -177,7 +177,8 @@ function ProductionPage() {
                   setIsExportModalOpen={setIsExportModalOpen}
                   showAddButton={true} // 👈 aquí indicas que NO lo muestre
                   ignorar={[7]}
-                  
+                  tableName="producción"
+
                 />
               </div>
             </div>

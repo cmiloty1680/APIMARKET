@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import NavPrivate from "@/components/navs/NavPrivate";
 import ContentPage from "@/components/utils/ContentPage";
 import Sidebar from "@/components/navs/Siderbar";
+import { Eye, Download } from "lucide-react";
+import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
+
 import axiosInstance from "@/lib/axiosInstance";
 import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import ModalDialog from "@/components/utils/ModalDialog";
@@ -48,7 +51,7 @@ function ProtocolPage() {
     archivo_Protocol: "",
   });
 
-  
+
   function formatDateToISO(dateString) {
     // Espera algo como "20/04/2025"
     const [day, month, year] = dateString.split("/");
@@ -64,27 +67,27 @@ function ProtocolPage() {
       if (response.status === 200) {
         console.log()
 
-        const data = response.data.map((protocol) => [
-          protocol.id_Protocol || "-",
-          protocol.nom_Protocol || "Sin descripción",
-          protocol.tip_Protocol || "Sin estado",
-          protocol.fecCre_Protocol ? new Date(protocol.fecCre_Protocol).toLocaleDateString("es-CO")
-          : "Sin descripción",    
-          protocol.fecAct_Protocol ? new Date(protocol.fecAct_Protocol).toLocaleDateString("es-CO")
-          : "Sin descripción",    
-          protocol.archivo_Protocol
-            ? (
-              <button
-                onClick={() => handleDownload(protocol.archivo_Protocol)}
-                className="text-blue-600 underline"
-                aria-label={`Descargar el archivo de ${protocol.archivo_Protocol}`}
-              >
-                Descargar archivo
-              </button>
+        const data = response.data.map((item) => [
+          item.id_Protocol || "-",
+          item.nom_Protocol || "Sin descripción",
+          item.tip_Protocol || "Sin estado",
+          item.fecCre_Protocol ? new Date(item.fecCre_Protocol).toLocaleDateString("es-CO") : "Sin descripción",
+          item.fecAct_Protocol ? new Date(item.fecAct_Protocol).toLocaleDateString("es-CO") : "Sin descripción",
+          item.archivo_Protocol ? (
 
-            )
-            : "-",
+            <div className="center gap-2 justify-center items-center">
+
+              <button
+                onClick={() => handleDownload(item.archivo_Protocol, `Protocolo_${item.id_Protocol}`)}
+                className="text-green-600 hover:text-black-800"
+                title="Descargar archivo"
+              >
+                <Download size={29} />
+              </button>
+            </div>
+          ) : "-"
         ]);
+
         setRegisProtocol(data);
       }
     } catch (error) {
@@ -151,17 +154,20 @@ function ProtocolPage() {
     }
   };
   const handleDataUpdated = () => {
-    fetchProtocol(); // Refresca los datos de la tabla
+    fetchProtocol();
+
+    // Refresca los datos de la tabla
   };
+
   const openModalForm = (isOpen) => {
     setIsOpen(isOpen);
   };
   const handleSuccess = () => {
     const message =
-    action === "Registrar"
-      ? "El protocolo ha sido registrado correctamente."
-      : "El protocolo ha sido actualizado correctamente.";
-  
+      action === "Registrar"
+        ? "El protocolo ha sido registrado correctamente."
+        : "El protocolo ha sido actualizado correctamente.";
+
     setMsSuccess(message);
     setModalOpen(true);
     fetchProtocol();
@@ -191,17 +197,17 @@ function ProtocolPage() {
       setSelectedProtocol(rowData[0]);
       setIsModalOpenDelete(true); // ✅ Esto abre el modal correcto
     },
-  
+
     // update: (rowData) => {
     //   updateTextTitleForm("Actualizar", rowData);
     //   setIsOpen(true);
     // },
   };
 
- 
-  
 
-  
+
+
+
 
 
   return (
@@ -226,7 +232,13 @@ function ProtocolPage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   ignorar={[]}
+<<<<<<< HEAD
+                  tableName="protocol"
+                  setIsExportModalOpen={setIsExportModalOpen}
+
+=======
                   showAddButton={true} // 👈 aquí indicas que NO lo muestre
+>>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
                 />
               </div>
             </div>
@@ -237,9 +249,9 @@ function ProtocolPage() {
       <ModalDialog
         isOpen={isOpen}
         setIsOpen={openModalForm}
-        FormPage={<FormProtocol buttonForm={buttonForm} protocol={protocol} onSuccess={handleSuccess}  
-        onDataUpdated={handleDataUpdated}
-        closeModal={openModalForm}
+        FormPage={<FormProtocol buttonForm={buttonForm} protocol={protocol} onSuccess={handleSuccess}
+          onDataUpdated={handleDataUpdated}
+          closeModal={openModalForm}
         />}
         action={action}
       />
@@ -258,23 +270,23 @@ function ProtocolPage() {
         redirectPath="" // o déjalo vacío si no deseas redirigir
       />
 
-<DynamicAlert
-  isOpen={isModalOpen}
-  onOpenChange={setModalOpen}
-  type="success"
-  message={msSuccess}
-  redirectPath=""
-/>
+      <DynamicAlert
+        isOpen={isModalOpen}
+        onOpenChange={setModalOpen}
+        type="success"
+        message={msSuccess}
+        redirectPath=""
+      />
 
 
-       {/* Modal de exportación a PDF */}
-       {/* <ExportToPDFDialog
+      {/* Modal de exportación a PDF */}
+      <ExportToPDFDialog
         isOpen={isExportModalOpen}
         setIsOpen={setIsExportModalOpen}
         TitlePage={TitlePage}
         Data={regisProtocol}
-        TitlesTable={titlesImplement}
-      /> */}
+        TitlesTable={titlesProtocol}
+      />
     </div>
   );
 }

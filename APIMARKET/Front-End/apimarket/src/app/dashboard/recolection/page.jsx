@@ -197,7 +197,12 @@ function HoneyCollection() {
                     openModalForm={openModalForm}
                     ignorar={[ 9, 10, 11, 12, 13, 14, 15, 16 ]}
                     setIsExportModalOpen={setIsExportModalOpen}
+<<<<<<< HEAD
+                    tableName="recoleccion de zanganos"
+
+=======
                     showAddButton={true} // 👈 aquí indicas que NO lo muestre
+>>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
                   />
              
               </div>

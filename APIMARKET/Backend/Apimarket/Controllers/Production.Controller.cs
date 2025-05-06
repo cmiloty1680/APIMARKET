@@ -5,6 +5,7 @@ using Apimarket.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 
 namespace Apimarket.Controllers
 {
@@ -231,25 +232,46 @@ namespace Apimarket.Controllers
         {
             try
             {
+                // Obtener los datos de producción (ajusta esta parte según tu servicio)
                 var production = _productionService.GetAll();
-                string RutaPlantilla = @"C:\ArchivoFile\cateo.rtf" + NombrePlantilla;
-                string RutaPdf = @"C:\ArchivoFile\cateo.xlsx" + NombreReporte;
-                string RutaTemp = AppDomain.CurrentDomain.BaseDirectory + @"Documentos\\Temp\\" + NombreReporte;
-                var PdfBase64 = string.Empty;
 
-                if (System.IO.File.Exists(RutaPlantilla))
+                // Crear una ruta temporal para el archivo XLSX
+                string rutaTemp = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Documentos", "Temp", NombreReporte);
+
+                // Crear el archivo XLSX usando EPPlus
+                using (var package = new ExcelPackage())
                 {
-                    System.IO.File.Copy(RutaPlantilla, RutaTemp);
+                    // Crear una hoja de trabajo en el archivo Excel
+                    var worksheet = package.Workbook.Worksheets.Add("Producción");
 
+                    // Escribir los encabezados en la primera fila
+                    worksheet.Cells[1, 1].Value = "Código";
+                    worksheet.Cells[1, 2].Value = "Nombre de Protocolo";
+                    worksheet.Cells[1, 3].Value = "Fecha de Creación";
+
+                    // Llenar los datos (ajusta esta parte según la estructura de tu objeto `production`)
+                    int row = 2;
+                    foreach (var item in production)
+                    {
+                        worksheet.Cells[row, 1].Value = item.Id_Production;
+                        worksheet.Cells[row, 2].Value = item.Nom_Production;
+                        worksheet.Cells[row, 3].Value = item.FecIni_Production.ToString("dd/MM/yyyy");
+                        row++;
+                    }
+
+                    // Guardar el archivo XLSX en la ruta temporal
+                    FileInfo fileInfo = new FileInfo(rutaTemp);
+                    package.SaveAs(fileInfo);
                 }
 
-                return Ok(new { production});
-
+                // Leer el archivo y devolverlo como respuesta para descarga
+                var fileBytes = System.IO.File.ReadAllBytes(rutaTemp);
+                return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", NombreReporte);
             }
             catch (Exception ex)
             {
                 _functionsGeneral.Addlog(ex.ToString());
-                return StatusCode(500, ex.ToString());
+                return StatusCode(500, "Error al generar el archivo XLSX: " + ex.Message);
             }
         }
 

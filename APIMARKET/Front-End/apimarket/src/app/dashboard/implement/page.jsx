@@ -188,6 +188,8 @@ function ImplementPage() {
                     openModalForm={openModalForm}
                     ignorar={[]}
                     setIsExportModalOpen={setIsExportModalOpen}
+                    tableName="implemento"
+
                   />
                 
               </div>

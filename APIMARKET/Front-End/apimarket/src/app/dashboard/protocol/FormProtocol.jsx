@@ -89,24 +89,24 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
       console.log("Error:", error.response || error.message);
       setError(error.response?.data?.message || "Error al conectar con el servidor.");
       setModalOpenFall(false);
-  } finally {
+    } finally {
       setSubmitting(false);
-  }
-  const setDataProtocolForUpdate = () => {
-    setNombre(protocol.nom_Protocol );
-    setTipo(protocol.tip_Protocol );
-    setFechaCreacion(protocol.fecCre_Protocol );
-    setFechaActualizacion(protocol.fecAct_Protocol);
-    setArchivo(protocol.archivo_Protocol );
-    setIdProtocol(protocol.id_Protocol );
+    }
+    const setDataProtocolForUpdate = () => {
+      setNombre(protocol.nom_Protocol);
+      setTipo(protocol.tip_Protocol);
+      setFechaCreacion(protocol.fecCre_Protocol);
+      setFechaActualizacion(protocol.fecAct_Protocol);
+      setArchivo(protocol.archivo_Protocol);
+      setIdProtocol(protocol.id_Protocol);
 
-}
+    }
 
-// useEffect(() => {
-//   if (protocol) {
-//     setDataProtocolForUpdate();
-//   }
-// }, [protocol]);
+    // useEffect(() => {
+    //   if (protocol) {
+    //     setDataProtocolForUpdate();
+    //   }
+    // }, [protocol]);
 
 
     // Validación del archivo
@@ -167,7 +167,7 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
     } catch (error) {
       console.error("Error en la solicitud:", error);
       setModalMessage(error.response?.data?.message || "Error al conectar con el servidor.");
-      
+
     } finally {
       setSubmitting(false);
     }
@@ -175,6 +175,20 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
   }
   return (
     <>
+<<<<<<< HEAD
+      <form onSubmit={handlerSubmit} className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
+              <Flower className="h-5 w-5" />
+            </div>
+            <div className="ml-3">
+              <h2 className="text-xl font-bold text-gray-900">Protocolo</h2>
+              <p className="text-xs text-gray-500">Ingrese los datos del protocolo</p>
+            </div>
+          </div>
+        </div>
+=======
    <form onSubmit={handlerSubmit} className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
   <div className="flex items-center justify-between mb-6">
     <div className="flex items-center">
@@ -187,117 +201,129 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
       </div>
     </div>
   </div>
+>>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
 
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    {/* Campo Nombre */}
-    <div className="space-y-1">
-      <label htmlFor="nombre" className="text-sm font-medium text-gray-700">Nombre del protocolo</label>
-      <input
-        id="nombre"
-        type="text"
-        maxLength={50}
-        value={nombre || ""}
-        onChange={(e) => setNombre(e.target.value)}
-        className="w-full border px-3 py-2 rounded"
-        required
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Campo Nombre */}
+          <div className="space-y-1">
+            <label  className="text-sm font-medium text-gray-700">Nombre del protocolo</label>
+            <input
+              id="nombre"
+              type="text"
+              maxLength={50}
+              value={nombre || ""}
+              placeholder="Nombre protocolo"
+
+              onChange={(e) => setNombre(e.target.value)}
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              />
+             
+            
+            </div>
+                        
+          
+
+          
+
+          {/* Campo Tipo */}
+          <div className="space-y-1">
+            <label htmlFor="tipo" className="text-sm font-medium text-gray-700">Tipo de protocolo</label>
+            <select
+              id="tipo"
+              value={tipo || ""}
+              onChange={(e) => setTipo(e.target.value)}
+              className="w-full border px-3 py-2 rounded"
+              required
+            >
+              <option value="">Seleccionar tipo</option>
+              <option value="Riesgo">Riesgo</option>
+              <option value="Ambiental">Ambiental</option>
+
+              <option value="Seguridad">Seguridad</option>
+            </select>
+          </div>
+
+          {/* Campo Fecha de Creación */}
+          <div className="space-y-1">
+            <label htmlFor="fechaCreacion" className="text-sm font-medium text-gray-700">Fecha de creación</label>
+            <input
+              type="date"
+              id="fechaCreacion"
+              value={fechaCreacion || ""}
+              onChange={(e) => setFechaCreacion(e.target.value)}
+              className="w-full border px-3 py-2 rounded"
+              required
+            />
+          </div>
+
+          {/* Campo Fecha de Actualización */}
+          <div className="space-y-1">
+            <label htmlFor="fechaActualizacion" className="text-sm font-medium text-gray-700">Fecha de actualización</label>
+            <input
+              type="date"
+              id="fechaActualizacion"
+              value={fechaActualizacion || ""}
+              onChange={(e) => setFechaActualizacion(e.target.value)}
+              className="w-full border px-3 py-2 rounded"
+              required
+            />
+          </div>
+
+          {/* Campo Archivo */}
+          <div className="space-y-1 col-span-1 md:col-span-2">
+            <label htmlFor="archivo" className="text-sm font-medium text-gray-700">Archivo (PDF)</label>
+            <input
+              type="file"
+              id="archivo"
+              accept=".pdf"
+              onChange={(e) => setArchivo(e.target.files[0])}
+              className="block w-full"
+              required={buttonForm === "Registrar"}
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-end mt-6">
+          <Button disabled={isSubmitting}
+            type="submit"
+            className="bg-[#e87204] text-white px-6 py-2 text-sm rounded-lg hover:bg-[#030712] focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50 transition-colors"
+          >
+
+            {isSubmitting ? "Guardando..." : buttonForm}
+          </Button>
+        </div>
+      </form>
+
+
+
+      {/* Modal de éxito usando el componente dinámico */}
+
+      <DynamicAlert
+        isOpen={isModalOpen}
+        onOpenChange={(isOpen) => {
+          setModalOpen(isOpen); // Cambia el estado del modal
+          if (!isOpen) {
+            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+          }
+        }}
+        type="success"
+        message={msSuccess || "Operación exitosa"}
+        redirectPath=""
       />
-    </div>
 
-    {/* Campo Tipo */}
-    <div className="space-y-1">
-      <label htmlFor="tipo" className="text-sm font-medium text-gray-700">Tipo de protocolo</label>
-      <select
-        id="tipo"
-        value={tipo || ""}
-        onChange={(e) => setTipo(e.target.value)}
-        className="w-full border px-3 py-2 rounded"
-        required
-      >
-        <option value="">Seleccionar tipo</option>
-        <option value="Riesgo">Riesgo</option>
-        <option value="Ambiental">Ambiental</option>
-
-        <option value="Seguridad">Seguridad</option>
-      </select>
-    </div>
-
-    {/* Campo Fecha de Creación */}
-    <div className="space-y-1">
-      <label htmlFor="fechaCreacion" className="text-sm font-medium text-gray-700">Fecha de creación</label>
-      <input
-        type="date"
-        id="fechaCreacion"
-        value={fechaCreacion || ""}
-        onChange={(e) => setFechaCreacion(e.target.value)}
-        className="w-full border px-3 py-2 rounded"
-        required
+      {/* Modal de fallido usando el componente dinámico */}
+      <DynamicAlert
+        isOpen={isModalOpenFall}
+        onOpenChange={(isOpen) => {
+          setModalOpenFall(isOpen); // Cambia el estado del modal
+          if (!isOpen) {
+            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+          }
+        }}
+        type="error"
+        message={error || "Ha ocurrido un error inesperado"}
+        redirectPath=""
       />
-    </div>
-
-    {/* Campo Fecha de Actualización */}
-    <div className="space-y-1">
-      <label htmlFor="fechaActualizacion" className="text-sm font-medium text-gray-700">Fecha de actualización</label>
-      <input
-        type="date"
-        id="fechaActualizacion"
-        value={fechaActualizacion || ""}
-        onChange={(e) => setFechaActualizacion(e.target.value)}
-        className="w-full border px-3 py-2 rounded"
-        required
-      />
-    </div>
-
-    {/* Campo Archivo */}
-    <div className="space-y-1 col-span-1 md:col-span-2">
-      <label htmlFor="archivo" className="text-sm font-medium text-gray-700">Archivo (PDF)</label>
-      <input
-        type="file"
-        id="archivo"
-        accept=".pdf"
-        onChange={(e) => setArchivo(e.target.files[0])}
-        className="block w-full"
-        required={buttonForm === "Registrar"}
-      />
-    </div>
-  </div>
-
-  <div className="flex justify-end mt-6">
-    <Button type="submit" disabled={isSubmitting}>
-      {isSubmitting ? "Guardando..." : buttonForm}
-    </Button>
-  </div>
-</form>
-
-    
-
-    {/* Modal de éxito usando el componente dinámico */}
-  
-    <DynamicAlert
-    isOpen={isModalOpen}
-    onOpenChange={(isOpen) => {
-        setModalOpen(isOpen); // Cambia el estado del modal
-        if (!isOpen) {
-          closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
-        }
-      }}
-    type="success"
-    message={msSuccess || "Operación exitosa"}
-    redirectPath=""
-  />
-
-  {/* Modal de fallido usando el componente dinámico */}
-  <DynamicAlert
-    isOpen={isModalOpenFall}
-    onOpenChange={(isOpen) => {
-        setModalOpenFall(isOpen); // Cambia el estado del modal
-        if (!isOpen) {
-          closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
-        }
-      }}
-    type="error"
-    message={error || "Ha ocurrido un error inesperado"}
-    redirectPath=""
-  />
     </>
   );
 }
