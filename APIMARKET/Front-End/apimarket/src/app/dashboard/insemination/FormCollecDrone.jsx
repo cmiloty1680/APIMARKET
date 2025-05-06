@@ -59,16 +59,16 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated, closeModal }) {
       return;
     }
 
-    const updateBody = {
-      id_CollecDrone: idCollecDrone,
-      fec_CollecDrone: fecCollecDrone,
-      can_CollecDrone: canCollecDrone,
-      id_Responsible: parseInt(nomResponsible),
-      id_Hive: id_Hive
-    };
-
     try {
       if (buttonForm === "Actualizar") {
+        const updateBody = {
+          id_CollecDrone: idCollecDrone,
+          fec_CollecDrone: fecCollecDrone,
+          can_CollecDrone: canCollecDrone,
+          id_Responsible: parseInt(nomResponsible),
+          id_Hive: id_Hive
+        };
+
         const response = await axiosInstance.put(
           `/Api/CollecDrone/UpdateCollecDrone/${idCollecDrone}`,
           updateBody
@@ -77,7 +77,7 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated, closeModal }) {
         if (response.status === 200) {
           setMsSuccess(response.data.message || "Recolección actualizada.");
           setModalOpen(true);
-          onDataUpdated?.();
+          onDataUpdated();
         }
       } else if (buttonForm === "Registrar") {
         const createBody = {
@@ -107,24 +107,34 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated, closeModal }) {
     }
   };
 
-  
-  // Función para cargar los datos cuando el formulario se usa para actualización
-  const setDataForUpdate = () => {
-    // if (droneData) {
+
+
+  useEffect(() => {
+    if (droneData) {
       setIdCollecDrone(droneData.id_CollecDrone);
       setFecCollecDrone(droneData.fec_CollecDrone ?? "");
       setCanCollecDrone(droneData.can_CollecDrone);
       setNomResponsible(droneData.id_Responsible);
       setIdHive(droneData.id_Hive);
-    // }
-  };
-
-  // Se ejecuta cuando cambia `droneData`, para actualizar el estado con los datos correspondientes
-  useEffect(() => {
-    if(buttonForm == "Actualizar"){
-      setDataForUpdate();
     }
-  }, [buttonForm]);
+  }, []);
+  // // Función para cargar los datos cuando el formulario se usa para actualización
+  // const setDataForUpdate = () => {
+  //   if (droneData) {
+  //     setIdCollecDrone(droneData.id_CollecDrone);
+  //     setFecCollecDrone(droneData.fec_CollecDrone ?? "");
+  //     setCanCollecDrone(droneData.can_CollecDrone);
+  //     setNomResponsible(droneData.id_Responsible);
+  //     setIdHive(droneData.id_Hive);
+  //   }
+  // };
+
+  // // Se ejecuta cuando cambia `droneData`, para actualizar el estado con los datos correspondientes
+  // useEffect(() => {
+  //   // if(buttonForm == "Actualizar"){
+  //     setDataForUpdate();
+  //   // }
+  // }, []);
 
   return (
     <>
@@ -144,7 +154,7 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated, closeModal }) {
             </div>
           </div>
         </div>
-  
+
 
         {/* Mensajes */}
         {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
@@ -167,10 +177,10 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated, closeModal }) {
             </div>
 
             <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-gray-700">
                 Cantidad Recolectado
-                </label>
-                <input
+              </label>
+              <input
                 type="number"
                 id="CanCollecDrone"
                 placeholder="Cantidad"
@@ -179,7 +189,7 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated, closeModal }) {
                 required
                 className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#e87204]"
               />
-              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -203,25 +213,28 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated, closeModal }) {
             </div>
 
             <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">
-                  ID Colmena
-                </label>
-                <select
-                  className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
-                  value={id_Hive || ""}
-                  onChange={(event) => setIdHive(event.target.value)}
-                  required
-                >
-                  <option value="" disabled>Seleccione</option>
-                  {hives.map((hive) => (
+              <label className="text-sm font-medium text-gray-700">
+                ID Colmena
+              </label>
+              <select
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                value={id_Hive || ""}
+                onChange={(event) => setIdHive(event.target.value)}
+                required
+              >
+                <option value="" disabled>Seleccione</option>
+                {hives
+                  .filter((hive) => hive.est_Hive === "activo") // Solo muestra colmenas activas
+                  .map((hive) => (
                     <option key={hive.id_Hive} value={hive.id_Hive}>
                       {hive.id_Hive}
                     </option>
                   ))}
-                </select>
-              </div>
+
+              </select>
+            </div>
           </div>
-          
+
 
           {/* Botón */}
           <div className="flex justify-end pt-3">

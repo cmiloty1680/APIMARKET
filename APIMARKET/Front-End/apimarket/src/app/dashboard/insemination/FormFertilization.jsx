@@ -6,6 +6,9 @@ import axiosInstance from "@/lib/axiosInstance";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
 function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
+  const [fertilizations, setFertilizations] = useState([]);
+
+
   const [fecFertilization, setFecFertilization] = useState("");
   const [canFertilization, setCanFertilization] = useState("");
   const [idFertilization, setIdFertilization] = useState(null);
@@ -50,6 +53,22 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
       fetchExtracciones();
     }, []);
 
+     // Obtener datos de fertilización
+     useEffect(() => {
+      async function fetchFertilizations() {
+        try {
+          const response = await axiosInstance.get("/Api/Fertilization/GetsAllFertilization");
+          setFertilizations(response.data);
+        } catch (error) {
+          console.error("Error al obtener fertilizaciones:", error);
+        }
+      }
+  
+      fetchFertilizations();
+    }, []);
+  
+
+
   async function handleSubmit(event) {
     event.preventDefault();
     setSubmitting(true);
@@ -65,8 +84,12 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
         const updateData = {
           id_Fertilization: idFertilization,
           fec_Fertilization: fecFertilization,
-          can_Fertilization: parseInt(canFertilization),
+          can_Fertilization: canFertilization,
+          id_Responsible: parseInt(nomResponsible),
+          id_Extraction: parseInt(id_Extraction)
         };
+       
+
 
         const response = await axiosInstance.put(
           `/Api/Fertilization/UpdateFertilization/${idFertilization}`,
@@ -76,8 +99,9 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
         if (response.status === 200) {
           setMsSuccess(response.data.message || "Fertilización actualizada.");
           setModalOpen(true);
-          onDataUpdated?.();
+          onDataUpdated();
         }
+        
       } else if (buttonForm === "Registrar") {
         const response = await axiosInstance.post("/Api/Fertilization/CreateFertilization", {
           fec_Fertilization: fecFertilization,
@@ -89,13 +113,11 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
         if (response.status === 200) {
           setMsSuccess(response.data.message || "Fertilización registrada.");
           setModalOpen(true);
-          onDataUpdated?.();
-          setFecFertilization("");
-          setCanFertilization("");
+          onDataUpdated();
         }
       }
     } catch (error) {
-      console.log("Error:", error.response || error.message);
+      console.log(error.response || error.message);
       setError(error.response?.data?.message || "Error al conectar con el servidor.");
       setModalOpenFall(true);
     } finally {
@@ -111,7 +133,7 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
       setNomResponsible(fertilization.id_Responsible);
       setIdExtractions(fertilization.id_Extraction);
     }
-  }, [fertilization]);
+  }, []);
 
   return (
     <>
@@ -206,11 +228,20 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
                 required
               >
                 <option value="" disabled>Seleccione</option>
-                {extractions.map((extration) => (
-                  <option key={extration.id_Extraction} value={extration.id_Extraction}>
-                    {extration.id_Extraction}
+                {extractions
+                .filter((extration) => {
+                  const yaFertilizado = fertilizations.some(
+                    (ext) => ext.id_Extraction === extration.id_Extraction
+                  );
+                  return !yaFertilizado;
+                })
+                 .map((extraction) => (
+                  <option key={extraction.id_Extraction} value={extraction.id_Extraction}>
+                    {extraction.id_Extraction}
                   </option>
-                ))}
+                 )
+                )
+                }
               </select>
             </div>
           </div>

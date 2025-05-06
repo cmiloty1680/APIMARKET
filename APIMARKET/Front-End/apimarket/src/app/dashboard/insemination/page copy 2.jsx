@@ -50,30 +50,17 @@ function ColmenaRecoleccion() {
   
 
   // Si el modal de formulario se cierra sin guardar, volver a vista principal
-  // useEffect(() => {
-  //   if (!isOpen && !hasCreatedRecord) {
-  //     if (currentView === VIEW_FERTILIZATION) {
-  //       setCurrentView(VIEW_EXTRACTION);
-  //     } else if (currentView === VIEW_EXTRACTION) {
-  //       setCurrentView(VIEW_MAIN); // o VIEW_COLLEC_DRONE si existe
-  //     } else if (currentView === VIEW_MAIN) {
-  //       setCurrentView(VIEW_MAIN);
-  //     }
-  //   }
-  // }, [isOpen]);
-
   useEffect(() => {
-    if (!isOpen && !hasCreatedRecord && action !== "Actualizar") {
+    if (!isOpen && !hasCreatedRecord) {
       if (currentView === VIEW_FERTILIZATION) {
         setCurrentView(VIEW_EXTRACTION);
       } else if (currentView === VIEW_EXTRACTION) {
-        setCurrentView(VIEW_MAIN); // O VIEW_COLLEC_DRONE si lo tienes separado
+        setCurrentView(VIEW_MAIN); // o VIEW_COLLEC_DRONE si existe
       } else if (currentView === VIEW_MAIN) {
         setCurrentView(VIEW_MAIN);
       }
     }
   }, [isOpen]);
-  
   
 
   // Títulos para las tablas
@@ -366,12 +353,10 @@ function ColmenaRecoleccion() {
 
   // Acciones tablas
   const actionsRecoleccion = 
-  { 
-    // delete: (r,i)=>{ setSelectedId(i+1); setIsModalOpen(true) }, 
+  { delete: (r,i)=>{ setSelectedId(i+1); setIsModalOpen(true) }, 
   update:(r)=>{ updateTextTitleForm("Actualizar",r); openModalForm(true) }, custom:[{ name:"Extracción", action:handleExtractionClick }] }
   const actionsExtraccion   = 
-  { 
-    // delete: (r,i)=>{ setSelectedId(i+1); setIsModalOpen(true) }, 
+  { delete: (r,i)=>{ setSelectedId(i+1); setIsModalOpen(true) }, 
   update:(r)=>{ updateTextTitleForm("Actualizar",r); openModalForm(true) }, custom:[{ name:"Fertilización", action:handleFertilizationClick }] }
   const actionsFertilizacion = 
   { delete:(r)=>{ setSelectedFertilization(r[0]); setIsModalOpen(true) }, 
@@ -416,9 +401,7 @@ function ColmenaRecoleccion() {
                   updateTextTitleForm={updateTextTitleForm} 
                   openModalForm={openModalForm} 
                   ignorar={[]} 
-                  showAddButton={true} // 👈 aquí indicas que NO lo muestre
-                />
-                }
+                />}
 
                 {currentView===VIEW_EXTRACTION && 
                 <ContentPage 
@@ -431,47 +414,6 @@ function ColmenaRecoleccion() {
                   ignorar={[]} 
                 />}
 
-<<<<<<< HEAD
-                  {/* Contenido principal */}
-                  {currentView === VIEW_MAIN && (
-                    <ContentPage
-                      Data={registros}
-                      TitlesTable={titlesRecoleccion}
-                      Actions={actionsRecoleccion}
-                      action={action}
-                      updateTextTitleForm={updateTextTitleForm}
-                      openModalForm={openModalForm}
-                      ignorar={[]}
-                      tableName="recoleccio - extraccion - inseminacion"
-
-                    />
-                  )}
-
-                  {currentView === VIEW_EXTRACTION && (
-                    <ContentPage
-                      Data={extractionsData}
-                      TitlesTable={titlesExtraccion}
-                      Actions={actionsExtraccion}
-                      action={action}
-                      updateTextTitleForm={updateTextTitleForm}
-                      openModalForm={openModalForm}
-                      ignorar={[]}
-                    />
-                  )}
-
-                  {currentView === VIEW_FERTILIZATION && (
-                    <ContentPage
-                      Data={fertilizationData}
-                      TitlesTable={titlesFertilizacion}
-                      Actions={actionsFertilizacion}
-                      action={action}
-                      updateTextTitleForm={updateTextTitleForm}
-                      openModalForm={openModalForm}
-                      ignorar={[]}
-                    />
-                  )}
-                </div>
-=======
                 {currentView===VIEW_FERTILIZATION && 
                 <ContentPage 
                   Data={fertilizationData} 
@@ -482,7 +424,6 @@ function ColmenaRecoleccion() {
                   openModalForm={openModalForm} 
                   ignorar={[]}
                 />}
->>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
               </div>
             </div>
           </div>

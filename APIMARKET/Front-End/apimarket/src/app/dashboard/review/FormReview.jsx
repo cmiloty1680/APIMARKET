@@ -175,7 +175,9 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
               required
             >
               <option value="" disabled>Seleccione ID colmena</option>
-              {hives.map((hive) => (
+              {hives
+              .filter((hive) => hive.est_Hive === "activo")
+              .map((hive) => (
                 <option key={hive.id_Hive} value={hive.id_Hive}>
                   {hive.id_Hive}
                 </option>

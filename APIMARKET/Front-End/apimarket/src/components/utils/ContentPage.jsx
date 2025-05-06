@@ -14,7 +14,11 @@ function ContentPage({
   openModalForm,
   ignorar,
   setIsExportModalOpen,
+<<<<<<< HEAD
   tableName,
+=======
+  showAddButton
+>>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
 }) {
   const exportToXLSX = (data, headers) => {
     // Confirmación antes de exportar
@@ -143,7 +147,7 @@ function ContentPage({
             <span>Descargar CSV</span>
           </Button>
 
-          <Button
+          {showAddButton && (<Button
             className="flex items-center space-x-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#e87204] hover:bg-[#30712] focus:outline-none px-4 py-2"
             onClick={() => {
               updateTextTitleForm("Registrar", {});
@@ -152,7 +156,7 @@ function ContentPage({
           >
             <PlusCircle size={18} />
             <span>Agregar</span>
-          </Button>
+          </Button>)}
         </div>
       </div>
 

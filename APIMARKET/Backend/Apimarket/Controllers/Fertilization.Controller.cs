@@ -86,6 +86,35 @@ namespace Apimarket.Controllers
             }
         }
 
+        [HttpGet("GetFertilizationByExtraction")]
+
+        public ActionResult<IEnumerable<FertilizationDTO>> GetFertilizationByExtraction(int id)
+        {
+            try
+            {
+                var fertilizations = _fertilizationServices.GetAll()
+                    .Where(e => e.extraction.Id_Extraction == id)
+                    .Select(p => new FertilizationDTO
+                    {
+                        Id_Fertilization = p.Id_Fertilization,
+                        Fec_Fertilization = p.Fec_Fertilization,
+                        Can_Fertilization = p.Can_Fertilization,
+                        Nam_Responsible = p.responsible.Nam_Responsible,
+                        Id_Extraction = p.extraction.Id_Extraction,
+                        Id_Responsible = p.responsible.Id_Responsible
+
+                    })
+                    .ToList();
+                return Ok(fertilizations);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
         [HttpGet("GetsAllFertilization")]
         public ActionResult<IEnumerable<Fertilization>> GetAll()
         {
@@ -97,7 +126,8 @@ namespace Apimarket.Controllers
                     Fec_Fertilization = p.Fec_Fertilization,
                     Can_Fertilization = p.Can_Fertilization,
                     Nam_Responsible = p.responsible.Nam_Responsible,
-                    Id_Extraction = p.extraction.Id_Extraction
+                    Id_Extraction = p.extraction.Id_Extraction,
+                    Id_Responsible = p.responsible.Id_Responsible
                 }).ToList();
 
                 return Ok(fertilization);
@@ -109,7 +139,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [HttpPut("UpdateFertilization")]
+        [HttpPut("UpdateFertilization/{id}")]
         public IActionResult UpdateFertilization(Fertilization fertilization)
         {
             try

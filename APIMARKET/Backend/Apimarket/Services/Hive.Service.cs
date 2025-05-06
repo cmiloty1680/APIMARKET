@@ -66,5 +66,11 @@ namespace Apimarket.Services
         {
             return _context.hive.Count(h => h.Est_Hive == "activo");
         }
+
+        public int CountInactivoHives()
+        {
+            return _context.hive
+                .Count(h => h.Est_Hive == "inactivo");
+        }
     }
 }

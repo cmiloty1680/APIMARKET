@@ -8,6 +8,8 @@ import ConfirmationModal from "@/components/utils/ConfirmationModal";
 import ModalDialog from "@/components/utils/ModalDialog";
 import FormHive from "./FormHive";
 import DynamicAlert from "@/components/utils/DynamicAlert";
+import { Hexagon } from "lucide-react";
+
 
 function HivePage() {
   const TitlePage = "Colmena";
@@ -147,7 +149,7 @@ function HivePage() {
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
-        <NavPrivate TitlePage={TitlePage} />
+        <NavPrivate TitlePage={TitlePage} Icon={<Hexagon/>}/>
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
           <div className="container mx-auto px-6 py-8 mt-10">
             <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
@@ -162,8 +164,12 @@ function HivePage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   ignorar={[]}
+<<<<<<< HEAD
                   tableName="colmena"
 
+=======
+                  showAddButton={true} // 👈 aquí indicas que NO lo muestre
+>>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
                 />
 
               </div>

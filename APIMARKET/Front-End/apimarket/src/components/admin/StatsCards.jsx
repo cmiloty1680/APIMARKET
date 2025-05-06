@@ -48,7 +48,7 @@ function StatsCards() {
                   13.3%
                 </span>
               </div>
-              <div className="mt-4 h-24 w-full">
+              {/* <div className="mt-4 h-24 w-full">
                 <svg className="w-full h-full" viewBox="0 0 300 100" preserveAspectRatio="none">
                   <defs>
                     <linearGradient id="gradient3" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -63,7 +63,7 @@ function StatsCards() {
                     stroke="#10b981"
                   />
                 </svg>
-              </div>
+              </div> */}
               <div className="flex justify-between items-center mt-2">
                 <div className="flex items-center">
                   <div className="w-2 h-2 rounded-full bg-emerald-500 mr-1"></div>
