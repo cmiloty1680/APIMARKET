@@ -14,11 +14,8 @@ function ContentPage({
   openModalForm,
   ignorar,
   setIsExportModalOpen,
-<<<<<<< HEAD
   tableName,
-=======
   showAddButton
->>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
 }) {
   const exportToXLSX = (data, headers) => {
     // Confirmación antes de exportar
