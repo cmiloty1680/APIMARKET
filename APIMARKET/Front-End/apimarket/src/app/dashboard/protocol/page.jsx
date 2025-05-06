@@ -232,13 +232,10 @@ function ProtocolPage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   ignorar={[]}
-<<<<<<< HEAD
                   tableName="protocol"
                   setIsExportModalOpen={setIsExportModalOpen}
 
-=======
                   showAddButton={true} // 👈 aquí indicas que NO lo muestre
->>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
                 />
               </div>
             </div>
