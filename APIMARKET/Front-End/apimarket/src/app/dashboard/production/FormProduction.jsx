@@ -136,25 +136,7 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
             setSubmitting(false);
         }
     }
-    const handleDownloadExcel = async () => {
-        try {
-          const response = await axiosInstance.get('/Api/Production/XLSX', {
-            responseType: 'blob', // MUY IMPORTANTE para manejar archivos binarios
-          });
-      
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', 'produccion.xlsx'); // Nombre del archivo
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } catch (error) {
-          console.error('Error al descargar el Excel:', error);
-          setModalOpenFall(true);
-          setError("No se pudo descargar el archivo.");
-        }
-      };
+ 
       
 
     const setDataProductionForUpdate = () => {
@@ -296,13 +278,7 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                             />
                         </div> */}
                     </div>
-                    <Button
-  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 text-sm rounded-lg"
-  type="button"
-  onClick={handleDownloadExcel}
->
-  Descargar Excel
-</Button>
+     
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Selección de Raza */}

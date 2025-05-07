@@ -1,96 +1,28 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "../ui/button"
-import { Search, Edit, Trash2, ChevronLeft, ChevronRight } from "lucide-react"
+import { Search, Edit, Trash2, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
-import axiosInstance from "@/lib/axiosInstance"
 
 // Componente para mostrar el progreso en una celda de la tabla
-function ProgressCell({ recordId }) {
-  const [progress, setProgress] = useState({ completed: 1, total: 3, width: "33%" })
-
-  useEffect(() => {
-    async function checkRecordProgress() {
-      try {
-        // Siempre comenzamos con 1 (recolección)
-        let completed = 1
-
-        // Verificamos si existe extracción
-        const hasExtraction = await checkExtractionExists(recordId)
-        if (hasExtraction) {
-          completed = 2
-
-          // Solo verificamos fertilización si hay extracción
-          const hasFertilization = await checkFertilizationExists(recordId)
-          if (hasFertilization) {
-            completed = 3
-          }
-        }
-
-        setProgress({
-          completed,
-          total: 3,
-          width: `${(completed / 3) * 100}%`,
-        })
-        if (completed === 3) {
-          console.log("✅ Proceso completado: Recolección, extracción y fertilización finalizados.");
-        }
-        if(completed ===1){
-          console.log("Solo lleva uno")
-        }
-        if(completed === 2){
-          console.log("Solo lleva dos.")
-        }
-      } catch (error) {
-        console.error("Error al verificar progreso:", error)
-        // En caso de error, mostramos solo la recolección
-        setProgress({
-          completed: 1,
-          total: 3,
-          width: "33%",
-        })
-      }
-    }
-
-    checkRecordProgress()
-  }, [recordId])
-
-  async function checkExtractionExists(id) {
-    try {
-      const response = await axiosInstance.get(`/Api/Extraction/GetExtractionByCollecDrone?id=${id}`)
-      
-      return response.data && response.data.length > 0
-    } catch (error) {
-      console.error("Error al verificar extracción:", error)
-      return false
+function ProgressCell({ step }) {
+  // Determinar el progreso basado en el paso actual
+  const getProgressData = (currentStep) => {
+    switch (currentStep) {
+      case 1: // Recolección
+        return { completed: 1, total: 3, width: "33%" }
+      case 2: // Extracción
+        return { completed: 2, total: 3, width: "66%" }
+      case 3: // Fertilización
+        return { completed: 3, total: 3, width: "100%" }
+      default:
+        return { completed: 0, total: 3, width: "0%" }
     }
   }
 
-  async function checkFertilizationExists(id) {
-    try {
-      // Primero obtenemos la extracción asociada a esta recolección
-      const extractionResponse = await axiosInstance.get(`/Api/Extraction/GetExtractionByCollecDrone?id=${id}`)
-      if (!extractionResponse.data || extractionResponse.data.length === 0) {
-        return false // Si no hay extracción, no puede haber fertilización
-      }
-
-      // Obtenemos el ID de la extracción
-      const extractionId = extractionResponse.data[0].id_Extraction
-
-      // Verificamos si hay fertilización para esta extracción
-      const fertilizationResponse = await axiosInstance.get(
-        `/Api/Fertilization/GetFertilizationByExtraction?id=${extractionId}`,
-      )
-      console.log(fertilizationResponse.data); // Imprime el contenido de `data`
-      return fertilizationResponse.data && fertilizationResponse.data.length > 0
-      
-    } catch (error) {
-      console.error("Error al verificar fertilización:", error)
-      return false
-    }
-  }
+  const progress = getProgressData(step)
 
   return (
     <div className="w-full">
@@ -104,38 +36,65 @@ function ProgressCell({ recordId }) {
   )
 }
 
-function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalForm, ignorar }) {
+function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalForm, ignorar, currentView }) {
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5
 
+  // Determinar el paso actual basado en la vista
+  const getCurrentStep = (view) => {
+    switch (view) {
+      case "main":
+        return 1 // Recolección
+      case "extraction":
+        return 2 // Extracción
+      case "fertilization":
+        return 3 // Fertilización
+      default:
+        return 1
+    }
+  }
+
+  const currentStep = getCurrentStep(currentView)
+
+  // Ordenar los datos por ID en orden descendente
+  // Asumiendo que el ID está en la primera posición (índice 0) de cada fila
   const sortedData = [...Data].sort((a, b) => {
+    // Convertir a número si es posible, para asegurar ordenamiento numérico correcto
     const idA = typeof a[0] === "number" ? a[0] : Number(a[0])
     const idB = typeof b[0] === "number" ? b[0] : Number(b[0])
+
+    // Orden descendente (de mayor a menor)
     return idB - idA
   })
 
+  // Filtrar los datos según el término de búsqueda
   const filteredData = sortedData.filter((row) =>
     row.some((cell) => cell.toString().toLowerCase().includes(searchTerm.toLowerCase())),
   )
 
+  // Paginación sobre los datos filtrados
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem)
 
+  // Cambiar el término de búsqueda
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value)
-    setCurrentPage(1)
+    setCurrentPage(1) // Resetear la página a 1 cada vez que se realiza una búsqueda
   }
 
+  // Cambiar de página
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber)
   }
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage)
 
+  // Encontrar el índice de la columna "ID Responsable" para insertar la columna de progreso después
   const idResponsableIndex = TitlesTable.findIndex((title) => title === "ID Responsable")
-
+  
+  // Crear una copia de los títulos para insertar "Progreso"
   const titlesWithProgress = [...TitlesTable]
   if (idResponsableIndex !== -1) {
     titlesWithProgress.splice(idResponsableIndex + 1, 0, "Progreso")
@@ -172,6 +131,7 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
 
           <TableBody>
             {currentItems.map((row, rowIndex) => {
+              // Crear una copia de la fila para insertar la celda de progreso
               const rowWithProgress = [...row]
               if (idResponsableIndex !== -1 && idResponsableIndex < rowWithProgress.length) {
                 rowWithProgress.splice(idResponsableIndex + 1, 0, "progress-cell")
@@ -184,7 +144,7 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                       !ignorar.includes(cellIndex) && (
                         <TableCell key={cellIndex} className="table-cell">
                           {cell === "progress-cell" ? (
-                            <ProgressCell recordId={row[0]} />
+                            <ProgressCell step={currentStep} />
                           ) : typeof cell === "string" &&
                             (cell.toLowerCase() === "activo" || cell.toLowerCase() === "inactivo") ? (
                             <span
@@ -203,6 +163,8 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                       ),
                   )}
 
+                  {/* Botón "Ir" en celda separada */}
+                  {/* Celda "Ir" solo cuando haya una acción asociada */}
                   {Actions &&
                     Actions.custom &&
                     Actions.custom.some((customAction) =>
@@ -226,6 +188,7 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                       </TableCell>
                     )}
 
+                  {/* Botones de editar y eliminar */}
                   {Actions && (
                     <TableCell className="table-cell">
                       <div className="flex space-x-1">
@@ -262,6 +225,7 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
         </Table>
       </div>
 
+      {/* Paginación */}
       <div className="flex items-center justify-between mt-4">
         <div className="text-sm text-gray-700">
           Mostrando {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, filteredData.length)} de {filteredData.length}{" "}
@@ -296,7 +260,9 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                     variant={currentPage === page ? "default" : "outline"}
                     size="sm"
                     onClick={() => handlePageChange(page)}
-                    className={`min-w-[32px] ${currentPage === page ? "text-white bg-[#e87204] hover:bg-[#030712]" : ""}`}
+                    className={`min-w-[32px] ${
+                      currentPage === page ? "text-white bg-[#e87204] hover:bg-[#030712]" : ""
+                    }`}
                   >
                     {page}
                   </Button>,
