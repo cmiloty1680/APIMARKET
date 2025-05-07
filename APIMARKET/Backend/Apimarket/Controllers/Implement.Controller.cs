@@ -22,7 +22,7 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
-        [HttpPost("CreateImplement")]
+        [HttpPost("CreateIplement")]
         public IActionResult AddP([FromBody] Implement entity)
         {
             try
@@ -44,7 +44,7 @@ namespace Apimarket.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetsIplement")]
+        [HttpGet("GetsImplement")]
         public ActionResult<IEnumerable<Implement>> GetImplement(int start, int end)
         {
             try

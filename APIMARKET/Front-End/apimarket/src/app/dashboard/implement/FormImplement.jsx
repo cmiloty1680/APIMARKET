@@ -2,13 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Droplet } from "lucide-react";
 import axiosInstance from "@/lib/axiosInstance";
-import { Dialog } from "@headlessui/react";
-// import { Tool } from "lucide-react";
-import {
-  FlaskRoundIcon as Flask,
-  PenToolIcon as Tool,
-} from "lucide-react";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
 
@@ -23,7 +19,10 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
   const [isSubmitting, setSubmitting] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [msSuccess, setMsSuccess] = useState("");
+  const [isModalOpenFall, setModalOpenFall] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+    const router = useRouter();
+
   const [id_Implement, setIdImplement] = useState(null);
 
   useEffect(() => {
@@ -43,7 +42,19 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
 
     if (!nomImplement || !tipImplement || !fecIngImplement || !vlrImplement || !exiImplement) {
       setModalMessage("Todos los campos son requeridos.");
-      setModalOpen(true);
+      setModalOpenFall(true);
+      setSubmitting(false);
+      return;
+    }
+    if (nomImplement.length > 25) {
+      setError("El nombre del implemento debe ser menor de 25 caracteres.");
+      setModalOpenFall(true);
+      setSubmitting(false);
+      return;
+    }
+    if (parseFloat(vlrImplement) > 100000) {
+      setError("El valor del implemento debe tener menos de 100,000 caracteres.");
+      setModalOpenFall(true);
       setSubmitting(false);
       return;
     }
@@ -61,7 +72,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
         const response = await axiosInstance.put(`/Api/Implement/UpdateImplement${id_Implement}`, updateImplement);
         if (response.status === 200) {
           setMsSuccess("Implemento actualizado correctamente.");
-          setModalOpen(true);
+          setModalOpenFall(true);
           onDataUpdated();
         }
       } else if (buttonForm === "Registrar") {
@@ -75,7 +86,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
 
         if (response.status === 200) {
           setMsSuccess("Implemento registrado correctamente.");
-          setModalOpen(true);
+          setModalOpenFall(true);
           onDataUpdated();
         }
       }
@@ -92,7 +103,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
             <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
-              <Tool className="h-5 w-5" />
+              <Droplet className="h-5 w-5" />
             </div>
             <div className="ml-3">
               <h2 className="text-xl font-bold text-gray-900">Implemento</h2>
@@ -178,7 +189,8 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
       </form>
 
 
-      <DynamicAlert
+       {/* Modal de éxito usando DynamicAlert */}
+       <DynamicAlert
         isOpen={isModalOpen}
         onOpenChange={(isOpen) => {
           setModalOpen(isOpen); // Cambia el estado del modal
@@ -191,20 +203,19 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
         redirectPath=""
       />
 
-      {/* Modal de fallido usando el componente dinámico
-      <DynamicAlert
+      {/* Modal de error usando DynamicAlert */}
+      {<DynamicAlert
         isOpen={isModalOpenFall}
         onOpenChange={(isOpen) => {
           setModalOpenFall(isOpen); // Cambia el estado del modal
           if (!isOpen) {
-            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
-          }
-        }}
+            setModalOpenFall(isOpen);                    }
+          }}
         type="error"
         message={error || "Ha ocurrido un error inesperado"}
         redirectPath=""
-      /> */}
-
+       />
+        }
     </>
   );
 }

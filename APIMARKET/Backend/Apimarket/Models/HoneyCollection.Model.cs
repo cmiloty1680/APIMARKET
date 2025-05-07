@@ -8,7 +8,7 @@ namespace Apimarket.Models
         [Key]
         public int Id_HoneyCollection { get; set; }
 
-        public int Tot_HoneyCollection { get; set; }
+        public decimal Tot_HoneyCollection { get; set; }
 
         public int CanFra125_HoneyCollection { get; set; }
 
