@@ -131,13 +131,15 @@ function FeedingPage() {
   };
 
 
-
-  
-  // Función para abrir el modal
   const openModalForm = (Open) => {
-    setSelectedFeeding(null);
     setIsOpen(Open);
   };
+  
+  // Función para abrir el modal
+  // const openModalForm = (Open) => {
+  //   setSelectedFeeding(null);
+  //   setIsOpen(Open);
+  // };
  // Función para manejar el éxito al registrar o actualizar la raza
  const handleSuccess = () => {
   const message =

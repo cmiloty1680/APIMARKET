@@ -22,7 +22,7 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
-        [HttpPost("CreateIplement")]
+        [HttpPost("CreateImplement")]
         public IActionResult AddP([FromBody] Implement entity)
         {
             try
@@ -43,33 +43,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("GetsImplement")]
-        public ActionResult<IEnumerable<Implement>> GetImplement(int start, int end)
-        {
-            try
-            {
-                if (start <= 0)
-                {
-                    start = 0;
-                }
-                var implement = _implementServices.GetAll()
-                                                   .Skip(start)
-                                                   .Take(end)
-                                                   .ToList();
-                if (!implement.Any())
-                {
-                    return NotFound("no se encontro el Implemento en el rango");
-                }
-                return Ok(implement);
 
-            }
-            catch (Exception ex)
-            {
-                _functionsGeneral.Addlog(ex.ToString());
-                return StatusCode(500, ex.Message);
-            }
-        }
 
         [Authorize]
         [HttpGet("GetImplement/{id}")]
@@ -105,6 +79,7 @@ namespace Apimarket.Controllers
             {
                 var Implements = _implementServices.GetAll();
                 return Ok(Implements);
+
             }
             catch (Exception ex)
             {

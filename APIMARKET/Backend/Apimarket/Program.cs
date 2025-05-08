@@ -24,7 +24,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseMySql(builder.Configuration.GetConnectionString("DefaultConection"),
+options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+
+//options.UseMySql(builder.Configuration.GetConnectionString("DefaultConection"),       estoooooooooooooooooooooooooooo
 new MySqlServerVersion(new Version(8, 0, 23)))
 );
 builder.Services.AddScoped<ProtocolService>();

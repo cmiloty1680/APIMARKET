@@ -7,31 +7,29 @@ import { Droplet } from "lucide-react";
 import axiosInstance from "@/lib/axiosInstance";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
-
-
 function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
   const [nomImplement, setNomImplement] = useState("");
   const [tipImplement, setTipImplement] = useState("");
   const [fecIngImplement, setFecIngImplement] = useState("");
   const [vlrImplement, setVlrImplement] = useState("");
   const [exiImplement, setExiImplement] = useState("");
-  const [error, setError] = useState("");
+  const [id_Implement, setIdImplement] = useState(null);
+
   const [isSubmitting, setSubmitting] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [msSuccess, setMsSuccess] = useState("");
   const [isModalOpenFall, setModalOpenFall] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-    const router = useRouter();
 
-  const [id_Implement, setIdImplement] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (implement) {
-      setNomImplement(implement.nom_Implement);
-      setTipImplement(implement.tip_Implement);
-      setFecIngImplement(implement.fechIng_Implement ?? "");
-      setVlrImplement(implement.vlr_Implement);
-      setExiImplement(implement.exi_Implement);
+      setNomImplement(implement.nom_Implement || "");
+      setTipImplement(implement.tip_Implement || "");
+      setFecIngImplement(implement.fechIng_Implement || "");
+      setVlrImplement(implement.vlr_Implement || "");
+      setExiImplement(implement.exi_Implement || "");
       setIdImplement(implement.id_Implement);
     }
   }, [implement]);
@@ -40,20 +38,24 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
     event.preventDefault();
     setSubmitting(true);
 
+    // Validación de campos obligatorios
     if (!nomImplement || !tipImplement || !fecIngImplement || !vlrImplement || !exiImplement) {
       setModalMessage("Todos los campos son requeridos.");
       setModalOpenFall(true);
       setSubmitting(false);
       return;
     }
+
+    // Validaciones específicas
     if (nomImplement.length > 25) {
-      setError("El nombre del implemento debe ser menor de 25 caracteres.");
+      setModalMessage("El nombre del implemento debe ser menor de 25 caracteres.");
       setModalOpenFall(true);
       setSubmitting(false);
       return;
     }
-    if (parseFloat(vlrImplement) > 100000) {
-      setError("El valor del implemento debe tener menos de 100,000 caracteres.");
+
+    if (parseFloat(vlrImplement || 0) > 100000) {
+      setModalMessage("El valor debe ser menor a $100,000.");
       setModalOpenFall(true);
       setSubmitting(false);
       return;
@@ -62,17 +64,18 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
     try {
       if (buttonForm === "Actualizar") {
         const updateImplement = {
-          id_Implement: id_Implement,
+          id_Implement,
           nom_Implement: nomImplement,
           tip_Implement: tipImplement,
           fechIng_Implement: fecIngImplement,
           vlr_Implement: vlrImplement,
           exi_Implement: exiImplement,
         };
+
         const response = await axiosInstance.put(`/Api/Implement/UpdateImplement${id_Implement}`, updateImplement);
         if (response.status === 200) {
           setMsSuccess("Implemento actualizado correctamente.");
-          setModalOpenFall(true);
+          setModalOpen(true);
           onDataUpdated();
         }
       } else if (buttonForm === "Registrar") {
@@ -86,12 +89,13 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
 
         if (response.status === 200) {
           setMsSuccess("Implemento registrado correctamente.");
-          setModalOpenFall(true);
+          setModalOpen(true);
           onDataUpdated();
         }
       }
     } catch (error) {
       setModalMessage(error.response?.data?.message || "Error al conectar con el servidor.");
+      setModalOpenFall(true);
     } finally {
       setSubmitting(false);
     }
@@ -111,8 +115,6 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
             </div>
           </div>
         </div>
-
-        {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1">
@@ -188,34 +190,34 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
         </div>
       </form>
 
-
-       {/* Modal de éxito usando DynamicAlert */}
-       <DynamicAlert
-        isOpen={isModalOpen}
+      {/* Modal de error */}
+      <DynamicAlert
+        isOpen={isModalOpenFall}
         onOpenChange={(isOpen) => {
-          setModalOpen(isOpen); // Cambia el estado del modal
+          setModalOpenFall(isOpen);
           if (!isOpen) {
-            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+            setModalMessage("");
           }
         }}
-        type="success"
-        message={msSuccess || "Operación exitosa"}
+        type="error"
+        message={modalMessage || "Ha ocurrido un error inesperado"}
         redirectPath=""
       />
 
-      {/* Modal de error usando DynamicAlert */}
-      {<DynamicAlert
-        isOpen={isModalOpenFall}
+      {/* Modal de éxito */}
+      <DynamicAlert
+        isOpen={isModalOpen}
         onOpenChange={(isOpen) => {
-          setModalOpenFall(isOpen); // Cambia el estado del modal
+          setModalOpen(isOpen);
           if (!isOpen) {
-            setModalOpenFall(isOpen);                    }
-          }}
-        type="error"
-        message={error || "Ha ocurrido un error inesperado"}
+            setMsSuccess("");
+            if (closeModal) closeModal(); // opcionalmente cerrar el modal padre
+          }
+        }}
+        type="success"
+        message={msSuccess || "Operación realizada con éxito"}
         redirectPath=""
-       />
-        }
+      />
     </>
   );
 }
