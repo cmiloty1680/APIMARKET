@@ -10,9 +10,9 @@ namespace Apimarket.DTOs
         public int Id_Feeding { get; set; }
         public string Tip_Feeding { get; set; }
         public DateTime Fec_Feeding { get; set; }
-        public int Can_Feeding { get; set; }
+        public decimal Can_Feeding { get; set; }
 
-        public int Vlr_Feeding { get; set; }
+        public decimal Vlr_Feeding { get; set; }
 
         public string Des_Hive { get; set; }
 
