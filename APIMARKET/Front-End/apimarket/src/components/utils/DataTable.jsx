@@ -134,7 +134,7 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage)
 
-  const idResponsableIndex = TitlesTable.findIndex((title) => title === "ID Responsable")
+  const idResponsableIndex = TitlesTable.findIndex((title) => title === "ID_Responsable")
 
   const titlesWithProgress = [...TitlesTable]
   if (idResponsableIndex !== -1) {

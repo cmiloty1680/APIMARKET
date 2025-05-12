@@ -27,6 +27,13 @@ function FormRace({ buttonForm, race, onDataUpdated, closeModal }) {
       setModalOpenFall(true);
       return;
     }
+    // Validación del nombre de la raza: debe tener exactamente 25 dígitos
+    if (nomRace.length > 25) {
+      setError("El nombre de la raza solo permite 25 caracteres.");
+      setModalOpenFall(true);
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       if (buttonForm === "Actualizar") {

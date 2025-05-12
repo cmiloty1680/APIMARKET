@@ -23,8 +23,7 @@ namespace Apimarket.Model
 
         [Required(ErrorMessage = "El valor {0} es obligatorio")]
 
-        [Range(1, 100000, ErrorMessage = "El valor debe estar entre {1} y {20000}")]
-        public int  Vlr_Implement { get; set; }
+        public decimal Vlr_Implement { get; set; }
 
         [Required(ErrorMessage = "El campo{0}es requerido")]
         //[StringLength(25, ErrorMessage = "El campo es {0} tiene un limite de caracteres de {1}")]
@@ -33,6 +32,16 @@ namespace Apimarket.Model
 
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

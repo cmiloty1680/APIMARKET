@@ -1,4 +1,5 @@
-﻿using Apimarket.Models;
+﻿
+using Apimarket.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,10 +21,10 @@ namespace Apimarket.Model
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
 
         public DateTime Fec_Feeding { get; set; }
-        public int Can_Feeding { get; set; }
+        public decimal Can_Feeding { get; set; }
         //[DisplayName("Valor de la alimentación")]
 
-        public int Vlr_Feeding { get; set; }
+        public decimal Vlr_Feeding { get; set; }
         [DisplayName("Cantidad de alimentación")]
         //[Required(ErrorMessage = "El campo{0}es requerido")]
         //[StringLength(255, ErrorMessage = "El campo es {0} tiene un limite de caracteres de {1}")]
@@ -43,3 +44,4 @@ namespace Apimarket.Model
 
     }
 }
+

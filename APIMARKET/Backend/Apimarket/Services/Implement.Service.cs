@@ -1,4 +1,5 @@
-﻿using Apimarket.Model;
+﻿
+using Apimarket.Model;
 using Apimarket.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,7 @@ namespace Apimarket.Services
 
         public IEnumerable<Implement> GetAll()
         {
-            return _context.implement.ToList(); 
+            return _context.implement.ToList();
         }
 
         public void Add(Implement entity)
@@ -24,7 +25,7 @@ namespace Apimarket.Services
             _context.SaveChanges();
         }
 
-        public Implement  GetImplement(int id)
+        public Implement GetImplement(int id)
         {
             return _context.implement.FirstOrDefault(p => p.Id_Implement == id);
         }
@@ -33,7 +34,7 @@ namespace Apimarket.Services
         {
             try
             {
-                var implement= await _context.implement.FindAsync(id);
+                var implement = await _context.implement.FindAsync(id);
                 if (implement == null) return false;
 
                 _context.implement.Remove(implement);
@@ -53,3 +54,5 @@ namespace Apimarket.Services
         }
     }
 }
+
+

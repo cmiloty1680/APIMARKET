@@ -53,6 +53,13 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
       setSubmitting(false);
       return;
     }
+    if (nombre.length > 20) {
+      setError("El nombre del protocolo debe ser menor de 20 caracteres.");
+      setModalOpenFall(true);
+      setSubmitting(false);
+      return;
+  }
+  
     try {
       if (buttonForm === "Actualizar") {
         const updateProtocol = {
@@ -304,8 +311,8 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
         onOpenChange={(isOpen) => {
           setModalOpenFall(isOpen); // Cambia el estado del modal
           if (!isOpen) {
-            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
-          }
+            setModalOpenFall(isOpen);                    }
+          
         }}
         type="error"
         message={error || "Ha ocurrido un error inesperado"}
@@ -317,3 +324,4 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
 }
 
 export default FormProtocol;
+

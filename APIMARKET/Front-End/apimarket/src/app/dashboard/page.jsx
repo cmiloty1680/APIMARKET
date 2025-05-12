@@ -5,7 +5,7 @@ import NavPrivate from "@/components/navs/NavPrivate";
 import WelcomeSection from "@/components/navs/WelcomeSection";
 import { useRouter } from "next/navigation";
 
-function Pro() {
+function Dashboard() {
     const TitlePage = "Bienvenidos al dashboard";
     const [user, setUser] = useState(null);
     const [userName, setUserName] = useState("")
@@ -39,4 +39,4 @@ function Pro() {
     );
 }
 
-export default Pro;
+export default Dashboard;

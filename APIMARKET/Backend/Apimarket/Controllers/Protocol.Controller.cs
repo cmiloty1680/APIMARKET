@@ -1,9 +1,10 @@
-﻿using Apimarket.Functions;
+﻿
+using Apimarket.Functions;
 using Apimarket.Models;
 using Microsoft.AspNetCore.Mvc;
 using Apimarket.Functions;
 using Apimarket.Model;
-using Apimarket.Models; 
+using Apimarket.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Apimarket.Services;
@@ -297,3 +298,8 @@ namespace Apimarket.Controllers
 
     }
 }
+
+
+
+
+

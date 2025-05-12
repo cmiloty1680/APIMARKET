@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: localhost    Database: apimarket
 -- ------------------------------------------------------
--- Server version	8.0.36
+-- Server version	8.0.39
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,7 +33,7 @@ CREATE TABLE `collecdrone` (
   KEY `Id_Hiv_idx` (`Id_Hive`),
   CONSTRAINT `Id_Hiv` FOREIGN KEY (`Id_Hive`) REFERENCES `hive` (`Id_Hive`),
   CONSTRAINT `Id_Respon` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +73,7 @@ CREATE TABLE `extraction` (
   KEY `Id_responsas_idx` (`Id_Responsible`),
   CONSTRAINT `Id_collecdro` FOREIGN KEY (`Id_CollecDrone`) REFERENCES `collecdrone` (`Id_CollecDrone`),
   CONSTRAINT `Id_responsas` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,8 +87,8 @@ CREATE TABLE `feeding` (
   `Id_Feeding` int NOT NULL AUTO_INCREMENT,
   `Tip_Feeding` varchar(10) NOT NULL,
   `Fec_Feeding` datetime NOT NULL,
-  `Can_Feeding` int NOT NULL,
-  `Vlr_Feeding` int DEFAULT NULL,
+  `Can_Feeding` decimal(10,2) DEFAULT NULL,
+  `Vlr_Feeding` decimal(10,2) DEFAULT NULL,
   `Id_Hive` int NOT NULL,
   `Id_Responsible` int NOT NULL,
   PRIMARY KEY (`Id_Feeding`),
@@ -98,7 +98,7 @@ CREATE TABLE `feeding` (
   KEY `Id_respiles_idx` (`Id_Responsible`),
   CONSTRAINT `Id_hives` FOREIGN KEY (`Id_Hive`) REFERENCES `hive` (`Id_Hive`),
   CONSTRAINT `Id_responsiles` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +119,7 @@ CREATE TABLE `fertilization` (
   KEY `Id_responsabl_idx` (`Id_Responsible`),
   CONSTRAINT `Id_Extraction` FOREIGN KEY (`Id_Extraction`) REFERENCES `extraction` (`Id_Extraction`),
   CONSTRAINT `Id_responsabl` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,13 +156,13 @@ CREATE TABLE `honeycollection` (
   `Fec_HoneyCollection` datetime NOT NULL,
   `Id_Responsible` int NOT NULL,
   `Id_Production` int NOT NULL,
-  `Tot_HoneyCollection` int NOT NULL,
+  `Tot_HoneyCollection` decimal(10,2) NOT NULL,
   PRIMARY KEY (`Id_HoneyCollection`),
   KEY `Id_Responsible_idx` (`Id_Responsible`),
   KEY `Id_productiones_idx` (`Id_Production`),
   CONSTRAINT `Id_productions` FOREIGN KEY (`Id_Production`) REFERENCES `production` (`Id_Production`),
   CONSTRAINT `Id_Responsibles` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,10 +177,10 @@ CREATE TABLE `implement` (
   `Nom_Implement` varchar(25) NOT NULL,
   `Tip_Implement` varchar(25) DEFAULT NULL,
   `FechIng_Implement` date NOT NULL,
-  `Vlr_Implement` int DEFAULT NULL,
+  `Vlr_Implement` decimal(18,2) NOT NULL,
   `Exi_Implement` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`Id_Implement`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +208,7 @@ CREATE TABLE `production` (
   KEY `Id_colmenasHives_idx` (`Id_Hive`),
   CONSTRAINT `id_hive` FOREIGN KEY (`Id_Hive`) REFERENCES `hive` (`Id_Hive`),
   CONSTRAINT `Id_Race` FOREIGN KEY (`Id_Race`) REFERENCES `race` (`Id_Race`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,13 +220,13 @@ DROP TABLE IF EXISTS `protocol`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `protocol` (
   `Id_Protocol` int NOT NULL AUTO_INCREMENT,
+  `Nom_Protocol` varchar(20) NOT NULL,
   `Tip_Protocol` varchar(20) NOT NULL,
   `FecCre_Protocol` datetime NOT NULL,
   `FecAct_Protocol` datetime NOT NULL,
-  `Nom_Protocol` varchar(20) NOT NULL,
   `Archivo_Protocol` longblob NOT NULL,
   PRIMARY KEY (`Id_Protocol`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +241,7 @@ CREATE TABLE `race` (
   `Nom_Race` varchar(25) NOT NULL,
   `Des_Race` text NOT NULL,
   PRIMARY KEY (`Id_Race`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,7 +268,7 @@ CREATE TABLE `responsible` (
   `ResetTokenExpiration` datetime DEFAULT NULL,
   PRIMARY KEY (`Id_Responsible`),
   UNIQUE KEY `Emai_Responsible_UNIQUE` (`Emai_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -301,4 +301,4 @@ CREATE TABLE `reviews` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-27 18:31:28
+-- Dump completed on 2025-05-12 11:04:50

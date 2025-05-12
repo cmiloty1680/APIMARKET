@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import NavPrivate from "@/components/navs/NavPrivate";
 import ContentPage from "@/components/utils/ContentPage";
 import Sidebar from "@/components/navs/Siderbar";
@@ -9,10 +9,8 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import FormImplement from "./FormImplement";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
-import {
-  FlaskRoundIcon as Flask,
-  PenToolIcon as Tool,
-} from "lucide-react";
+import { Flower } from "lucide-react";
+
 
 function ImplementPage() {
   const TitlePage = "Implemento";
@@ -24,7 +22,6 @@ function ImplementPage() {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [buttonForm, setButtonForm] = useState("Registrar");
-
   const [isModalOpen, setModalOpen] = useState(false); // Para alerta de éxito
   const [isModalOpenFall, setModalOpenFall] = useState(false); // Para alerta de fallo
   const [msSuccess, setMsSuccess] = useState("");
@@ -91,8 +88,11 @@ function ImplementPage() {
   const updateTextTitleForm = (texto, rowData) => {
     setAction(texto);
     setButtonForm(texto);
+    setImplement({})
+
 
     if (texto === "Actualizar" ) {
+
       setImplement({
         id_Implement: rowData[0],
         nom_Implement: rowData[1],
@@ -101,15 +101,10 @@ function ImplementPage() {
         vlr_Implement: rowData[4],
         exi_Implement: rowData[5],
       });
-    } else {
-      setImplement({
-        id_Implement: "",
-        nom_Implement: "",
-        tip_Implement: "",
-        fechIng_Implement: "",
-        vlr_Implement: "",
-        exi_Implement: "",
-      });
+    
+    }
+    else {
+      console.log("Registrando...");
     }
   };
 
@@ -168,7 +163,7 @@ function ImplementPage() {
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
-        <NavPrivate TitlePage={TitlePage} Icon={<Tool/>}/>
+        <NavPrivate TitlePage={TitlePage} Icon={<Flower/>}/>
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
           <div className="container mx-auto px-6 py-8 mt-10">
             <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">

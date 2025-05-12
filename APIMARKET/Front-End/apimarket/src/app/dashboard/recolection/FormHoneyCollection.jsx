@@ -1,3 +1,5 @@
+
+
 "use client";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
@@ -8,6 +10,8 @@ import DynamicAlert from "@/components/utils/DynamicAlert";
 
 function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, closeModal }) {
   const router = useRouter();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const [canFra125, setCanFra125] = useState("");
   const [canFra250, setCanFra250] = useState("");
   const [uniMed, setUniMed] = useState("ml");
@@ -17,7 +21,6 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
   const [totMiel, setTotMiel] = useState("");
   const [msSuccess, setMsSuccess] = useState("");
   const [error, setError] = useState("");
-  const [isSubmitting, setSubmitting] = useState(false);
   const [id_HoneyCollection, setIdHoneyCollection] = useState(null);
   const [responsibles, setResponsibles] = useState([]);
   const [nomResponsible, setNomResponsible] = useState("");
@@ -43,14 +46,25 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
+    setIsSubmitting(true);
 
-    // if (!canFra125 || !canFra250 || !descripcion || !fecha || !responsable || !produccion) {
-    //   setError("Por favor, complete todos los campos obligatorios.");
-    //   setSubmitting(false);
-    //   return;
-    // }
-
+    if (!canFra125 || !canFra250 || !descripcion || !fecha || !nomResponsible || !produccion ) {
+      setError("Por favor, complete todos los campos obligatorios.");
+      setIsSubmitting(false);
+      return;
+    }
+    if (descripcion.length > 250) {
+      setError("La descripcion debe tener menos de 250 caracteres.");
+      setModalOpenFall(true);
+      setIsSubmitting(false);
+      return;
+    }
+    if (parseFloat(totMiel) > 250) {
+      setError("La descripcion debe tener menos de 250 caracteres.");
+      setModalOpenFall(true);
+      setIsSubmitting(false);
+      return;
+    }
     const payload = {
       id_HoneyCollection: id_HoneyCollection,
       tot_HoneyCollection: totMiel,
@@ -99,7 +113,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
       setError(error.response?.data?.message || "Error al conectar con el servidor.");
       console.log(error.response?.data?.message || "Error al conectar con el servidor.");
     } finally {
-      setSubmitting(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -251,7 +265,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
               type="text"
               value={descripcion || ""}
               onChange={(e) => setDescripcion(e.target.value)}
-              placeholder="Descripción breve"
+              placeholder="Descripción menos de 250 caracteres"
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               required
             />
@@ -290,9 +304,8 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
         onOpenChange={(isOpen) => {
           setModalOpenFall(isOpen); // Cambia el estado del modal
           if (!isOpen) {
-            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
-          }
-        }}
+            setModalOpenFall(isOpen);                    }
+          }}
         type="error"
         message={error || "Ha ocurrido un error inesperado"}
         redirectPath=""
@@ -302,3 +315,13 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
 }
 
 export default FormHoneyCollection;
+
+
+
+
+
+
+
+
+
+

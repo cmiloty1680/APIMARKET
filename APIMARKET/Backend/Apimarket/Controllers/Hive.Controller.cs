@@ -13,7 +13,7 @@ namespace Apimarket.Controllers
     //[Authorize]
     [ApiController]
     [Route("Api/[controller]")]
-   
+
     public class HiveController : ControllerBase
     {
         public IConfiguration _configuration { get; set; }
@@ -41,7 +41,7 @@ namespace Apimarket.Controllers
                 _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
-           
+
         }
         [HttpGet("GetHive")]
         public IActionResult GetHive(int id)

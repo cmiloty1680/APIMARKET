@@ -1,17 +1,12 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Droplet } from "lucide-react";
 import axiosInstance from "@/lib/axiosInstance";
-import { Dialog } from "@headlessui/react";
-// import { Tool } from "lucide-react";
-import {
-  FlaskRoundIcon as Flask,
-  PenToolIcon as Tool,
-} from "lucide-react";
 import DynamicAlert from "@/components/utils/DynamicAlert";
-
-
 
 function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
   const [nomImplement, setNomImplement] = useState("");
@@ -19,20 +14,23 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
   const [fecIngImplement, setFecIngImplement] = useState("");
   const [vlrImplement, setVlrImplement] = useState("");
   const [exiImplement, setExiImplement] = useState("");
-  const [error, setError] = useState("");
+  const [id_Implement, setIdImplement] = useState(null);
+
   const [isSubmitting, setSubmitting] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [msSuccess, setMsSuccess] = useState("");
+  const [isModalOpenFall, setModalOpenFall] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [id_Implement, setIdImplement] = useState(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (implement) {
-      setNomImplement(implement.nom_Implement);
-      setTipImplement(implement.tip_Implement);
-      setFecIngImplement(implement.fechIng_Implement ?? "");
-      setVlrImplement(implement.vlr_Implement);
-      setExiImplement(implement.exi_Implement);
+      setNomImplement(implement.nom_Implement || "");
+      setTipImplement(implement.tip_Implement || "");
+      setFecIngImplement(implement.fechIng_Implement || "");
+      setVlrImplement(implement.vlr_Implement || "");
+      setExiImplement(implement.exi_Implement || "");
       setIdImplement(implement.id_Implement);
     }
   }, [implement]);
@@ -41,23 +39,41 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
     event.preventDefault();
     setSubmitting(true);
 
+    // Validación de campos obligatorios
     if (!nomImplement || !tipImplement || !fecIngImplement || !vlrImplement || !exiImplement) {
       setModalMessage("Todos los campos son requeridos.");
-      setModalOpen(true);
+      setModalOpenFall(true);
       setSubmitting(false);
       return;
     }
 
+    // Validaciones específicas
+    if (nomImplement.length > 25) {
+      setModalMessage("El nombre del implemento debe ser menor de 25 caracteres.");
+      setModalOpenFall(true);
+      setSubmitting(false);
+      return;
+    }
+
+    if (parseFloat(vlrImplement.replace(/,/g, "") || 0) > 100000) {
+      setModalMessage("El valor debe ser menor a $100,000.");
+      setModalOpenFall(true);
+      setSubmitting(false);
+      return;
+    }
+    
+
     try {
       if (buttonForm === "Actualizar") {
         const updateImplement = {
-          id_Implement: id_Implement,
+          id_Implement,
           nom_Implement: nomImplement,
           tip_Implement: tipImplement,
           fechIng_Implement: fecIngImplement,
-          vlr_Implement: vlrImplement,
+          vlr_Implement: vlrImplement.replace(/\./g, ""), // sin puntos
           exi_Implement: exiImplement,
         };
+
         const response = await axiosInstance.put(`/Api/Implement/UpdateImplement${id_Implement}`, updateImplement);
         if (response.status === 200) {
           setMsSuccess("Implemento actualizado correctamente.");
@@ -81,6 +97,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
       }
     } catch (error) {
       setModalMessage(error.response?.data?.message || "Error al conectar con el servidor.");
+      setModalOpenFall(true);
     } finally {
       setSubmitting(false);
     }
@@ -92,7 +109,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
             <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
-              <Tool className="h-5 w-5" />
+              <Droplet className="h-5 w-5" />
             </div>
             <div className="ml-3">
               <h2 className="text-xl font-bold text-gray-900">Implemento</h2>
@@ -100,8 +117,6 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
             </div>
           </div>
         </div>
-
-        {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1">
@@ -143,7 +158,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Valor del Implemento</label>
             <input
-              type="number"
+              type="text"
               value={vlrImplement}
               onChange={(e) => setVlrImplement(e.target.value)}
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
@@ -177,34 +192,34 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
         </div>
       </form>
 
-
-      <DynamicAlert
-        isOpen={isModalOpen}
-        onOpenChange={(isOpen) => {
-          setModalOpen(isOpen); // Cambia el estado del modal
-          if (!isOpen) {
-            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
-          }
-        }}
-        type="success"
-        message={msSuccess || "Operación exitosa"}
-        redirectPath=""
-      />
-
-      {/* Modal de fallido usando el componente dinámico
+      {/* Modal de error */}
       <DynamicAlert
         isOpen={isModalOpenFall}
         onOpenChange={(isOpen) => {
-          setModalOpenFall(isOpen); // Cambia el estado del modal
+          setModalOpenFall(isOpen);
           if (!isOpen) {
-            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+            setModalMessage("");
           }
         }}
         type="error"
-        message={error || "Ha ocurrido un error inesperado"}
+        message={modalMessage || "Ha ocurrido un error inesperado"}
         redirectPath=""
-      /> */}
+      />
 
+      {/* Modal de éxito */}
+      <DynamicAlert
+        isOpen={isModalOpen}
+        onOpenChange={(isOpen) => {
+          setModalOpen(isOpen);
+          if (!isOpen) {
+            setMsSuccess("");
+            if (closeModal) closeModal(); // opcionalmente cerrar el modal padre
+          }
+        }}
+        type="success"
+        message={msSuccess || "Operación realizada con éxito"}
+        redirectPath=""
+      />
     </>
   );
 }

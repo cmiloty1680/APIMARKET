@@ -24,7 +24,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseMySql(builder.Configuration.GetConnectionString("DefaultConection"),
+options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+
+//options.UseMySql(builder.Configuration.GetConnectionString("DefaultConection"),      
 new MySqlServerVersion(new Version(8, 0, 23)))
 );
 builder.Services.AddScoped<ProtocolService>();
@@ -83,7 +85,7 @@ builder.Services.AddScoped<FertilizationService>();
 
 //                }
 //                if (string.IsNullOrEmpty(context.ErrorDescription))
-//                    context.ErrorDescription = "Esta solicitud requiere que se proporcione un token de acceso JWT válido";
+//                    context.ErrorDescription = "Esta solicitud requiere que se proporcione un token de acceso JWT v?lido";
 
 //                if(context.AuthenticateFailure != null && context.AuthenticateFailure.GetType() == typeof(SecurityTokenExpiredException))
 //                {

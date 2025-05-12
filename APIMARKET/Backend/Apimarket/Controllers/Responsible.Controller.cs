@@ -233,32 +233,36 @@ namespace Apimarket.Controllers
 
 
 
-        [Authorize]
 
-        [HttpGet("GetResponsible/{id}")]
-        public IActionResult GetResponsible(int id)
+        [Authorize]
+        [HttpGet("Profile")]
+        public IActionResult GetProfile()
         {
             try
             {
+                var email = User.Claims.FirstOrDefault(c => c.Type == "Responsible")?.Value;
 
-                var responsible = _responsibleService.GetResponsible(id);
+                if (string.IsNullOrEmpty(email))
+                {
+                    return Unauthorized(new { message = "Token inválido o sin email." });
+                }
 
+                var responsible = _responsibleService.GetByEmail(email);
 
                 if (responsible == null)
                 {
-                    return NotFound("responsable no encontrado");
+                    return NotFound("Responsable no encontrado");
                 }
-
 
                 return Ok(responsible);
             }
             catch (Exception ex)
             {
-
                 _functionsGeneral.Addlog(ex.ToString());
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new { message = "Error del servidor", error = ex.Message });
             }
         }
+
 
 
         [HttpGet("GetsAllResponsible")]

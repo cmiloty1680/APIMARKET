@@ -1,4 +1,5 @@
-﻿using Apimarket.Functions;
+﻿
+using Apimarket.Functions;
 using Apimarket.Model;
 using Apimarket.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -43,33 +44,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("GetsIplement")]
-        public ActionResult<IEnumerable<Implement>> GetImplement(int start, int end)
-        {
-            try
-            {
-                if (start <= 0)
-                {
-                    start = 0;
-                }
-                var implement = _implementServices.GetAll()
-                                                   .Skip(start)
-                                                   .Take(end)
-                                                   .ToList();
-                if (!implement.Any())
-                {
-                    return NotFound("no se encontro el Implemento en el rango");
-                }
-                return Ok(implement);
 
-            }
-            catch (Exception ex)
-            {
-                _functionsGeneral.Addlog(ex.ToString());
-                return StatusCode(500, ex.Message);
-            }
-        }
 
         [Authorize]
         [HttpGet("GetImplement/{id}")]
@@ -77,16 +52,16 @@ namespace Apimarket.Controllers
         {
             try
             {
-          
+
                 var implement = _implementServices.GetImplement(id);
 
-             
+
                 if (implement == null)
                 {
                     return NotFound("Implemento no encontrado");
                 }
 
-               
+
                 return Ok(implement);
             }
             catch (Exception ex)
@@ -105,6 +80,7 @@ namespace Apimarket.Controllers
             {
                 var Implements = _implementServices.GetAll();
                 return Ok(Implements);
+
             }
             catch (Exception ex)
             {
@@ -143,7 +119,7 @@ namespace Apimarket.Controllers
                 var result = _implementServices.GetImplement(id);
                 if (result == null)
                 {
-                    return NotFound("La Implemento con ID"  + id +  "no se encontro.");
+                    return NotFound("La Implemento con ID" + id + "no se encontro.");
 
                 }
                 _implementServices.DeleteImplement(id);
@@ -198,7 +174,7 @@ namespace Apimarket.Controllers
         {
             try
             {
-                var implements= _implementServices.GetAll();
+                var implements = _implementServices.GetAll();
 
 
                 string RutaPlantilla = @"C:\ArchivoFile\cateo.rtf" + NombrePlantilla;
@@ -283,24 +259,11 @@ namespace Apimarket.Controllers
 
             }
 
-        
 
-    }
+
+        }
 
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
