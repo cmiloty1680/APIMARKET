@@ -136,7 +136,7 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
             setSubmitting(false);
         }
     }
-    
+
       
 
     const setDataProductionForUpdate = () => {
@@ -278,6 +278,7 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                             />
                         </div> */}
                     </div>
+
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Selección de Raza */}

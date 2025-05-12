@@ -431,47 +431,6 @@ function ColmenaRecoleccion() {
                   ignorar={[]} 
                 />}
 
-<<<<<<< HEAD
-                  {/* Contenido principal */}
-                  {currentView === VIEW_MAIN && (
-                    <ContentPage
-                      Data={registros}
-                      TitlesTable={titlesRecoleccion}
-                      Actions={actionsRecoleccion}
-                      action={action}
-                      updateTextTitleForm={updateTextTitleForm}
-                      openModalForm={openModalForm}
-                      ignorar={[]}
-                      tableName="recoleccio - extraccion - inseminacion"
-
-                    />
-                  )}
-
-                  {currentView === VIEW_EXTRACTION && (
-                    <ContentPage
-                      Data={extractionsData}
-                      TitlesTable={titlesExtraccion}
-                      Actions={actionsExtraccion}
-                      action={action}
-                      updateTextTitleForm={updateTextTitleForm}
-                      openModalForm={openModalForm}
-                      ignorar={[]}
-                    />
-                  )}
-
-                  {currentView === VIEW_FERTILIZATION && (
-                    <ContentPage
-                      Data={fertilizationData}
-                      TitlesTable={titlesFertilizacion}
-                      Actions={actionsFertilizacion}
-                      action={action}
-                      updateTextTitleForm={updateTextTitleForm}
-                      openModalForm={openModalForm}
-                      ignorar={[]}
-                    />
-                  )}
-                </div>
-=======
                 {currentView===VIEW_FERTILIZATION && 
                 <ContentPage 
                   Data={fertilizationData} 
@@ -482,7 +441,6 @@ function ColmenaRecoleccion() {
                   openModalForm={openModalForm} 
                   ignorar={[]}
                 />}
->>>>>>> ff5f5086e720453d43e21b2a9b08e7cc2e80a2a5
               </div>
             </div>
           </div>

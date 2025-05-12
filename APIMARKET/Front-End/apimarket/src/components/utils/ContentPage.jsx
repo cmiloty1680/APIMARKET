@@ -141,7 +141,7 @@ function ContentPage({
         Actions={Actions}
         updateTextTitleForm={updateTextTitleForm}
         openModalForm={openModalForm}
-        ignorar={[9, 10]}
+        ignorar={[]}
       />
     </div>
   );

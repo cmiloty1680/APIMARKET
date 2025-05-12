@@ -34,9 +34,9 @@ function ReviewPage() {
     "Descripción",
     "Fecha",
     "ID Colmena",
+    "ID Responsable",
     "Nombre",
     "Apellido",
-    "ID Responsable"
 
     
   ];
@@ -71,9 +71,9 @@ function ReviewPage() {
           : "Sin descripción", 
           // review.fec_Review || "-",
           review.id_Hive || "-",
+          review.id_Responsible || "-",
           review.nam_Responsible || "-",
           review.lasNam_Responsible || "-",
-          review.id_Responsible || "-",
 
         ]);
         setRegisReview(data);
@@ -161,7 +161,7 @@ function ReviewPage() {
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden">
         <NavPrivate TitlePage={TitlePage} Icon={<ClipboardCheck/>}/>
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto  bg-background">
           <div className="container mx-auto px-6 py-8 mt-10">
             <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
               <div className="relative p-6">
@@ -174,7 +174,7 @@ function ReviewPage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   setIsExportModalOpen={setIsExportModalOpen}
-                  ignorar={[]}
+                  ignorar={[4]}
                   tableName="Revision"
 
                   showAddButton={true} // 👈 aquí indicas que NO lo muestre

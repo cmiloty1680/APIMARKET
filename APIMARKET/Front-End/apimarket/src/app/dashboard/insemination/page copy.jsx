@@ -9,8 +9,8 @@ import DynamicAlert from "@/components/utils/DynamicAlert"
 import FormCollecDrone from "./FormCollecDrone"
 import FormExtraction from "./FormExtraction"
 import FormFertilization from "./FormFertilization"
-import { ArrowLeft } from 'lucide-react'
-import axiosInstance from "@/lib/axiosInstance";
+import { ArrowLeft } from "lucide-react"
+import axiosInstance from "@/lib/axiosInstance"
 import { Button } from "@/components/ui/button"
 
 // Definir las constantes para los tipos de vista
@@ -25,8 +25,8 @@ function ColmenaRecoleccion() {
   // Estados principales
   const [currentView, setCurrentView] = useState(VIEW_MAIN)
   const [action, setAction] = useState("Registrar")
-  const [isOpen, setIsOpen] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false) // Control formulario
+  const [isModalOpen, setIsModalOpen] = useState(false) // Control delete
   const [isLoading, setIsLoading] = useState(false)
   const [buttonForm, setButtonForm] = useState("Registrar")
   const [isModalOpenSuccess, setIsModalOpenSuccess] = useState(false)
@@ -41,17 +41,41 @@ function ColmenaRecoleccion() {
   const [registros, setRegistros] = useState([])
   const [extractionsData, setExtractionsData] = useState([])
   const [fertilizationData, setFertilizationData] = useState([])
-  const [selectedFertilization, setSelectedFertilization] = useState(null);
+  const [selectedFertilization, setSelectedFertilization] = useState(null)
+  // Añadir un nuevo estado para rastrear el paso actual del registro seleccionado
+  const [currentRecordStep, setCurrentRecordStep] = useState(1)
+
+  // Bandera para detectar si se guardó el formulario
+  const [hasCreatedRecord, setHasCreatedRecord] = useState(false)
+  const [previousView, setPreviousView] = useState(null)
+
+  // Si el modal de formulario se cierra sin guardar, volver a vista principal
+  // useEffect(() => {
+  //   if (!isOpen && !hasCreatedRecord) {
+  //     if (currentView === VIEW_FERTILIZATION) {
+  //       setCurrentView(VIEW_EXTRACTION);
+  //     } else if (currentView === VIEW_EXTRACTION) {
+  //       setCurrentView(VIEW_MAIN); // o VIEW_COLLEC_DRONE si existe
+  //     } else if (currentView === VIEW_MAIN) {
+  //       setCurrentView(VIEW_MAIN);
+  //     }
+  //   }
+  // }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen && !hasCreatedRecord && action !== "Actualizar") {
+      if (currentView === VIEW_FERTILIZATION) {
+        setCurrentView(VIEW_EXTRACTION)
+      } else if (currentView === VIEW_EXTRACTION) {
+        setCurrentView(VIEW_MAIN) // O VIEW_COLLEC_DRONE si lo tienes separado
+      } else if (currentView === VIEW_MAIN) {
+        setCurrentView(VIEW_MAIN)
+      }
+    }
+  }, [isOpen])
 
   // Títulos para las tablas
-  const titlesRecoleccion = [
-    "ID",
-    "Fecha",
-    "Cantidad",
-    "Responsable",
-    "ID Colmena",
-    "ID Responsable",
-    "Extracción"]
+  const titlesRecoleccion = ["ID", "Fecha", "Cantidad", "Responsable", "ID Colmena", "ID Responsable", "Extracción"]
   const titlesExtraccion = [
     "ID",
     "Fecha Extracción",
@@ -59,23 +83,21 @@ function ColmenaRecoleccion() {
     "Responsable",
     "ID Recolección",
     "ID Responsable",
-    "Fertilización"]
+    "Fertilización",
+  ]
   const titlesFertilizacion = [
     "ID",
     "Fecha Fertilización",
     "Cantidad Fertilización",
     "Responsable",
     "ID Extracción",
-    "ID Responsable"]
-
-
-
+    "ID Responsable",
+  ]
 
   function formatDateToISO(dateString) {
-    // Espera algo como "20/04/2025"
-    const [day, month, year] = dateString.split("/");
-    if (!day || !month || !year) return "";
-    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    const [day, month, year] = dateString.split("/")
+    if (!day || !month || !year) return ""
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
   }
 
   const [droneData, setDroneData] = useState({
@@ -84,7 +106,7 @@ function ColmenaRecoleccion() {
     can_CollecDrone: "",
     id_Responsible: "",
     id_Hive: "",
-  });
+  })
 
   const [extractionData, setExtractionData] = useState({
     id_Extraction: "",
@@ -92,7 +114,7 @@ function ColmenaRecoleccion() {
     can_extraction: "",
     id_CollecDrone: "",
     id_Responsible: "",
-  });
+  })
 
   const [fertilization, setFertilization] = useState({
     id_Fertilization: "",
@@ -100,13 +122,13 @@ function ColmenaRecoleccion() {
     can_Fertilization: "",
     id_Extraction: "",
     id_Responsible: "",
-  });
+  })
 
   // Obtener datos de recolección
   async function fetchRecolecciones() {
     setIsLoading(true)
     try {
-      const response = await axiosInstance.get("/Api/CollecDrone/GetAllCollecDrone");
+      const response = await axiosInstance.get("/Api/CollecDrone/GetAllCollecDrone")
       if (response.status === 200) {
         const data = response.data.map((collec) => [
           collec.id_CollecDrone || "-",
@@ -115,10 +137,8 @@ function ColmenaRecoleccion() {
           collec.nam_Responsible || "-",
           collec.id_Hive || "-",
           collec.id_Responsible || "-",
-
-        ]);
-        setRegistros(data);
-
+        ])
+        setRegistros(data)
       }
     } catch (error) {
       console.error("Error al obtener las recolecciones:", error)
@@ -129,11 +149,10 @@ function ColmenaRecoleccion() {
   }
 
   // Obtener datos de extracción
-  async function fetchExtracciones() {
+  async function fetchExtracciones(idCollecDrone) {
     setIsLoading(true)
     try {
-      // Simulación de datos para desarrollo
-      const response = await axiosInstance.get("/Api/Extraction/GetAllExtration");
+      const response = await axiosInstance.get(`/Api/Extraction/GetExtractionByCollecDrone?id=${idCollecDrone}`)
       if (response.status === 200) {
         const data = response.data.map((extration) => [
           extration.id_Extraction || "-",
@@ -142,12 +161,9 @@ function ColmenaRecoleccion() {
           extration.nam_Responsible || "-",
           extration.id_CollecDrone || "-",
           extration.id_Responsible || "-",
-
-        ]);
-        setExtractionsData(data);
-
+        ])
+        setExtractionsData(data)
       }
-
     } catch (error) {
       console.error("Error al obtener las extracciones:", error)
       setError("No se pudo cargar las extracciones.")
@@ -157,21 +173,20 @@ function ColmenaRecoleccion() {
   }
 
   // Obtener datos de fertilización
-  async function fetchFertilizaciones() {
+  async function fetchFertilizaciones(idFertilization) {
     setIsLoading(true)
     try {
-      // Simulación de datos para desarrollo
-      const response = await axiosInstance.get("/Api/Fertilization/GetsAllFertilization");
+      const response = await axiosInstance.get(`/Api/Fertilization/GetFertilizationByExtraction?id=${idFertilization}`)
       if (response.status === 200) {
-        const data = response.data.map((fertilization) => [
-          fertilization.id_Fertilization || "-",
-          fertilization.fec_Fertilization ? new Date(fertilization.fec_Fertilization).toLocaleDateString("es-CO") : "-",
-          fertilization.can_Fertilization || "-",
-          fertilization.nam_Responsible || "-",
-          fertilization.id_Extraction || "-",
-          fertilization.id_Responsible || "-",
-        ]);
-        setFertilizationData(data);
+        const data = response.data.map((fert) => [
+          fert.id_Fertilization || "-",
+          fert.fec_Fertilization ? new Date(fert.fec_Fertilization).toLocaleDateString("es-CO") : "-",
+          fert.can_Fertilization || "-",
+          fert.nam_Responsible || "-",
+          fert.id_Extraction || "-",
+          fert.id_Responsible || "-",
+        ])
+        setFertilizationData(data)
       }
     } catch (error) {
       console.error("Error al obtener las fertilizaciones:", error)
@@ -185,19 +200,29 @@ function ColmenaRecoleccion() {
     fetchRecolecciones()
   }, [])
 
-  // Función para actualizar los datos después de agregar/editar
+  // Modificar la función handleDataUpdated para actualizar el paso cuando se guarda un registro
   const handleDataUpdated = () => {
-    if (currentView === VIEW_MAIN) fetchRecolecciones()
-    else if (currentView === VIEW_EXTRACTION) fetchExtracciones(selectedRecoleccion)
-    else if (currentView === VIEW_FERTILIZATION) fetchFertilizaciones(selectedExtraccion)
+    setHasCreatedRecord(true) // Marca que se guardó
+
+    if (currentView === VIEW_MAIN) {
+      fetchRecolecciones()
+      setCurrentRecordStep(1)
+    } else if (currentView === VIEW_EXTRACTION) {
+      fetchExtracciones(selectedRecoleccion)
+      setCurrentRecordStep(2)
+    } else if (currentView === VIEW_FERTILIZATION) {
+      fetchFertilizaciones(selectedExtraccion)
+      setCurrentRecordStep(3)
+    }
+
     setIsOpen(false)
   }
 
-  // Función para cambiar el título del formulario y acción
+  // Cambiar título y datos para actualizar
   const updateTextTitleForm = (texto, rowData) => {
     setAction(texto)
     setButtonForm(texto)
-    setExtractionData({});
+    setExtractionData({})
     setFertilization({})
 
     if (texto === "Actualizar") {
@@ -209,7 +234,6 @@ function ColmenaRecoleccion() {
           id_Responsible: rowData[5],
           id_Hive: rowData[4],
         })
-        // console.log(rowData);
       } else if (currentView === VIEW_EXTRACTION) {
         setExtractionData({
           id_Extraction: rowData[0],
@@ -218,16 +242,14 @@ function ColmenaRecoleccion() {
           id_CollecDrone: rowData[4],
           id_Responsible: rowData[5],
         })
-        console.log(rowData);
       } else if (currentView === VIEW_FERTILIZATION) {
         setFertilization({
           id_Fertilization: rowData[0],
           fec_Fertilization: formatDateToISO(rowData[1]),
           can_Fertilization: rowData[2],
-          id_Responsible: rowData[5],
           id_Extraction: rowData[4],
+          id_Responsible: rowData[5],
         })
-        console.log(rowData);
       }
     } else {
       setCurrentRecoleccion(null)
@@ -236,125 +258,200 @@ function ColmenaRecoleccion() {
     }
   }
 
-  // Función para abrir el modal
-  const openModalForm = (isOpen) => {
+  // Abrir/cerrar modal de formulario
+  const openModalForm = (flag) => {
+    setHasCreatedRecord(false) // Reset bandera
     setSelectedId(null)
-    setIsOpen(isOpen)
+    setIsOpen(flag)
   }
 
+  // Eliminar fertilización
   async function deleteFertilization() {
     if (!selectedFertilization) {
-      setError("Debe seleccionar una colmena.");
-      return;
+      setError("Debe seleccionar una colmena.")
+      return
     }
 
     try {
-      await axiosInstance.delete(`/Api/Fertilization/DeleteFertilization?id=${selectedFertilization}`);
-      fetchFertilizaciones();
-      setIsModalOpen(false);
-      setIsModalOpenSuccess(true); 
-    } catch (error) {
-      console.error("Error al eliminar la colmena:", error);
-      setError("No se pudo eliminar la colmena.");
-      setIsModalOpenError(true); 
-    }
-  }
-
-  // Eliminar registro
-  async function deleteRecord() {
-    try {
-      if (currentView === VIEW_MAIN) fetchRecolecciones()
-      else if (currentView === VIEW_EXTRACTION) fetchExtracciones(selectedRecoleccion)
-      else if (currentView === VIEW_FERTILIZATION) fetchFertilizaciones(selectedExtraccion)
-
+      await axiosInstance.delete(`/Api/Fertilization/DeleteFertilization?id=${selectedFertilization}`)
+      fetchFertilizaciones(selectedExtraccion)
       setIsModalOpen(false)
       setIsModalOpenSuccess(true)
     } catch (error) {
-      console.error("Error al eliminar el registro:", error)
-      setError("No se pudo eliminar el registro.")
+      console.error("Error al eliminar la colmena:", error)
+      setError("No se pudo eliminar la colmena.")
       setIsModalOpenError(true)
     }
   }
 
-  // Función para manejar el clic en el botón "Ir" de extracción
-  const handleExtractionClick = (rowIndex) => {
-    const recoleccionId = rowIndex + 1 // En un entorno real, obtener el ID real
+  // Modificar la función handleExtractionClick para actualizar el paso actual
+  const handleExtractionClick = async (rowData) => {
+    setHasCreatedRecord(false)
+    const recoleccionId = rowData[0]
     setSelectedRecoleccion(recoleccionId)
-    fetchExtracciones(recoleccionId)
-    setCurrentView(VIEW_EXTRACTION)
+    setIsLoading(true)
+
+    // Actualizar el paso a 2 (Extracción)
+    setCurrentRecordStep(2)
+
+    try {
+      const response = await axiosInstance.get(`/Api/Extraction/GetExtractionByCollecDrone?id=${recoleccionId}`)
+      if (response.status === 200) {
+        const data = response.data.map((e) => [
+          e.id_Extraction || "-",
+          e.fec_Extraction ? new Date(e.fec_Extraction).toLocaleDateString("es-CO") : "-",
+          e.can_Extraction || "Sin estado",
+          e.nam_Responsible || "-",
+          e.id_CollecDrone || "-",
+          e.id_Responsible || "-",
+        ])
+        setExtractionsData(data)
+
+        // Si ya hay datos de extracción, el paso es 2 (completado para extracción)
+        if (data.length > 0) {
+          setCurrentRecordStep(2)
+        }
+
+        if (data.length === 0) {
+          // Preparar datos para el formulario de extracción
+          setExtractionData({
+            id_Extraction: "",
+            fec_Extraction: "",
+            can_Extraction: "",
+            id_CollecDrone: recoleccionId,
+            id_Responsible: "",
+          })
+
+          // Cambiar a la vista de extracción y abrir el formulario
+          setCurrentView(VIEW_EXTRACTION)
+          setAction("Registrar")
+          setButtonForm("Registrar")
+          openModalForm(true)
+        } else {
+          setCurrentView(VIEW_EXTRACTION)
+        }
+      }
+    } catch (e) {
+      console.error(e)
+      setError("No se pudo verificar extracciones.")
+      setIsModalOpenError(true)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  // Función para manejar el clic en el botón "Ir" de fertilización
-  const handleFertilizationClick = (rowIndex) => {
-    const extraccionId = rowIndex + 1 // En un entorno real, obtener el ID real
+  // Modificar la función handleFertilizationClick para actualizar el paso actual
+  const handleFertilizationClick = async (rowData) => {
+    setHasCreatedRecord(false)
+    const extraccionId = rowData[0]
     setSelectedExtraccion(extraccionId)
-    fetchFertilizaciones(extraccionId)
-    setCurrentView(VIEW_FERTILIZATION)
+    setIsLoading(true)
+
+    // Actualizar el paso a 3 (Fertilización)
+    setCurrentRecordStep(3)
+
+    try {
+      const response = await axiosInstance.get(`/Api/Fertilization/GetFertilizationByExtraction?id=${extraccionId}`)
+      if (response.status === 200) {
+        const data = response.data.map((f) => [
+          f.id_Fertilization || "-",
+          f.fec_Fertilization ? new Date(f.fec_Fertilization).toLocaleDateString("es-CO") : "-",
+          f.can_Fertilization || "-",
+          f.nam_Responsible || "-",
+          f.id_Extraction || "-",
+          f.id_Responsible || "-",
+        ])
+        setFertilizationData(data)
+
+        // Si ya hay datos de fertilización, el paso sigue siendo 3 (completado)
+        if (data.length > 0) {
+          setCurrentRecordStep(3)
+        }
+
+        if (data.length === 0) {
+          setFertilization({
+            id_Fertilization: "",
+            fec_Fertilization: "",
+            can_Fertilization: "",
+            id_Extraction: extraccionId,
+            id_Responsible: "",
+          })
+
+          // Cambiar a la vista de fertilización y abrir el formulario
+          setCurrentView(VIEW_FERTILIZATION)
+          setAction("Registrar")
+          setButtonForm("Registrar")
+          openModalForm(true)
+        } else {
+          setCurrentView(VIEW_FERTILIZATION)
+        }
+      }
+    } catch (e) {
+      console.error(e)
+      setError("No se pudo verificar fertilizaciones.")
+      setIsModalOpenError(true)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  // Acciones de la tabla
+  // Acciones tablas
   const actionsRecoleccion = {
-    delete: (rowData, rowIndex) => {
-      setSelectedId(rowIndex + 1)
-      setIsModalOpen(true)
+    // delete: (r,i)=>{ setSelectedId(i+1); setIsModalOpen(true) },
+    update: (r) => {
+      updateTextTitleForm("Actualizar", r)
+      openModalForm(true)
     },
-    update: (rowData) => {
-      updateTextTitleForm("Actualizar", rowData)
-      setIsOpen(true)
-    },
-    custom: [
-      {
-        name: "Extracción",
-        action: (rowData, rowIndex) => handleExtractionClick(rowIndex),
-      },
-    ],
+    custom: [{ name: "Extracción", action: handleExtractionClick }],
   }
-
   const actionsExtraccion = {
-    delete: (rowData, rowIndex) => {
-      setSelectedId(rowIndex + 1)
-      setIsModalOpen(true)
+    // delete: (r,i)=>{ setSelectedId(i+1); setIsModalOpen(true) },
+    update: (r) => {
+      updateTextTitleForm("Actualizar", r)
+      openModalForm(true)
     },
-    update: (rowData) => {
-      updateTextTitleForm("Actualizar", rowData)
-      setIsOpen(true)
-    },
-    custom: [
-      {
-        name: "Fertilización",
-        action: (rowData, rowIndex) => handleFertilizationClick(rowIndex),
-      },
-    ],
+    custom: [{ name: "Fertilización", action: handleFertilizationClick }],
   }
-
   const actionsFertilizacion = {
-    delete: (rowData) => {
-      setSelectedFertilization(rowData[0]);
+    delete: (r) => {
+      setSelectedFertilization(r[0])
       setIsModalOpen(true)
     },
-    update: (rowData) => {
-      updateTextTitleForm("Actualizar", rowData)
-      setIsOpen(true)
+    update: (r) => {
+      updateTextTitleForm("Actualizar", r)
+      openModalForm(true)
     },
   }
 
-  // Navegación entre vistas
-  const handleBackToMain = () => setCurrentView(VIEW_MAIN)
-  const handleBackToExtraction = () => setCurrentView(VIEW_EXTRACTION)
+  // Modificar la función handleBackToMain para resetear el paso
+  const handleBackToMain = () => {
+    setCurrentView(VIEW_MAIN)
+    setCurrentRecordStep(1)
+  }
 
-  // Renderizar el formulario según la vista actual
+  // Modificar la función handleBackToExtraction para actualizar el paso
+  const handleBackToExtraction = () => {
+    setCurrentView(VIEW_EXTRACTION)
+    setCurrentRecordStep(2)
+  }
+
+  const handleBackToFertilization = () => {
+    setCurrentView(VIEW_FERTILIZATION)
+    setCurrentRecordStep(3)
+  }
+
+
   const renderFormComponent = () => {
-    if (currentView === VIEW_MAIN) {
+    if (currentView === VIEW_MAIN)
       return (
         <FormCollecDrone
           buttonForm={buttonForm}
-          // recoleccion={currentRecoleccion}
           onDataUpdated={handleDataUpdated}
           closeModal={openModalForm}
           droneData={droneData}
         />
       )
-    } else if (currentView === VIEW_EXTRACTION) {
+    if (currentView === VIEW_EXTRACTION)
       return (
         <FormExtraction
           buttonForm={buttonForm}
@@ -364,7 +461,7 @@ function ColmenaRecoleccion() {
           recoleccionId={selectedRecoleccion}
         />
       )
-    } else if (currentView === VIEW_FERTILIZATION) {
+    if (currentView === VIEW_FERTILIZATION)
       return (
         <FormFertilization
           buttonForm={buttonForm}
@@ -374,121 +471,110 @@ function ColmenaRecoleccion() {
           extraccionId={selectedExtraccion}
         />
       )
-    }
     return null
   }
 
   return (
-    <>
-      <div className="flex h-screen bg-gray-200">
-        <Siderbar />
-        <div className="flex flex-col flex-1 overflow-hidden text-white">
-          <NavPrivate
-            TitlePage={
-              currentView === VIEW_MAIN
-                ? "Recolección de Zanganos"
-                : currentView === VIEW_EXTRACTION
-                  ? "Extracción de Semen"
-                  : currentView === VIEW_FERTILIZATION
-                    ? "Fertilización"
-                    : ""
-            }
-          />
+    <div className="flex h-screen bg-gray-200">
+      <Siderbar />
+      <div className="flex flex-col flex-1 overflow-hidden text-white">
+        <NavPrivate
+          TitlePage={
+            currentView === VIEW_MAIN
+              ? "Recolección de Zanganos"
+              : currentView === VIEW_EXTRACTION
+                ? "Extracción de Semen"
+                : "Fertilización"
+          }
+        />
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
+          <div className="container mx-auto px-6 py-8 mt-10">
+            <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
+              <div className="relative p-6">
+                {currentView !== VIEW_MAIN && (
+                  <div className="mb-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-gray-700"
+                      onClick={currentView === VIEW_FERTILIZATION ? handleBackToExtraction : handleBackToMain}
+                    >
+                      <ArrowLeft size={18} className="mr-2" />
+                      {currentView === VIEW_FERTILIZATION ? "Volver a Extracción" : "Volver a Recolección"}
+                    </Button>
+                  </div>
+                )}
 
-          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
-            <div className="container mx-auto px-6 py-8 mt-10">
-              <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
-                <div className="relative p-6">
-                  {/* Botón de retroceso para vistas secundarias */}
-                  {currentView !== VIEW_MAIN && (
-                    <div className="mb-4">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-gray-700"
-                        onClick={currentView === VIEW_FERTILIZATION ? handleBackToExtraction : handleBackToMain}
-                      >
-                        <ArrowLeft size={18} className="mr-2" />
-                        {currentView === VIEW_FERTILIZATION ? "Volver a Extracción" : "Volver a Recolección"}
-                      </Button>
-                    </div>
-                  )}
+                {currentView === VIEW_MAIN && (
+                  <ContentPage
+                    Data={registros}
+                    TitlesTable={titlesRecoleccion}
+                    Actions={actionsRecoleccion}
+                    action={action}
+                    updateTextTitleForm={updateTextTitleForm}
+                    openModalForm={openModalForm}
+                    ignorar={[]}
+                    showAddButton={true}
+                    currentView={currentView} // Añadir esta prop
+                  />
+                )}
 
-                  {/* Contenido principal */}
-                  {currentView === VIEW_MAIN && (
-                    <ContentPage
-                      Data={registros}
-                      TitlesTable={titlesRecoleccion}
-                      Actions={actionsRecoleccion}
-                      action={action}
-                      updateTextTitleForm={updateTextTitleForm}
-                      openModalForm={openModalForm}
-                      ignorar={[]}
-                    />
-                  )}
+                {currentView === VIEW_EXTRACTION && (
+                  <ContentPage
+                    Data={extractionsData}
+                    TitlesTable={titlesExtraccion}
+                    Actions={actionsExtraccion}
+                    action={action}
+                    updateTextTitleForm={updateTextTitleForm}
+                    openModalForm={openModalForm}
+                    ignorar={[]}
+                    currentView={currentView} // Añadir esta prop
+                  />
+                )}
 
-                  {currentView === VIEW_EXTRACTION && (
-                    <ContentPage
-                      Data={extractionsData}
-                      TitlesTable={titlesExtraccion}
-                      Actions={actionsExtraccion}
-                      action={action}
-                      updateTextTitleForm={updateTextTitleForm}
-                      openModalForm={openModalForm}
-                      ignorar={[]}
-                    />
-                  )}
-
-                  {currentView === VIEW_FERTILIZATION && (
-                    <ContentPage
-                      Data={fertilizationData}
-                      TitlesTable={titlesFertilizacion}
-                      Actions={actionsFertilizacion}
-                      action={action}
-                      updateTextTitleForm={updateTextTitleForm}
-                      openModalForm={openModalForm}
-                      ignorar={[]}
-                    />
-                  )}
-                </div>
+                {currentView === VIEW_FERTILIZATION && (
+                  <ContentPage
+                    Data={fertilizationData}
+                    TitlesTable={titlesFertilizacion}
+                    Actions={actionsFertilizacion}
+                    action={action}
+                    updateTextTitleForm={updateTextTitleForm}
+                    openModalForm={openModalForm}
+                    ignorar={[]}
+                    currentView={currentView} // Añadir esta prop
+                  />
+                )}
               </div>
             </div>
-          </main>
-        </div>
-
-        {/* Modal para formularios */}
-        <ModalDialog
-          isOpen={isOpen}
-          setIsOpen={openModalForm}
-          FormPage={renderFormComponent()}
-          action={action} />
-
-        {/* Modal de confirmación para eliminar */}
-        <ConfirmationModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onConfirm={deleteFertilization}
-          DeleteTitle={eliminar}
-        />
-
-        {/* MODALES DE ALERTA */}
-        <DynamicAlert
-          isOpen={isModalOpenSuccess}
-          onOpenChange={setIsModalOpenSuccess}
-          type="success"
-          message="Operación realizada con éxito"
-          redirectPath=""
-        />
-
-        <DynamicAlert
-          isOpen={isModalOpenError}
-          onOpenChange={setIsModalOpenError}
-          type="error"
-          message={error || "Ha ocurrido un error inesperado"}
-          redirectPath=""
-        />
+          </div>
+        </main>
       </div>
-    </>
+
+      <ModalDialog isOpen={isOpen} setIsOpen={openModalForm} FormPage={renderFormComponent()} action={action} />
+
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={deleteFertilization}
+        DeleteTitle={eliminar}
+      />
+
+      <DynamicAlert
+        isOpen={isModalOpenSuccess}
+        onOpenChange={setIsModalOpenSuccess}
+        type="success"
+        message="Operación realizada con éxito"
+        redirectPath=""
+      />
+
+      <DynamicAlert
+        isOpen={isModalOpenError}
+        onOpenChange={setIsModalOpenError}
+        type="error"
+        message={error || "Ha ocurrido un error inesperado"}
+        redirectPath=""
+      />
+    </div>
   )
 }
 
