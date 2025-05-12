@@ -54,12 +54,13 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
       return;
     }
 
-    if (parseFloat(vlrImplement || 0) > 100000) {
+    if (parseFloat(vlrImplement.replace(/,/g, "") || 0) > 100000) {
       setModalMessage("El valor debe ser menor a $100,000.");
       setModalOpenFall(true);
       setSubmitting(false);
       return;
     }
+    
 
     try {
       if (buttonForm === "Actualizar") {
@@ -68,7 +69,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
           nom_Implement: nomImplement,
           tip_Implement: tipImplement,
           fechIng_Implement: fecIngImplement,
-          vlr_Implement: vlrImplement,
+          vlr_Implement: vlrImplement.replace(/\./g, ""), // sin puntos
           exi_Implement: exiImplement,
         };
 
@@ -156,7 +157,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Valor del Implemento</label>
             <input
-              type="number"
+              type="text"
               value={vlrImplement}
               onChange={(e) => setVlrImplement(e.target.value)}
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
