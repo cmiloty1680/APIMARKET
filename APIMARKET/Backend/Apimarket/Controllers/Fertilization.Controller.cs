@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Apimarket.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apimarket.Controllers
 {
@@ -25,6 +26,7 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
+        [Authorize]
         [HttpPost("CreateFertilization")]
         public IActionResult AddP([FromBody] Fertilization entity)
         {
@@ -42,6 +44,7 @@ namespace Apimarket.Controllers
 
         }
 
+        [Authorize]
         [HttpGet("GetsFertilization")]
         public ActionResult<IEnumerable<Fertilization>> GetsFertilization(int start, int end)
         {
@@ -67,6 +70,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("GetFertilization/{id}")]
         public IActionResult GetFertilization(int id)
         {
@@ -86,6 +90,8 @@ namespace Apimarket.Controllers
             }
         }
 
+
+        [Authorize]
         [HttpGet("GetFertilizationByExtraction")]
 
         public ActionResult<IEnumerable<FertilizationDTO>> GetFertilizationByExtraction(int id)
@@ -115,6 +121,7 @@ namespace Apimarket.Controllers
         }
 
 
+        [Authorize]
         [HttpGet("GetsAllFertilization")]
         public ActionResult<IEnumerable<Fertilization>> GetAll()
         {
@@ -139,6 +146,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("UpdateFertilization/{id}")]
         public IActionResult UpdateFertilization(Fertilization fertilization)
         {
@@ -154,6 +162,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("DeleteFertilization")]
         public IActionResult DeleteFertilization(int id)
         {
@@ -178,6 +187,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("PDF")]
         public IActionResult PdfResponsible()
         {
@@ -208,6 +218,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -226,6 +238,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {
@@ -244,6 +258,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpPost("XLSX")]
         public IActionResult XlsxResponsible(string NombrePlantilla, string NombreReporte)
         {
@@ -266,6 +282,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpPost("SQL")]
         public IActionResult SqlResponsible(string NombrePlantilla, string NombreReporte)
         {

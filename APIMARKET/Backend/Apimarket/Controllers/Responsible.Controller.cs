@@ -51,7 +51,8 @@ namespace Apimarket.Controllers
                 var key = Encoding.UTF8.GetBytes(JWT.KeySecret);
                 var claims = new ClaimsIdentity(new[]
                 {
-            new Claim("Responsible", login.Emai_Responsible)
+            new Claim("Responsible", login.Emai_Responsible),
+            new Claim(ClaimTypes.Role, responsible.Tip_Responsible)
         });
 
 
@@ -73,9 +74,9 @@ namespace Apimarket.Controllers
                 return Ok(new
                 {
                     token = tokenString,
-                    username = responsible.Nam_Responsible,
+                    username = $"{responsible.Nam_Responsible} {responsible.LasNam_Responsible}",
                     email = responsible.Emai_Responsible,
-                    lastname = responsible.LasNam_Responsible
+                    rol = responsible.Tip_Responsible
                 });
             }
             catch (Exception ex)
@@ -121,6 +122,7 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
 
         [HttpPost("ValidateToken")]
         public async Task<IActionResult> ValidateToken([FromBody] TokenRequest model_tok)
@@ -233,8 +235,6 @@ namespace Apimarket.Controllers
 
 
 
-
-        [Authorize]
         [HttpGet("Profile")]
         public IActionResult GetProfile()
         {
@@ -264,7 +264,7 @@ namespace Apimarket.Controllers
         }
 
 
-
+        [Authorize(Roles = "instructor, pasante")]
         [HttpGet("GetsAllResponsible")]
         public IActionResult GetResponsible()
         {
@@ -282,7 +282,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("GetsResponsible")]
         public ActionResult<IEnumerable<Responsible>> GetsResponsible(int start, int end)
         {
@@ -312,7 +312,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut("UpdateResponsible")]
         public IActionResult UpdateResponsible(Responsible responsible)
         {
@@ -334,7 +334,7 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        [Authorize]
+        //[Authorize]
         [HttpDelete("DeleteResponsible/{id}")]
         public async Task<IActionResult> DeleteResponsible(int id)
         {
@@ -354,8 +354,7 @@ namespace Apimarket.Controllers
             }
         }
 
-
-
+        //[Authorize]
         [HttpGet("PDF")]
         public IActionResult PdfResponsible()
         {
@@ -386,6 +385,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        //[Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -404,6 +405,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        //[Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {
@@ -422,6 +425,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        //[Authorize]
         [HttpPost("XLSX")]
         public IActionResult XlsxResponsible(string NombrePlantilla, string NombreReporte)
         {
@@ -444,6 +449,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        //[Authorize]
         [HttpPost("SQL")]
         public IActionResult SqlResponsible(string NombrePlantilla, string NombreReporte)
         {

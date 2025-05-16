@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "@/lib/axiosInstance";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 import { Droplet } from "lucide-react";
+import PrivateRoute from "@/app/routes/privateRoute";
 
 
 function HoneyCollection() {
@@ -177,6 +178,8 @@ function HoneyCollection() {
 
   return (
     <>
+      <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
+
       <div className="flex h-screen bg-gray-100">
         <Sidebar />
         <div className="flex flex-col flex-1 overflow-hidden">
@@ -238,6 +241,7 @@ function HoneyCollection() {
         Data={regisHoney}
         TitlesTable={titlesHoney}
       />
+      </PrivateRoute>
     </>
   );
 }

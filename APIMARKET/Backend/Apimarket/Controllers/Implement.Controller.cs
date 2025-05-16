@@ -23,6 +23,7 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
+        [Authorize]
         [HttpPost("CreateImplement")]
         public IActionResult AddP([FromBody] Implement entity)
         {
@@ -73,6 +74,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("GetsImplement")]
         public IActionResult GetsAllImplement()
         {
@@ -90,6 +92,7 @@ namespace Apimarket.Controllers
         }
 
 
+        [Authorize]
         [HttpPut("UpdateImplement{id}")]
         public IActionResult UpdateImplement(Implement implement)
         {
@@ -111,6 +114,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("DeleteImplement")]
         public IActionResult DeleteImplement(int id)
         {
@@ -223,6 +227,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -241,6 +247,8 @@ namespace Apimarket.Controllers
             }
 
         }
+
+        [Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {

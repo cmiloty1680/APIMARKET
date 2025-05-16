@@ -10,6 +10,7 @@ import FormImplement from "./FormImplement";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 import { Flower } from "lucide-react";
+import PrivateRoute from "@/app/routes/privateRoute";
 
 
 function ImplementPage() {
@@ -160,6 +161,7 @@ function ImplementPage() {
   };
 
   return (
+    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
@@ -236,6 +238,7 @@ function ImplementPage() {
         TitlesTable={titlesImplement}
       />
     </div>
+    </PrivateRoute>
   );
 }
 

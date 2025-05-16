@@ -3,6 +3,7 @@ import { BarChart, Droplets, CheckCircle2 } from "lucide-react";
 import CircularProgress from "./CircularProgress";
 import axiosInstance from "@/lib/axiosInstance";
 import { useState, useEffect } from "react";
+import PrivateRoute from "@/app/routes/privateRoute";
 
 
 
@@ -45,6 +46,7 @@ function ProgressCards() {
   ];
 
   return (
+    <PrivateRoute requiredRole={["pasante", "instructor", "gestor"]}>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {cards.map((card, i) => (
         <div key={i} className="bg-white backdrop-blur-xl bg-opacity-80 p-6 rounded-2xl shadow-lg border border-white/20 relative group">
@@ -71,6 +73,8 @@ function ProgressCards() {
         </div>
       ))}
     </div>
+    
+        </PrivateRoute>
   );
 }
 

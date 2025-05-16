@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 import { ClipboardCheck } from "lucide-react";
+import PrivateRoute from "@/app/routes/privateRoute";
 
 
 function ReviewPage() {
@@ -157,6 +158,8 @@ function ReviewPage() {
   };
 
   return (
+    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
+
     <div className="flex h-screen bg-gray-100">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden">
@@ -226,6 +229,7 @@ function ReviewPage() {
               TitlesTable={titlesColmena}
             />
     </div>
+    </PrivateRoute>
   );
 }
 

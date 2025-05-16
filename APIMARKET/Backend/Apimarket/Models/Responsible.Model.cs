@@ -43,7 +43,7 @@ namespace Apimarket.Models
 
         //[Required(ErrorMessage = "El tipo de responsible es requerido")]
 
-        public string Tip_Responsible { get; set; } = "pasante";
+        public string Tip_Responsible { get; set; } = "gestor";
 
         [Required(ErrorMessage = "El número de teléfono es requerido")]
         [Range(1000000000, 9999999999, ErrorMessage = "El número de teléfono debe tener exactamente 10 dígitos")]

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apimarket.Controllers
 {
@@ -25,6 +26,7 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
+        [Authorize]
         [HttpPost("CreateRace")]
         public IActionResult AddP([FromBody] Race entity)
         {
@@ -46,6 +48,7 @@ namespace Apimarket.Controllers
 
         }
 
+        [Authorize]
         [HttpGet("GetsRace")]
         public ActionResult<IEnumerable<Race>> GetsRace(int start, int end)
         {
@@ -75,6 +78,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("GetsAllRace")]
         public IActionResult GetsAllRace()
         {
@@ -91,6 +95,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("GetRace/{id}")]
         public IActionResult GetRace(int id)
         {
@@ -111,6 +116,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("UpdateRace{id}")]
         public IActionResult UpdateRace(Race race)
         {
@@ -126,6 +132,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("DeleteRace")]
         public IActionResult DeleteRace(int id)
         {
@@ -150,6 +157,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [Authorize]
         [HttpGet("PDF")]
         public IActionResult PdfResponsible()
         {
@@ -180,6 +189,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -198,6 +209,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {
@@ -216,6 +229,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpPost("XLSX")]
         public IActionResult XlsxRace(string NombrePlantilla, string NombreReporte)
         {
@@ -238,6 +253,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpPost("SQL")]
         public IActionResult SqlResponsible(string NombrePlantilla, string NombreReporte)
         {

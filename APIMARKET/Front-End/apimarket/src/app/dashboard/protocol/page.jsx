@@ -15,6 +15,7 @@ import FormProtocol from "./FormProtocol";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 // import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 import { Clipboard } from "lucide-react";
+import PrivateRoute from "@/app/routes/privateRoute";
 
 
 function ProtocolPage() {
@@ -212,6 +213,8 @@ function ProtocolPage() {
 
 
   return (
+    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
+
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden">
@@ -286,6 +289,7 @@ function ProtocolPage() {
         TitlesTable={titlesProtocol}
       />
     </div>
+    </PrivateRoute>
   );
 }
 

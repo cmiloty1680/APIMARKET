@@ -9,6 +9,7 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import FormHive from "./FormHive";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 import { Hexagon } from "lucide-react";
+import PrivateRoute from "@/app/routes/privateRoute";
 
 
 function HivePage() {
@@ -146,6 +147,7 @@ function HivePage() {
   };
 
   return (
+    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
@@ -208,6 +210,7 @@ function HivePage() {
         redirectPath=""
       />
     </div>
+    </PrivateRoute>
   );
 }
 

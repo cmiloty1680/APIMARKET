@@ -28,7 +28,7 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
-
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPost("CreateFeeding")]
         public IActionResult AddP([FromBody] Feeding entity)
         {
@@ -48,7 +48,7 @@ namespace Apimarket.Controllers
 
 
 
-
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetAllFeeding")]
 
 
@@ -82,7 +82,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetFeeding/{id}")]
         public IActionResult GetFeeding(int id)
         {
@@ -107,7 +107,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        //[Authorize]
+
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPut("UpdateFeeding/{id}")]
         public IActionResult UpdateFeeding(Feeding feeding)
         {
@@ -128,6 +129,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpDelete("DeleteFeeding")]
         public IActionResult DeleteFeeding(int id)
         {
@@ -208,6 +210,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("XLSX")]
         public IActionResult XlsxProtocol(string NombrePlantilla, string NombreReporte)
         {
@@ -235,6 +238,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -253,6 +257,8 @@ namespace Apimarket.Controllers
             }
 
         }
+
+        [Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {

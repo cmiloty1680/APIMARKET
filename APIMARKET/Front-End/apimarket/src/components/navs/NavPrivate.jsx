@@ -236,6 +236,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Settings, LogOut } from "lucide-react";
+import { useAuth } from "@/app/context/authContext";
 
 function NavPrivate({ TitlePage, Icon }) {
   const [userName, setUserName] = useState("");
@@ -245,33 +246,8 @@ function NavPrivate({ TitlePage, Icon }) {
   const [open, setOpen] = useState(false);
   const [editName, setEditName] = useState("");
   const [editLastName, setEditLastName] = useState("");
+  const {user, logout } = useAuth();
 
-  const capitalizeFirst = (str) => {
-    return str
-      .toLowerCase()
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
-
-  useEffect(() => {
-    const rawName = localStorage.getItem("username") || "Usuario";
-    const rawLast = localStorage.getItem("lastname") || "";
-    const email = localStorage.getItem("email") || "user@example.com";
-
-    const name = capitalizeFirst(rawName);
-    const last = capitalizeFirst(rawLast);
-
-    const full = localStorage.getItem("fullName") || `${name} ${last}`;
-
-    setUserName(name);
-    setLastname(last);
-    setUserEmail(email);
-    setEditName(name);
-    setEditLastName(last);
-
-    localStorage.setItem("fullName", full);
-  }, []);
 
   const handleSave = () => {
     const fullName = localStorage.getItem("fullName")?.toLowerCase() || "";
@@ -282,24 +258,6 @@ function NavPrivate({ TitlePage, Icon }) {
 
     const isValid = inputParts.every((word) => allowedParts.includes(word));
 
-    if (!editName.trim() || !editLastName.trim()) {
-      alert("❌ El nombre y el apellido no pueden estar vacíos.");
-      return;
-    }
-
-    if (!isValid) {
-      alert("❌ Solo puedes usar partes de tu nombre completo original.");
-      return;
-    }
-
-    const formattedName = capitalizeFirst(editName);
-    const formattedLastName = capitalizeFirst(editLastName);
-
-    setUserName(formattedName);
-    setLastname(formattedLastName);
-    localStorage.setItem("username", formattedName);
-    localStorage.setItem("lastname", formattedLastName);
-    setOpen(false);
   };
 
   function getInitials(name, last) {
@@ -307,6 +265,8 @@ function NavPrivate({ TitlePage, Icon }) {
     const lastInitial = last?.trim()?.charAt(0).toUpperCase() || "";
     return `${firstInitial}${lastInitial}` || "U";
   }
+
+  console.log("USER EN NAVPRIVATE:", user, "mira chat");
 
   return (
     <header className="bg-[#030712] border-b px-4 py-3">
@@ -321,25 +281,25 @@ function NavPrivate({ TitlePage, Icon }) {
             <DropdownMenuTrigger asChild>
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                <AvatarFallback>{getInitials(userName, lastname)}</AvatarFallback>
+                <AvatarFallback>{user? user.username:"..."}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">
-                    {userName} {lastname}
+                    {user? user.username:"userApi@gmail.com"}
                   </p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    {userEmail}
+                    {user? user.email: "..."}
+                  </p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    {user? user.rol: "..."}
                   </p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setOpen(true)}>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Configurar</span>
-              </DropdownMenuItem>
+            
               <DropdownMenuItem asChild>
                 <Link href="/responsible/login">
                   <div className="flex items-center">
@@ -353,28 +313,7 @@ function NavPrivate({ TitlePage, Icon }) {
         </div>
       </div>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Editar nombre de usuario</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <Input
-              placeholder="Nombre"
-              value={editName}
-              onChange={(e) => setEditName(capitalizeFirst(e.target.value))}
-            />
-            <Input
-              placeholder="Apellido"
-              value={editLastName}
-              onChange={(e) => setEditLastName(capitalizeFirst(e.target.value))}
-            />
-          </div>
-          <DialogFooter>
-            <Button onClick={handleSave}>Guardar</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+    
     </header>
   );
 }

@@ -9,6 +9,7 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import FormProduction from "./FormProduction";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 import { Droplet } from "lucide-react";
+import PrivateRoute from "@/app/routes/privateRoute";
 
 function ProductionPage() {
   const TitlePage = "Producción";
@@ -152,6 +153,7 @@ function ProductionPage() {
   };
 
   return (
+    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
@@ -214,6 +216,7 @@ function ProductionPage() {
         TitlesTable={titlesProduction}
       />
     </div>
+    </PrivateRoute>
   );
 }
 

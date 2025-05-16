@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Apimarket.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Apimarket.Controllers
 {
@@ -25,6 +26,7 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
+        [Authorize]
         [HttpPost("CreateReview")]
         public IActionResult AddP([FromBody] Review entity)
         {
@@ -42,6 +44,7 @@ namespace Apimarket.Controllers
 
         }
 
+        [Authorize]
         [HttpGet("GetsReview")]
         public ActionResult<IEnumerable<Review>> GetsReview(int start, int end)
         {
@@ -71,6 +74,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("GetsAllReview")]
 
         public ActionResult <IEnumerable<ReviewDTO>> GetAllReview()
@@ -99,7 +103,8 @@ namespace Apimarket.Controllers
 
         }
 
-    
+
+        [Authorize]
         [HttpGet("GetReview/{id}")]
         public IActionResult GetReview(int id)
         {
@@ -135,6 +140,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("DeleteReview")]
         public IActionResult DeleteReview(int id)
         {
@@ -161,6 +167,7 @@ namespace Apimarket.Controllers
 
         }
 
+        [Authorize]
         [HttpGet("PDF")]
         public IActionResult PdfResponsible()
         {
@@ -191,6 +198,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -209,6 +218,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {
@@ -227,6 +238,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpPost("XLSX")]
         public IActionResult XlsxReview(string NombrePlantilla, string NombreReporte)
         {
@@ -249,6 +262,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpPost("SQL")]
         public IActionResult SqlReview(string NombrePlantilla, string NombreReporte)
         {

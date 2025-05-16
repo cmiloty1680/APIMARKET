@@ -2,6 +2,7 @@
 import { TrendingUp, ArrowUpRight } from "lucide-react"
 import axiosInstance from "@/lib/axiosInstance";
 import { useState, useEffect } from "react";
+import PrivateRoute from "@/app/routes/privateRoute";
 
 
 function StatsCards() {
@@ -22,6 +23,7 @@ function StatsCards() {
       }, []);
 
   return (
+    <PrivateRoute requiredRole={["pasante", "instructor", "gestor"]}>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 
           {/* Card 3 - Colmenas Activas */}
@@ -219,6 +221,7 @@ function StatsCards() {
             </div>
           </div>
         </div>
+        </PrivateRoute>
   )
 }
 

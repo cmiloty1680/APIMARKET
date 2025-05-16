@@ -27,6 +27,7 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
+        [Authorize]
         [HttpPost("CreateProtocol")]
         public async Task<IActionResult> CreateProtocol([FromForm] protocolDTO model)
         {
@@ -52,7 +53,7 @@ namespace Apimarket.Controllers
 
 
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("GetsAllProtocol")]
         public IActionResult GetsAllProtocol()
         {
@@ -67,6 +68,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpGet("GetsProtocol")]
         public ActionResult<IEnumerable<Protocol>> GetsProtocol(int start, int end)
         {
@@ -97,6 +100,7 @@ namespace Apimarket.Controllers
         }
 
 
+        [Authorize]
         [HttpGet("GetProtocol/{id}")]
         public IActionResult GetProtocol(int id)
         {
@@ -124,7 +128,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPut("UpdateProtocol")]
         public IActionResult UpdateProtocol(Protocol protocol)
         {
@@ -154,7 +158,7 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        //[Authorize]
+        [Authorize]
         [HttpDelete("DeleteProtocol")]
         public async Task<IActionResult> DeleteProtocol(int id)
         {
@@ -174,7 +178,7 @@ namespace Apimarket.Controllers
             }
 
         }
-        //[Authorize]
+        [Authorize]
         [HttpPost("PDF")]
         public IActionResult PdfProtocol(string NombrePlantilla, string NombreReporte)
         {
@@ -202,7 +206,7 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
-        //[Authorize]
+        [Authorize]
         [HttpPost("SQL")]
         public IActionResult SqlResponsible(string NombrePlantilla, string NombreReporte)
         {
@@ -230,7 +234,7 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
-        //[Authorize]
+        [Authorize]
         [HttpPost("XLSX")]
         public IActionResult XlsxProtocol(string NombrePlantilla, string NombreReporte)
         {
@@ -258,6 +262,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -276,6 +281,8 @@ namespace Apimarket.Controllers
             }
 
         }
+
+        [Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {

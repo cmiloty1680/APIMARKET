@@ -12,6 +12,7 @@ import FormFertilization from "./FormFertilization"
 import { ArrowLeft } from 'lucide-react'
 import axiosInstance from "@/lib/axiosInstance";
 import { Button } from "@/components/ui/button"
+import PrivateRoute from "@/app/routes/privateRoute"
 
 // Definir las constantes para los tipos de vista
 const VIEW_MAIN = "main"
@@ -391,6 +392,7 @@ function ColmenaRecoleccion() {
   }
 
   return (
+    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
     <div className="flex h-screen bg-gray-200">
       <Siderbar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
@@ -473,6 +475,7 @@ function ColmenaRecoleccion() {
       message={error||"Ha ocurrido un error inesperado"} 
       redirectPath="" />
     </div>
+    </PrivateRoute>
   )
 }
 

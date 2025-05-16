@@ -11,7 +11,7 @@ import Image from "next/image";
 import { KeyRound, Eye, EyeOff, ShieldCheck, Lock, AlertCircle } from "lucide-react"
 // import { KeyRound, Eye, EyeOff, ShieldCheck, Lock, AlertCircle } from "lucide-react"
 import DynamicAlert from '@/components/utils/DynamicAlert';
-
+import { useAuth } from '@/app/context/authContext';
 const carouselItems = [
     {
         title: "¡Nos alegra verte!",
@@ -41,7 +41,7 @@ function LoginPage() {
     const [error, setError] = useState(null);
     const [loginToken, setLoginToken] = useState(""); 
     const [showPassword, setShowPassword] = useState(false)
-    // const [alert, setAlert] = useState(null);
+    const {setUser} = useAuth();  
     const router = useRouter();
 
     useEffect(() => {
@@ -82,6 +82,7 @@ function LoginPage() {
                 localStorage.setItem('username', response.data.username);
                 localStorage.setItem('email', response.data.email);
                 localStorage.setItem('lastname', response.data.lastname);
+                setUser(response.data);
 
 
                 // Abrir el modal de éxito
