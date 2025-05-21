@@ -100,6 +100,9 @@
 //    }
 //}
 
+
+
+//ANTES ESTE ES DE SECURYTY
 using Apimarket.Functions;
 using Apimarket.model;
 using Apimarket.Models;
@@ -108,83 +111,84 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
-namespace Apimarket.Middleware { 
-public class JwtMiddleware
+namespace Apimarket.Middleware
 {
-    private readonly RequestDelegate _next;
-    private readonly JWTModel jwt;
-    private readonly GeneralFunctions _functionsGeneral;
-    private readonly List<string> _publicRoutes;
-
-    public JwtMiddleware(RequestDelegate next, IConfiguration configuration)
+    public class JwtMiddleware
     {
-        _next = next;
-        jwt = configuration.GetSection("Jwt").Get<JWTModel>();
-        _functionsGeneral = new GeneralFunctions(configuration);
-        _publicRoutes = configuration.GetSection("RoutePublic")
-                                     .Get<List<RouteConfig>>()
-                                     .Select(route => route.Route)
-                                     .ToList();
-    }
+        private readonly RequestDelegate _next;
+        private readonly JWTModel jwt;
+        private readonly GeneralFunctions _functionsGeneral;
+        private readonly List<string> _publicRoutes;
 
-    public async Task Invoke(HttpContext context, ResponsibleService responsibleService)
-    {
-        var path = context.Request.Path;
-        if (_publicRoutes.Contains(path))
+        public JwtMiddleware(RequestDelegate next, IConfiguration configuration)
         {
-            await _next(context);
-            return;
+            _next = next;
+            jwt = configuration.GetSection("Jwt").Get<JWTModel>();
+            _functionsGeneral = new GeneralFunctions(configuration);
+            _publicRoutes = configuration.GetSection("RoutePublic")
+                                         .Get<List<RouteConfig>>()
+                                         .Select(route => route.Route)
+                                         .ToList();
         }
 
-        var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-        if (string.IsNullOrEmpty(token))
+        public async Task Invoke(HttpContext context, ResponsibleService responsibleService)
         {
-            context.Response.StatusCode = 401;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync("{\"error\": \"Token no proporcionado.\"}");
-            return;
-        }
-
-        if (!AttachUserToContext(context, responsibleService, token))
-        {
-            context.Response.StatusCode = 403;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync("{\"error\": \"Token inválido o expirado.\"}");
-            return;
-        }
-
-        await _next(context);
-    }
-
-    private bool AttachUserToContext(HttpContext context, ResponsibleService responsibleService, string token)
-    {
-        try
-        {
-            var key = Encoding.UTF8.GetBytes(jwt.KeySecret);
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
+            var path = context.Request.Path;
+            if (_publicRoutes.Contains(path))
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ClockSkew = TimeSpan.Zero
-            }, out SecurityToken validatedToken);
+                await _next(context);
+                return;
+            }
 
-            var jwtToken = (JwtSecurityToken)validatedToken;
+            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            if (string.IsNullOrEmpty(token))
+            {
+                context.Response.StatusCode = 401;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync("{\"error\": \"Token no proporcionado mil.\"}");
+                return;
+            }
 
-            // ✅ Asegúrate que coincide con el nombre exacto del claim
-            var userEmail = jwtToken.Claims.First(x => x.Type == "Responsible").Value;
+            if (!AttachUserToContext(context, responsibleService, token))
+            {
+                context.Response.StatusCode = 403;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync("{\"error\": \"Token inválido o expirado.\"}");
+                return;
+            }
 
-            context.Items["responsible"] = responsibleService.GetByEmail(userEmail);
-            return true;
+            await _next(context);
         }
-        catch (Exception ex)
+
+        private bool AttachUserToContext(HttpContext context, ResponsibleService responsibleService, string token)
         {
-            _functionsGeneral.Addlog(ex.ToString());
-            return false;
+            try
+            {
+                var key = Encoding.UTF8.GetBytes(jwt.KeySecret);
+                var tokenHandler = new JwtSecurityTokenHandler();
+
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                var jwtToken = (JwtSecurityToken)validatedToken;
+
+                // ✅ Asegúrate que coincide con el nombre exacto del claim
+                var userEmail = jwtToken.Claims.First(x => x.Type == "Responsible").Value;
+
+                context.Items["responsible"] = responsibleService.GetByEmail(userEmail);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return false;
+            }
         }
     }
-}
 }

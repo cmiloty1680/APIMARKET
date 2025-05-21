@@ -128,7 +128,7 @@ namespace Apimarket.Controllers
         public async Task<IActionResult> ValidateToken([FromBody] TokenRequest model_tok)
         {
             if (string.IsNullOrEmpty(model_tok.Tok_Responsible))
-                return Unauthorized(new { message = "Token no proporcionado" });
+                return Unauthorized(new { message = "hola Token no proporcionado" });
 
             try
             {
