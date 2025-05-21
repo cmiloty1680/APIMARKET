@@ -1,4 +1,5 @@
-﻿using Apimarket.Functions;
+﻿using Apimarket.DTOs;
+using Apimarket.Functions;
 using Apimarket.model;
 using Apimarket.Models;
 using Apimarket.Services;
@@ -312,8 +313,8 @@ namespace Apimarket.Controllers
             }
         }
 
-        //[Authorize]
-        [HttpPut("UpdateResponsible")]
+        [Authorize]
+        [HttpPut("UpdateResponsible/{id}")]
         public IActionResult UpdateResponsible(Responsible responsible)
         {
 
@@ -334,6 +335,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+
         //[Authorize]
         [HttpDelete("DeleteResponsible/{id}")]
         public async Task<IActionResult> DeleteResponsible(int id)

@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -9,14 +10,16 @@ import axiosInstance from "@/lib/axiosInstance";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 
 function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
+
   const [nomImplement, setNomImplement] = useState("");
   const [tipImplement, setTipImplement] = useState("");
   const [fecIngImplement, setFecIngImplement] = useState("");
   const [vlrImplement, setVlrImplement] = useState("");
   const [exiImplement, setExiImplement] = useState("");
   const [id_Implement, setIdImplement] = useState(null);
-
-  const [isSubmitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [CantidadI, setCantidadI] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const [msSuccess, setMsSuccess] = useState("");
   const [isModalOpenFall, setModalOpenFall] = useState(false);
@@ -32,18 +35,19 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
       setVlrImplement(implement.vlr_Implement || "");
       setExiImplement(implement.exi_Implement || "");
       setIdImplement(implement.id_Implement);
+      setCantidadI(implement.can_Implement || "")
     }
   }, [implement]);
 
   async function handlerSubmit(event) {
     event.preventDefault();
-    setSubmitting(true);
+    setIsSubmitting(true);
 
     // Validación de campos obligatorios
     if (!nomImplement || !tipImplement || !fecIngImplement || !vlrImplement || !exiImplement) {
       setModalMessage("Todos los campos son requeridos.");
       setModalOpenFall(true);
-      setSubmitting(false);
+      setIsSubmitting(false);
       return;
     }
 
@@ -51,17 +55,17 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
     if (nomImplement.length > 25) {
       setModalMessage("El nombre del implemento debe ser menor de 25 caracteres.");
       setModalOpenFall(true);
-      setSubmitting(false);
+      setIsSubmitting(false);
       return;
     }
 
-    if (parseFloat(vlrImplement.replace(/,/g, "") || 0) > 100000) {
+if (parseFloat(String(vlrImplement).replace(/,/g, "") || 0) > 100000) {
       setModalMessage("El valor debe ser menor a $100,000.");
       setModalOpenFall(true);
-      setSubmitting(false);
+      setIsSubmitting(false);
       return;
     }
-    
+
 
     try {
       if (buttonForm === "Actualizar") {
@@ -72,6 +76,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
           fechIng_Implement: fecIngImplement,
           vlr_Implement: vlrImplement.replace(/\./g, ""), // sin puntos
           exi_Implement: exiImplement,
+          can_Implement: CantidadI,
         };
 
         const response = await axiosInstance.put(`/Api/Implement/UpdateImplement${id_Implement}`, updateImplement);
@@ -87,6 +92,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
           fechIng_Implement: fecIngImplement,
           vlr_Implement: vlrImplement,
           exi_Implement: exiImplement,
+          can_Implement: CantidadI,
         });
 
         if (response.status === 200) {
@@ -99,7 +105,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
       setModalMessage(error.response?.data?.message || "Error al conectar con el servidor.");
       setModalOpenFall(true);
     } finally {
-      setSubmitting(false);
+      setIsSubmitting(false);
     }
   }
 
@@ -117,6 +123,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
             </div>
           </div>
         </div>
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1">
@@ -125,6 +132,17 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
               type="text"
               value={nomImplement}
               onChange={(e) => setNomImplement(e.target.value)}
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              required
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-700">Cantidad</label>
+            <input
+              type="number"
+              value={CantidadI}
+              onChange={(e) => setCantidadI(e.target.value)}
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               required
             />
@@ -159,12 +177,36 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
             <label className="text-sm font-medium text-gray-700">Valor del Implemento</label>
             <input
               type="text"
-              value={vlrImplement}
-              onChange={(e) => setVlrImplement(e.target.value)}
+              placeholder="Valor de implemento"
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               required
+              value={vlrImplement || ""}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+
+                // Permitir borrar completamente el campo
+                if (inputValue === "") {
+                  setVlrImplement("");
+                  setError("");
+                  return;
+                }
+
+                // Verificar si contiene punto
+                if (inputValue.includes(".")) {
+                  setModalMessage("No se permiten decimales en el valor del implemento. Use solo números enteros.");
+                  setModalOpenFall(true); // Mostrar modal de error
+                  return; // No actualizar el campo
+                }
+
+                // Validar que solo contenga números
+                const onlyNumbers = inputValue.replace(/[^\d]/g, "");
+                setVlrImplement(onlyNumbers);
+                setError("");
+              }}
             />
           </div>
+
+
 
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Existencia</label>

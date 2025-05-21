@@ -29,6 +29,8 @@ namespace Apimarket.Model
         //[StringLength(25, ErrorMessage = "El campo es {0} tiene un limite de caracteres de {1}")]
         public string Exi_Implement { get; set; }
 
+        public int Can_Implement { get; set; }
+
 
     }
 }

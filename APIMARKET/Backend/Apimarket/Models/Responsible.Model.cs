@@ -36,6 +36,8 @@ namespace Apimarket.Models
         [Required(ErrorMessage = "El Apellido Es Requerido")]
         public string LasNam_Responsible { get; set; }
 
+        public string Est_Responsible { get; set; } = "activo";
+
 
         [Required(ErrorMessage = "El número de documento es requerido")]
         public int NumDoc_Responsible { get; set; }
@@ -85,4 +87,7 @@ namespace Apimarket.Models
         public string? Token { get; set; } = null;
         public string? NewPassword { get; set; } = null;
     }
+
+
+
 }

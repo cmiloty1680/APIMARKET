@@ -37,6 +37,7 @@ function ImplementPage() {
     "Fecha de Ingreso",
     "Valor del Implemento",
     "Existencia",
+    "Cantidad",
   ];
 
   const [implement, setImplement] = useState({
@@ -46,6 +47,7 @@ function ImplementPage() {
     fechIng_Implement: "",
     vlr_Implement: "",
     exi_Implement: "",
+    can_implement: "",
   });
 
   function formatDateToISO(dateString) {
@@ -70,6 +72,7 @@ function ImplementPage() {
           : "Sin descripción",    
           implement.vlr_Implement != null ? implement.vlr_Implement : "-",
           implement.exi_Implement || "-",
+          implement.can_Implement || "-",
         ]);
         setRegisImplement(data);
       }
@@ -101,7 +104,9 @@ function ImplementPage() {
         fechIng_Implement: formatDateToISO(rowData[3]),
         vlr_Implement: rowData[4],
         exi_Implement: rowData[5],
+        can_Implement: rowData[6]
       });
+      console.log(rowData);
     
     }
     else {
