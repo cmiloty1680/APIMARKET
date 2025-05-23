@@ -220,7 +220,7 @@ function StatsCards() {
               </div>
             </div>
           </div>
-        </div>
+  </div>
         </PrivateRoute>
   )
 }

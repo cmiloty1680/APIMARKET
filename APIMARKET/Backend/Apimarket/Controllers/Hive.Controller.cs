@@ -66,6 +66,23 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("healthy-percentage")]
+        public ActionResult<int> GetHealthyHivePercentage()
+        {
+            try
+            {
+                var percentage = _hiveService.GetHealthyHivePercentage();
+                return Ok(percentage);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+
         [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetTotalHives")]
         public IActionResult GetTotalHives()
