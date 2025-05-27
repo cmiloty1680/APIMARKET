@@ -60,11 +60,11 @@ namespace Apimarket.Models
         [EmailAddress(ErrorMessage = "Formato de correo electrónico inválido")]
         public string Emai_Responsible { get; set; }
 
-        public string Tok_Responsible { get; set; }
+        public string? Tok_Responsible { get; set; }
 
-        public byte Blockad { get; set; }
-        public string Hashed_Password { get; set; }
-        public string Salt { get; set; }
+        public byte? Blockad { get; set; }
+        public string? Hashed_Password { get; set; }
+        public string? Salt { get; set; }
 
         public int Int_Responsible { get; set; }
 
