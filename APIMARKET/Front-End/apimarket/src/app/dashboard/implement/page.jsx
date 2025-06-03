@@ -10,7 +10,9 @@ import FormImplement from "./FormImplement";
 import DynamicAlert from "@/components/utils/DynamicAlert";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 import { Flower } from "lucide-react";
+
 import PrivateRoute from "@/app/routes/privateRoute";
+
 
 
 function ImplementPage() {
@@ -106,7 +108,9 @@ function ImplementPage() {
         exi_Implement: rowData[5],
         can_Implement: rowData[6]
       });
+
       console.log(rowData);
+
     
     }
     else {

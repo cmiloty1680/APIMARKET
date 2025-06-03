@@ -17,9 +17,14 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
   const [vlrImplement, setVlrImplement] = useState("");
   const [exiImplement, setExiImplement] = useState("");
   const [id_Implement, setIdImplement] = useState(null);
+
+
+  const [isSubmitting, setSubmitting] = useState(false);
+
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [CantidadI, setCantidadI] = useState("");
+
   const [modalMessage, setModalMessage] = useState("");
   const [msSuccess, setMsSuccess] = useState("");
   const [isModalOpenFall, setModalOpenFall] = useState(false);
@@ -47,6 +52,27 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
     if (!nomImplement || !tipImplement || !fecIngImplement || !vlrImplement || !exiImplement) {
       setModalMessage("Todos los campos son requeridos.");
       setModalOpenFall(true);
+
+      setSubmitting(false);
+      return;
+    }
+
+    // Validaciones específicas
+    if (nomImplement.length > 25) {
+      setModalMessage("El nombre del implemento debe ser menor de 25 caracteres.");
+      setModalOpenFall(true);
+      setSubmitting(false);
+      return;
+    }
+
+    if (parseFloat(vlrImplement.replace(/,/g, "") || 0) > 100000) {
+      setModalMessage("El valor debe ser menor a $100,000.");
+      setModalOpenFall(true);
+      setSubmitting(false);
+      return;
+    }
+    
+
       setIsSubmitting(false);
       return;
     }
@@ -65,6 +91,7 @@ if (parseFloat(String(vlrImplement).replace(/,/g, "") || 0) > 100000) {
       setIsSubmitting(false);
       return;
     }
+
 
 
     try {
@@ -123,7 +150,9 @@ if (parseFloat(String(vlrImplement).replace(/,/g, "") || 0) > 100000) {
             </div>
           </div>
         </div>
+
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1">
@@ -177,6 +206,8 @@ if (parseFloat(String(vlrImplement).replace(/,/g, "") || 0) > 100000) {
             <label className="text-sm font-medium text-gray-700">Valor del Implemento</label>
             <input
               type="text"
+              value={vlrImplement}
+              onChange={(e) => setVlrImplement(e.target.value)}
               placeholder="Valor de implemento"
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               required
