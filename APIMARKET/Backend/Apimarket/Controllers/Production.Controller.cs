@@ -51,6 +51,44 @@ namespace Apimarket.Controllers
         }
 
 
+       [HttpGet("GetHiveUsagePercentage")]
+public ActionResult<int> GetHiveUsagePercentage()
+{
+    try
+    {
+        var percentage = _productionService.GetTotalHivesUsed();
+        return Ok(percentage);
+    }
+    catch (Exception ex)
+    {
+        _functionsGeneral.Addlog(ex.ToString());
+        return StatusCode(500, ex.ToString());
+    }
+}
+
+
+
+        [HttpGet("GetTotalproduction")]
+        public IActionResult GetTotalHives()
+        {
+            try
+            {
+                var total = _productionService.GetTotalHivesUsed();
+                return Ok(new { total });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+       
+
+       
+
+
+
 
         [Authorize]
         [HttpGet("GetProduction")]

@@ -21,6 +21,8 @@ namespace Apimarket.DTOs
 
         public int TotColm_Hive { get; set; }
 
+        public int Tot_Production { get; set; }
+
 
         //public int Tot_Production { get; set; }
 

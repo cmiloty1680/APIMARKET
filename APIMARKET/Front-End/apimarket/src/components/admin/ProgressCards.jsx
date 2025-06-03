@@ -9,7 +9,12 @@ import PrivateRoute from "@/app/routes/privateRoute"
 function ProgressCards() {
   const [totColm, setTotColm] = useState("")
   const [totColmInactiva, setTotColmInactiva] = useState("")
-  const [percentage, setPercentage] = useState(0)
+const [produccionTotal, setProduccionTotal] = useState(0);
+const [metaProduccion, setMetaProduccion] = useState(100);
+const [produccionPorcentaje, setProduccionPorcentaje] = useState(0);
+const [percentage, setPercentage] = useState(0);
+
+
 
   useEffect(() => {
     // Obtener el total de colmenas desde el backend
@@ -47,6 +52,24 @@ function ProgressCards() {
     }
     fetchPorcentaje()
   }, [])
+useEffect(() => {
+  async function fetchProduccion() {
+    try {
+      const response = await axiosInstance.get("/Api/Production/GetHiveUsagePercentage");
+      const totalProduccion = response.data;
+      setProduccionTotal(totalProduccion);
+
+      const porcentaje = metaProduccion > 0 ? (totalProduccion / metaProduccion) * 100 : 0;
+      setProduccionPorcentaje(porcentaje);
+    } catch (error) {
+      console.error("Error al obtener la producción:", error);
+    }
+  }
+
+  fetchProduccion();
+}, [metaProduccion]); // se recalcula si cambia la meta
+
+
 
   const cards = [
     {
@@ -60,17 +83,18 @@ function ProgressCards() {
         { num: totColmInactiva, label: "Inactivas", bg: "from-slate-50 to-slate-100/30", border: "border-slate-200" },
       ],
     },
-    {
-      title: "Producción Actual",
-      icon: <BarChart className="w-4 h-4 text-rose-600" />,
-      value: 68,
-      color: "#e11d48",
-      track: "#ffe4e6",
-      stats: [
-        { num: 68, label: "Kg Producidos", bg: "from-rose-50 to-rose-100/30", border: "border-rose-100" },
-        { num: 100, label: "Meta", bg: "from-slate-50 to-slate-100/30", border: "border-slate-200" },
-      ],
-    },
+  {
+  title: "Producción Actual",
+  icon: <BarChart className="w-4 h-4 text-rose-600" />,
+  value: produccionPorcentaje, // antes estaba en 68 fijo
+  color: "#e11d48",
+  track: "#ffe4e6",
+  stats: [
+    { num: produccionTotal, label: "Kg Producción", bg: "from-rose-50 to-rose-100/30", border: "border-rose-100" },
+    { num: metaProduccion, label: "Meta", bg: "from-slate-50 to-slate-100/30", border: "border-slate-200" },
+  ],
+},
+
     {
       title: "Miel Recolectada",
       icon: <Droplets className="w-4 h-4 text-amber-600" />,
