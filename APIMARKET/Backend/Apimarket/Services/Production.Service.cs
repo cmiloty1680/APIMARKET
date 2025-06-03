@@ -86,7 +86,46 @@ namespace Apimarket.Services
             _context.production.Update(production);
             _context.SaveChanges();
         }
+        public int GetTotalHoneyFrames()
+        {
+            return _context.production.Sum(p => (int?)p.CanCua_Production) ?? 0;
+        }
 
-    }
+        // Total de colmenas utilizadas en todas las producciones (TotColm_Hive)
+        public int GetTotalHivesUsed()
+        {
+            return _context.production.Sum(p => (int?)p.TotColm_Hive) ?? 0;
+        }
+
+        // Porcentaje de producción de una entrada específica (por Id_Production)
+        public int GetProductionPercentage(int idProduction)
+        {
+            var total = GetTotalHoneyFrames();
+            if (total == 0) return 0;
+
+            var prod = _context.production
+                .Where(p => p.Id_Production == idProduction)
+                .Select(p => p.CanCua_Production)
+                .FirstOrDefault();
+
+            return (int)((prod * 100.0) / total);
+        }
+
+        // Porcentaje de colmenas utilizadas en una producción específica
+        public int GetHiveUsagePercentage(int idProduction)
+        {
+            var totalHives = GetTotalHivesUsed();
+            if (totalHives == 0) return 0;
+
+            var hivesUsed = _context.production
+                .Where(p => p.Id_Production == idProduction)
+                .Select(p => p.TotColm_Hive)
+                .FirstOrDefault();
+
+            return (int)((hivesUsed * 100.0) / totalHives);
+        }
+    
+
+}
 }
 
