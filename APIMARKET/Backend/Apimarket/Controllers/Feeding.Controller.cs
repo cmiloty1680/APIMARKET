@@ -1,4 +1,5 @@
-﻿using Apimarket.DTOs;
+﻿
+using Apimarket.DTOs;
 using Apimarket.Functions;
 using Apimarket.Model;
 using Apimarket.Models;
@@ -27,15 +28,15 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
-
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPost("CreateFeeding")]
         public IActionResult AddP([FromBody] Feeding entity)
         {
             try
             {
 
-            _feedingServices.Add(entity);
-            return Ok(new { registrado = "Alimentacion creada con éxito." });
+                _feedingServices.Add(entity);
+                return Ok(new { registrado = "Alimentacion creada con éxito." });
             }
             catch (Exception ex)
             {
@@ -47,7 +48,7 @@ namespace Apimarket.Controllers
 
 
 
-
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetAllFeeding")]
 
 
@@ -56,23 +57,23 @@ namespace Apimarket.Controllers
             try
             {
 
-            var feeding = _feedingServices.GetAll().Select(p => new FeedingDTO
-            {
-                Id_Feeding = p.Id_Feeding,
-                Tip_Feeding = p.Tip_Feeding,
-                Fec_Feeding = p.Fec_Feeding,
-                Can_Feeding = p.Can_Feeding,
-                Vlr_Feeding = p.Vlr_Feeding,
-                Des_Hive = p.hive != null ? p.hive.Des_Hive : "Sin colmena"  ,   
-                Nam_Responsible = p.responsible.Nam_Responsible,
-                NumDoc_Responsible = p.responsible.NumDoc_Responsible,
-                Tip_Responsible = p.responsible.Tip_Responsible,
-                Id_Hive = p.hive.Id_Hive,
-                Id_Responsible = p.responsible.Id_Responsible
+                var feeding = _feedingServices.GetAll().Select(p => new FeedingDTO
+                {
+                    Id_Feeding = p.Id_Feeding,
+                    Tip_Feeding = p.Tip_Feeding,
+                    Fec_Feeding = p.Fec_Feeding,
+                    Can_Feeding = p.Can_Feeding,
+                    Vlr_Feeding = p.Vlr_Feeding,
+                    Des_Hive = p.hive != null ? p.hive.Des_Hive : "Sin colmena",
+                    Nam_Responsible = p.responsible.Nam_Responsible,
+                    NumDoc_Responsible = p.responsible.NumDoc_Responsible,
+                    Tip_Responsible = p.responsible.Tip_Responsible,
+                    Id_Hive = p.hive.Id_Hive,
+                    Id_Responsible = p.responsible.Id_Responsible
 
-            }).ToList();
+                }).ToList();
 
-            return Ok(feeding);
+                return Ok(feeding);
             }
             catch (Exception ex)
             {
@@ -81,7 +82,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetFeeding/{id}")]
         public IActionResult GetFeeding(int id)
         {
@@ -106,7 +107,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        //[Authorize]
+
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPut("UpdateFeeding/{id}")]
         public IActionResult UpdateFeeding(Feeding feeding)
         {
@@ -127,6 +129,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpDelete("DeleteFeeding")]
         public IActionResult DeleteFeeding(int id)
         {
@@ -207,6 +210,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("XLSX")]
         public IActionResult XlsxProtocol(string NombrePlantilla, string NombreReporte)
         {
@@ -234,6 +238,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -252,6 +257,8 @@ namespace Apimarket.Controllers
             }
 
         }
+
+        [Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {
@@ -273,6 +280,3 @@ namespace Apimarket.Controllers
         }
     }
 }
-
-
-

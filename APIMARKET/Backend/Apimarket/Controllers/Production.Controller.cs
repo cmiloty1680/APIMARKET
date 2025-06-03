@@ -26,6 +26,7 @@ namespace Apimarket.Controllers
             _hiveService = hiveService;
         }
 
+        [Authorize]
         [HttpPost("CreateProduction")]
         public IActionResult AddP([FromBody] Production entity)
         {
@@ -51,6 +52,7 @@ namespace Apimarket.Controllers
 
 
 
+        [Authorize]
         [HttpGet("GetProduction")]
         public IActionResult GetProduccion(int id)
         {
@@ -70,6 +72,8 @@ namespace Apimarket.Controllers
             }
         }
 
+
+        [Authorize]
         [HttpGet("GetsAllProduction")]
         public ActionResult <IEnumerable<ProductionDTO>> GetsAllProduction()
         {
@@ -100,7 +104,7 @@ namespace Apimarket.Controllers
         }
 
 
-
+        [Authorize]
         [HttpPut("UpdateProduction/{id}")]
         public IActionResult UpdateProduction(Production production)
         {
@@ -124,7 +128,7 @@ namespace Apimarket.Controllers
 
 
 
-
+        [Authorize]
         [HttpDelete("DeleteProduction")]
         public IActionResult DeleteProduction(int id)
         {
@@ -147,6 +151,7 @@ namespace Apimarket.Controllers
         }
 
 
+        [Authorize]
         [HttpGet("AllProductionInRange")]
         public ActionResult<IEnumerable<Production>> GetAllInRange(int start, int end)
         {
@@ -275,6 +280,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -293,6 +299,8 @@ namespace Apimarket.Controllers
             }
 
         }
+
+        [Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {

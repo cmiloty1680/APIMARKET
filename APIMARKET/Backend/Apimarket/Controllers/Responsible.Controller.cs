@@ -1,4 +1,5 @@
-﻿using Apimarket.Functions;
+﻿using Apimarket.DTOs;
+using Apimarket.Functions;
 using Apimarket.model;
 using Apimarket.Models;
 using Apimarket.Services;
@@ -51,7 +52,8 @@ namespace Apimarket.Controllers
                 var key = Encoding.UTF8.GetBytes(JWT.KeySecret);
                 var claims = new ClaimsIdentity(new[]
                 {
-            new Claim("Responsible", login.Emai_Responsible)
+            new Claim("Responsible", login.Emai_Responsible),
+            new Claim(ClaimTypes.Role, responsible.Tip_Responsible)
         });
 
 
@@ -73,9 +75,9 @@ namespace Apimarket.Controllers
                 return Ok(new
                 {
                     token = tokenString,
-                    username = responsible.Nam_Responsible,
+                    username = $"{responsible.Nam_Responsible} {responsible.LasNam_Responsible}",
                     email = responsible.Emai_Responsible,
-                    lastname = responsible.LasNam_Responsible
+                    rol = responsible.Tip_Responsible
                 });
             }
             catch (Exception ex)
@@ -122,11 +124,12 @@ namespace Apimarket.Controllers
             }
         }
 
+
         [HttpPost("ValidateToken")]
         public async Task<IActionResult> ValidateToken([FromBody] TokenRequest model_tok)
         {
             if (string.IsNullOrEmpty(model_tok.Tok_Responsible))
-                return Unauthorized(new { message = "Token no proporcionado" });
+                return Unauthorized(new { message = "hola Token no proporcionado" });
 
             try
             {
@@ -233,34 +236,36 @@ namespace Apimarket.Controllers
 
 
 
-        [Authorize]
-
-        [HttpGet("GetResponsible/{id}")]
-        public IActionResult GetResponsible(int id)
+        [HttpGet("Profile")]
+        public IActionResult GetProfile()
         {
             try
             {
+                var email = User.Claims.FirstOrDefault(c => c.Type == "Responsible")?.Value;
 
-                var responsible = _responsibleService.GetResponsible(id);
+                if (string.IsNullOrEmpty(email))
+                {
+                    return Unauthorized(new { message = "Token inválido o sin email." });
+                }
 
+                var responsible = _responsibleService.GetByEmail(email);
 
                 if (responsible == null)
                 {
-                    return NotFound("responsable no encontrado");
+                    return NotFound("Responsable no encontrado");
                 }
-
 
                 return Ok(responsible);
             }
             catch (Exception ex)
             {
-
                 _functionsGeneral.Addlog(ex.ToString());
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new { message = "Error del servidor", error = ex.Message });
             }
         }
 
 
+        [Authorize(Roles = "instructor, pasante")]
         [HttpGet("GetsAllResponsible")]
         public IActionResult GetResponsible()
         {
@@ -278,7 +283,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("GetsResponsible")]
         public ActionResult<IEnumerable<Responsible>> GetsResponsible(int start, int end)
         {
@@ -309,7 +314,7 @@ namespace Apimarket.Controllers
         }
 
         [Authorize]
-        [HttpPut("UpdateResponsible")]
+        [HttpPut("UpdateResponsible/{id}")]
         public IActionResult UpdateResponsible(Responsible responsible)
         {
 
@@ -330,7 +335,32 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         [Authorize]
+        [HttpPut("UpdateResponsibles/{id}")]
+        public IActionResult UpdateResponsibles(ResponsibleAdmin responsible)
+        {
+
+
+            if (responsible == null)
+            {
+                return BadRequest("Responsible no encontrado");
+            }
+
+            try
+            {
+                _responsibleService.Updates(responsible);
+                return Ok("Responsible actualizado exitosamente");
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+        //[Authorize]
         [HttpDelete("DeleteResponsible/{id}")]
         public async Task<IActionResult> DeleteResponsible(int id)
         {
@@ -350,8 +380,7 @@ namespace Apimarket.Controllers
             }
         }
 
-
-
+        //[Authorize]
         [HttpGet("PDF")]
         public IActionResult PdfResponsible()
         {
@@ -382,6 +411,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        //[Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -400,6 +431,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        //[Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {
@@ -418,6 +451,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        //[Authorize]
         [HttpPost("XLSX")]
         public IActionResult XlsxResponsible(string NombrePlantilla, string NombreReporte)
         {
@@ -440,6 +475,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        //[Authorize]
         [HttpPost("SQL")]
         public IActionResult SqlResponsible(string NombrePlantilla, string NombreReporte)
         {

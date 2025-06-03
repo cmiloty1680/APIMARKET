@@ -53,12 +53,27 @@ function CreateResponsible() {
       return;
     }
 
-  
+    function capitalizarNombreCompleto(texto) {
+      return texto
+        .toLowerCase()                            // todo en minúscula
+        .replace(/\s+/g, " ")                     // elimina espacios múltiples
+        .trim()                                   // quita espacios al inicio/final
+        .split(" ")                               // separa por palabra
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1)) // primera en mayúscula
+        .join(" ");                               // une de nuevo
+    }
+
+
+    const nombreFormateado = capitalizarNombreCompleto(nombre);
+    const apellidoFormateado = capitalizarNombreCompleto(apellido);
+
+
+
 
     try {
       const response = await axiosInstance.post("/Api/Responsible/CreateResponsible", {
-        nam_Responsible: nombre,
-        lasNam_Responsible: apellido,
+        nam_Responsible: nombreFormateado,
+        lasNam_Responsible: apellidoFormateado,
         numDoc_Responsible: documento,
         pho_Responsible: telefono,
         emai_Responsible: email,
@@ -66,7 +81,7 @@ function CreateResponsible() {
         hashed_Password: contraseña,
         salt: "", // Inicializamos como vacío
       });
-    
+
       if (response.status === 200) {
         setMsSuccess(response.data);
         setModalOpen(true);
@@ -91,7 +106,7 @@ function CreateResponsible() {
     } finally {
       setIsSubmitting(false);
     }
-  }    
+  }
 
   return (
     <>

@@ -11,6 +11,9 @@ import DynamicAlert from "@/components/utils/DynamicAlert";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 import { Flower } from "lucide-react";
 
+import PrivateRoute from "@/app/routes/privateRoute";
+
+
 
 function ImplementPage() {
   const TitlePage = "Implemento";
@@ -36,6 +39,7 @@ function ImplementPage() {
     "Fecha de Ingreso",
     "Valor del Implemento",
     "Existencia",
+    "Cantidad",
   ];
 
   const [implement, setImplement] = useState({
@@ -45,6 +49,7 @@ function ImplementPage() {
     fechIng_Implement: "",
     vlr_Implement: "",
     exi_Implement: "",
+    can_implement: "",
   });
 
   function formatDateToISO(dateString) {
@@ -69,6 +74,7 @@ function ImplementPage() {
           : "Sin descripción",    
           implement.vlr_Implement != null ? implement.vlr_Implement : "-",
           implement.exi_Implement || "-",
+          implement.can_Implement || "-",
         ]);
         setRegisImplement(data);
       }
@@ -100,7 +106,11 @@ function ImplementPage() {
         fechIng_Implement: formatDateToISO(rowData[3]),
         vlr_Implement: rowData[4],
         exi_Implement: rowData[5],
+        can_Implement: rowData[6]
       });
+
+      console.log(rowData);
+
     
     }
     else {
@@ -160,6 +170,7 @@ function ImplementPage() {
   };
 
   return (
+    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
@@ -236,6 +247,7 @@ function ImplementPage() {
         TitlesTable={titlesImplement}
       />
     </div>
+    </PrivateRoute>
   );
 }
 

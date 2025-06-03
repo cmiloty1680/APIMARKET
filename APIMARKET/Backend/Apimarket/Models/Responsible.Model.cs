@@ -36,6 +36,8 @@ namespace Apimarket.Models
         [Required(ErrorMessage = "El Apellido Es Requerido")]
         public string LasNam_Responsible { get; set; }
 
+        public string Est_Responsible { get; set; } = "activo";
+
 
         [Required(ErrorMessage = "El número de documento es requerido")]
         public int NumDoc_Responsible { get; set; }
@@ -43,7 +45,7 @@ namespace Apimarket.Models
 
         //[Required(ErrorMessage = "El tipo de responsible es requerido")]
 
-        public string Tip_Responsible { get; set; } = "pasante";
+        public string Tip_Responsible { get; set; } = "gestor";
 
         [Required(ErrorMessage = "El número de teléfono es requerido")]
         [Range(1000000000, 9999999999, ErrorMessage = "El número de teléfono debe tener exactamente 10 dígitos")]
@@ -58,11 +60,11 @@ namespace Apimarket.Models
         [EmailAddress(ErrorMessage = "Formato de correo electrónico inválido")]
         public string Emai_Responsible { get; set; }
 
-        public string Tok_Responsible { get; set; }
+        public string? Tok_Responsible { get; set; }
 
-        public byte Blockad { get; set; }
-        public string Hashed_Password { get; set; }
-        public string Salt { get; set; }
+        public byte? Blockad { get; set; }
+        public string? Hashed_Password { get; set; }
+        public string? Salt { get; set; }
 
         public int Int_Responsible { get; set; }
 
@@ -85,4 +87,19 @@ namespace Apimarket.Models
         public string? Token { get; set; } = null;
         public string? NewPassword { get; set; } = null;
     }
+
+    public class ResponsibleAdmin
+    {
+
+        [Key]
+        public int Id_Responsible { get; set; }
+        public string Tip_Responsible { get; set; } = "gestor";
+
+        public string Est_Responsible { get; set; } = "activo";
+
+
+    }
+
+
+
 }

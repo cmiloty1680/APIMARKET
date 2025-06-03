@@ -51,6 +51,7 @@ function FormResetPassword({ buttonForm = "Restablecer" }) {
           setTokenValidated(true)
         } else {
           setError("Token expirado o inválido.")
+          console.log(error.response?.data?.message || "Error al conectar con el servidor.")
         }
       } catch (error) {
         // console.alert("Error en la validación:", error.response?.data || error.message);
@@ -97,6 +98,7 @@ function FormResetPassword({ buttonForm = "Restablecer" }) {
       }
     } catch (error) {
       setError(error.response?.data?.message || "Error al conectar con el servidor.")
+
     } finally {
       setSubmitting(false)
     }

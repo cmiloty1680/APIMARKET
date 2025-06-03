@@ -2,6 +2,7 @@
 using Apimarket.Functions;
 using Apimarket.Models;
 using Apimarket.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -25,7 +26,7 @@ namespace Apimarket.Controllers
         }
 
 
-
+        [Authorize]
         [HttpPost("Create")]
         public IActionResult Create([FromBody] HoneyCollection entity)
         {
@@ -41,6 +42,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("GetAllHoneyCollection")]
         public ActionResult<IEnumerable<HoneyCollectionDTO>> GetAllHoneyCollection()
         {
@@ -78,6 +80,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("GetHoneyCollection/{id}")]
         public IActionResult Get(int id)
         {
@@ -98,6 +101,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("UpdateHoneyCollection/{id}")]
         public IActionResult Update([FromBody] HoneyCollection entity)
         {
@@ -113,6 +117,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("DeleteHoneyCollection")]
         public IActionResult Delete(int id)
         {

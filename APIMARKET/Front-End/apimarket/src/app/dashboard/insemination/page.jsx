@@ -12,6 +12,7 @@ import FormFertilization from "./FormFertilization"
 import { ArrowLeft } from 'lucide-react'
 import axiosInstance from "@/lib/axiosInstance";
 import { Button } from "@/components/ui/button"
+import PrivateRoute from "@/app/routes/privateRoute"
 
 // Definir las constantes para los tipos de vista
 const VIEW_MAIN = "main"
@@ -83,7 +84,7 @@ function ColmenaRecoleccion() {
     "Cantidad",
     "Responsable",
     "ID Colmena",
-    "ID Responsable",
+    "ID_Responsable",
     "Extracción"
   ]
   const titlesExtraccion = [
@@ -92,7 +93,7 @@ function ColmenaRecoleccion() {
     "Cantidad Extracción",
     "Responsable",
     "ID Recolección",
-    "ID Responsable",
+    "ID_Responsable",
     "Fertilización"
   ]
   const titlesFertilizacion = [
@@ -101,7 +102,7 @@ function ColmenaRecoleccion() {
     "Cantidad Fertilización",
     "Responsable",
     "ID Extracción",
-    "ID Responsable"
+    "ID_Responsable"
   ]
 
   function formatDateToISO(dateString) {
@@ -374,7 +375,7 @@ function ColmenaRecoleccion() {
     // delete: (r,i)=>{ setSelectedId(i+1); setIsModalOpen(true) }, 
   update:(r)=>{ updateTextTitleForm("Actualizar",r); openModalForm(true) }, custom:[{ name:"Fertilización", action:handleFertilizationClick }] }
   const actionsFertilizacion = 
-  { delete:(r)=>{ setSelectedFertilization(r[0]); setIsModalOpen(true) }, 
+  {  
   update:(r)=>{ updateTextTitleForm("Actualizar",r); openModalForm(true) } }
 
   const handleBackToMain       = () => setCurrentView(VIEW_MAIN)
@@ -391,6 +392,7 @@ function ColmenaRecoleccion() {
   }
 
   return (
+    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
     <div className="flex h-screen bg-gray-200">
       <Siderbar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
@@ -473,6 +475,7 @@ function ColmenaRecoleccion() {
       message={error||"Ha ocurrido un error inesperado"} 
       redirectPath="" />
     </div>
+    </PrivateRoute>
   )
 }
 

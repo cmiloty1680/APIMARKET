@@ -67,14 +67,14 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
             setModalOpenFall(true);
             return;
         }
-     
-        
+
         if (parseFloat(valor) > 100000) {
             setError("El valor debe ser menor  a $100,000.");
             setModalOpenFall(true);
             setSubmitting(false);
             return;
         }
+
         
         
           if (parseFloat(cantidad) > 100) {
@@ -84,7 +84,17 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
             return;
           }
          
-        
+  
+
+
+        if (parseFloat(cantidad) > 1000) {
+            setError("La cantidad debe ser menor a 1000 Kg.");
+            setModalOpenFall(true);
+            setSubmitting(false);
+            return;
+        }
+
+
 
         const formattedFecha = fecha ? new Date(fecha).toISOString().split('T')[0] : '';
 
@@ -236,26 +246,78 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                         </div>
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Cantidad (Kg)</label>
-                            <input type="number" placeholder="cantidad alimentacion"
-                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={cantidad || ""} onChange={(e) => setCantidad(e.target.value)} />
+                            <input
+                                type="text"
+                                placeholder="cantidad alimentación"
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                required
+                                value={cantidad || ""}
+                                onChange={(e) => {
+                                    const inputValue = e.target.value;
+
+                                    // Permitir borrar completamente el campo
+                                    if (inputValue === "") {
+                                        setCantidad("");
+                                        setError("");
+                                        return;
+                                    }
+
+                                    // Validar número decimal positivo
+                                    if (!/^\d*\.?\d*$/.test(inputValue)) {
+                                        setError("La cantidad debe ser un número válido (por ejemplo: 1.12 o 112).");
+                                        setModalOpenFall(true);
+                                        return;
+                                    }
+
+                                    setCantidad(inputValue);
+                                    setError("");
+                                }}
+                            />
+
                         </div>
+
+
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Valor</label>
+
                             <input type="text" placeholder="valor de alimentacion"
                                 className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={valor || ""} onChange={(e) => setValor(e.target.value)} />
+
+                            <input
+                                type="text"
+                                placeholder="valor de alimentacion"
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                required
+                                value={valor || ""}
+                                onChange={(e) => {
+                                    const inputValue = e.target.value;
+
+                                    if (inputValue.includes(".")) {
+                                        setError("No se permiten puntos en el valor. Use solo números enteros.");
+                                        setModalOpenFall(true); // abrir modal de error
+                                        return;
+                                    }
+
+                                    // Eliminar caracteres que no sean dígitos
+                                    const numericValue = inputValue.replace(/[^\d]/g, "");
+                                    setValor(numericValue);
+                                }}
+                            />
+
                         </div>
+
 
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Colmena</label>
                             <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={deshive || ""} onChange={(e) => setDesHive(e.target.value)}>
                                 <option value="">Seleccione</option>
                                 {hives
-                                .filter((hive) => hive.est_Hive === "activo")
-                                .map((hive) => (
-                                    <option key={hive.id_Hive} value={hive.id_Hive}>{hive.des_Hive}</option>
-                                ))}
+                                    .filter((hive) => hive.est_Hive === "activo")
+                                    .map((hive) => (
+                                        <option key={hive.id_Hive} value={hive.id_Hive}>{hive.des_Hive}</option>
+                                    ))}
                             </select>
                         </div>
                     </div>
@@ -265,9 +327,9 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                             <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={idResponsible || ""} onChange={(e) => setIdResponsible(e.target.value)}>
                                 <option value="">Seleccione</option>
                                 {responsibles
-                                .map((responsible) => (
-                                    <option key={responsible.id_Responsible} value={responsible.id_Responsible}> {responsible.nam_Responsible}</option>
-                                ))}
+                                    .map((responsible) => (
+                                        <option key={responsible.id_Responsible} value={responsible.id_Responsible}> {responsible.nam_Responsible}</option>
+                                    ))}
                             </select>
                         </div>
                         <div className="space-y-1">
@@ -275,9 +337,8 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                             <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={tipResponsible || ""} onChange={(e) => setTipResponsible(e.target.value)}>
                                 <option value="">Seleccione</option>
                                 <option value="pasante">pasante</option>
-                                <option value="aprendiz">aprendiz</option>
+                                <option value="gestor">gestor</option>
                                 <option value="instructor">instructor</option>
-                                <option value="investigadora">investigadora</option>
                             </select>
                         </div>
                     </div>
@@ -311,7 +372,12 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                 onOpenChange={(isOpen) => {
                     setModalOpenFall(isOpen); // Cambia el estado del modal
                     if (!isOpen) {
+
                         setModalOpenFall(isOpen);                    }
+
+                        setModalOpenFall(isOpen);
+                    }
+
                 }}
                 type="error"
                 message={error || "Ha ocurrido un error inesperado"}

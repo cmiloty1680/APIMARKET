@@ -324,3 +324,4 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
 }
 
 export default FormProtocol;
+

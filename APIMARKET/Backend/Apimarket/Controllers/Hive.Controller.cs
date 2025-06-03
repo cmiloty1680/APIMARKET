@@ -13,7 +13,7 @@ namespace Apimarket.Controllers
     //[Authorize]
     [ApiController]
     [Route("Api/[controller]")]
-   
+
     public class HiveController : ControllerBase
     {
         public IConfiguration _configuration { get; set; }
@@ -26,7 +26,8 @@ namespace Apimarket.Controllers
             _hiveService = hiveService;
 
         }
-        //[Authorize]
+
+        [Authorize]
         [HttpPost("Createhive")]
 
         public IActionResult AddC([FromBody] Hive entity)
@@ -41,8 +42,10 @@ namespace Apimarket.Controllers
                 _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
-           
+
         }
+
+        [Authorize]
         [HttpGet("GetHive")]
         public IActionResult GetHive(int id)
         {
@@ -63,6 +66,24 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("healthy-percentage")]
+        public ActionResult<int> GetHealthyHivePercentage()
+        {
+            try
+            {
+                var percentage = _hiveService.GetHealthyHivePercentage();
+                return Ok(percentage);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetTotalHives")]
         public IActionResult GetTotalHives()
         {
@@ -78,6 +99,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetTotalCuaMielHives")]
         public IActionResult GetTotalCuaMielHives()
         {
@@ -93,6 +115,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize(Roles = "instructor, pasante")]
         [HttpGet("GetTotalHivesInactivo")]
         public IActionResult GetTotalHivesInactivo()
         {
@@ -108,7 +131,7 @@ namespace Apimarket.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpGet("AllHive")]
 
 
@@ -126,6 +149,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("UpdateHive/{id}")]
         public IActionResult UpdateFeeding(Hive hive)
         {
@@ -146,6 +170,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("DeleteHive")]
         public IActionResult DeleteHive(int id)
         {
@@ -166,6 +191,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpGet("AllHiveInRange")]
         public ActionResult<IEnumerable<Hive>> GetAllInRange(int start, int end)
         {
@@ -195,6 +222,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("PDF")]
         public IActionResult PdfProduction(string NombrePlantilla, string NombreReporte)
         {
@@ -222,6 +250,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpPost("SQL")]
         public IActionResult SqlProduction(string NombrePlantilla, string NombreReporte)
         {
@@ -249,6 +279,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpPost("XLSX")]
         public IActionResult XlsxHive(string NombrePlantilla, string NombreReporte)
         {
@@ -276,6 +308,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -294,6 +327,8 @@ namespace Apimarket.Controllers
             }
 
         }
+
+        [Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {

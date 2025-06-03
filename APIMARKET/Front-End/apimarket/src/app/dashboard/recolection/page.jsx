@@ -1,3 +1,4 @@
+
 "use client";
 import NavPrivate from "@/components/navs/NavPrivate";
 import ContentPage from "@/components/utils/ContentPage";
@@ -9,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "@/lib/axiosInstance";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 import { Droplet } from "lucide-react";
+import PrivateRoute from "@/app/routes/privateRoute";
 
 
 function HoneyCollection() {
@@ -176,13 +178,14 @@ function HoneyCollection() {
 
   return (
     <>
+      <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
+
       <div className="flex h-screen bg-gray-100">
         <Sidebar />
         <div className="flex flex-col flex-1 overflow-hidden">
           <NavPrivate TitlePage={TitlePage} Icon={<Droplet/>}/>
-          <main className="flex-1 overflow-x-hidden overflow-y-auto  bg-background">
-            <div className="container mx-auto px-6 py-8 mt-10">
-            <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+            <div className="container mx-auto px-6 py-8 border-4 mt-10 bg-white">
               <div className="relative p-6">
               {error && (
                   <div className="bg-red-500 text-white p-2 rounded mb-4">
@@ -202,7 +205,7 @@ function HoneyCollection() {
 
                     showAddButton={true} // 👈 aquí indicas que NO lo muestre
                   />
-              </div>
+             
               </div>
             </div>
           </main>
@@ -238,6 +241,7 @@ function HoneyCollection() {
         Data={regisHoney}
         TitlesTable={titlesHoney}
       />
+      </PrivateRoute>
     </>
   );
 }

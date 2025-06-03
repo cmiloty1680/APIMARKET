@@ -106,12 +106,43 @@ namespace Apimarket.Services
             }
         }
 
-        // Actualiza una producción existente
-        public void Update(Responsible responsible)
+        // Actualiza un responsible existente
+        public void Update(Responsible updated)
         {
-            _context.responsible.Update(responsible);
+            var existing = _context.responsible
+                .FirstOrDefault(r => r.Id_Responsible == updated.Id_Responsible);
+
+            if (existing == null)
+                throw new Exception("Responsable no encontrado");
+
+            // Actualizar solo los campos necesarios
+            existing.Nam_Responsible = updated.Nam_Responsible;
+            existing.LasNam_Responsible = updated.LasNam_Responsible;
+            existing.NumDoc_Responsible = updated.NumDoc_Responsible;
+            existing.Pho_Responsible = updated.Pho_Responsible;
+            existing.Emai_Responsible = updated.Emai_Responsible;
+            existing.Est_Responsible = updated.Est_Responsible;
+            existing.Tip_Responsible = updated.Tip_Responsible;
+
             _context.SaveChanges();
         }
+
+        public void Updates(ResponsibleAdmin updated)
+        {
+            var existing = _context.responsible
+                .FirstOrDefault(r => r.Id_Responsible == updated.Id_Responsible);
+
+            if (existing == null)
+                throw new Exception("Responsable no encontrado");
+
+            // Actualizar solo los campos necesarios
+            existing.Est_Responsible = updated.Est_Responsible;
+            existing.Tip_Responsible = updated.Tip_Responsible;
+
+            _context.SaveChanges();
+        }
+
+
         public async Task<bool> DeleteResponsible(int id)
         {
             var responsible = await _context.responsible.FindAsync(id);

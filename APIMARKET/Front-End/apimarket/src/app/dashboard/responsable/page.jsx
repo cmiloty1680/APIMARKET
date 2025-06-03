@@ -5,18 +5,26 @@ import Sidebar from "@/components/navs/Siderbar";
 import axiosInstance from "@/lib/axiosInstance";
 import React, { useState, useEffect } from "react";
 import ModalDialog from "@/components/utils/ModalDialog";
-import ConfirmationModal from "@/components/utils/ConfirmationModal";
+import PrivateRoute from "@/app/routes/privateRoute";
+import { Users } from "lucide-react";
+import FormResponsible from "./FormResponsible";
+import { date } from "zod";
 
 
 function
   ResponsiblePage() {
-  const TitlePage = "Responsable";
+  const TitlePage = "Responsables";
   const eliminar = "Responsable";
   const [regisResponsible, setRegisResponsible] = useState([]);
   const [selectedResponsible, setSelectedResponsible] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
   
+  const [isOpen, setIsOpen] = useState(false);
+  const [action, setAction] = useState("Registrar");
+  const [buttonForm, setButtonForm] = useState("Registrar");
+
+
   const titlesResponsable = [
     "Codigo",
     "Nombre",
@@ -24,100 +32,122 @@ function
     "N° documento",
     "Tipo",
     "Telefono",
-    "Correo"
+    "Correo",
+    "Estado"
 
   ];
-  
+
+  const [responsible, setResponsible] = useState({
+    est_Responsible: "",
+    tip_Responsible: "",
+  });
+
+  async function fetchResponsibles() {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.get("/Api/Responsible/GetsAllResponsible");
+      if (response.status === 200) {
+        const data = response.data.map((responsible) => [
+          responsible.id_Responsible || "-",
+          responsible.nam_Responsible || "-",
+          responsible.lasNam_Responsible || "-",
+          responsible.numDoc_Responsible != null ? responsible.numDoc_Responsible : "-",
+          responsible.tip_Responsible != null ? responsible.tip_Responsible : "-",
+          responsible.pho_Responsible != null ? responsible.pho_Responsible : "-",
+          responsible.emai_Responsible != null ? responsible.emai_Responsible : "-",
+          responsible.est_Responsible || "-",
+
+        ]);
+        setRegisResponsible(data);
+      }
+    } catch (error) {
+      console.error("Error al obtener la colmenas:", error);
+      setError("No se pudo cargar la colmenas.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
-    const fetchResponsibles = async () => {
-      try {
-        const response = await axiosInstance.get("/Api/Responsible/GetsAllResponsible");
-        setRegisResponsible(response.data);
-      } catch (error) {
-        console.error("Error al obtener la lista de responsables:", error);
-      }
-    };
-
     fetchResponsibles();
   }, []);
 
-  const formattedData = regisResponsible.map((responsible) => [
-    responsible.id_Responsible || "-",
-    responsible.nam_Responsible || "-",
-    responsible.lasNam_Responsible || "-",
-    responsible.numDoc_Responsible != null ? responsible.numDoc_Responsible : "-",
-    responsible.tip_Responsible != null ? responsible.tip_Responsible : "-",
-    responsible.pho_Responsible != null ? responsible.pho_Responsible : "-",
-    responsible.emai_Responsible != null ? responsible.emai_Responsible : "-",
+  const handleDataUpdated = () => {
+    fetchResponsibles(); // Refresca los datos de la tabla
+  };
 
-  ]);
+  const updateTextTitleForm = (texto, rowData) => {
+    setAction(texto);
+    setButtonForm(texto);
+    setResponsible({});
+
+    if (texto === "Actualizar"){
+      setResponsible({
+        id_Responsible: rowData[0],
+        nam_Responsible: rowData[1],
+        lasNam_Responsible: rowData[2],
+        tip_Responsible: rowData[4],
+        est_Responsible: rowData[7],
+      });
+      console.log(rowData);
+    } else {
+      console.log("registrando");
+    }
+  }
 
   // Función para abrir el modal
   const openModalForm = (isOpen) => {
-    selectedResponsible(null);
+    setSelectedResponsible(null);
     setIsOpen(isOpen);
   };
 
-  //Eliminar Responsables
-  async function deleteResponsible() {
-    if(!selectedResponsible){
-      alert("error debe seleccionar un responsable");
-      return;
-    }
-    try {
-      await axiosInstance.delete(`/Api/Hive/DeleteHive?id=${selectedResponsible}`)
-      fetchResponsibles();
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error("Error al eliminar el responsable", error);
-    }
-  }
+
   const actions = {
-    delete: (rowData) => {
-      setSelectedResponsible(rowData[0]);
-      setIsModalOpen(true);
+    update: (rowData) => {
 
-
-    },
-    update: (rowData) =>{
-      
     }
   }
 
   return (
     <>
-      <div className="flex h-screen bg-gray-100">
-        <Sidebar />
-        <div className="flex flex-col flex-1 overflow-hidden">
-          <NavPrivate />
-          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
-            <div className="container mx-auto px-6 py-8 border-4 mt-10 bg-white">
-              <div className="relative p-6">
-                <ContentPage
-                  TitlePage={TitlePage}
-                  Data={formattedData}
-                  TitlesTable={titlesResponsable}
-                  Actions={actions}
-                  tableName="Responsables"
+      <PrivateRoute requiredRole={["instructor", "pasante"]}>
+        <div className="flex h-screen bg-gray-200">
+          <Sidebar />
+          <div className="flex flex-col flex-1 overflow-hidden text-white">
+            <NavPrivate TitlePage={TitlePage} Icon={<Users />} />
+            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
+              <div className="container mx-auto px-6 py-8 mt-10">
+                <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
+                  <div className="relative p-6">
+                    <ContentPage
+                      Data={regisResponsible}
+                      TitlesTable={titlesResponsable}
+                      Actions={actions}
+                      updateTextTitleForm={updateTextTitleForm}
+                      openModalForm={openModalForm}
+                      action={action}
+                      ignorar={[]}
+                      tableName="Responsables"
 
-                />
+                    />
+                  </div>
+                </div>
               </div>
-
-            </div>
-          </main>
+            </main>
+          </div>
+          <ModalDialog
+            isOpen={isOpen}
+            setIsOpen={openModalForm}
+            FormPage={<FormResponsible
+              responsible={responsible}
+              buttonForm={buttonForm}
+              onDataUpdated={handleDataUpdated}
+              closeModal={openModalForm} />
+            }
+            action={action}
+          />
         </div>
-        {/* <ModalDialog
-        isOpen={isOpen}
-        setIsOpen={openModalForm}
-        /> */}
-         <ConfirmationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={deleteResponsible}
-        DeleteTitle={eliminar}
-      />
-      </div>
+      </PrivateRoute>
     </>
   );
 }

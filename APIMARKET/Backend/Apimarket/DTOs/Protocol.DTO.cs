@@ -1,7 +1,6 @@
 ﻿
 
 
-
 namespace Apimarket.DTOs
 {
     public class protocolDTO
@@ -14,3 +13,5 @@ namespace Apimarket.DTOs
         public IFormFile Archivo_Protocol { get; set; } // Aquí va el archivo
     }
 }
+
+

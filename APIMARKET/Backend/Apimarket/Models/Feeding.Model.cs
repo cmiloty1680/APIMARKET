@@ -1,4 +1,5 @@
-﻿using Apimarket.Models;
+﻿
+using Apimarket.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -43,3 +44,4 @@ namespace Apimarket.Model
 
     }
 }
+

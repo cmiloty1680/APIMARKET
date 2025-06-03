@@ -8,12 +8,12 @@ function WelcomeSection() {
   return (
     <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-8 min-h-screen overflow-auto">
       <div className="max-w-7xl mx-auto">
-        <StatsCards />
+                <ProgressCards />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <ProductionAnalytics />
           <AlertsSection />
         </div>
-        <ProgressCards />
+        <StatsCards />
       </div>
     </div>
   )

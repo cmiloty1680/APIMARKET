@@ -2,52 +2,54 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { 
-  Hexagon, 
+import {
+  Hexagon,
   Home,
-  Users, 
-  Droplet, 
-  FlaskRoundIcon as Flask, 
-  Clipboard, 
-  Apple, 
-  Eye, 
-  PenToolIcon as Tool, 
-  Bug, 
-  Scissors, 
-  Zap, 
-  Sprout, 
-  Menu, 
-
-  X 
+  Users,
+  Droplet,
+  FlaskRoundIcon as Flask,
+  Clipboard,
+  Flower,
+  Eye,
+  PenToolIcon as Tool,
+  Bug,
+  Sprout,
+  Menu,
+  X,
 } from "lucide-react";
-import { Flower } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-
-
-const menuItems = [
-  { href: "/dashboard", icon: Home, label: "Inicio" },
-  { href: "/dashboard/hive", icon: Hexagon, label: "Colmena" },
-  { href: "/dashboard/production", icon: Droplet, label: "Producción" },
-  { href: "/dashboard/recolection", icon: Flask, label: "Recoleción Miel" },
-  { href: "/dashboard/protocol", icon: Clipboard, label: "Protocolo" },
-  { href: "/dashboard/feeding", icon: Flower, label: "Alimentación" },
-  { href: "/dashboard/review", icon: Eye, label: "Revisión" },
-  { href: "/dashboard/implement", icon: Tool, label: "Implemento" },
-  { href: "/dashboard/race", icon: Bug, label: "Raza" },
-  // { href: "/dashboard/collecdrone", icon: Scissors, label: "Recolección" },
-  // { href: "/dashboard/extractions", icon: Flask, label: "Extracción" },
-  // { href: "/dashboard/fertilizations", icon: Sprout, label: "Fertilización" },
-  { href: "/dashboard/insemination", icon: Sprout, label: "inseminación" },
-  { href: "/dashboard/responsable", icon: Users, label: "Responsable" },
-];
+import { useAuth } from "@/app/context/authContext";
 
 function Siderbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  const menuItems = [
+    { href: "/dashboard", icon: Home, label: "Inicio" },
+    { href: "/dashboard/hive", icon: Hexagon, label: "Colmena" },
+    { href: "/dashboard/production", icon: Droplet, label: "Producción" },
+    { href: "/dashboard/recolection", icon: Flask, label: "Recoleción Miel" },
+    { href: "/dashboard/protocol", icon: Clipboard, label: "Protocolo" },
+    { href: "/dashboard/feeding", icon: Flower, label: "Alimentación" },
+    { href: "/dashboard/review", icon: Eye, label: "Revisión" },
+    { href: "/dashboard/implement", icon: Tool, label: "Implemento" },
+    { href: "/dashboard/race", icon: Bug, label: "Raza" },
+    { href: "/dashboard/insemination", icon: Sprout, label: "inseminación" },
+  ];
+
+  // Agrega el ítem "Responsable" solo si el rol es instructor o pasante
+  if (user?.rol === "instructor" || user?.rol === "pasante") {
+    menuItems.push({
+      href: "/dashboard/responsable",
+      icon: Users,
+      label: "Responsable",
+    });
+  }
 
   return (
     <div
@@ -76,6 +78,7 @@ function Siderbar() {
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
+
       <nav className="flex-1 overflow-y-auto py-4">
         <ul className="space-y-1 px-3">
           {menuItems.map((item) => (
@@ -97,8 +100,6 @@ function Siderbar() {
                   )}
                 />
                 {isOpen && <span>{item.label}</span>}
-
-
               </Link>
             </li>
           ))}

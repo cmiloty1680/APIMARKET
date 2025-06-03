@@ -15,21 +15,28 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
   const [Nalza, setNalza] = useState("");
   const [CuaMiel, setCuaMiel] = useState("");
   const [error, setError] = useState("");
-  const [isSubmitting, setSubmitting] = useState(false);
   const [msSuccess, setMsSuccess] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpenFall, setModalOpenFall] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [id_Hive, setIdHive] = useState(null);
 
 
   async function handlerSubmit(event) {
     event.preventDefault();
-    setSubmitting(true);
+    setIsSubmitting(true);
 
     if (!estado || !descripcion || !Ncuadro || !Nalza) {
       setError("Por favor, complete todos los campos.");
-      setSubmitting(false);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (descripcion.length > 100) {
+      setError("La descripción solo puede tener un máximo de 100 caracteres.");
+      setModalOpenFall(true);
+      setIsSubmitting(false);
       return;
     }
 
@@ -75,7 +82,7 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
       setModalOpenFall(true)
     }
     finally {
-      setSubmitting(false);
+      setIsSubmitting(false);
     }
   }
 
@@ -129,7 +136,7 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
               type="text"
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               id="descripcion"
-              placeholder="Ingrese una descripción (máximo 50 caracteres)"
+              placeholder="Ingrese una descripción (máximo 100 caracteres)"
               required
               name="descripcion"
               value={descripcion || ""}
@@ -164,7 +171,7 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
                 type="number"
                 className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
                 id="Ncuadro"
-                placeholder="Ingrese N° cuadros"
+                placeholder="Ingrese N° cuadros (2)"
                 required
                 name="Ncuadro"
                 value={Ncuadro || ""}
@@ -183,7 +190,7 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
                 type="number"
                 className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
                 id="Nalza"
-                placeholder="Ingrese N° alzas"
+                placeholder="Ingrese N° alzas (2)"
                 required
                 name="Nalza"
                 value={Nalza || ""}
@@ -198,7 +205,7 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
                 type="number"
                 className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
                 id="CuaMiel"
-                placeholder="Ingrese Cuadros de Miel"
+                placeholder="Ingrese Cuadros de Miel "
                 required
                 name="CuaMiel"
                 value={CuaMiel || ""}
@@ -241,8 +248,9 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
         onOpenChange={(isOpen) => {
           setModalOpenFall(isOpen); // Cambia el estado del modal
           if (!isOpen) {
-            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+            setModalOpenFall(isOpen); // Mantén solo esta línea
           }
+          
         }}
         type="error"
         message={error || "Ha ocurrido un error inesperado"}

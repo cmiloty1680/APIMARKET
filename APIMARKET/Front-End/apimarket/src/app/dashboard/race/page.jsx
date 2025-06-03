@@ -11,6 +11,7 @@ import DynamicAlert from "@/components/utils/DynamicAlert";
 import { ShieldCheck, AlertCircle } from "lucide-react";
 import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 import { Bug } from "lucide-react";
+import PrivateRoute from "@/app/routes/privateRoute";
 
 function RacePage() {
   const TitlePage = "Raza";
@@ -130,6 +131,8 @@ function RacePage() {
   };
 
   return (
+    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
+
     <div className="flex h-screen bg-gray-200">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden text-white">
@@ -208,6 +211,7 @@ function RacePage() {
         TitlesTable={titlesRaza}
       />
     </div>
+    </PrivateRoute>
   );
 }
 

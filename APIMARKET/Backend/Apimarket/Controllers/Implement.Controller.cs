@@ -1,4 +1,5 @@
-﻿using Apimarket.Functions;
+﻿
+using Apimarket.Functions;
 using Apimarket.Model;
 using Apimarket.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +23,7 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
+        [Authorize]
         [HttpPost("CreateImplement")]
         public IActionResult AddP([FromBody] Implement entity)
         {
@@ -51,16 +53,16 @@ namespace Apimarket.Controllers
         {
             try
             {
-          
+
                 var implement = _implementServices.GetImplement(id);
 
-             
+
                 if (implement == null)
                 {
                     return NotFound("Implemento no encontrado");
                 }
 
-               
+
                 return Ok(implement);
             }
             catch (Exception ex)
@@ -72,6 +74,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("GetsImplement")]
         public IActionResult GetsAllImplement()
         {
@@ -89,6 +92,7 @@ namespace Apimarket.Controllers
         }
 
 
+        [Authorize]
         [HttpPut("UpdateImplement{id}")]
         public IActionResult UpdateImplement(Implement implement)
         {
@@ -110,6 +114,7 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("DeleteImplement")]
         public IActionResult DeleteImplement(int id)
         {
@@ -118,7 +123,7 @@ namespace Apimarket.Controllers
                 var result = _implementServices.GetImplement(id);
                 if (result == null)
                 {
-                    return NotFound("La Implemento con ID"  + id +  "no se encontro.");
+                    return NotFound("La Implemento con ID" + id + "no se encontro.");
 
                 }
                 _implementServices.DeleteImplement(id);
@@ -173,7 +178,7 @@ namespace Apimarket.Controllers
         {
             try
             {
-                var implements= _implementServices.GetAll();
+                var implements = _implementServices.GetAll();
 
 
                 string RutaPlantilla = @"C:\ArchivoFile\cateo.rtf" + NombrePlantilla;
@@ -222,6 +227,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [Authorize]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -240,6 +247,8 @@ namespace Apimarket.Controllers
             }
 
         }
+
+        [Authorize]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {
@@ -258,24 +267,11 @@ namespace Apimarket.Controllers
 
             }
 
-        
 
-    }
+
+        }
 
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
