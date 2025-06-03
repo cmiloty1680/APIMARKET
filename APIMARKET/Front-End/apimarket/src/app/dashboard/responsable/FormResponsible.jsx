@@ -10,8 +10,13 @@ function FormResponsible({ buttonForm, responsible, onDataUpdated, closeModal })
     const router = useRouter();
     const [estResponsible, setEstResponsible] = useState("");
     const [tipResponsible, setTipResponsible] = useState("");
-    const [phoResponsible, setPhoResponsible] = useState("");
-    const [emaiResponsible, setEmaiResponsible] = useState("");
+    const [NomResponsible, setNomResponsible] = useState("");
+    const [ApeResponsible, setApeResponsible] = useState("");
+
+    
+    const [telefono, setTelefono] = useState("");
+    const [email, setEmail] = useState("");
+
     const [error, setError] = useState("");
     const [msSuccess, setMsSuccess] = useState("");
     const [isModalOpen, setModalOpen] = useState(false);
@@ -25,18 +30,21 @@ function FormResponsible({ buttonForm, responsible, onDataUpdated, closeModal })
         setIsSubmitting(true);
 
         // Validaciones básicas
-        if (!estResponsible || !tipResponsible || !phoResponsible || !emaiResponsible) {
+        if (!estResponsible || !tipResponsible) {
             setError("Por favor, complete todos los campos.");
             setIsSubmitting(false);
             return;
         }
 
-        // Validar email básico (puedes mejorar esta validación si quieres)
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(emaiResponsible)) {
-            setError("Ingrese un correo electrónico válido.");
-            setIsSubmitting(false);
-            return;
+
+        const original = {
+            nam_Responsible: NomResponsible,
+            lasNam_Responsible: ApeResponsible,
+            pho_Responsible: parseInt(telefono, 10), 
+            emai_Responsible: email,
+            est_Responsible: estResponsible,
+            tip_Responsible: tipResponsible,
+
         }
 
         try {
@@ -45,12 +53,10 @@ function FormResponsible({ buttonForm, responsible, onDataUpdated, closeModal })
                     id_Responsible: idResponsible,
                     est_Responsible: estResponsible,
                     tip_Responsible: tipResponsible,
-                    pho_Responsible: phoResponsible,
-                    emai_Responsible: emaiResponsible,
                 };
 
                 const response = await axiosInstance.put(
-                    `/Api/Responsible/UpdateResponsible/${idResponsible}`,
+                    `/Api/Responsible/UpdateResponsibles/${idResponsible}`,
                     updateResponsible
                 );
 
@@ -61,10 +67,10 @@ function FormResponsible({ buttonForm, responsible, onDataUpdated, closeModal })
                 }
             } else if (buttonForm === "Registrar") {
                 const response = await axiosInstance.post("/Api/Responsible/CreateResponsible", {
+                    
                     est_Responsible: estResponsible,
                     tip_Responsible: tipResponsible,
-                    pho_Responsible: phoResponsible,
-                    emai_Responsible: emaiResponsible,
+
                 });
 
                 if (response.status === 200) {
@@ -85,9 +91,9 @@ function FormResponsible({ buttonForm, responsible, onDataUpdated, closeModal })
     const setDataResponsibleForUpdate = () => {
         setEstResponsible(responsible.est_Responsible);
         setTipResponsible(responsible.tip_Responsible);
-        setPhoResponsible(responsible.pho_Responsible);
-        setEmaiResponsible(responsible.emai_Responsible);
         setIdResponsible(responsible.id_Responsible);
+        setNomResponsible(responsible.nam_Responsible);
+        setApeResponsible(responsible.lasNam_Responsible);
     };
 
     useEffect(() => {
@@ -118,6 +124,34 @@ function FormResponsible({ buttonForm, responsible, onDataUpdated, closeModal })
                 {/* Mensajes de error o éxito */}
                 {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
                 {msSuccess && <p className="text-green-500 mb-4 text-sm">{msSuccess}</p>}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    <div className="space-y-1">
+                        <label htmlFor="phoResponsible" className="text-sm font-medium text-gray-700">
+                            Nombre
+                        </label>
+                        <p className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm bg-gray-100">
+                            {NomResponsible}
+                        </p>
+
+                    </div>
+
+                    <div className="space-y-1">
+                        <label htmlFor="emaiResponsible" className="text-sm font-medium text-gray-700">
+                            Apellido
+                        </label>
+                        <p className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm bg-gray-100">
+                            {ApeResponsible}
+                        </p>
+
+
+                    </div>
+                </div>
+
+
+                <div className="my-4" />
+
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Estado */}
@@ -158,44 +192,8 @@ function FormResponsible({ buttonForm, responsible, onDataUpdated, closeModal })
 
                 </div>
 
-                <div className="my-4" />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                    {/* Teléfono */}
-                    <div className="space-y-1">
-                        <label htmlFor="phoResponsible" className="text-sm font-medium text-gray-700">
-                            Teléfono
-                        </label>
-                        <input
-                            type="tel"
-                            id="phoResponsible"
-                            required
-                            placeholder="Ingrese teléfono"
-                            className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
-                            value={phoResponsible}
-                            onChange={(e) => setPhoResponsible(e.target.value)}
-                        />
-                    </div>
-
-                    {/* Email */}
-                    <div className="space-y-1">
-                        <label htmlFor="emaiResponsible" className="text-sm font-medium text-gray-700">
-                            Correo electrónico
-                        </label>
-                        <input
-                            type="email"
-                            id="emaiResponsible"
-                            required
-                            placeholder="Ingrese correo electrónico"
-                            className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
-                            value={emaiResponsible}
-                            onChange={(e) => setEmaiResponsible(e.target.value)}
-                        />
-                    </div>
-
-                    {/* Botón Guardar */}
-                </div>
                 <div className="flex justify-end pt-3">
                     <Button
                         disabled={isSubmitting}

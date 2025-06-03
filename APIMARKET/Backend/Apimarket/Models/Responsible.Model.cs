@@ -88,6 +88,18 @@ namespace Apimarket.Models
         public string? NewPassword { get; set; } = null;
     }
 
+    public class ResponsibleAdmin
+    {
+
+        [Key]
+        public int Id_Responsible { get; set; }
+        public string Tip_Responsible { get; set; } = "gestor";
+
+        public string Est_Responsible { get; set; } = "activo";
+
+
+    }
+
 
 
 }

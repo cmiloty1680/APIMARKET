@@ -336,6 +336,29 @@ namespace Apimarket.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPut("UpdateResponsibles/{id}")]
+        public IActionResult UpdateResponsibles(ResponsibleAdmin responsible)
+        {
+
+
+            if (responsible == null)
+            {
+                return BadRequest("Responsible no encontrado");
+            }
+
+            try
+            {
+                _responsibleService.Updates(responsible);
+                return Ok("Responsible actualizado exitosamente");
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.Message);
+            }
+        }
+
 
         //[Authorize]
         [HttpDelete("DeleteResponsible/{id}")]

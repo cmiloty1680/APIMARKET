@@ -8,6 +8,7 @@ import ModalDialog from "@/components/utils/ModalDialog";
 import PrivateRoute from "@/app/routes/privateRoute";
 import { Users } from "lucide-react";
 import FormResponsible from "./FormResponsible";
+import { date } from "zod";
 
 
 function
@@ -17,6 +18,8 @@ function
   const [regisResponsible, setRegisResponsible] = useState([]);
   const [selectedResponsible, setSelectedResponsible] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+  
   const [isOpen, setIsOpen] = useState(false);
   const [action, setAction] = useState("Registrar");
   const [buttonForm, setButtonForm] = useState("Registrar");
@@ -37,39 +40,41 @@ function
   const [responsible, setResponsible] = useState({
     est_Responsible: "",
     tip_Responsible: "",
-    pho_Responsible: "",
-    emai_Responsible: "",
   });
 
+  async function fetchResponsibles() {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.get("/Api/Responsible/GetsAllResponsible");
+      if (response.status === 200) {
+        const data = response.data.map((responsible) => [
+          responsible.id_Responsible || "-",
+          responsible.nam_Responsible || "-",
+          responsible.lasNam_Responsible || "-",
+          responsible.numDoc_Responsible != null ? responsible.numDoc_Responsible : "-",
+          responsible.tip_Responsible != null ? responsible.tip_Responsible : "-",
+          responsible.pho_Responsible != null ? responsible.pho_Responsible : "-",
+          responsible.emai_Responsible != null ? responsible.emai_Responsible : "-",
+          responsible.est_Responsible || "-",
+
+        ]);
+        setRegisResponsible(data);
+      }
+    } catch (error) {
+      console.error("Error al obtener la colmenas:", error);
+      setError("No se pudo cargar la colmenas.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
-    const fetchResponsibles = async () => {
-      try {
-        const response = await axiosInstance.get("/Api/Responsible/GetsAllResponsible");
-        setRegisResponsible(response.data);
-      } catch (error) {
-        console.error("Error al obtener la lista de responsables:", error);
-      }
-    };
-
     fetchResponsibles();
   }, []);
 
-  const formattedData = regisResponsible.map((responsible) => [
-    responsible.id_Responsible || "-",
-    responsible.nam_Responsible || "-",
-    responsible.lasNam_Responsible || "-",
-    responsible.numDoc_Responsible != null ? responsible.numDoc_Responsible : "-",
-    responsible.tip_Responsible != null ? responsible.tip_Responsible : "-",
-    responsible.pho_Responsible != null ? responsible.pho_Responsible : "-",
-    responsible.emai_Responsible != null ? responsible.emai_Responsible : "-",
-    responsible.est_Responsible || "-",
-
-  ]);
-
   const handleDataUpdated = () => {
-    fetchResponsibles();
-  }
+    fetchResponsibles(); // Refresca los datos de la tabla
+  };
 
   const updateTextTitleForm = (texto, rowData) => {
     setAction(texto);
@@ -79,9 +84,9 @@ function
     if (texto === "Actualizar"){
       setResponsible({
         id_Responsible: rowData[0],
+        nam_Responsible: rowData[1],
+        lasNam_Responsible: rowData[2],
         tip_Responsible: rowData[4],
-        pho_Responsible: rowData[5],
-        emai_Responsible: rowData[6],
         est_Responsible: rowData[7],
       });
       console.log(rowData);
@@ -115,7 +120,7 @@ function
                 <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
                   <div className="relative p-6">
                     <ContentPage
-                      Data={formattedData}
+                      Data={regisResponsible}
                       TitlesTable={titlesResponsable}
                       Actions={actions}
                       updateTextTitleForm={updateTextTitleForm}

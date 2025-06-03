@@ -1,43 +1,37 @@
 "use client";
 import { createContext, useState, useContext, useEffect } from 'react';
 
-// Se crea el contexto de autenticación. Esto es como una "caja" global que luego se puede compartir entre componentes.
 const AuthContext = createContext();
 
-// Componente que envuelve a la app o parte de ella y proporciona el contexto a los hijos (children)
 export const AuthProvider = ({ children }) => {
-
     const [user, setUser] = useState(null);
+    const [loadingUser, setLoadingUser] = useState(true);  // Estado para controlar carga de usuario
 
     useEffect(() => {
-        // Al cargar el componente, intenta recuperar el usuario desde el localStorage
         const token = localStorage.getItem("token");
         const email = localStorage.getItem("email");
-        const name = localStorage.getItem("name");
+        const username = localStorage.getItem("username");
         const rol = localStorage.getItem("rol");
 
-        // Si encuentra todos los datos, los guarda en el estado user
-        if (token && email && name && rol) {
-            setUser({ token, email, name, rol });
+        if (token && email && username && rol) {
+            setUser({ token, email, username, rol });
         }
+        setLoadingUser(false);
     }, []);
 
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("email");
-        localStorage.removeItem("name");
+        localStorage.removeItem("username");
         localStorage.removeItem("rol");
-
-        setUser(null); // Limpia el estado de usuario
+        setUser(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, logout }}>
-            {/* Renderiza todo lo que envuelve este contexto */}
+        <AuthContext.Provider value={{ user, setUser, logout, loadingUser }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-// Hook personalizado para acceder fácilmente al contexto desde cualquier componente
 export const useAuth = () => useContext(AuthContext);
