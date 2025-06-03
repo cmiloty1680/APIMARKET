@@ -81,122 +81,128 @@ namespace Apimarket.Functions
 </head>
 
 <body
-    style=""margin: 0; padding: 0; background-color: #f7f7f7; font-family: 'Segoe UI', Arial, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;"">
+    style=""margin: 0; padding: 0; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); font-family: 'Segoe UI', Arial, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;"">
     <!-- Preheader text (invisible) -->
     <div style=""display: none; max-height: 0px; overflow: hidden;"">
-        Restablece tu contraseña de apimarket - Este enlace expirará en 30 minutos
+        Restablece tu contraseña de APIMARKET - Este enlace expirará en 30 minutos
     </div>
 
     <!-- Email container -->
     <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""border-collapse: collapse;"">
         <tr>
-            <td align=""center"" style=""padding: 30px 0;"">
+            <td align=""center"" style=""padding: 40px 20px;"">
                 <!-- Email content -->
                 <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""600""
-                    style=""border-collapse: collapse; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); max-width: 600px;"">
-                    <!-- Header -->
+                    style=""border-collapse: collapse; background-color: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); max-width: 600px;"">
+                    
+                    <!-- Header with gradient -->
                     <tr>
-                        <td bgcolor=""#030712"" style=""padding: 20px;"">
-                            <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                style=""border-collapse: collapse;"">
+                        <td style=""padding: 0; background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2d2d2d 100%); position: relative;"">
+                            <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""border-collapse: collapse;"">
                                 <tr>
-                                    <td align=""left"" valign=""middle"" style=""padding-right: 20px; width: 100px;"">
-                                        <img src=""https://i.imgur.com/73rKluM.png"" alt=""Logo de apimarket"" width=""80""
-                                            style=""display: block; border-radius: 8px;"" />
-                                    </td>
-                                    <td align=""left"" valign=""middle"">
-                                        <h1
-                                            style=""color: #ffffff; font-size: 20px; font-weight: bold; margin: 0; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px;"">
+                                    <td align=""center"" style=""padding: 40px 30px; position: relative;"">
+                                        <!-- Decorative elements -->
+                                        <div style=""position: absolute; top: 20px; right: 30px; width: 60px; height: 60px; background: rgba(255, 107, 53, 0.1); border-radius: 50%; opacity: 0.6;""></div>
+                                        <div style=""position: absolute; bottom: 20px; left: 30px; width: 40px; height: 40px; background: rgba(255, 107, 53, 0.1); border-radius: 50%; opacity: 0.4;""></div>
+                                        
+                                        <h1 style=""color: #ffffff; font-size: 24px; font-weight: 700; margin: 0; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"">
                                             Restablecimiento de Contraseña
                                         </h1>
-
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
 
-
-
-
                     <!-- Main content -->
                     <tr>
-                        <td style=""padding: 40px 30px 20px 30px;"">
-                            <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                style=""border-collapse: collapse;"">
+                        <td style=""padding: 50px 40px 30px 40px; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);"">
+                            <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""border-collapse: collapse;"">
                                 <tr>
                                     <td align=""center"">
-                                        <h2
-                                            style=""color: #333333; font-size: 22px; font-weight: 600; margin: 0 0 20px 0; line-height: 1.4;"">
-                                            Hemos recibido una solicitud para restablecer la contraseña de su cuenta
+                                      <!-- APIMARKET logo -->
+                                        <div style=""width: 100px; height: 100px; background: #ffffff; border-radius: 50%; display: inline-block; text-align: center; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3); padding: 10px; border: 3px solid #ff6b35;"">
+                                            <img src=""https://i.imgur.com/FlGkkEd.png"" alt=""logo"" style=""width: 100%; height: 100%; object-fit: cover; transform: rotate(-45deg); display: block;"" />
+                                        </div>
+                                        
+                                        <h2 style=""color: #1a1a1a; font-size: 28px; font-weight: 700; margin: 0 0 15px 0; line-height: 1.3;"">
+                                            ¡Hola! 👋
                                         </h2>
-                                        <p
-                                            style=""color: #666666; font-size: 16px; line-height: 1.6; margin: 0 0 30px 0;"">
-                                            Haga clic en el siguiente botón para crear una nueva contraseña:</p>
+                                        <p style=""color: #64748b; font-size: 18px; line-height: 1.6; margin: 0 0 35px 0; max-width: 400px;"">
+                                            Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en <strong style=""color: #ff6b35; font-weight: 600;"">APIMARKET</strong>.
+                                        </p>
                                     </td>
                                 </tr>
+                                
+                                <!-- Instructions card -->
                                 <tr>
-                                    <td align=""center"" style=""padding: 10px 0 30px 0;"">
-                                        <table border=""0"" cellpadding=""0"" cellspacing=""0""
-                                            style=""border-collapse: separate; border-radius: 8px; background: linear-gradient(to right, #FF5F1F, #FF3A5C);""
-                                            class=""button-td"">
+                                    <td style=""padding: 0 0 35px 0;"">
+                                        <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
+                                            style=""border-collapse: collapse; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);"">
                                             <tr>
-                                                <td align=""center"" valign=""middle"" style=""padding: 0;"">
-
-                                                    <a href=""{resetLink}""
-                                                        style=""display: inline-block; padding: 16px 36px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; background-color: #FF5F1F; background-image: linear-gradient(to right, #FF5F1F, #FF3A5C); box-shadow: 0 5px 15px rgba(255, 95, 31, 0.3); text-align: center; mso-padding-alt: 16px 36px;"">
-                                                        Restablecer Contraseña
-                                                    </a>
-
+                                                <td style=""padding: 25px 30px;"">
+                                                    <p style=""color: #ffffff; font-size: 16px; line-height: 1.6; margin: 0; font-weight: 500; text-align: center;"">
+                                                        🔐 Para continuar con el proceso de restablecimiento, haz clic en el botón de abajo:
+                                                    </p>
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
+                                
+                                <!-- Modern button -->
                                 <tr>
-                                    <td align=""center"">
-                                        <p style=""font-size: 14px; color: #999999; margin: 0; font-style: italic;"">Este
-                                            enlace expirará en 30 minutos por razones de seguridad.</p>
+                                    <td align=""center"" style=""padding: 0 0 35px 0;"">
+                                        <!--[if mso]>
+                                        <v:roundrect xmlns:v=""urn:schemas-microsoft-com:vml"" xmlns:w=""urn:schemas-microsoft-com:office:word"" href=""{{resetLink}}"" style=""height:60px;v-text-anchor:middle;width:280px;"" arcsize=""50%"" stroke=""f"" fillcolor=""#ff6b35"">
+                                        <w:anchorlock/>
+                                        <center>
+                                        <![endif]-->
+                                        <a href=""{resetLink}""
+                                            style=""background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ff6b35 100%); border-radius: 30px; color: #ffffff; display: inline-block; font-family: Arial, sans-serif; font-size: 18px; font-weight: 700; line-height: 60px; text-align: center; text-decoration: none; width: 280px; -webkit-text-size-adjust: none; mso-hide: all; box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4); text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;"">
+                                            ✨ Restablecer Contraseña
+                                        </a>
+                                       
+                                        <!--[if mso]>
+                                        </center>
+                                        </v:roundrect>
+                                        <![endif]-->
+                                    </td>
+                                </tr>
+                                
+                                <!-- Fallback link -->
+                                
+                                <tr>
+                                    <td align=""center"" style=""padding-top: 25px;"">
+                                        <p style=""font-size: 14px; color: #64748b; margin: 0; font-style: italic;"">
+                                            ⏰ Este enlace expirará en 30 minutos por razones de seguridad.
+                                        </p>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
 
-                    <!-- Divider -->
+                    <!-- Security alert with unified colors -->
                     <tr>
-                        <td style=""padding: 0 30px;"">
+                        <td style=""padding: 0 40px 40px 40px;"">
                             <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                style=""border-collapse: collapse;"">
+                                style=""border-collapse: collapse; background: linear-gradient(135deg, #fff8f0 0%, #ffedd5 100%); border-left: 5px solid #ff6b35; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);"">
                                 <tr>
-                                    <td
-                                        style=""border-bottom: 1px solid #f0f0f0; font-size: 0; line-height: 0; height: 1px;"">
-                                        &nbsp;</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- Security alert -->
-                    <tr>
-                        <td style=""padding: 30px 30px 20px 30px;"">
-                            <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                style=""border-collapse: collapse; background-color: #fff8f3; border-left: 4px solid #FF5F1F; border-radius: 6px;"">
-                                <tr>
-                                    <td style=""padding: 20px;"">
-                                        <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                            style=""border-collapse: collapse;"">
+                                    <td style=""padding: 25px 30px;"">
+                                        <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""border-collapse: collapse;"">
                                             <tr>
-                                                <td style=""padding-left: 15px;"">
-                                                    <h3
-                                                        style=""color: #FF5F1F; font-weight: 600; font-size: 16px; margin: 0 0 10px 0;"">
-                                                        Alerta de seguridad</h3>
-                                                    <p
-                                                        style=""color: #666666; font-size: 14px; line-height: 1.6; margin: 0;"">
-                                                        Si usted no inició este cambio de contraseña, su cuenta podría
-                                                        estar comprometida.
-                                                        Por favor, contacte inmediatamente a nuestro equipo de soporte
-                                                        para proteger su información.
+                                                <td width=""50"" valign=""top"">
+                                                    <div style=""width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; text-align: center; line-height: 40px; color: #ffffff;"">
+                                                        🛡️
+                                                    </div>
+                                                </td>
+                                                <td style=""padding-left: 20px;"">
+                                                    <h3 style=""color: #1a1a1a; font-weight: 700; font-size: 16px; margin: 0 0 8px 0;"">
+                                                        Nota de seguridad
+                                                    </h3>
+                                                    <p style=""color: #64748b; font-size: 14px; line-height: 1.5; margin: 0;"">
+                                                        Si no solicitaste este cambio, te recomendamos cambiar tu contraseña inmediatamente o contactar con nuestro equipo de soporte.
                                                     </p>
                                                 </td>
                                             </tr>
@@ -207,175 +213,79 @@ namespace Apimarket.Functions
                         </td>
                     </tr>
 
-                    <!-- Security tips -->
+                    <!-- Help section -->
                     <tr>
-                        <td style=""padding: 0 30px 30px 30px;"">
-                            <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                style=""border-collapse: collapse; background-color: #f8fafc; border-radius: 8px; overflow: hidden;"">
+                        <td style=""padding: 0 40px 40px 40px;"">
+                            <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""border-collapse: collapse;"">
                                 <tr>
-                                    <td
-                                        style=""padding: 25px 20px 15px 20px; background-color: #f1f5f9; border-bottom: 1px solid #e1e8f0;"">
-                                        <h3
-                                            style=""color: #334155; font-size: 18px; margin: 0; text-align: center; font-weight: 600;"">
-                                            ¡Ayúdanos a mantener tus datos seguros!</h3>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style=""padding: 20px;"">
-                                        <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                            style=""border-collapse: collapse;"">
-                                            <tr>
-                                                <td width=""50%"" valign=""top""
-                                                    style=""padding-bottom: 15px; padding-right: 10px;"">
-                                                    <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                                        style=""border-collapse: collapse;"">
-                                                        <tr>
-                                                            <td width=""40"" valign=""top"">
-                                                                <div
-                                                                    style=""background-color: rgba(255, 95, 31, 0.1); width: 36px; height: 36px; border-radius: 50%; text-align: center; line-height: 36px; font-size: 18px;"">
-                                                                    🔍</div>
-                                                            </td>
-                                                            <td style=""padding-left: 12px;"">
-                                                                <p
-                                                                    style=""color: #475569; font-size: 13px; font-weight: 600; margin: 0 0 3px 0;"">
-                                                                    Seguridad</p>
-                                                                <p
-                                                                    style=""color: #64748b; font-size: 13px; margin: 0; line-height: 1.4;"">
-                                                                    No diligencies ningún dato en páginas de dudosa
-                                                                    procedencia</p>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td width=""50%"" valign=""top""
-                                                    style=""padding-bottom: 15px; padding-left: 10px;"">
-                                                    <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                                        style=""border-collapse: collapse;"">
-                                                        <tr>
-                                                            <td width=""40"" valign=""top"">
-                                                                <div
-                                                                    style=""background-color: rgba(255, 95, 31, 0.1); width: 36px; height: 36px; border-radius: 50%; text-align: center; line-height: 36px; font-size: 18px;"">
-                                                                    🔄</div>
-                                                            </td>
-                                                            <td style=""padding-left: 12px;"">
-                                                                <p
-                                                                    style=""color: #475569; font-size: 13px; font-weight: 600; margin: 0 0 3px 0;"">
-                                                                    Actualización</p>
-                                                                <p
-                                                                    style=""color: #64748b; font-size: 13px; margin: 0; line-height: 1.4;"">
-                                                                    Realiza el cambio de tu contraseña cada 3 meses</p>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td width=""50%"" valign=""top"" style=""padding-right: 10px;"">
-                                                    <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                                        style=""border-collapse: collapse;"">
-                                                        <tr>
-                                                            <td width=""40"" valign=""top"">
-                                                                <div
-                                                                    style=""background-color: rgba(255, 95, 31, 0.1); width: 36px; height: 36px; border-radius: 50%; text-align: center; line-height: 36px; font-size: 18px;"">
-                                                                    💻</div>
-                                                            </td>
-                                                            <td style=""padding-left: 12px;"">
-                                                                <p
-                                                                    style=""color: #475569; font-size: 13px; font-weight: 600; margin: 0 0 3px 0;"">
-                                                                    Acceso</p>
-                                                                <p
-                                                                    style=""color: #64748b; font-size: 13px; margin: 0; line-height: 1.4;"">
-                                                                    Hazlo solo a través de nuestro portal web o app</p>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td width=""50%"" valign=""top"" style=""padding-left: 10px;"">
-                                                    <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                                        style=""border-collapse: collapse;"">
-                                                        <tr>
-                                                            <td width=""40"" valign=""top"">
-                                                                <div
-                                                                    style=""background-color: rgba(255, 95, 31, 0.1); width: 36px; height: 36px; border-radius: 50%; text-align: center; line-height: 36px; font-size: 18px;"">
-                                                                    🔐</div>
-                                                            </td>
-                                                            <td style=""padding-left: 12px;"">
-                                                                <p
-                                                                    style=""color: #475569; font-size: 13px; font-weight: 600; margin: 0 0 3px 0;"">
-                                                                    Contraseña</p>
-                                                                <p
-                                                                    style=""color: #64748b; font-size: 13px; margin: 0; line-height: 1.4;"">
-                                                                    Agrega caracteres especiales para mayor seguridad
-                                                                </p>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                    <td align=""center"" style=""border-top: 2px solid #e2e8f0; padding-top: 35px;"">
+                                        <div style=""width: 60px; height: 60px; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-radius: 50%; display: inline-block; text-align: center; line-height: 60px; font-size: 24px; margin-bottom: 20px;"">
+                                            💬
+                                        </div>
+                                        <h3 style=""color: #1a1a1a; font-size: 20px; font-weight: 700; margin: 0 0 10px 0;"">
+                                            ¿Necesitas ayuda?
+                                        </h3>
+                                        <p style=""color: #64748b; font-size: 16px; line-height: 1.6; margin: 0; max-width: 350px;"">
+                                            Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos. Estamos aquí para ayudarte.
+                                        </p>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
 
-                    <!-- Footer -->
+                    <!-- Modern footer -->
                     <tr>
-                        <td bgcolor=""#030712"" style=""padding: 30px 30px 20px 30px;"">
-                            <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                style=""border-collapse: collapse;"">
+                        <td style=""padding: 0; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);"">
+                            <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""border-collapse: collapse;"">
                                 <tr>
-                                    <td align=""center"">
-                                        <img src=""https://i.imgur.com/73rKluM.png"" alt=""Logo de apimarket"" width=""100""
-                                            style=""display: block; margin-bottom: 20px;"" />
+                                    <td align=""center"" style=""padding: 40px 30px;"">
+                                        <!-- APIMARKET logo in footer -->
+                                        <div style=""width: 100px; height: 100px; background: #ffffff; border-radius: 50%; display: inline-block; text-align: center; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3); padding: 10px; border: 3px solid #ff6b35;"">
+                                            <img src=""https://i.imgur.com/FlGkkEd.png"" alt=""logo"" style=""width: 100%; height: 100%; object-fit: cover; transform: rotate(-45deg); display: block;"" />
+                                        </div>
 
-                                        <!-- Social icons -->
-                                        <table border=""0"" cellpadding=""0"" cellspacing=""0""
-                                            style=""border-collapse: collapse; margin-bottom: 20px;"">
+                                        <!-- Social icons with original brand colors -->
+                                        <table border=""0"" cellpadding=""0"" cellspacing=""0"" style=""border-collapse: collapse; margin-bottom: 25px;"">
                                             <tr>
-                                                <td style=""padding: 0 8px;"">
-                                                    <a href=""#""
-                                                        style=""display: inline-block; width: 36px; height: 36px; background-color: rgba(255, 255, 255, 0.1); color: white; border-radius: 50%; text-align: center; line-height: 36px; text-decoration: none; font-size: 14px; font-weight: bold;"">X</a>
+                                                <!-- Twitter/X - Negro -->
+                                                <td style=""padding: 0 10px;"">
+                                                    <a href=""#"" style=""display: inline-block; width: 45px; height: 45px; background: #000000; color: #ffffff; border-radius: 12px; text-align: center; line-height: 45px; text-decoration: none; font-size: 16px; font-weight: bold; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);"">X</a>
                                                 </td>
-                                                <td style=""padding: 0 8px;"">
-                                                    <a href=""#""
-                                                        style=""display: inline-block; width: 36px; height: 36px; background-color: rgba(255, 255, 255, 0.1); color: white; border-radius: 50%; text-align: center; line-height: 36px; text-decoration: none; font-size: 14px; font-weight: bold;"">f</a>
+                                                <!-- Facebook - Azul -->
+                                                <td style=""padding: 0 10px;"">
+                                                    <a href=""#"" style=""display: inline-block; width: 45px; height: 45px; background: #1877F2; color: #ffffff; border-radius: 12px; text-align: center; line-height: 45px; text-decoration: none; font-size: 16px; font-weight: bold; box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3);"">f</a>
                                                 </td>
-                                                <td style=""padding: 0 8px;"">
-                                                    <a href=""#""
-                                                        style=""display: inline-block; width: 36px; height: 36px; background-color: rgba(255, 255, 255, 0.1); color: white; border-radius: 50%; text-align: center; line-height: 36px; text-decoration: none; font-size: 14px; font-weight: bold;"">ig</a>
+                                                <!-- Instagram - Gradiente -->
+                                                <td style=""padding: 0 10px;"">
+                                                    <a href=""#"" style=""display: inline-block; width: 45px; height: 45px; background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4); color: #ffffff; border-radius: 12px; text-align: center; line-height: 45px; text-decoration: none; font-size: 14px; font-weight: bold; box-shadow: 0 4px 15px rgba(245, 133, 41, 0.3);"">ig</a>
                                                 </td>
-                                                <td style=""padding: 0 8px;"">
-                                                    <a href=""#""
-                                                        style=""display: inline-block; width: 36px; height: 36px; background-color: rgba(255, 255, 255, 0.1); color: white; border-radius: 50%; text-align: center; line-height: 36px; text-decoration: none; font-size: 14px; font-weight: bold;"">yt</a>
+                                                <!-- YouTube - Rojo -->
+                                                <td style=""padding: 0 10px;"">
+                                                    <a href=""#"" style=""display: inline-block; width: 45px; height: 45px; background: #FF0000; color: #ffffff; border-radius: 12px; text-align: center; line-height: 45px; text-decoration: none; font-size: 14px; font-weight: bold; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);"">yt</a>
                                                 </td>
-                                                <td style=""padding: 0 8px;"">
-                                                    <a href=""#""
-                                                        style=""display: inline-block; width: 36px; height: 36px; background-color: rgba(255, 255, 255, 0.1); color: white; border-radius: 50%; text-align: center; line-height: 36px; text-decoration: none; font-size: 14px; font-weight: bold;"">in</a>
+                                                <!-- LinkedIn - Azul profesional -->
+                                                <td style=""padding: 0 10px;"">
+                                                    <a href=""#"" style=""display: inline-block; width: 45px; height: 45px; background: #0A66C2; color: #ffffff; border-radius: 12px; text-align: center; line-height: 45px; text-decoration: none; font-size: 14px; font-weight: bold; box-shadow: 0 4px 15px rgba(10, 102, 194, 0.3);"">in</a>
                                                 </td>
                                             </tr>
                                         </table>
 
-                                        <p style=""color: #9ca3af; font-size: 14px; margin: 0 0 15px 0;"">© 2024
-                                            apimarket. Todos los derechos reservados.</p>
+                                        <p style=""color: #94a3b8; font-size: 16px; margin: 0 0 20px 0; font-weight: 500;"">
+                                            © 2024 APIMARKET. Todos los derechos reservados.
+                                        </p>
 
-                                        <!-- Footer links -->
-                                        <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""
-                                            style=""border-collapse: collapse; max-width: 400px;"">
+                                        <!-- Footer links with unified styling -->
+                                        <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""border-collapse: collapse; max-width: 400px;"">
                                             <tr>
-                                                <td align=""center"" style=""padding: 0 10px 10px 10px;"">
-                                                    <a href=""http://localhost:3000/we""
-                                                        style=""color: #FF5F1F; text-decoration: none; font-size: 12px;"">Términos
-                                                        y Condiciones</a>
+                                                <td align=""center"" style=""padding: 0 15px 0 15px;"">
+                                                    <a href=""http://localhost:3000/we"" style=""color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);"">Términos y Condiciones</a>
                                                 </td>
-                                                <td align=""center"" style=""padding: 0 10px 10px 10px;"">
-                                                    <a href=""http://localhost:3000/we""
-                                                        style=""color: #FF5F1F; text-decoration: none; font-size: 12px;"">Política
-                                                        de Privacidad</a>
+                                                <td align=""center"" style=""padding: 0 15px 0 15px;"">
+                                                    <a href=""http://localhost:3000/we"" style=""color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);"">Política de Privacidad</a>
                                                 </td>
-                                                <td align=""center"" style=""padding: 0 10px 10px 10px;"">
-                                                    <a href=""http://localhost:3000/contact""
-                                                        style=""color: #FF5F1F; text-decoration: none; font-size: 12px;"">Contacto</a>
+                                                <td align=""center"" style=""padding: 0 15px 0 15px;"">
+                                                    <a href=""http://localhost:3000/contact"" style=""color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);"">Contacto</a>
                                                 </td>
                                             </tr>
                                         </table>
