@@ -5,6 +5,7 @@ using Apimarket.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 
 namespace Apimarket.Controllers
@@ -49,22 +50,26 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+        [HttpGet("GetDynamicProductionPercentage")]
+        public IActionResult GetDynamicProductionPercentage()
+        {
+            try
+            {
+                var count = _productionService.GetProductionCount(); // cantidad de registros
+                var percentage = (count % 4) * 25;
+                percentage = percentage == 0 && count > 0 ? 100 : percentage;
+                return Ok(new { cantidad = count, porcentaje = percentage });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
 
 
-       [HttpGet("GetHiveUsagePercentage")]
-public ActionResult<int> GetHiveUsagePercentage()
-{
-    try
-    {
-        var percentage = _productionService.GetTotalHivesUsed();
-        return Ok(percentage);
-    }
-    catch (Exception ex)
-    {
-        _functionsGeneral.Addlog(ex.ToString());
-        return StatusCode(500, ex.ToString());
-    }
-}
+
+
 
 
 

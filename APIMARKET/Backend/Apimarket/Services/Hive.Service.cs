@@ -72,6 +72,11 @@ namespace Apimarket.Services
             return _context.hive
                 .Count(h => h.Est_Hive == "inactivo");
         }
+        public int GetTotalHives()
+        {
+            return _context.hive.Count();
+        }
+
 
         //porcentaje 
         public int GetHealthyHivePercentage()

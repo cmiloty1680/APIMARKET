@@ -278,5 +278,46 @@ namespace Apimarket.Controllers
             }
 
         }
+
+
+
+
+
+
+
+
+
+        [HttpGet("GetTotalResponsables")]
+        public IActionResult GetTotalResponsables()
+        {
+            try
+            {
+                var total = _feedingServices.CountTotalFeeding();
+                return Ok(new { total });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+        [HttpGet("GetTotalAlimentacion")]
+        public IActionResult GetTotalAlimentacion()
+        {
+            try
+            {
+                var total = _feedingServices.CountTotalFeeding();
+                return Ok(new { total });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+
+
     }
 }

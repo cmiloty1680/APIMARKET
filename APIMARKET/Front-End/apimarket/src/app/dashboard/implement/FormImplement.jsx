@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -17,10 +15,6 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
   const [vlrImplement, setVlrImplement] = useState("");
   const [exiImplement, setExiImplement] = useState("");
   const [id_Implement, setIdImplement] = useState(null);
-
-
-  const [isSubmitting, setSubmitting] = useState(false);
-
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [CantidadI, setCantidadI] = useState("");
@@ -42,7 +36,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
       setIdImplement(implement.id_Implement);
       setCantidadI(implement.can_Implement || "")
     }
-  }, [implement]);
+}, [implement]);
 
   async function handlerSubmit(event) {
     event.preventDefault();
@@ -52,32 +46,11 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
     if (!nomImplement || !tipImplement || !fecIngImplement || !vlrImplement || !exiImplement) {
       setModalMessage("Todos los campos son requeridos.");
       setModalOpenFall(true);
-
-      setSubmitting(false);
-      return;
-    }
-
-    // Validaciones específicas
-    if (nomImplement.length > 25) {
-      setModalMessage("El nombre del implemento debe ser menor de 25 caracteres.");
-      setModalOpenFall(true);
-      setSubmitting(false);
-      return;
-    }
-
-    if (parseFloat(vlrImplement.replace(/,/g, "") || 0) > 100000) {
-      setModalMessage("El valor debe ser menor a $100,000.");
-      setModalOpenFall(true);
-      setSubmitting(false);
-      return;
-    }
-    
-
       setIsSubmitting(false);
       return;
     }
 
-    // Validaciones específicas
+    // Validación de longitud del nombre
     if (nomImplement.length > 25) {
       setModalMessage("El nombre del implemento debe ser menor de 25 caracteres.");
       setModalOpenFall(true);
@@ -85,28 +58,29 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
       return;
     }
 
-if (parseFloat(String(vlrImplement).replace(/,/g, "") || 0) > 100000) {
+    // Validación del valor (convertir a string primero)
+    const vlrString = String(vlrImplement || "");
+    if (parseFloat(vlrString.replace(/,/g, "") || 0) > 100000) {
       setModalMessage("El valor debe ser menor a $100,000.");
       setModalOpenFall(true);
       setIsSubmitting(false);
       return;
     }
-
-
 
     try {
       if (buttonForm === "Actualizar") {
         const updateImplement = {
-          id_Implement,
+          id_Implement: id_Implement,
           nom_Implement: nomImplement,
           tip_Implement: tipImplement,
           fechIng_Implement: fecIngImplement,
-          vlr_Implement: vlrImplement.replace(/\./g, ""), // sin puntos
+          vlr_Implement: String(vlrImplement).replace(/\./g, ""), // Convertir a string primero
           exi_Implement: exiImplement,
           can_Implement: CantidadI,
         };
 
-        const response = await axiosInstance.put(`/Api/Implement/UpdateImplement${id_Implement}`, updateImplement);
+        const response = await axiosInstance.put('/Api/Implement/UpdateImplement${id_Implement}', updateImplement)
+
         if (response.status === 200) {
           setMsSuccess("Implemento actualizado correctamente.");
           setModalOpen(true);
@@ -152,7 +126,6 @@ if (parseFloat(String(vlrImplement).replace(/,/g, "") || 0) > 100000) {
         </div>
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1">
@@ -206,8 +179,6 @@ if (parseFloat(String(vlrImplement).replace(/,/g, "") || 0) > 100000) {
             <label className="text-sm font-medium text-gray-700">Valor del Implemento</label>
             <input
               type="text"
-              value={vlrImplement}
-              onChange={(e) => setVlrImplement(e.target.value)}
               placeholder="Valor de implemento"
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               required
@@ -236,8 +207,6 @@ if (parseFloat(String(vlrImplement).replace(/,/g, "") || 0) > 100000) {
               }}
             />
           </div>
-
-
 
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">Existencia</label>

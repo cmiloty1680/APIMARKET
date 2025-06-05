@@ -260,4 +260,5 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
   );
 }
 
+
 export default FormHive;

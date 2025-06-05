@@ -131,6 +131,25 @@ namespace Apimarket.Controllers
             }
         }
 
+
+        [Authorize(Roles = "instructor, gestor, pasante")]
+        [HttpGet("GetTotalAllHives")]
+        public IActionResult GetTotalAllHives()
+        {
+            try
+            {
+                var total = _hiveService.GetTotalHives();
+                return Ok(new { total });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+
+
         [Authorize]
         [HttpGet("AllHive")]
 

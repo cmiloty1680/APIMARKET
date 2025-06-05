@@ -45,6 +45,60 @@ namespace Apimarket.Controllers
             }
         }
 
+        [HttpGet("GetImplementCount")]
+        public IActionResult GetImplementCount()
+        {
+            try
+            {
+                var count = _implementServices.GetImplementCount();
+                return Ok(new { count });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+
+
+        [HttpGet("GetTotalImplementUsed")]
+        public IActionResult GetTotalImplementUsed()
+        {
+            try
+            {
+                var used = _implementServices.GetTotalImplementUsed();
+                return Ok(new { used });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+        [HttpGet("GetTotalImplement")]
+        public IActionResult GetTotalImplement()
+        {
+            try
+            {
+                var total = _implementServices.GetTotalImplement();
+                return Ok(new { total });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+
+
+
+
+
+
+
 
 
         [Authorize]
@@ -270,6 +324,21 @@ namespace Apimarket.Controllers
 
 
         }
+        [HttpGet("GetValorTotalImplementos")]
+        public IActionResult GetValorTotalImplementos()
+        {
+            try
+            {
+                var total = _implementServices.GetValorTotalImplementos();
+                return Ok(new { total });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
 
 
     }
