@@ -279,13 +279,13 @@ namespace Apimarket.Functions
                                         <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""border-collapse: collapse; max-width: 400px;"">
                                             <tr>
                                                 <td align=""center"" style=""padding: 0 15px 0 15px;"">
-                                                    <a href=""http://173.254.0.220:3000/we"" style=""color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);"">Términos y Condiciones</a>
+                                                    <a href=""http://localhost:3000/we"" style=""color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);"">Términos y Condiciones</a>
                                                 </td>
                                                 <td align=""center"" style=""padding: 0 15px 0 15px;"">
-                                                    <a href=""http://173.254.0.220:3000/we"" style=""color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);"">Política de Privacidad</a>
+                                                    <a href=""http://localhost:3000/we"" style=""color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);"">Política de Privacidad</a>
                                                 </td>
                                                 <td align=""center"" style=""padding: 0 15px 0 15px;"">
-                                                    <a href=""http://173.254.0.220:3000/contact"" style=""color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);"">Contacto</a>
+                                                    <a href=""http://localhost:3000/contact"" style=""color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);"">Contacto</a>
                                                 </td>
                                             </tr>
                                         </table>
