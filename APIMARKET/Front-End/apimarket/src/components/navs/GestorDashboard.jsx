@@ -1,10 +1,11 @@
 "use client"
 import { useState, useEffect } from "react"
-import { useAuth } from "@/app/context/authContext" // Para obtener el rol del usuario
+import { useAuth } from "@/app/context/authContext"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import AlertsSection from "../admin/AlertsSection"
 import {
   Users,
   BookOpen,
@@ -19,7 +20,7 @@ import {
 } from "lucide-react"
 
 function GestorDashboard() {
-  const { user } = useAuth() // Para personalizar según si es gestor o pasante
+  const { user } = useAuth()
   const [stats, setStats] = useState({
     pasantesAsignados: 0,
     proyectosActivos: 0,
@@ -33,9 +34,13 @@ function GestorDashboard() {
   const [actividades, setActividades] = useState([])
 
   useEffect(() => {
-    // SOLUCIÓN: Usar user?.rol en lugar de user?.role
+    const today = new Date()
+    const todayStr = today.toISOString().split("T")[0]
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    const tomorrowStr = tomorrow.toISOString().split("T")[0]
+
     if (user?.rol === "gestor") {
-      // Datos para gestores
       setStats({
         pasantesAsignados: 12,
         proyectosActivos: 5,
@@ -44,43 +49,40 @@ function GestorDashboard() {
         eficienciaEquipo: 92,
       })
     } else if (user?.rol === "pasante") {
-      // Datos para pasantes (más limitados)
       setStats({
-        pasantesAsignados: 0, // Los pasantes no tienen asignados
-        proyectosActivos: 2, // Proyectos en los que participa
+        pasantesAsignados: 0,
+        proyectosActivos: 2,
         tareasCompletadas: 23,
         tareasPendientes: 5,
-        eficienciaEquipo: 88, // Su rendimiento personal
+        eficienciaEquipo: 88,
       })
     }
 
     setProyectos([
       {
         id: 1,
-        name: "Sistema de Gestión Académica",
-        progress: 78,
-        deadline: "2024-02-20",
-        pasantes: 4,
+        name: "Gestores y Fechas de la unidad ",
+        progress: 62,
+        deadline: tomorrowStr,
+        gestores: 2,
         prioridad: "Alta",
-        estado: "En Progreso",
+        estado: "Progreso",
       },
       {
         id: 2,
-        name: "App Móvil Estudiantes",
-        progress: 45,
-        deadline: "2024-03-15",
-        pasantes: 3,
-        prioridad: "Media",
-        estado: "En Desarrollo",
+        name: " Software Centro Agropecuario La Granja",
+        progress: 30,
+        deadline: tomorrowStr,
+        prioridad: "Alta",
+        estado: "Progreso",
       },
       {
         id: 3,
-        name: "Portal de Servicios",
-        progress: 92,
-        deadline: "2024-02-05",
-        pasantes: 2,
+        name: "Plataforma de Apicultores",
+        progress: 85,
+        deadline: todayStr,
         prioridad: "Alta",
-        estado: "Casi Terminado",
+        estado: "Progreso",
       },
     ])
 
@@ -88,23 +90,22 @@ function GestorDashboard() {
       {
         id: 1,
         tipo: "urgente",
-        mensaje:
-          user?.rol === "gestor"
-            ? "Alimentacion se requiere"
-            : "Tu tarea en 'Portal de Servicios' vence mañana",
+        mensaje: user?.rol === "gestor" ? "La alimentacion se realiza cuando esta en invierno" : "Tu tarea en 'Portal de Servicios' vence mañana",
       },
       {
         id: 2,
         tipo: "info",
-        mensaje: "Reunión de seguimiento programada para mañana",
+        mensaje: "El ingreso a el apiario es con Traje ",
       },
       {
         id: 3,
         tipo: "warning",
-        mensaje:
-          user?.rol === "gestor"
-            ? "Pasante Juan Pérez necesita apoyo en React"
-            : "Necesitas revisar los comentarios en tu código",
+        mensaje: user?.rol === "gestor" ? "El ingreso a la unidad es en silencio" : "Necesitas revisar los comentarios en tu código",
+      },
+      {
+        id: 4,
+        tipo: "info",
+        mensaje: "Solo se permite personal Autorizado ",
       },
     ])
 
@@ -130,30 +131,22 @@ function GestorDashboard() {
     ])
   }, [user])
 
-  // Personalizar el título según el rol
   const getTitle = () => {
-    if (user?.rol === "gestor") {
-      return "Panel de Gestores"
-    } else if (user?.rol === "pasante") {
-      return "Panel de Desarrollo - Pasantías"
-    }
-    return "Panel de Gestión"
+    if (user?.rol === "gestor") return "Panel de Gestores"
+    if (user?.rol === "pasante") return "Panel de Desarrollo - Pasantías"
+    return "Panel de Gestor"
   }
 
   const getSubtitle = () => {
-    if (user?.rol === "gestor") {
-      return "Supervisa el progreso de la unidad apicola"
-    } else if (user?.rol === "pasante") {
-      return "Gestiona tus tareas y proyectos de pasantía"
-    }
+    if (user?.rol === "gestor") return "Supervisa el progreso de la unidad apicola"
+    if (user?.rol === "pasante") return "Gestiona tus tareas y proyectos de pasantía"
     return "Gestiona tus proyectos y tareas"
   }
 
   return (
     <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-8 min-h-screen overflow-auto">
       <div className="max-w-7xl mx-auto">
-        {/* Header personalizado según el rol */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-8 border-l-4 border-l-blue-600">
+        <div className="bg-white rounded-xl shadow-sm p-6 mb-8 border-l-4 border-l-orange-600">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 mb-2">{getTitle()}</h1>
@@ -168,90 +161,80 @@ function GestorDashboard() {
           </div>
         </div>
 
-        {/* Métricas principales - personalizadas según el rol */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-          {user?.rol === "gestor" && (
-            <Card className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-600">Pasantes</CardTitle>
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <Users className="h-4 w-4 text-blue-600" />
+        {/* Flickbox Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+          {/* Activas */}
+          <Card className="bg-white border-0 shadow-sm transition-transform duration-200 ease-in-out hover:scale-105 hover:shadow-md hover:ring-2 hover:ring-green-300">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Colmenas Activas</p>
+                  <h3 className="text-2xl font-bold text-gray-900 mt-1">1</h3>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-gray-900">{stats.pasantesAsignados}</div>
-                <p className="text-xs text-blue-600 mt-1">Bajo supervisión</p>
-              </CardContent>
-            </Card>
-          )}
-
-          <Card className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Proyectos</CardTitle>
-              <div className="p-2 bg-green-100 rounded-lg">
-                <BookOpen className="h-4 w-4 text-green-600" />
+                <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                </div>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{stats.proyectosActivos}</div>
-              <p className="text-xs text-green-600 mt-1">{user?.rol === "gestor" ? "En desarrollo" : "Participando"}</p>
+              <div className="mt-4">
+                <span className="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                  Funcionando correctamente
+                </span>
+              </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Completadas</CardTitle>
-              <div className="p-2 bg-emerald-100 rounded-lg">
-                <CheckCircle className="h-4 w-4 text-emerald-600" />
+          {/* Inactivas */}
+          <Card className="bg-white border-0 shadow-sm transition-transform duration-200 ease-in-out hover:scale-105 hover:shadow-md hover:ring-2 hover:ring-red-300">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Colmenas Inactivas</p>
+                  <h3 className="text-2xl font-bold text-gray-900 mt-1">1</h3>
+                </div>
+                <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center">
+                  <AlertTriangle className="h-6 w-6 text-red-600" />
+                </div>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{stats.tareasCompletadas}</div>
-              <p className="text-xs text-emerald-600 mt-1">Este mes</p>
+              <div className="mt-4">
+                <span className="text-xs font-medium text-red-600 bg-red-100 px-2 py-1 rounded-full">
+                  Inactivas
+                </span>
+              </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Pendientes</CardTitle>
-              <div className="p-2 bg-orange-100 rounded-lg">
-                <Clock className="h-4 w-4 text-orange-600" />
+          {/* Totales */}
+          <Card className="bg-white border-0 shadow-sm transition-transform duration-200 ease-in-out hover:scale-105 hover:shadow-md hover:ring-2 hover:ring-blue-300">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Total De Colmenas</p>
+                  <h3 className="text-2xl font-bold text-gray-900 mt-1">2</h3>
+                </div>
+                <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center">
+                  <TrendingUp className="h-6 w-6 text-blue-600" />
+                </div>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{stats.tareasPendientes}</div>
-              <p className="text-xs text-orange-600 mt-1">Por completar</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">
-                {user?.rol === "gestor" ? "Eficiencia" : "Rendimiento"}
-              </CardTitle>
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <TrendingUp className="h-4 w-4 text-purple-600" />
+              <div className="mt-4">
+                <span className="text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full">
+                  Estado actual
+                </span>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{stats.eficienciaEquipo}%</div>
-              <p className="text-xs text-purple-600 mt-1">{user?.rol === "gestor" ? "Del equipo" : "Personal"}</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Resto del componente igual... */}
+        {/* Proyectos + Alertas */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          {/* Proyectos en curso */}
           <Card className="lg:col-span-2 bg-white border-0 shadow-sm">
             <CardHeader>
               <CardTitle className="text-gray-900 flex items-center">
                 <Target className="mr-2 h-5 w-5 text-blue-600" />
-                {user?.rol === "gestor" ? "Proyectos en Desarrollo" : "Mis Proyectos"}
+                {user?.rol === "gestor" ? "Desarrollo APICULTURA" : "Mis Proyectos"}
               </CardTitle>
               <CardDescription>
                 {user?.rol === "gestor"
-                  ? "Estado actual y progreso de los proyectos asignados"
+                  ? "Unidad De Apicultura Del Centro Agropecuario La Granja"
                   : "Proyectos en los que estás participando"}
               </CardDescription>
             </CardHeader>
@@ -268,7 +251,7 @@ function GestorDashboard() {
                         {user?.rol === "gestor" && (
                           <span className="flex items-center">
                             <Users className="h-3 w-3 mr-1" />
-                            {proyecto.pasantes} pasantes
+                            {proyecto.gestores} gestores
                           </span>
                         )}
                         <span className="flex items-center">
@@ -278,97 +261,21 @@ function GestorDashboard() {
                       </div>
                     </div>
                     <div className="flex space-x-2">
-                      <Badge variant={proyecto.prioridad === "Alta" ? "destructive" : "secondary"}>
+                      <Badge className="bg-orange-100 text-orange-700 border border-orange-200">
                         {proyecto.prioridad}
                       </Badge>
                       <Badge variant="outline">{proyecto.estado}</Badge>
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="font-medium">Progreso: {proyecto.progress}%</span>
-                      <Button variant="ghost" size="sm" className="h-6 px-2">
-                        <Eye className="h-3 w-3 mr-1" />
-                        Ver detalles
-                      </Button>
-                    </div>
-                    <Progress value={proyecto.progress} className="h-2" />
-                  </div>
                 </div>
               ))}
             </CardContent>
           </Card>
-
-          
-          {/* Alertas y notificaciones */}
-          <Card className="bg-white border-0 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-gray-900 flex items-center">
-                <Calendar className="mr-2 h-5 w-5 text-green-600" />
-                Actividades Apicola 
-                <Badge variant="destructive" className="ml-auto">
-                  {alertas.length}
-                </Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {alertas.map((alerta) => (
-                <div
-                  key={alerta.id}
-                  className={`border-l-4 p-3 rounded-r-lg ${
-                    alerta.tipo === "urgente"
-                      ? "border-l-red-400 bg-red-50"
-                      : alerta.tipo === "warning"
-                        ? "border-l-orange-400 bg-orange-50"
-                        : "border-l-blue-400 bg-blue-50"
-                  }`}
-                >
-                  <p className="text-sm font-medium text-gray-900">{alerta.mensaje}</p>
-                  <p className="text-xs text-gray-600 mt-1">{alerta.tiempo}</p>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Actividades recientes y acciones rápidas */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Actividades recientes */}
-          <Card className="bg-white border-0 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-gray-900 flex items-center">
-                Actividad Apícola Reciente
-              </CardTitle>
-              <CardDescription>
-                {user?.rol === "gestor"
-                  ? "Últimas actividades realizadas en la unidad apícola"
-                  : "Tu actividad reciente en las colmenas"}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {actividades.map((actividad) => (
-                <div
-                  key={actividad.id}
-                  className="flex items-start space-x-3 p-3 bg-amber-50 rounded-lg hover:bg-amber-100 transition-colors"
-                >
-                  <div className="w-2 h-2 bg-amber-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{actividad.accion}</p>
-                    <p className="text-xs text-gray-600">{actividad.proyecto}</p>
-                    <p className="text-xs text-gray-500">{actividad.tiempo}</p>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-
-        
-         
-          
-                
+          <AlertsSection />
         </div>
       </div>
+    </div>
   )
 }
+
 export default GestorDashboard

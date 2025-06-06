@@ -91,7 +91,8 @@ namespace Apimarket.Services
             return _context.production.Sum(p => (int?)p.CanCua_Production) ?? 0;
         }
 
-        // Total de colmenas utilizadas en todas las producciones (TotColm_Hive)
+
+
         public int GetTotalHivesUsed()
         {
             return _context.production.Sum(p => (int?)p.TotColm_Hive) ?? 0;
@@ -124,8 +125,12 @@ namespace Apimarket.Services
 
             return (int)((hivesUsed * 100.0) / totalHives);
         }
-    
+        public int GetProductionCount()
+        {
+            return _context.production.Count();
+        }
 
-}
+
+    }
 }
 

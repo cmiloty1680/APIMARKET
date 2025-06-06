@@ -1,4 +1,4 @@
-﻿using Apimarket.DTOs;
+using Apimarket.DTOs;
 using Apimarket.model;
 using Apimarket.Model;
 using Microsoft.EntityFrameworkCore;
@@ -25,12 +25,6 @@ namespace Apimarket.Models
         public DbSet<CollecDrone> collecDrone { get; set; }
 
         public DbSet<ContactForm> contactForm { get; set; }
-
-
-
-
-
-
 
 
 

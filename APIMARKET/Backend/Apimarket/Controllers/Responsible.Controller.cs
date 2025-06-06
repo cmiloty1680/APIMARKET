@@ -266,7 +266,7 @@ namespace Apimarket.Controllers
         }
 
 
-        [Authorize(Roles = "instructor, pasante")]
+        [Authorize(Roles = "instructor, pasante, gestor")]
         [HttpGet("GetsAllResponsible")]
         public IActionResult GetResponsible()
         {
@@ -493,6 +493,86 @@ namespace Apimarket.Controllers
                     System.IO.File.Copy(RutaPlantilla, RutaTemp);
                 }
                 return Ok(new { Responsible });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+        [Authorize]
+        [HttpGet("healthy-percentage")]
+        public ActionResult<int> GetHealthyHivePercentage()
+        {
+            try
+            {
+                var percentage = _responsibleService.GetHealthyHivePercentage();
+                return Ok(percentage);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+
+        //[Authorize(Roles = "instructor, gestor, pasante")]
+        //[HttpGet("GetTotalResponsables")]
+        //public IActionResult GetTotalHives()
+        //{
+        //    try
+        //    {
+        //        var total = _responsibleService.CountActiveResponsible();
+        //        return Ok(new { total });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _functionsGeneral.Addlog(ex.ToString());
+        //        return StatusCode(500, ex.ToString());
+        //    }
+        //}
+
+        [Authorize(Roles = "instructor, gestor, pasante")]
+        [HttpGet("GetTotalCuaMielResponsables")]
+        public IActionResult GetTotalCuaMielHives()
+        {
+            try
+            {
+                var total = _responsibleService.CountActiveResponsible();
+                return Ok(new { total });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+        [Authorize(Roles = "instructor, pasante")]
+        [HttpGet("GetTotalResponsablesInactivo")]
+        public IActionResult GetTotalHivesInactivo()
+        {
+            try
+            {
+                var total = _responsibleService.CountInactivoResponsible();
+                return Ok(new { total });
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+        [Authorize(Roles = "instructor, gestor, pasante")]
+        [HttpGet("GetTotalResponsables")]
+        public IActionResult GetTotalResponsables()
+        {
+            try
+            {
+                var total = _responsibleService.CountTotalResponsible();
+                return Ok(new { total });
             }
             catch (Exception ex)
             {

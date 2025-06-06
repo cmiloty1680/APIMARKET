@@ -141,6 +141,10 @@ namespace Apimarket.Services
 
             _context.SaveChanges();
         }
+        public int CountTotalResponsible()
+        {
+            return CountActiveResponsible() + CountInactivoResponsible();
+        }
 
 
         public async Task<bool> DeleteResponsible(int id)
@@ -195,6 +199,40 @@ namespace Apimarket.Services
         {
             return await _context.responsible.FirstOrDefaultAsync(u => u.ResetToken == token);
         }
+        // Método para contar el total de responsables
+        public int GetTotalResponsables()
+        {
+            return _context.responsible
+                .Count(p => p.Est_Responsible == "activo");
+        }
+
+
+      
+
+
+        // Método para contar las colmenas activas
+        public int CountActiveResponsible()
+        {
+            return _context.responsible.Count(h => h.Est_Responsible == "activo");
+        }
+
+        public int CountInactivoResponsible()
+        {
+            return _context.responsible
+                .Count(h => h.Est_Responsible == "inactivo");
+        }
+
+        //porcentaje 
+        public int GetHealthyHivePercentage()
+        {
+            int total = _context.responsible.Count();
+            if (total == 0) return 0;
+
+            int activas = _context.responsible.Count(h => h.Est_Responsible == "activo");
+
+            return (int)((activas * 100.0) / total);
+        }
+
 
     }
 }

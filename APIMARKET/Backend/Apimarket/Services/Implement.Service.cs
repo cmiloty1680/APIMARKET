@@ -52,6 +52,58 @@ namespace Apimarket.Services
             _context.implement.Update(implement);
             _context.SaveChanges();
         }
+
+
+
+
+        public int GetTotalImplement()
+        {
+            return _context.implement.Sum(i => i.Can_Implement); // ✅ Esto suma todos los valores de cantidad
+        }
+
+
+        public int GetTotalImplementUsed()
+        {
+            return _context.implement.Sum(p => (int?)p.Can_Implement) ?? 0;
+        }
+        // Porcentaje de protocol de una entrada específica (por Id_Production)
+        public int GetImplementPercentage(int idimplement)
+        {
+            var total = GetTotalImplement();
+            if (total == 0) return 0;
+
+            var prod = _context.implement
+                .Where(p => p.Id_Implement == idimplement)
+                .Select(p => p.Can_Implement)
+                .FirstOrDefault();
+
+            return (int)((prod * 100.0) / total);
+        }
+
+        // Porcentaje de colmenas utilizadas en una producción específica
+        public int GetProtocolUsagePercentage(int idimplement)
+        {
+            var totalImplement = GetTotalImplementUsed();
+            if (totalImplement == 0) return 0;
+
+            var implementUsed = _context.implement
+                .Where(p => p.Id_Implement == idimplement)
+                .Select(p => p.Can_Implement)
+                .FirstOrDefault();
+
+            return (int)((implementUsed * 100.0) / totalImplement);
+        }
+        public int GetImplementCount()
+        {
+            return _context.implement.Count();
+        }
+        public decimal GetValorTotalImplementos()
+        {
+            return _context.implement.Sum(i => (decimal?)i.Vlr_Implement) ?? 0;
+        }
+
+
+
     }
 }
 
