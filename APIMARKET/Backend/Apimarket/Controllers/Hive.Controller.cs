@@ -115,7 +115,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize(Roles = "instructor, pasante")]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetTotalHivesInactivo")]
         public IActionResult GetTotalHivesInactivo()
         {

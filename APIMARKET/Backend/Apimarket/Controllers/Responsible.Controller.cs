@@ -266,7 +266,7 @@ namespace Apimarket.Controllers
         }
 
 
-        [Authorize(Roles = "instructor, pasante")]
+        [Authorize(Roles = "instructor, pasante, gestor")]
         [HttpGet("GetsAllResponsible")]
         public IActionResult GetResponsible()
         {
