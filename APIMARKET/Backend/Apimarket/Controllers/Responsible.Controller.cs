@@ -77,7 +77,8 @@ namespace Apimarket.Controllers
                     token = tokenString,
                     username = $"{responsible.Nam_Responsible} {responsible.LasNam_Responsible}",
                     email = responsible.Emai_Responsible,
-                    rol = responsible.Tip_Responsible
+                    rol = responsible.Tip_Responsible,
+                    estado = responsible.Est_Responsible 
                 });
             }
             catch (Exception ex)
@@ -106,7 +107,7 @@ namespace Apimarket.Controllers
                 await _responsibleService.UpdateUserAsync(responsible);
 
                 // Enlace para restablecer la contraseña
-                string resetLink = $"http://localhost:3000/reset_password?token={token}";
+                string resetLink = $"http://173.254.0.220:3000/reset_password?token={token}";
 
                 // Enviar correo con el enlace
                 var emailResponse = await _functionsGeneral.SendEmail(model.Emai_Responsible, resetLink);

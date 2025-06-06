@@ -1,39 +1,46 @@
 
 
-"use client";
-import React, { useState, useEffect } from "react";
-import NavPrivate from "@/components/navs/NavPrivate";
-import ContentPage from "@/components/utils/ContentPage";
-import Sidebar from "@/components/navs/Siderbar";
-import { Eye, Download } from "lucide-react";
-import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
 
-import axiosInstance from "@/lib/axiosInstance";
-import ConfirmationModal from "@/components/utils/ConfirmationModal";
-import ModalDialog from "@/components/utils/ModalDialog";
-import FormProtocol from "./FormProtocol";
-import DynamicAlert from "@/components/utils/DynamicAlert";
-// import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"; // 👈 ya estaba importado
-import { Clipboard } from "lucide-react";
-import PrivateRoute from "@/app/routes/privateRoute";
+"use client"
+import { useState, useEffect } from "react"
+import NavPrivate from "@/components/navs/NavPrivate"
+import ContentPage from "@/components/utils/ContentPage"
+import Sidebar from "@/components/navs/Siderbar"
+import { Eye, Download, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react"
+import ExportToPDFDialog from "@/components/utils/ExportToPDFDialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 
+import axiosInstance from "@/lib/axiosInstance"
+import ConfirmationModal from "@/components/utils/ConfirmationModal"
+import ModalDialog from "@/components/utils/ModalDialog"
+import FormProtocol from "./FormProtocol"
+import DynamicAlert from "@/components/utils/DynamicAlert"
+import { Clipboard } from "lucide-react"
+import PrivateRoute from "@/app/routes/privateRoute"
 
 function ProtocolPage() {
-  const TitlePage = "Protocolo";
-  const eliminar = "¿Estás seguro de que deseas eliminar este protocolo?";
-  const [regisProtocol, setRegisProtocol] = useState([]);
-  const [action, setAction] = useState("Registrar");
-  const [msSuccess, setMsSuccess] = useState("");
-  const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
-  const [isModalOpenFall, setModalOpenFall] = useState(false); // Para alerta de fallo
-  const [isExportModalOpen, setIsExportModalOpen] = useState(false); // 👈 Para controlar el modal de exportación
-  const [isModalOpen, setModalOpen] = useState(false); // Para alerta de éxito
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedProtocol, setSelectedProtocol] = useState(null);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [buttonForm, setButtonForm] = useState("Registrar");
+  const TitlePage = "Protocolo"
+  const eliminar = "¿Estás seguro de que deseas eliminar este protocolo?"
+  const [regisProtocol, setRegisProtocol] = useState([])
+  const [action, setAction] = useState("Registrar")
+  const [msSuccess, setMsSuccess] = useState("")
+  const [isModalOpenDelete, setIsModalOpenDelete] = useState(false)
+  const [isModalOpenFall, setModalOpenFall] = useState(false)
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false)
+  const [isModalOpen, setModalOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedProtocol, setSelectedProtocol] = useState(null)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [buttonForm, setButtonForm] = useState("Registrar")
+
+  // Estados para el modal de visualización
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const [currentDocument, setCurrentDocument] = useState(null)
+  const [zoom, setZoom] = useState(100)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const titlesProtocol = [
     "Código",
@@ -41,8 +48,9 @@ function ProtocolPage() {
     "Tipo de protocolo",
     "Fecha de creación",
     "Fecha de Actualización",
-    "Nombre de Archivo",
-  ];
+    "Descargar",
+    "Visualizar", // Nueva columna
+  ]
 
   const [protocol, setProtocol] = useState({
     id_Protocol: "",
@@ -51,24 +59,58 @@ function ProtocolPage() {
     fecCre_Protocol: "",
     fecAct_Protocol: "",
     archivo_Protocol: "",
-  });
-
+  })
 
   function formatDateToISO(dateString) {
-    // Espera algo como "20/04/2025"
-    const [day, month, year] = dateString.split("/");
-    if (!day || !month || !year) return "";
-    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    const [day, month, year] = dateString.split("/")
+    if (!day || !month || !year) return ""
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
   }
-  console.log("Archivo", protocol.data);
+
+  // Función para abrir el modal de visualización
+  const handleViewDocument = (base64Data, protocolName, protocolId) => {
+    setCurrentDocument({
+      base64: base64Data,
+      name: protocolName,
+      id: protocolId,
+    })
+    setZoom(100)
+    setCurrentPage(1)
+    setIsViewModalOpen(true)
+  }
+
+  // Funciones para controlar el zoom y páginas
+  const handleZoomIn = () => {
+    if (zoom < 200) setZoom(zoom + 10)
+  }
+
+  const handleZoomOut = () => {
+    if (zoom > 50) setZoom(zoom - 10)
+  }
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1)
+  }
+
+
+
+  // Función para convertir base64 a URL de blob
+  const base64ToBlob = (base64) => {
+    const byteCharacters = atob(base64)
+    const byteNumbers = new Array(byteCharacters.length)
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i)
+    }
+    const byteArray = new Uint8Array(byteNumbers)
+    const blob = new Blob([byteArray], { type: "application/pdf" })
+    return URL.createObjectURL(blob)
+  }
 
   async function fetchProtocol() {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const response = await axiosInstance.get("/Api/Protocol/GetsAllProtocol");
+      const response = await axiosInstance.get("/Api/Protocol/GetsAllProtocol")
       if (response.status === 200) {
-        console.log()
-
         const data = response.data.map((item) => [
           item.id_Protocol || "-",
           item.nom_Protocol || "Sin descripción",
@@ -76,73 +118,83 @@ function ProtocolPage() {
           item.fecCre_Protocol ? new Date(item.fecCre_Protocol).toLocaleDateString("es-CO") : "Sin descripción",
           item.fecAct_Protocol ? new Date(item.fecAct_Protocol).toLocaleDateString("es-CO") : "Sin descripción",
           item.archivo_Protocol ? (
-
-            <div className="center gap-2 justify-center items-center">
-
+            <div key={`download-${item.id_Protocol}`} className="center gap-2 justify-center items-center">
               <button
                 onClick={() => handleDownload(item.archivo_Protocol, `Protocolo_${item.id_Protocol}`)}
                 className="text-green-600 hover:text-black-800"
                 title="Descargar archivo"
               >
-                <Download size={29} />
+                <Download size={25} />
               </button>
             </div>
-          ) : "-"
-        ]);
+          ) : (
+            "-"
+          ),
+          // Nueva columna de visualización
+          item.archivo_Protocol ? (
+            <div key={`view-${item.id_Protocol}`} className="center gap-2 justify-center items-center">
+              <button
+                onClick={() => handleViewDocument(item.archivo_Protocol, item.nom_Protocol, item.id_Protocol)}
+                className="text-blue-800 hover:text-blue-900"
+                title="Visualizar documento"
+              >
+                <Eye size={25} />
+              </button>
+            </div>
+          ) : (
+            "-"
+          ),
+        ])
 
-        setRegisProtocol(data);
+        setRegisProtocol(data)
       }
     } catch (error) {
-      console.error("Error al obtener los protocolos:", error);
-      setError("No se pudo cargar los protocolos.");
+      console.error("Error al obtener los protocolos:", error)
+      setError("No se pudo cargar los protocolos.")
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
   useEffect(() => {
-    fetchProtocol();
-  }, []);
+    fetchProtocol()
+  }, [])
 
-  // Función para obtener el tipo MIME y la extensión del archivo
   const getFileType = (base64) => {
-    if (base64.startsWith("JVBER")) {  // Verifica si es un PDF
-      return { type: "application/pdf", extension: ".pdf" };
-    } else if (base64.startsWith("data:image")) {  // Si es una imagen
-      return { type: "image/jpeg", extension: ".jpg" };
+    if (base64.startsWith("JVBER")) {
+      return { type: "application/pdf", extension: ".pdf" }
+    } else if (base64.startsWith("data:image")) {
+      return { type: "image/jpeg", extension: ".jpg" }
     }
-    return { type: "application/octet-stream", extension: ".pdf" };  // Otro tipo genérico
-  };
+    return { type: "application/octet-stream", extension: ".pdf" }
+  }
 
-  // Función para descargar archivo base64
   const handleDownload = (base64, nombreArchivo) => {
-    const byteCharacters = atob(base64);
-    const byteArrays = [];
+    const byteCharacters = atob(base64)
+    const byteArrays = []
 
     for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
-      const slice = byteCharacters.slice(offset, offset + 1024);
-      const byteNumbers = new Array(slice.length);
+      const slice = byteCharacters.slice(offset, offset + 1024)
+      const byteNumbers = new Array(slice.length)
       for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
+        byteNumbers[i] = slice.charCodeAt(i)
       }
-      byteArrays.push(new Uint8Array(byteNumbers));
+      byteArrays.push(new Uint8Array(byteNumbers))
     }
 
-    // Obtener tipo MIME y extensión del archivo
-    const { type, extension } = getFileType(base64);
+    const { type, extension } = getFileType(base64)
 
-    const blob = new Blob(byteArrays, { type });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = nombreArchivo + extension; // Usar la extensión correcta
-    link.click();
-  };
+    const blob = new Blob(byteArrays, { type })
+    const link = document.createElement("a")
+    link.href = URL.createObjectURL(blob)
+    link.download = nombreArchivo + extension
+    link.click()
+  }
 
-  // Abrir formulario con acción
   const updateTextTitleForm = (texto, rowData) => {
-    setAction(texto);
-    setButtonForm(texto);
-    setProtocol({});
+    setAction(texto)
+    setButtonForm(texto)
+    setProtocol({})
 
     if (texto === "Actualizar") {
       setProtocol({
@@ -152,148 +204,145 @@ function ProtocolPage() {
         fecCre_Protocol: formatDateToISO(rowData[3]),
         fecAct_Protocol: formatDateToISO(rowData[4]),
         archivo_Protocol: rowData[5],
-      });
+      })
     }
-  };
-  const handleDataUpdated = () => {
-    fetchProtocol();
+  }
 
-    // Refresca los datos de la tabla
-  };
+  const handleDataUpdated = () => {
+    fetchProtocol()
+  }
 
   const openModalForm = (isOpen) => {
-    setIsOpen(isOpen);
-  };
+    setIsOpen(isOpen)
+  }
+
   const handleSuccess = () => {
     const message =
       action === "Registrar"
         ? "El protocolo ha sido registrado correctamente."
-        : "El protocolo ha sido actualizado correctamente.";
+        : "El protocolo ha sido actualizado correctamente."
 
-    setMsSuccess(message);
-    setModalOpen(true);
-    fetchProtocol();
-    setIsOpen(false);
-  };
-  // Eliminar protocolo
+    setMsSuccess(message)
+    setModalOpen(true)
+    fetchProtocol()
+    setIsOpen(false)
+  }
+
   async function deleteProtocol() {
     if (!selectedProtocol) {
-      setError("Debe seleccionar un protocolo.");
-      return;
+      setError("Debe seleccionar un protocolo.")
+      return
     }
 
     try {
-      await axiosInstance.delete(`/Api/Protocol/DeleteProtocol?id=${selectedProtocol}`);
-      fetchProtocol();
-      setIsDeleteModalOpen(false);
+      await axiosInstance.delete(`/Api/Protocol/DeleteProtocol?id=${selectedProtocol}`)
+      fetchProtocol()
+      setIsDeleteModalOpen(false)
     } catch (error) {
-      console.error("Error al eliminar el protocolo:", error);
-      setError("No se pudo eliminar el protocolo.");
-      setModalOpenFall(true);
-
+      console.error("Error al eliminar el protocolo:", error)
+      setError("No se pudo eliminar el protocolo.")
+      setModalOpenFall(true)
     }
   }
 
   const actions = {
     delete: (rowData) => {
-      setSelectedProtocol(rowData[0]);
-      setIsModalOpenDelete(true); // ✅ Esto abre el modal correcto
+      setSelectedProtocol(rowData[0])
+      setIsModalOpenDelete(true)
     },
-
-    // update: (rowData) => {
-    //   updateTextTitleForm("Actualizar", rowData);
-    //   setIsOpen(true);
-    // },
-  };
-
-
-
-
-
-
+  }
 
   return (
-    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
-
-    <div className="flex h-screen bg-gray-200">
-      <Sidebar />
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <NavPrivate TitlePage={TitlePage} Icon={<Clipboard/>}/>
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
-          <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
-            <div className="container mx-auto px-6 py-8 border-4 mt-10 bg-white">
-              <div className="relative p-6">
-                {error && (
-                  <div className="bg-red-500 text-white p-2 rounded mb-4">
-                    {error}
-                  </div>
-                )}
-                <ContentPage
-                  Data={regisProtocol}
-                  TitlesTable={titlesProtocol}
-                  Actions={actions}
-                  action={action}
-                  updateTextTitleForm={updateTextTitleForm}
-                  openModalForm={openModalForm}
-                  ignorar={[]}
-                  tableName="protocol"
-                  setIsExportModalOpen={setIsExportModalOpen}
-
-                  showAddButton={true} // 👈 aquí indicas que NO lo muestre
-                />
+    <PrivateRoute requiredRole={["instructor", "pasante", "gestor"]}>
+      <div className="flex h-screen bg-gray-200">
+        <Sidebar />
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <NavPrivate TitlePage={TitlePage} Icon={<Clipboard />} />
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
+            <div className="container mx-auto px-6 py-8 mt-10">
+              <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
+                <div className="relative p-6">
+                  {error && <div className="bg-red-500 text-white p-2 rounded mb-4">{error}</div>}
+                  <ContentPage
+                    Data={regisProtocol}
+                    TitlesTable={titlesProtocol}
+                    Actions={actions}
+                    action={action}
+                    updateTextTitleForm={updateTextTitleForm}
+                    openModalForm={openModalForm}
+                    ignorar={[]}
+                    tableName="protocol"
+                    setIsExportModalOpen={setIsExportModalOpen}
+                    showAddButton={true}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
+
+        <ModalDialog
+          isOpen={isOpen}
+          setIsOpen={openModalForm}
+          FormPage={
+            <FormProtocol
+              buttonForm={buttonForm}
+              protocol={protocol}
+              onSuccess={handleSuccess}
+              onDataUpdated={handleDataUpdated}
+              closeModal={openModalForm}
+            />
+          }
+          action={action}
+        />
+
+        <ConfirmationModal
+          isOpen={isModalOpenDelete}
+          onClose={() => setIsModalOpenDelete(false)}
+          onConfirm={deleteProtocol}
+          DeleteTitle={eliminar}
+        />
+
+        <DynamicAlert
+          isOpen={isModalOpen}
+          onOpenChange={setModalOpen}
+          type="success"
+          message={msSuccess}
+          redirectPath=""
+        />
+
+        <ExportToPDFDialog
+          isOpen={isExportModalOpen}
+          setIsOpen={setIsExportModalOpen}
+          TitlePage={TitlePage}
+          Data={regisProtocol}
+          TitlesTable={titlesProtocol}
+        />
+
+        {/* Modal de visualización de documentos */}
+        <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
+          <DialogContent className="max-w-6xl h-[90vh] flex flex-col p-0">
+            <DialogHeader className="bg-white p-3">
+              <DialogTitle>
+              </DialogTitle>
+            </DialogHeader>
+
+            {/* Visor de PDF */}
+            <div className="bg-gray-900 flex-1 overflow-auto">
+              {currentDocument && (
+                <iframe
+                  src={`data:application/pdf;base64,${currentDocument.base64}#page=${currentPage}&zoom=${zoom}`}
+                  title={currentDocument.name}
+                  className="w-full h-full border-none"
+                />
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
-
-      <ModalDialog
-        isOpen={isOpen}
-        setIsOpen={openModalForm}
-        FormPage={<FormProtocol buttonForm={buttonForm} protocol={protocol} onSuccess={handleSuccess}
-          onDataUpdated={handleDataUpdated}
-          closeModal={openModalForm}
-        />}
-        action={action}
-      />
-
-      <ConfirmationModal
-        isOpen={isModalOpenDelete}
-        onClose={() => setIsModalOpenDelete(false)}
-        onConfirm={deleteProtocol}
-        DeleteTitle={eliminar}
-      />
-      {/* MODALES DE ALERTA */}
-      <DynamicAlert
-        isOpen={isModalOpen}
-        onOpenChange={setModalOpen}
-        type="success"
-        redirectPath="" // o déjalo vacío si no deseas redirigir
-      />
-
-      <DynamicAlert
-        isOpen={isModalOpen}
-        onOpenChange={setModalOpen}
-        type="success"
-        message={msSuccess}
-        redirectPath=""
-      />
-
-
-      {/* Modal de exportación a PDF */}
-      <ExportToPDFDialog
-        isOpen={isExportModalOpen}
-        setIsOpen={setIsExportModalOpen}
-        TitlePage={TitlePage}
-        Data={regisProtocol}
-        TitlesTable={titlesProtocol}
-      />
-    </div>
     </PrivateRoute>
-  );
+  )
 }
 
-export default ProtocolPage;
-
-
-
+export default ProtocolPage
+;

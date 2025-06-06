@@ -137,10 +137,10 @@ function HivePage() {
 
   // Acciones de la tabla
   const actions = {
-    delete: (rowData) => {
-      setSelectedHive(rowData[0]);
-      setIsModalOpen(true);
-    },
+    // delete: (rowData) => {
+    //   setSelectedHive(rowData[0]);
+    //   setIsModalOpen(true);
+    // },
     update: (rowData) => {
 
     }

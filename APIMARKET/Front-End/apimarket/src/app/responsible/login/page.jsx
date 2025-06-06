@@ -66,12 +66,23 @@ function LoginPage() {
 
         try {
             const response = await axiosInstance.post('Api/Responsible/Login', {
-                emai_Responsible: email,       // CORRECCIÓN: aquí estaba mal escrito
+                emai_Responsible: email,       
                 hashed_Password: password
             });
 
             console.log(response.data);
             if (response.status === 200) {
+                 const userData = response.data;
+
+                    // Validar si el usuario está activo (puede venir como "activo", "inactivo", etc.)
+                    if (!userData.estado || userData.estado.toLowerCase() !== "activo") {
+                        setError("Usuario inactivo. Contacte al administrador.");
+                        setModalOpenFall(true);
+                        setSubmitting(false);
+                        return;
+                    }
+
+
                 setLoginToken(response.data.token);
 
                 // Guardar en localStorage, incluyendo el rol que faltaba

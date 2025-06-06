@@ -282,8 +282,7 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Valor</label>
 
-                            <input type="text" placeholder="valor de alimentacion"
-                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={valor || ""} onChange={(e) => setValor(e.target.value)} />
+                            
 
                             <input
                                 type="text"
@@ -378,7 +377,7 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                         setModalOpenFall(isOpen);
                     }
 
-                }}
+                }
                 type="error"
                 message={error || "Ha ocurrido un error inesperado"}
                 redirectPath=""

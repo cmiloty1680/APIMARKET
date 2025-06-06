@@ -42,7 +42,7 @@ namespace Apimarket.Models
             if (!optionsBuilder.IsConfigured)
 
                 optionsBuilder.UseMySql(
-                 "Server=localhost;Database=apimarket;User=root;Password=victor2016;Port=3306",
+                 "Server=localhost;Database=apimarket;User=root;Password=cristiantiquet18;Port=3306",
                    new MySqlServerVersion(new Version(8, 0, 23))
  );
 

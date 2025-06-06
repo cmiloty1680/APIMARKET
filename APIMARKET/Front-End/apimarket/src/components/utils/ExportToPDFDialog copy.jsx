@@ -115,486 +115,292 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
     setIsOpen(false)
   }
 
-  // Función para exportar en formato optimizado para un solo registro (filtrado por ID)
-  const exportFilteredPDF = (doc, record) => {
-    const pageWidth = doc.internal.pageSize.getWidth()
-    const pageHeight = doc.internal.pageSize.getHeight()
+// Modificar la función exportFilteredPDF para usar el estilo de factura
+const exportFilteredPDF = (doc, record) => {
+  const pageWidth = doc.internal.pageSize.getWidth()
+  const pageHeight = doc.internal.pageSize.getHeight()
+  const margin = 15
 
-    // Colores del reporte escolar
-    const headerColor = [20, 105, 105] // Color teal oscuro para el header
-    const subHeaderColor = [127, 191, 191] // Color teal claro para subheaders
-    const rowEvenColor = [240, 248, 248] // Color muy claro para filas pares
-    const rowOddColor = [255, 255, 255] // Blanco para filas impares
+  // Configuración de fuentes y colores
+  const primaryColor = [51, 51, 51] // Color de texto principal
+  const secondaryColor = [120, 120, 120] // Color de texto secundario
+  const borderColor = [221, 221, 221] // Color de bordes
 
-    // Encabezado con borde teal
-    doc.setDrawColor(...headerColor)
-    doc.setFillColor(...headerColor)
-    doc.rect(0, 0, pageWidth, 25, "F")
+  // ENCABEZADO
+  // Título principal (equivalente a APICULTURA en el ejemplo)
+  doc.setFont("helvetica", "bold")
+  doc.setFontSize(24)
+  doc.setTextColor(...primaryColor)
+  doc.text(TitlePage.toUpperCase(), margin, 30)
 
-    // Título principal
-    doc.setFont("helvetica", "bold")
-    doc.setFontSize(18)
-    doc.setTextColor(255, 255, 255)
-    doc.text(`${TitlePage}`, 15, 16)
+  // Número de registro (equivalente a Invoice #INV-2024-001)
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(14)
+  doc.setTextColor(...secondaryColor)
+  doc.text(`ID: ${record[0]}`, margin, 40)
 
-    // Subtítulo
-    doc.setFontSize(12)
-    doc.setTextColor(220, 220, 220)
-    doc.text(`REGISTRO DE ${TitlePage}`, 15, 22)
+  // Información de la empresa (lado derecho)
+  doc.setFont("helvetica", "bold")
+  doc.setFontSize(12)
+  doc.setTextColor(...primaryColor)
+  doc.text("API Market", pageWidth - margin, 30, { align: "right" })
 
-    // ID en la esquina superior derecha
-    doc.setFontSize(14)
-    doc.setTextColor(255, 255, 255)
-    doc.setFont("helvetica", "bold")
-    doc.text(`ID: ${record[0]}`, pageWidth - 15, 16, { align: "right" })
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(10)
+  doc.setTextColor(...secondaryColor)
+  doc.text("Sistema de Gestión", pageWidth - margin, 37, { align: "right" })
+  doc.text(`Generado: ${new Date().toLocaleDateString()}`, pageWidth - margin, 44, { align: "right" })
 
-    // Fecha de generación
-    doc.setFontSize(10)
-    doc.setTextColor(100, 100, 100)
-    doc.setFont("helvetica", "normal")
-    doc.text(`Generado: ${new Date().toLocaleDateString()}`, pageWidth - 15, 32, { align: "right" })
+  // DETALLES DEL REGISTRO (equivalente a Bill To:)
+  doc.setFont("helvetica", "bold")
+  doc.setFontSize(12)
+  doc.setTextColor(...primaryColor)
+  doc.text("Detalles del registro:", margin, 60)
 
-    // Información básica (similar a la sección de estudiante en el reporte)
-    doc.setFillColor(240, 248, 248) // Color de fondo claro
-    doc.rect(0, 35, pageWidth, 20, "F")
+  // Crear una tabla con los datos principales (primeras 4-6 columnas)
+  const mainFields = Math.min(6, TitlesTable.length)
+  const mainData = []
 
-    // Dividir en 3 columnas para la información básica
-    const colWidth = (pageWidth - 30) / 3
-
-    // Determinar índices de campos importantes
-    const nombreProdIndex = TitlesTable.findIndex(
-      (t) => t.toLowerCase().includes("nombre") && t.toLowerCase().includes("producci"),
-    )
-    const fechaIndex = TitlesTable.findIndex((t) => t === "Fecha")
-    const responsableIndex = TitlesTable.findIndex((t) => t === "Responsable")
-
-    // Información básica
-    doc.setFontSize(10)
-    doc.setTextColor(20, 105, 105) // Color teal para etiquetas
-    doc.setFont("helvetica", "bold")
-    doc.text(`NOMBRE DE ${TitlePage}:`, 15, 42)
-    doc.text("FECHA:", 15 + colWidth, 42)
-    doc.text("RESPONSABLE:", 15 + colWidth * 2, 42)
-
-    doc.setTextColor(0, 0, 0) // Negro para valores
-    doc.setFont("helvetica", "normal")
-    doc.setFontSize(11)
-    const nombreProd = nombreProdIndex !== -1 ? String(record[nombreProdIndex] || "N/A") : "N/A"
-    const fecha = fechaIndex !== -1 ? String(record[fechaIndex] || "N/A") : "N/A"
-    const responsable = responsableIndex !== -1 ? String(record[responsableIndex] || "N/A") : "N/A"
-
-    doc.text(nombreProd, 15, 50)
-    doc.text(fecha, 15 + colWidth, 50)
-    doc.text(responsable, 15 + colWidth * 2, 50)
-
-    // Título de la sección de detalles
-    doc.setFillColor(...subHeaderColor)
-    doc.rect(0, 60, pageWidth, 12, "F")
-
-    doc.setFontSize(14)
-    doc.setTextColor(255, 255, 255)
-    doc.setFont("helvetica", "bold")
-    doc.text("DETALLES DEL REGISTRO", 15, 68)
-
-    // Crear tabla de detalles
-    const startY = 75
-    const totalFields = Math.min(TitlesTable.length, record.length)
-
-    // Filtrar campos que no queremos mostrar en la sección de resumen
-    const excludeFromDetails = [
-      "ID",
-      "Nombre de producción",
-      "Fecha",
-      "Responsable",
-      "Cantidad de Miel",
-      "Frascos 125ml",
-      "Frascos 250ml",
-      "Total Colmena",
-    ]
-
-    const detailFields = []
-    const detailValues = []
-
-    for (let i = 0; i < totalFields; i++) {
-      if (!excludeFromDetails.includes(TitlesTable[i])) {
-        detailFields.push(TitlesTable[i])
-        detailValues.push(String(record[i] || ""))
-      }
-    }
-
-    // Crear datos para la tabla
-    const tableData = []
-    for (let i = 0; i < detailFields.length; i += 2) {
-      const row = []
-      // Primera columna
-      row.push(detailFields[i] || "")
-      row.push(detailValues[i] || "")
-      // Segunda columna
-      row.push(detailFields[i + 1] || "")
-      row.push(detailValues[i + 1] || "")
-      tableData.push(row)
-    }
-
-    // Configurar tabla de detalles
-    autoTable(doc, {
-      body: tableData,
-      startY: startY,
-      theme: "grid",
-      styles: {
-        fontSize: 10,
-        cellPadding: 3,
-        lineWidth: 0.1,
-        lineColor: [200, 200, 200],
-      },
-      columnStyles: {
-        0: { fontStyle: "bold", fillColor: [245, 250, 250], textColor: [20, 105, 105], cellWidth: 40 },
-        1: { cellWidth: 50 },
-        2: { fontStyle: "bold", fillColor: [245, 250, 250], textColor: [20, 105, 105], cellWidth: 40 },
-        3: { cellWidth: 50 },
-      },
-      margin: { left: 15, right: 15 },
-      didDrawPage: (data) => {
-        // No hacer nada aquí para evitar conflictos
-      },
-    })
-
-    // Calcular posición para el resumen
-    const finalY = doc.lastAutoTable.finalY + 15
-
-    // Sección de resumen si hay campos específicos
-    const cantidadMielIndex = TitlesTable.findIndex(
-      (t) => t.toLowerCase().includes("cantidad") && t.toLowerCase().includes("miel"),
-    )
-    const frascos125Index = TitlesTable.findIndex(
-      (t) => t.toLowerCase().includes("frascos") && t.toLowerCase().includes("125"),
-    )
-    const frascos250Index = TitlesTable.findIndex(
-      (t) => t.toLowerCase().includes("frascos") && t.toLowerCase().includes("250"),
-    )
-    const colmenaIndex = TitlesTable.findIndex((t) => t.toLowerCase().includes("colmena"))
-
-    // Si encontramos al menos algunos de estos campos, añadimos la sección de resumen
-    if (cantidadMielIndex !== -1 || frascos125Index !== -1 || frascos250Index !== -1 || colmenaIndex !== -1) {
-      // Verificar si necesitamos una nueva página
-      if (finalY > pageHeight - 80) {
-        doc.addPage()
-      }
-
-      const resumeY = finalY > pageHeight - 80 ? 30 : finalY
-
-      // Título de la sección de resumen
-      doc.setFillColor(...subHeaderColor)
-      doc.rect(0, resumeY, pageWidth, 12, "F")
-
-      doc.setFontSize(14)
-      doc.setTextColor(255, 255, 255)
-      doc.setFont("helvetica", "bold")
-      doc.text(`RESUMEN DE ${TitlePage}`, 15, resumeY + 8)
-
-      // Cuadros de resumen
-      const boxWidth = (pageWidth - 60) / 4
-      const boxHeight = 30
-      const boxY = resumeY + 20
-      const boxSpacing = 5
-
-      // Función para dibujar cuadros de resumen
-      const drawSummaryBox = (title, value, unit, x) => {
-        const valueStr = String(value || "N/A")
-
-        // Fondo del cuadro
-        doc.setFillColor(230, 245, 245)
-        doc.rect(x, boxY, boxWidth, boxHeight, "F")
-
-        // Borde del cuadro
-        doc.setDrawColor(180, 220, 220)
-        doc.setLineWidth(0.5)
-        doc.rect(x, boxY, boxWidth, boxHeight)
-
-        // Valor principal
-        doc.setFont("helvetica", "bold")
-        doc.setFontSize(16)
-        doc.setTextColor(20, 105, 105)
-        doc.text(valueStr, x + boxWidth / 2, boxY + 15, { align: "center" })
-
-        // Título y unidad
-        doc.setFont("helvetica", "normal")
-        doc.setFontSize(9)
-        doc.setTextColor(80, 80, 80)
-        const titleText = `${title}${unit ? ` (${unit})` : ""}`
-        doc.text(titleText, x + boxWidth / 2, boxY + 25, { align: "center" })
-      }
-
-      let boxX = 15
-
-      if (cantidadMielIndex !== -1) {
-        const unidadIndex = TitlesTable.findIndex((t) => t === "Unidad")
-        const unidad = unidadIndex !== -1 ? String(record[unidadIndex] || "") : ""
-        drawSummaryBox("Total Miel", String(record[cantidadMielIndex] || "N/A"), unidad, boxX)
-        boxX += boxWidth + boxSpacing
-      }
-
-      if (frascos125Index !== -1) {
-        drawSummaryBox("Frascos 125ml", String(record[frascos125Index] || "N/A"), "", boxX)
-        boxX += boxWidth + boxSpacing
-      }
-
-      if (frascos250Index !== -1) {
-        drawSummaryBox("Frascos 250ml", String(record[frascos250Index] || "N/A"), "", boxX)
-        boxX += boxWidth + boxSpacing
-      }
-
-      if (colmenaIndex !== -1) {
-        drawSummaryBox("Colmenas", String(record[colmenaIndex] || "N/A"), "", boxX)
-      }
-    }
-
-    // Pie de página
-    doc.setFillColor(240, 248, 248)
-    doc.rect(0, doc.internal.pageSize.getHeight() - 15, pageWidth, 15, "F")
-
-    doc.setFontSize(8)
-    doc.setTextColor(100, 100, 100)
-    doc.text("API Market - Sistema de Gestión", 15, doc.internal.pageSize.getHeight() - 8)
-
-    const now = new Date()
-    doc.text(
-      `Exportado: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`,
-      pageWidth - 15,
-      doc.internal.pageSize.getHeight() - 8,
-      {
-        align: "right",
-      },
-    )
-
-    doc.text("Página 1 de 1", pageWidth / 2, doc.internal.pageSize.getHeight() - 8, {
-      align: "center",
-    })
+  for (let i = 0; i < mainFields; i++) {
+    if (i === 0) continue // Saltamos el ID que ya se muestra en el encabezado
+    mainData.push([TitlesTable[i], record[i] || ""])
   }
 
-  // Función para exportar en formato estándar (múltiples registros)
-  const exportStandardPDF = (doc) => {
-    const pageWidth = doc.internal.pageSize.getWidth()
-    const pageHeight = doc.internal.pageSize.getHeight()
+  // Tabla de datos principales
+  autoTable(doc, {
+    startY: 65,
+    head: [],
+    body: mainData,
+    theme: "plain",
+    styles: {
+      fontSize: 10,
+      cellPadding: 4,
+    },
+    columnStyles: {
+      0: { fontStyle: "bold", cellWidth: 60 },
+      1: { cellWidth: 100 },
+    },
+    margin: { left: margin },
+  })
 
-    // Colores del reporte escolar
-    const headerColor = [20, 105, 105] // Color teal oscuro para el header
-    const subHeaderColor = [127, 191, 191] // Color teal claro para subheaders
-    const rowEvenColor = [240, 248, 248] // Color muy claro para filas pares
-    const rowOddColor = [255, 255, 255] // Blanco para filas impares
+  // Calcular la posición Y después de la tabla de datos principales
+  const finalY = doc.lastAutoTable.finalY + 15
 
-    // Añadir borde decorativo en la parte superior
-    doc.setDrawColor(...headerColor)
-    doc.setFillColor(...headerColor)
-    doc.rect(0, 0, pageWidth, 25, "F")
+  // TABLA PRINCIPAL DE DATOS (resto de campos)
+  // Determinar qué campos mostrar en la tabla principal
+  // Excluimos los campos ya mostrados en la sección de detalles
+  const remainingFields = []
+  const remainingTitles = []
 
-    // Título principal
+  for (let i = mainFields; i < TitlesTable.length; i++) {
+    remainingTitles.push(TitlesTable[i])
+    remainingFields.push(record[i] || "")
+  }
+
+  // Si hay campos restantes, mostrarlos en una tabla
+  if (remainingFields.length > 0) {
     doc.setFont("helvetica", "bold")
-    doc.setFontSize(18)
-    doc.setTextColor(255, 255, 255)
-    doc.text(TitlePage, 15, 16)
-
-    // Subtítulo
     doc.setFontSize(12)
-    doc.setTextColor(220, 220, 220)
-    doc.text("REGISTRO DE PRODUCCIÓN", 15, 22)
+    doc.setTextColor(...primaryColor)
+    doc.text("Información adicional:", margin, finalY)
 
-    // Fecha y metadatos
-    doc.setFontSize(10)
-    doc.setTextColor(100, 100, 100)
-    doc.setFont("helvetica", "normal")
-    doc.text(`Generado: ${new Date().toLocaleDateString()}`, pageWidth - 15, 35, { align: "right" })
-
-    // Información adicional (opcional)
-    doc.setFontSize(11)
-    doc.setTextColor(80, 80, 80)
-    doc.text(`Total de registros: ${filteredData.length}`, 15, 35)
-
-    // Mostrar información del filtro si está activo
-    if (isFiltered && filterId) {
-      doc.text(`Filtrado por ID: ${filterId}`, 15, 42)
-    }
-
-    const yPosition = isFiltered && filterId ? 50 : 45
-
-    // Determinar si necesitamos ajustar automáticamente a landscape basado en el número de columnas
-    const shouldForceHorizontal = TitlesTable.length > 7 && orientation === "portrait"
-
-    // Si hay demasiadas columnas y estamos en modo vertical, cambiar a horizontal automáticamente
-    if (shouldForceHorizontal) {
-      // Crear un nuevo documento en orientación horizontal
-      const horizontalDoc = new jsPDF({
-        orientation: "landscape",
-        unit: "mm",
-        format: "a4",
-      })
-
-      // Copiar el documento actual al nuevo
-      doc = horizontalDoc
-
-      // Recalcular dimensiones
-      const pageWidth = doc.internal.pageSize.getWidth()
-      const pageHeight = doc.internal.pageSize.getHeight()
-
-      // Redibujar encabezado
-      doc.setDrawColor(...headerColor)
-      doc.setFillColor(...headerColor)
-      doc.rect(0, 0, pageWidth, 25, "F")
-
-      // Título principal
-      doc.setFont("helvetica", "bold")
-      doc.setFontSize(18)
-      doc.setTextColor(255, 255, 255)
-      doc.text(TitlePage, 15, 16)
-
-      // Subtítulo
-      doc.setFontSize(12)
-      doc.setTextColor(220, 220, 220)
-      doc.text("REGISTRO DE PRODUCCIÓN", 15, 22)
-
-      // Fecha y metadatos
-      doc.setFontSize(10)
-      doc.setTextColor(100, 100, 100)
-      doc.setFont("helvetica", "normal")
-      doc.text(`Generado: ${new Date().toLocaleDateString()}`, pageWidth - 15, 35, { align: "right" })
-
-      // Información adicional
-      doc.setFontSize(11)
-      doc.setTextColor(80, 80, 80)
-      doc.text(`Total de registros: ${filteredData.length}`, 15, 35)
-
-      // Nota sobre orientación
-      doc.setFontSize(9)
-      doc.setTextColor(100, 100, 100)
-      doc.text("* Orientación cambiada a horizontal automáticamente para mejor visualización", 15, 42)
-    }
-
-    // Calcular anchos de columna óptimos basados en el contenido
-    const columnWidths = {}
-
-    // Función para medir el ancho del texto
-    const getTextWidth = (text, fontSize) => {
-      doc.setFontSize(fontSize)
-      return doc.getTextWidth(String(text))
-    }
-
-    // Analizar los encabezados
-    TitlesTable.forEach((title, index) => {
-      columnWidths[index] = getTextWidth(title, 11) + 8 // Ancho del título + padding
-    })
-
-    // Analizar los datos (muestreo de hasta 20 filas para rendimiento)
-    const sampleSize = Math.min(filteredData.length, 20)
-    for (let i = 0; i < sampleSize; i++) {
-      const row = filteredData[i]
-      row.forEach((cell, index) => {
-        const cellWidth = getTextWidth(cell, 10) + 8
-        columnWidths[index] = Math.max(columnWidths[index] || 0, cellWidth)
-      })
-    }
-
-    // Limitar anchos máximos y mínimos
-    Object.keys(columnWidths).forEach((key) => {
-      const index = Number.parseInt(key)
-      // Ancho mínimo de 15mm para la columna ID
-      if (index === 0) {
-        columnWidths[index] = Math.max(15, Math.min(25, columnWidths[index]))
-      } else {
-        // Para otras columnas, limitar entre 20mm y 40mm
-        columnWidths[index] = Math.max(20, Math.min(40, columnWidths[index]))
-      }
-    })
-
-    // Configuración de la tabla con anchos de columna optimizados
     autoTable(doc, {
-      head: [TitlesTable],
-      body: filteredData,
-      startY: shouldForceHorizontal ? 50 : yPosition,
+      startY: finalY + 5,
+      head: [remainingTitles],
+      body: [remainingFields],
       theme: "grid",
       headStyles: {
-        fillColor: subHeaderColor,
-        textColor: [20, 70, 70],
-        fontSize: 11,
+        fillColor: [250, 250, 250],
+        textColor: primaryColor,
         fontStyle: "bold",
-        halign: "center",
+        halign: "left",
         valign: "middle",
-        cellPadding: 4,
-        lineWidth: 0.2,
-        lineColor: [180, 220, 220],
-        overflow: "linebreak",
       },
       bodyStyles: {
-        fontSize: 10,
-        cellPadding: 4,
-        valign: "middle",
-        lineWidth: 0.1,
-        lineColor: [200, 230, 230],
-        overflow: "linebreak",
+        halign: "left",
       },
       alternateRowStyles: {
-        fillColor: rowEvenColor,
+        fillColor: [255, 255, 255],
       },
-      columnStyles: columnWidths,
-      margin: { top: 50, left: 15, right: 15, bottom: 25 },
-      didDrawPage: (data) => {
-        // Pie de página
-        doc.setFillColor(240, 248, 248)
-        doc.rect(0, doc.internal.pageSize.getHeight() - 15, pageWidth, 15, "F")
-
-        doc.setFontSize(8)
-        doc.setTextColor(120, 120, 120)
-        doc.text(
-          `Página ${data.pageNumber} de ${doc.getNumberOfPages()}`,
-          pageWidth / 2,
-          doc.internal.pageSize.getHeight() - 8,
-          {
-            align: "center",
-          },
-        )
-
-        // Información de la empresa en el pie de página
-        doc.text("API Market - Sistema de Gestión", 15, doc.internal.pageSize.getHeight() - 8)
-
-        // Fecha y hora en el pie de página
-        const now = new Date()
-        doc.text(
-          `Exportado: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`,
-          pageWidth - 15,
-          doc.internal.pageSize.getHeight() - 8,
-          {
-            align: "right",
-          },
-        )
-
-        // Volver a dibujar el encabezado en cada página
-        if (data.pageNumber > 1) {
-          doc.setDrawColor(...headerColor)
-          doc.setFillColor(...headerColor)
-          doc.rect(0, 0, pageWidth, 20, "F")
-
-          doc.setFontSize(14)
-          doc.setFont("helvetica", "bold")
-          doc.setTextColor(255, 255, 255)
-          doc.text(TitlePage, 15, 12)
-        }
-      },
-      didParseCell: (data) => {
-        // Personalizar celdas específicas
-        if (data.section === "body") {
-          // Personalizar celdas que contienen fechas (asumiendo que las columnas 1 y 2 son fechas)
-          if (data.column.index === 1 || data.column.index === 2) {
-            data.cell.styles.halign = "center"
-          }
-
-          // Centrar la columna ID
-          if (data.column.index === 0) {
-            data.cell.styles.halign = "center"
-            data.cell.styles.fontStyle = "bold"
-            data.cell.styles.textColor = [20, 105, 105]
-          }
-        }
-      },
+      margin: { left: margin, right: margin },
     })
   }
+
+  // PIE DE PÁGINA
+  doc.setFontSize(8)
+  doc.setTextColor(...secondaryColor)
+  doc.text("API Market - Sistema de Gestión", margin, pageHeight - 10)
+  doc.text(`Página 1 de 1`, pageWidth / 2, pageHeight - 10, { align: "center" })
+  doc.text(
+    `Exportado: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+    pageWidth - margin,
+    pageHeight - 10,
+    { align: "right" },
+  )
+}
+
+// Modificar la función exportStandardPDF para usar el estilo de factura
+const exportStandardPDF = (doc) => {
+  const pageWidth = doc.internal.pageSize.getWidth()
+  const pageHeight = doc.internal.pageSize.getHeight()
+  const margin = 15
+
+  // Configuración de fuentes y colores
+  const primaryColor = [51, 51, 51] // Color de texto principal
+  const secondaryColor = [120, 120, 120] // Color de texto secundario
+
+  // ENCABEZADO
+  // Título principal (equivalente a APICULTURA en el ejemplo)
+  doc.setFont("helvetica", "bold")
+  doc.setFontSize(24)
+  doc.setTextColor(...primaryColor)
+  doc.text(TitlePage.toUpperCase(), margin, 30)
+
+  // Subtítulo (equivalente a Invoice #INV-2024-001)
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(14)
+  doc.setTextColor(...secondaryColor)
+  doc.text(`Registros: ${filteredData.length}`, margin, 40)
+
+  // Información de la empresa (lado derecho)
+  doc.setFont("helvetica", "bold")
+  doc.setFontSize(12)
+  doc.setTextColor(...primaryColor)
+  doc.text("API Market", pageWidth - margin, 30, { align: "right" })
+
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(10)
+  doc.setTextColor(...secondaryColor)
+  doc.text("Sistema de Gestión", pageWidth - margin, 37, { align: "right" })
+  doc.text(`Generado: ${new Date().toLocaleDateString()}`, pageWidth - margin, 44, { align: "right" })
+
+  // Información del filtro (si está activo)
+  let startY = 60
+  if (isFiltered && filterId) {
+    doc.setFont("helvetica", "bold")
+    doc.setFontSize(12)
+    doc.setTextColor(...primaryColor)
+    doc.text("Filtrado por:", margin, startY)
+
+    doc.setFont("helvetica", "normal")
+    doc.setFontSize(10)
+    doc.text(`ID: ${filterId}`, margin + 30, startY)
+
+    startY += 15
+  }
+
+  // TABLA PRINCIPAL DE DATOS
+  // Calcular anchos de columna óptimos
+  const columnWidths = {}
+
+  // Función para medir el ancho del texto
+  const getTextWidth = (text, fontSize) => {
+    doc.setFontSize(fontSize)
+    return doc.getTextWidth(String(text))
+  }
+
+  // Analizar los encabezados
+  TitlesTable.forEach((title, index) => {
+    columnWidths[index] = getTextWidth(title, 11) + 8 // Ancho del título + padding
+  })
+
+  // Analizar los datos (muestreo de hasta 20 filas para rendimiento)
+  const sampleSize = Math.min(filteredData.length, 20)
+  for (let i = 0; i < sampleSize; i++) {
+    const row = filteredData[i]
+    row.forEach((cell, index) => {
+      const cellWidth = getTextWidth(cell, 10) + 8
+      columnWidths[index] = Math.max(columnWidths[index] || 0, cellWidth)
+    })
+  }
+
+  // Limitar anchos máximos y mínimos
+  Object.keys(columnWidths).forEach((key) => {
+    const index = Number.parseInt(key)
+    // Ancho mínimo de 15mm para la columna ID
+    if (index === 0) {
+      columnWidths[index] = Math.max(15, Math.min(25, columnWidths[index]))
+    } else {
+      // Para otras columnas, limitar entre 20mm y 40mm
+      columnWidths[index] = Math.max(20, Math.min(40, columnWidths[index]))
+    }
+  })
+
+  // Configuración de la tabla con estilo de factura
+  autoTable(doc, {
+    head: [TitlesTable],
+    body: filteredData,
+    startY: startY,
+    theme: "grid",
+    headStyles: {
+      fillColor: [250, 250, 250],
+      textColor: primaryColor,
+      fontStyle: "bold",
+      halign: "left",
+      valign: "middle",
+      cellPadding: 6,
+      lineWidth: 0.2,
+      lineColor: [220, 220, 220],
+    },
+    bodyStyles: {
+      fontSize: 10,
+      cellPadding: 6,
+      valign: "middle",
+      lineWidth: 0.1,
+      lineColor: [240, 240, 240],
+    },
+    alternateRowStyles: {
+      fillColor: [255, 255, 255],
+    },
+    columnStyles: columnWidths,
+    margin: { top: 50, left: margin, right: margin, bottom: 25 },
+    didDrawPage: (data) => {
+      // Pie de página
+      doc.setFontSize(8)
+      doc.setTextColor(...secondaryColor)
+      doc.text(`Página ${data.pageNumber} de ${doc.getNumberOfPages()}`, pageWidth / 2, pageHeight - 10, {
+        align: "center",
+      })
+
+      // Información de la empresa en el pie de página
+      doc.text("API Market - Sistema de Gestión", margin, pageHeight - 10)
+
+      // Fecha y hora en el pie de página
+      const now = new Date()
+      doc.text(
+        `Exportado: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`,
+        pageWidth - margin,
+        pageHeight - 10,
+        {
+          align: "right",
+        },
+      )
+
+      // Volver a dibujar el encabezado en cada página después de la primera
+      if (data.pageNumber > 1) {
+        doc.setFont("helvetica", "bold")
+        doc.setFontSize(14)
+        doc.setTextColor(...primaryColor)
+        doc.text(TitlePage.toUpperCase(), margin, 20)
+
+        doc.setFont("helvetica", "normal")
+        doc.setFontSize(10)
+        doc.setTextColor(...secondaryColor)
+        doc.text(`Página ${data.pageNumber}`, pageWidth - margin, 20, { align: "right" })
+      }
+    },
+    didParseCell: (data) => {
+      // Personalizar celdas específicas
+      if (data.section === "body") {
+        // Alinear a la izquierda la primera columna (generalmente ID)
+        if (data.column.index === 0) {
+          data.cell.styles.halign = "left"
+          data.cell.styles.fontStyle = "bold"
+        }
+      }
+    },
+  })
+}
 
   // Función para abreviar títulos largos en la vista previa
   const shortenTitle = (title, maxLength = 8) => {
@@ -610,10 +416,7 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
 
     return (
       <div className="border rounded-md overflow-hidden">
-        <div className="bg-teal-800 text-white p-3 text-center">
-          <div className="font-bold text-sm">{TitlePage}</div>
-          <div className="text-xs text-teal-100">REGISTRO DE {TitlePage}</div>
-        </div>
+        <div className="bg-[#030712] text-white p-2 text-center font-bold text-sm">{TitlePage}</div>
         <div className="p-1 text-right text-xs text-gray-500">
           Generado: {new Date().toLocaleDateString()}
           {isFiltered && filterId && <span className="ml-2">• Filtrado por ID: {filterId}</span>}
@@ -622,12 +425,12 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
           {isFiltered && filterId && filteredData.length > 0 ? (
             // Vista previa para un solo registro filtrado
             <div className="space-y-3">
-              <div className="bg-teal-50 p-2 rounded border border-teal-100">
-                <h3 className="text-xs font-bold text-teal-800 mb-1">Detalles del registro ID: {filteredData[0][0]}</h3>
+              <div className="bg-blue-50 p-2 rounded border border-blue-100">
+                <h3 className="text-xs font-bold text-blue-800 mb-1">Detalles del registro ID: {filteredData[0][0]}</h3>
                 <div className="grid grid-cols-2 gap-2 text-[9px]">
                   {TitlesTable.slice(0, 6).map((title, index) => (
                     <div key={index} className="flex">
-                      <span className="font-bold text-teal-700 w-24">{title}:</span>
+                      <span className="font-bold text-blue-600 w-24">{title}:</span>
                       <span>{String(filteredData[0][index] || "")}</span>
                     </div>
                   ))}
@@ -642,9 +445,9 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
             <>
               <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-teal-600 text-white text-[9px]">
+                  <tr className="bg-[#030712] text-white text-[9px]">
                     {keyColumns.map((index) => (
-                      <th key={index} className="border border-teal-500 p-1 text-center">
+                      <th key={index} className="border border-white-600 p-1 text-center">
                         {shortenTitle(TitlesTable[index], 8)}
                       </th>
                     ))}
@@ -652,9 +455,9 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
                 </thead>
                 <tbody>
                   {getCurrentPageData().map((row, rowIndex) => (
-                    <tr key={rowIndex} className={rowIndex % 2 === 0 ? "bg-teal-50" : "bg-white"}>
+                    <tr key={rowIndex} className={rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"}>
                       {keyColumns.map((colIndex) => (
-                        <td key={colIndex} className="border border-teal-100 p-1 text-[9px] text-center">
+                        <td key={colIndex} className="border border-gray-200 p-1 text-[9px] text-center">
                           {typeof row[colIndex] === "string" ? shortenTitle(row[colIndex], 8) : row[colIndex]}
                         </td>
                       ))}
@@ -669,7 +472,7 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
                   <button
                     onClick={prevPage}
                     disabled={currentPage === 1}
-                    className={`text-xs flex items-center ${currentPage === 1 ? "text-gray-400" : "text-teal-700"}`}
+                    className={`text-xs flex items-center ${currentPage === 1 ? "text-gray-400" : "text-[#030712]"}`}
                   >
                     <ChevronLeft className="h-3 w-3 mr-1" /> Anterior
                   </button>
@@ -679,7 +482,7 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
                   <button
                     onClick={nextPage}
                     disabled={currentPage === totalPages}
-                    className={`text-xs flex items-center ${currentPage === totalPages ? "text-gray-400" : "text-teal-700"}`}
+                    className={`text-xs flex items-center ${currentPage === totalPages ? "text-gray-400" : "text-[#030712]"}`}
                   >
                     Siguiente <ChevronRight className="h-3 w-3 ml-1" />
                   </button>
@@ -689,10 +492,10 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
           )}
 
           <div className="text-center text-[9px] text-gray-500 mt-2">
-            (Vista previa simplificada - El PDF incluirá todos los campos)
+            (Vista previa simplificada - El PDF incluirá todas las columnas)
           </div>
         </div>
-        <div className="bg-teal-50 p-1 text-[9px] text-gray-500 flex justify-between">
+        <div className="bg-gray-100 p-1 text-[9px] text-gray-500 flex justify-between">
           <span>API Market - Sistema de Gestión</span>
           <span>
             {isFiltered && filterId && filteredData.length > 0
@@ -712,23 +515,19 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
         </DialogHeader>
 
         <Tabs defaultValue="options" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-teal-50">
-            <TabsTrigger value="options" className="data-[state=active]:bg-teal-700 data-[state=active]:text-white">
-              Opciones
-            </TabsTrigger>
-            <TabsTrigger value="preview" className="data-[state=active]:bg-teal-700 data-[state=active]:text-white">
-              Vista Previa
-            </TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="options">Opciones</TabsTrigger>
+            <TabsTrigger value="preview">Vista Previa</TabsTrigger>
           </TabsList>
 
           <TabsContent value="options" className="py-3">
             <div className="space-y-3">
-              <div className="bg-teal-50 p-3 rounded-md border border-teal-100">
+              <div className="bg-blue-50 p-3 rounded-md border border-blue-100">
                 <div className="flex items-start">
-                  <Info className="h-4 w-4 text-teal-500 mt-0.5 mr-2 flex-shrink-0" />
+                  <Info className="h-4 w-4 text-blue-500 mt-0.5 mr-2 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xs sm:text-sm font-medium text-teal-800">Información del documento</h3>
-                    <p className="text-xs text-teal-600 mt-1">
+                    <h3 className="text-xs sm:text-sm font-medium text-blue-800">Información del documento</h3>
+                    <p className="text-xs text-blue-600 mt-1">
                       Se generará un PDF con los datos seleccionados. Puede personalizar algunas opciones antes de
                       exportar.
                     </p>
@@ -747,12 +546,7 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
                     placeholder="Ingrese ID"
                     className="flex-1 px-3 py-2 text-xs border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-                  <Button
-                    type="button"
-                    variant="default"
-                    className="text-xs h-9 bg-teal-700 hover:bg-teal-800"
-                    onClick={applyFilter}
-                  >
+                  <Button type="button" variant="default" className="text-xs h-9" onClick={applyFilter}>
                     <Search className="h-3 w-3 mr-1" />
                     Filtrar
                   </Button>
@@ -815,7 +609,7 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
                   <Button
                     type="button"
                     variant={orientation === "portrait" ? "default" : "outline"}
-                    className={`flex-1 text-xs h-9 ${orientation === "portrait" ? "bg-teal-700 hover:bg-teal-800" : ""}`}
+                    className="flex-1 text-xs h-9"
                     onClick={() => setOrientation("portrait")}
                   >
                     Vertical
@@ -823,7 +617,7 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
                   <Button
                     type="button"
                     variant={orientation === "landscape" ? "default" : "outline"}
-                    className={`flex-1 text-xs h-9 ${orientation === "landscape" ? "bg-teal-700 hover:bg-teal-800" : ""}`}
+                    className="flex-1 text-xs h-9"
                     onClick={() => setOrientation("landscape")}
                   >
                     Horizontal
@@ -853,7 +647,7 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
           <Button
             onClick={exportToPDF}
             disabled={exceedsAbsoluteLimit}
-            className={`${exceedsAbsoluteLimit ? "bg-gray-400 hover:bg-gray-400 cursor-not-allowed" : "bg-teal-700 hover:bg-teal-800"} text-white text-xs h-9 px-3`}
+            className={`${exceedsAbsoluteLimit ? "bg-gray-400 hover:bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} text-white text-xs h-9 px-3`}
           >
             <FileDown className="mr-1 h-4 w-4" />
             Exportar PDF
@@ -864,5 +658,4 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable, se
   )
 }
 
-export default ExportToPDFDialog
-;
+export default ExportToPDFDialog;

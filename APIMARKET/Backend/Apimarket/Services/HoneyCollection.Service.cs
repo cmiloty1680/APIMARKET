@@ -47,5 +47,23 @@ namespace Apimarket.Services
             _context.honeyCollection.Update(honeyCollection);
             _context.SaveChanges();
         }
+
+        // obtener la producción total de miel agrupada por año
+
+        public IEnumerable<object> GetProductionByYear(int years = 10)
+        {
+            var startDate = DateTime.Now.AddYears(-years);
+
+            return _context.honeyCollection
+                .Where(h => h.Fec_HoneyCollection >= startDate)
+                .GroupBy(h => h.Fec_HoneyCollection.Year)
+                .Select(g => new
+                {
+                    Year = g.Key,
+                    Production = g.Sum(h => h.Tot_HoneyCollection)
+                })
+                .OrderBy(p => p.Year)
+                .ToList();
+        }
     }
 }

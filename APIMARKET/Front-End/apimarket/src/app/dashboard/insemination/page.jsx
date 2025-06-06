@@ -84,7 +84,7 @@ function ColmenaRecoleccion() {
     "Cantidad",
     "Responsable",
     "ID Colmena",
-    "ID_Responsable",
+    "ID_Responsables",
     "Extracción"
   ]
   const titlesExtraccion = [
@@ -93,7 +93,7 @@ function ColmenaRecoleccion() {
     "Cantidad Extracción",
     "Responsable",
     "ID Recolección",
-    "ID_Responsable",
+    "ID_Responsables",
     "Fertilización"
   ]
   const titlesFertilizacion = [
@@ -102,7 +102,7 @@ function ColmenaRecoleccion() {
     "Cantidad Fertilización",
     "Responsable",
     "ID Extracción",
-    "ID_Responsable"
+    "ID_Responsables"
   ]
 
   function formatDateToISO(dateString) {
