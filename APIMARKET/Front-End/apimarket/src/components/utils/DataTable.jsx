@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "../ui/button"
-import { Search, Edit, Trash2, ChevronLeft, ChevronRight } from "lucide-react"
+import { Search, Edit, Trash2, ChevronLeft, ChevronRight, CheckCircle2, XCircle } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 
@@ -48,8 +48,8 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
 
   return (
     <>
-    
-      
+
+
 
       <div className="border border-gray-200 rounded-lg shadow-sm bg-white">
         <Table className="table">
@@ -76,14 +76,19 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
                       <TableCell key={cellIndex} className="table-cell">
                         {typeof cell === "string" &&
                           (cell.toLowerCase() === "activo" || cell.toLowerCase() === "inactivo") ? (
-                          <span
-                            className={`px-2 py-1 rounded-md text-xs font-medium ${cell.toLowerCase() === "activo"
-                                ? "bg-green-100 text-green-800 border border-green-200"
-                                : "bg-red-100 text-red-800 border border-red-200"
+                          <div
+                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${cell.toLowerCase() === "activo"
+                                ? "bg-green-50 text-green-700 border border-green-200"
+                                : "bg-red-50 text-red-700 border border-red-200"
                               }`}
                           >
-                            {cell}
-                          </span>
+                            {cell.toLowerCase() === "activo" ? (
+                              <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
+                            ) : (
+                              <XCircle className="w-3.5 h-3.5 text-red-500" />
+                            )}
+                            <span>{cell}</span>
+                          </div>
                         ) : (
                           cell
                         )}

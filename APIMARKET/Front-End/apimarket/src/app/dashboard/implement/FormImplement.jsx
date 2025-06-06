@@ -79,7 +79,8 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
           can_Implement: CantidadI,
         };
 
-        const response = await axiosInstance.put('/Api/Implement/UpdateImplement${id_Implement}', updateImplement)
+        const response = await axiosInstance.put(`/Api/Implement/UpdateImplement${id_Implement}`, updateImplement)
+
 
         if (response.status === 200) {
           setMsSuccess("Implemento actualizado correctamente.");

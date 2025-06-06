@@ -102,6 +102,22 @@ namespace Apimarket.Controllers
         }
 
         [Authorize]
+        [HttpGet("GetProductionChart")]
+        public IActionResult GetProductionChart([FromQuery] int years = 10)
+        {
+            try
+            {
+                var productionData = _honeyCollectionServices.GetProductionByYear(years);
+                return Ok(productionData);
+            }
+            catch (Exception ex)
+            {
+                _functionsGeneral.Addlog(ex.ToString());
+                return StatusCode(500, ex.ToString());
+            }
+        }
+
+        [Authorize]
         [HttpPut("UpdateHoneyCollection/{id}")]
         public IActionResult Update([FromBody] HoneyCollection entity)
         {

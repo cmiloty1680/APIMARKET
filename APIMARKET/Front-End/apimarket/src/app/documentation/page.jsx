@@ -2,9 +2,9 @@
 
 import { useState } from "react"
 import PublicNav from "@/components/navs/PublicNav"
-import { FileText, Download, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react"
+import { FileText, Download, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
 const documentos = [
   {
@@ -29,6 +29,7 @@ const Documentacion = () => {
   const [zoom, setZoom] = useState(100)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(34) // Valor predeterminado basado en la imagen
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleZoomIn = () => {
     if (zoom < 200) setZoom(zoom + 10)
@@ -44,6 +45,11 @@ const Documentacion = () => {
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1)
+  }
+
+  const openDocumentModal = (doc) => {
+    setActiveDoc(doc)
+    setIsModalOpen(true)
   }
 
   return (
@@ -78,96 +84,122 @@ const Documentacion = () => {
                       onClick={() => setActiveDoc(doc)}
                     >
                       {doc.icon}
-                      <div>
+                      <div className="flex-1">
                         <h3 className="font-medium">{doc.title}</h3>
                         <p className="text-sm text-gray-500 line-clamp-2">{doc.description}</p>
                       </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center gap-1"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          openDocumentModal(doc)
+                        }}
+                      >
+                        <Eye className="h-4 w-4" />
+                        <span>Ver</span>
+                      </Button>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Área principal de visualización */}
+            {/* Área principal - Ahora solo muestra información del documento seleccionado */}
             <div className="lg:w-3/4">
-              <div className="bg-white rounded-xl shadow-md overflow-hidden">
-                {/* Encabezado del documento */}
-                <div className="bg-gray-100 p-4 border-b">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                      <h2 className="text-xl font-bold text-gray-800">{activeDoc.title}</h2>
-                      <p className="text-sm text-gray-600">{activeDoc.description}</p>
+              <div className="bg-white rounded-xl shadow-md overflow-hidden p-6">
+                <div className="flex items-start gap-4">
+                  {activeDoc.icon}
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-800">{activeDoc.title}</h2>
+                    <p className="text-gray-600 mt-2">{activeDoc.description}</p>
+                    <div className="mt-6">
+                      <Button className="flex items-center gap-2" onClick={() => setIsModalOpen(true)}>
+                        <Eye className="h-5 w-5" />
+                        Ver documento
+                      </Button>
                     </div>
-                    {/* <Button variant="outline" className="flex items-center gap-2 self-start">
-                      <Download className="h-4 w-4" />
-                      <span>Descargar</span>
-                    </Button> */}
                   </div>
-                </div>
-
-                {/* Controles del visor */}
-                <div className="bg-gray-800 text-white p-2 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-gray-300 hover:text-white hover:bg-gray-700"
-                      onClick={handlePrevPage}
-                      disabled={currentPage <= 1}
-                    >
-                      <ChevronLeft className="h-5 w-5" />
-                    </Button>
-                    <span className="text-sm">
-                      Página {currentPage} de {totalPages}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-gray-300 hover:text-white hover:bg-gray-700"
-                      onClick={handleNextPage}
-                      disabled={currentPage >= totalPages}
-                    >
-                      <ChevronRight className="h-5 w-5" />
-                    </Button>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-gray-300 hover:text-white hover:bg-gray-700"
-                      onClick={handleZoomOut}
-                      disabled={zoom <= 50}
-                    >
-                      <ZoomOut className="h-5 w-5" />
-                    </Button>
-                    <span className="text-sm">{zoom}%</span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-gray-300 hover:text-white hover:bg-gray-700"
-                      onClick={handleZoomIn}
-                      disabled={zoom >= 200}
-                    >
-                      <ZoomIn className="h-5 w-5" />
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Visor de PDF */}
-                <div className="bg-gray-900 flex justify-center">
-                  <iframe
-                    src={`${activeDoc.file}#page=${currentPage}&zoom=${zoom}`}
-                    title={activeDoc.title}
-                    className="w-full h-[700px] border-none"
-                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Modal para visualizar el documento */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-5xl h-[90vh] flex flex-col p-0">
+          <DialogHeader className="bg-gray-100 p-4 border-b">
+            <DialogTitle>{activeDoc.title}</DialogTitle>
+            <DialogDescription>{activeDoc.description}</DialogDescription>
+          </DialogHeader>
+
+          {/* Controles del visor */}
+          <div className="bg-gray-800 text-white p-2 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-300 hover:text-white hover:bg-gray-700"
+                onClick={handlePrevPage}
+                disabled={currentPage <= 1}
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </Button>
+              <span className="text-sm">
+                Página {currentPage} de {totalPages}
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-300 hover:text-white hover:bg-gray-700"
+                onClick={handleNextPage}
+                disabled={currentPage >= totalPages}
+              >
+                <ChevronRight className="h-5 w-5" />
+              </Button>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-300 hover:text-white hover:bg-gray-700"
+                onClick={handleZoomOut}
+                disabled={zoom <= 50}
+              >
+                <ZoomOut className="h-5 w-5" />
+              </Button>
+              <span className="text-sm">{zoom}%</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-300 hover:text-white hover:bg-gray-700"
+                onClick={handleZoomIn}
+                disabled={zoom >= 200}
+              >
+                <ZoomIn className="h-5 w-5" />
+              </Button>
+              <Button variant="ghost" size="sm" className="text-gray-300 hover:text-white hover:bg-gray-700 ml-4">
+                <Download className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Visor de PDF */}
+          <div className="bg-gray-900 flex-1 overflow-auto">
+            <iframe
+              src={`${activeDoc.file}#page=${currentPage}&zoom=${zoom}`}
+              title={activeDoc.title}
+              className="w-full h-full border-none"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }
 
-export default Documentacion;
+export default Documentacion
+;

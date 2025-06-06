@@ -1,4 +1,4 @@
-﻿using Apimarket.DTOs;
+using Apimarket.DTOs;
 using Apimarket.model;
 using Apimarket.Model;
 using Microsoft.EntityFrameworkCore;
@@ -31,18 +31,12 @@ namespace Apimarket.Models
 
 
 
-
-
-
-
-
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
 
                 optionsBuilder.UseMySql(
-                 "Server=localhost;Database=apimarket;User=root;Password=@Stefany31;Port=3306",
+                 "Server=localhost;Database=apimarket;User=root;Password=cristiantiquet18;Port=3306",
                    new MySqlServerVersion(new Version(8, 0, 23))
  );
 

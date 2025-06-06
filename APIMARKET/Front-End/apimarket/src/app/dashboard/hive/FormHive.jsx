@@ -60,7 +60,6 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
         }
       } else if (buttonForm === "Registrar") {
         const response = await axiosInstance.post("/Api/Hive/CreateHive", {
-          id_Hive: id_Hive,
           des_Hive: descripcion,
           est_Hive: estado,
           numCua_Hive: Ncuadro,

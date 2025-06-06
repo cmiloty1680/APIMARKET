@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useEffect, useState, useRef } from "react"
 import axiosInstance from "@/lib/axiosInstance"
-import { User, Camera, Mail, Phone, Lock , Shield, IdCard, UserCheck, Zap , ShieldCheck   } from "lucide-react"
+import { User, Camera, Mail, Phone, Lock, Shield, IdCard, UserCheck, Zap, ShieldCheck } from "lucide-react"
 import DynamicAlert from "@/components/utils/DynamicAlert"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent } from "@/components/ui/card"
@@ -44,21 +44,21 @@ function FormPerfil() {
 
     try {
       const response = await axiosInstance.get("/Api/Responsible/Profile")
-      console.log("carga",response);
+      console.log("carga", response);
       if (response.status === 200) {
         const data = response.data
 
         // Actualizar estados con los datos recibidos
-        
+
         setNombre(data.nam_Responsible || "")
         setApellidos(data.lasNam_Responsible || "")
         setEmail(data.emai_Responsible || "")
         setTelefono(data.pho_Responsible || "")
         setDocumento(data.numDoc_Responsible || "")
         setUserRole(data.tip_Responsible || "")
-         setIdResponsible(data.id_Responsible || null);
+        setIdResponsible(data.id_Responsible || null);
       }
-      console.log("malo",id_Responsible)
+      console.log("malo", id_Responsible)
     } catch (error) {
       console.error("Error al cargar el perfil:", error)
       setError("No se pudo cargar la información del perfil. Por favor, intenta de nuevo.")
@@ -104,12 +104,26 @@ function FormPerfil() {
       return
     }
 
+    function capitalizarNombreCompleto(texto) {
+      return texto
+        .toLowerCase()                            // todo en minúscula
+        .replace(/\s+/g, " ")                     // elimina espacios múltiples
+        .trim()                                   // quita espacios al inicio/final
+        .split(" ")                               // separa por palabra
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1)) // primera en mayúscula
+        .join(" ");                               // une de nuevo
+    }
+
+    
+    const nombreFormateado = capitalizarNombreCompleto(nombre);
+    const apellidoFormateado = capitalizarNombreCompleto(apellidos);
+
     try {
       // Preparar los datos para enviar al servidor
       const profileData = {
         id_Responsible: id_Responsible,
-        nam_Responsible: nombre,
-        lasNam_Responsible: apellidos,
+        nam_Responsible: nombreFormateado,
+        lasNam_Responsible: apellidoFormateado,
         emai_Responsible: email,
         pho_Responsible: telefono,
         numDoc_Responsible: documento,
@@ -157,7 +171,7 @@ function FormPerfil() {
     }
   }
 
- 
+
 
   // Mostrar un estado de carga mientras se obtienen los datos
   if (isLoading) {
@@ -247,25 +261,25 @@ function FormPerfil() {
               <div className="p-5">
                 <div className="space-y-5">
                   <div className="relative">
-                     <div className="relative group/status">
-                       <div className="absolute -inset-0.5 bg-gradient-to-r from-red-400 via-orange-400 to-red-400 rounded-xl blur opacity-40 group-hover/status:opacity-60 transition duration-300"></div>
-                       <div className="relative bg-gradient-to-br from-red-500 via-orange-600 to-red-700 rounded-xl p-5 shadow-2xl flex items-center gap-4 text-white border border-orange-400/30 hover:shadow-3xl transition-all duration-300 hover:scale-[1.03] cursor-pointer overflow-hidden">
-                         <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-10 translate-x-10"></div>
-                         <div className="absolute bottom-0 left-0 w-16 h-16 bg-white/5 rounded-full translate-y-8 -translate-x-8"></div>
+                    <div className="relative group/status">
+                      <div className="absolute -inset-0.5 bg-gradient-to-r from-red-400 via-orange-400 to-red-400 rounded-xl blur opacity-40 group-hover/status:opacity-60 transition duration-300"></div>
+                      <div className="relative bg-gradient-to-br from-red-500 via-orange-600 to-red-700 rounded-xl p-5 shadow-2xl flex items-center gap-4 text-white border border-orange-400/30 hover:shadow-3xl transition-all duration-300 hover:scale-[1.03] cursor-pointer overflow-hidden">
+                        <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-10 translate-x-10"></div>
+                        <div className="absolute bottom-0 left-0 w-16 h-16 bg-white/5 rounded-full translate-y-8 -translate-x-8"></div>
 
-                         <div className="relative bg-white/25 backdrop-blur-sm rounded-xl flex items-center justify-center w-12 h-12 flex-shrink-0 shadow-lg">
-                           <Zap className="w-6 h-6 text-white drop-shadow-sm" />
-                         </div>
-                         <div className="relative flex flex-col">
-                           <div className="text-orange-100 text-xs font-medium mb-1 tracking-wide">
-                             Estado del Usuario
-                           </div>
-                           <div className="text-xl font-bold text-white drop-shadow-sm">Activo</div>
-                           <div className="w-8 h-0.5 bg-white/40 rounded-full mt-1">
+                        <div className="relative bg-white/25 backdrop-blur-sm rounded-xl flex items-center justify-center w-12 h-12 flex-shrink-0 shadow-lg">
+                          <Zap className="w-6 h-6 text-white drop-shadow-sm" />
+                        </div>
+                        <div className="relative flex flex-col">
+                          <div className="text-orange-100 text-xs font-medium mb-1 tracking-wide">
+                            Estado del Usuario
                           </div>
-                         </div>
-                       </div>
-                     </div>
+                          <div className="text-xl font-bold text-white drop-shadow-sm">Activo</div>
+                          <div className="w-8 h-0.5 bg-white/40 rounded-full mt-1">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -358,17 +372,14 @@ function FormPerfil() {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="ciudad" className="flex items-center gap-2 text-sm font-medium">
-                        <ShieldCheck  className="h-4 w-4 text-orange-500" />
+                        <ShieldCheck className="h-4 w-4 text-orange-500" />
                         Rol
                       </Label>
-                      <Input
-                        id="ciudad"
-                        name="ciudad"
-                        placeholder="Rol"
-                        value={userRole}
-                        onChange={(e) => setUserRole(e.target.value)}
-                        className="transition-all duration-200 focus-visible:ring-orange-500 border-orange-200 dark:border-orange-900/30"
-                      />
+                      <div className="w-full px-3 py-2 text-sm transition-all duration-200 border border-orange-200 rounded-md bg-gray-100 text-gray-700 dark:text-gray-300 dark:border-orange-900/30">
+                        {userRole}
+                      </div>
+
+
                     </div>
                   </div>
 
@@ -390,7 +401,7 @@ function FormPerfil() {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="verificarContraseña" className="flex items-center gap-2 text-sm font-medium">
-                        <Lock  className="h-4 w-4 text-orange-500" />
+                        <Lock className="h-4 w-4 text-orange-500" />
                         Confirmar Contraseña
                       </Label>
                       <Input
