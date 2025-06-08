@@ -49,21 +49,12 @@ namespace Apimarket.Services
         }
 
         // obtener la producción total de miel agrupada por año
-
-        public IEnumerable<object> GetProductionByYear(int years = 10)
+        public decimal GetTotalProductionByYear()
         {
-            var startDate = DateTime.Now.AddYears(-years);
-
+            int year = DateTime.Now.Year;  // año actual
             return _context.honeyCollection
-                .Where(h => h.Fec_HoneyCollection >= startDate)
-                .GroupBy(h => h.Fec_HoneyCollection.Year)
-                .Select(g => new
-                {
-                    Year = g.Key,
-                    Production = g.Sum(h => h.Tot_HoneyCollection)
-                })
-                .OrderBy(p => p.Year)
-                .ToList();
+                .Where(h => h.Fec_HoneyCollection.Year == year)
+                .Sum(h => h.Tot_HoneyCollection);
         }
     }
 }

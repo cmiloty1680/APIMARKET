@@ -30,12 +30,12 @@ function FeedingPage() {
   const [msSuccess, setMsSuccess] = useState("");
   const [error, setError] = useState("");
   const [isExportModalOpen, setIsExportModalOpen] = useState(false); // 👈 Para controlar el modal de exportación
-  
-  
- 
+
+
+
 
   const titlesFeeding = [
-    "Código", "Tipo de alimentación", "Fecha de alimentación", "Cantidad de alimentación", "Valor de alimentación", "Descripción de la colmena","Nombre Responsable","Tipo Responsable","Numero de documento", "Id_Responsible", "ID colmena",
+    "Código", "Tipo de alimentación", "Fecha de alimentación", "Cantidad de alimentación", "Valor de alimentación", "Descripción de la colmena", "Nombre Responsable", "Tipo Responsable", "Numero de documento", "Id_Responsible", "ID colmena",
   ];
 
   const [feeding, setFeeding] = useState({
@@ -48,7 +48,7 @@ function FeedingPage() {
     nam_Responsible: '',
     tip_Responsible: '',
     numDoc_Responsible: '',
-    id_Responsible:'',
+    id_Responsible: '',
     id_Hive: ''
   });
 
@@ -58,31 +58,28 @@ function FeedingPage() {
     if (!day || !month || !year) return "";
     return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   }
-  
+
 
   async function fetchFeeding() {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get("/Api/Feeding/GetAllFeeding");
       if (response.status === 200) {
-        // console.log(response.data.id_Hive?.id_responsible);
-        // console.log("Data de alimentación:", response.data);
-
         const data = response.data.map((feeding) => [
           feeding.id_Feeding || "-",
           feeding.tip_Feeding || "-",
           feeding.fec_Feeding ? new Date(feeding.fec_Feeding).toLocaleDateString("es-CO")
-          : "Sin descripción",    
+            : "Sin descripción",
           // feeding.fec_Feeding || "Sin descripción",
           feeding.can_Feeding || "-",
           feeding.vlr_Feeding || "-",
-          feeding.des_Hive  || "-",
-          feeding.nam_Responsible || "-",
-          feeding.tip_Responsible ||"-",
-          feeding.numDoc_Responsible ||"",
-          feeding.id_Responsible || "",   
+          feeding.des_Hive || "-",
+          `${feeding.nam_Responsible} ${feeding.lasNam_Responsible}` || "-",
+          feeding.tip_Responsible || "-",
+          feeding.numDoc_Responsible || "",
+          feeding.id_Responsible || "",
           feeding.id_Hive || ""
-          
+
         ]);
         setRegisFeeding(data);
       }
@@ -102,7 +99,7 @@ function FeedingPage() {
     fetchFeeding(); // Refresca los datos de la tabla
   };
 
-  const updateTextTitleForm = (texto, rowData ) => {
+  const updateTextTitleForm = (texto, rowData) => {
     setAction(texto);
     setButtonForm(texto);
     setFeeding({})
@@ -111,24 +108,24 @@ function FeedingPage() {
     if (texto === "Actualizar") {
       console.log("Actualizando...");
 
-     
+
       setFeeding({
         id_Feeding: rowData[0],
         tip_Feeding: rowData[1],
-        fec_Feeding: formatDateToISO(rowData[2]),      
+        fec_Feeding: formatDateToISO(rowData[2]),
         can_Feeding: rowData[3],
         vlr_Feeding: rowData[4],
-        des_Hive: rowData[5],         
+        des_Hive: rowData[5],
         nam_Responsible: rowData[6],
         tip_Responsible: rowData[7],
         numDoc_Responsible: rowData[8],
         id_Responsible: rowData[9],
-        id_Hive: rowData[10],     
+        id_Hive: rowData[10],
       });
       console.log("tod", rowData)
     } else {
       console.log("Registrando...");
-      
+
     }
   };
 
@@ -136,23 +133,23 @@ function FeedingPage() {
   const openModalForm = (Open) => {
     setIsOpen(Open);
   };
-  
+
   // Función para abrir el modal
   // const openModalForm = (Open) => {
   //   setSelectedFeeding(null);
   //   setIsOpen(Open);
   // };
- // Función para manejar el éxito al registrar o actualizar la raza
- const handleSuccess = () => {
-  const message =
-    action === "Registrar"
-      ? "alimentacion ha sido registrada correctamente."
-      : "alimentacion ha sido actualizada correctamente.";
-  setMsSuccess(message);
-  setModalOpen(true);
-  fetchFeeding();
-  setIsOpen(false);
-};
+  // Función para manejar el éxito al registrar o actualizar la raza
+  const handleSuccess = () => {
+    const message =
+      action === "Registrar"
+        ? "alimentacion ha sido registrada correctamente."
+        : "alimentacion ha sido actualizada correctamente.";
+    setMsSuccess(message);
+    setModalOpen(true);
+    fetchFeeding();
+    setIsOpen(false);
+  };
 
 
 
@@ -193,20 +190,20 @@ function FeedingPage() {
 
 
   return (
-    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
-    <div className="flex h-screen bg-gray-200">
-      <Sidebar />
-      <div className="flex flex-col flex-1 overflow-hidden text-white">
-        <NavPrivate TitlePage={TitlePage} Icon={<Flower/>}/>
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
-          <div className="container mx-auto px-6 py-8 mt-10">
-            <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
-              <div className="relative p-6">
-                {error && (
-                <div className="bg-red-500 text-white p-2 rounded mb-4">
-                  {error}</div>)}
+    <PrivateRoute requiredRole={["instructor", "pasante", "gestor"]}>
+      <div className="flex h-screen bg-gray-200">
+        <Sidebar />
+        <div className="flex flex-col flex-1 overflow-hidden text-white">
+          <NavPrivate TitlePage={TitlePage} Icon={<Flower />} />
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
+            <div className="container mx-auto px-6 py-8 mt-10">
+              <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
+                <div className="relative p-6">
+                  {error && (
+                    <div className="bg-red-500 text-white p-2 rounded mb-4">
+                      {error}</div>)}
 
-                
+
                   <ContentPage
                     Data={regisFeeding}
                     TitlesTable={titlesFeeding}
@@ -214,63 +211,63 @@ function FeedingPage() {
                     // action={action}
                     updateTextTitleForm={updateTextTitleForm}
                     openModalForm={openModalForm}
-                    ignorar={[9,10]}
+                    ignorar={[9, 10]}
                     setIsExportModalOpen={setIsExportModalOpen}
 
-                     tableName="alimentacion"
+                    tableName="alimentacion"
 
                     showAddButton={true} // 👈 aquí indicas que NO lo muestre
 
                   />
 
+                </div>
               </div>
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
+
+        <ModalDialog
+          isOpen={isOpen}
+          setIsOpen={openModalForm}
+          FormPage={<FormFeeding buttonForm={buttonForm} feeding={feeding} onSuccess={handleSuccess}
+            onDataUpdated={handleDataUpdated}
+            closeModal={openModalForm}
+          />}
+          action={action}
+        />
+
+        <ConfirmationModal
+          isOpen={isModalOpenDelete}
+          onClose={() => setIsModalOpenDelete(false)}
+          onConfirm={deleteFeeding}
+          DeleteTitle={eliminar}
+        />
+
+        {/* MODALES DE ALERTA */}
+        <DynamicAlert
+          isOpen={isModalOpen}
+          onOpenChange={setModalOpen}
+          type="success"
+          redirectPath="" // o déjalo vacío si no deseas redirigir
+        />
+
+        <DynamicAlert
+          isOpen={isModalOpenFall}
+          onOpenChange={setModalOpenFall}
+          type="error"
+          message={error || "Ha ocurrido un error inesperado"}
+          redirectPath=""
+        />
+
+        {/* Modal de exportación a PDF */}
+        <ExportToPDFDialog
+          isOpen={isExportModalOpen}
+          setIsOpen={setIsExportModalOpen}
+          TitlePage={TitlePage}
+          Data={regisFeeding}
+          TitlesTable={titlesFeeding}
+        />
       </div>
-
-      <ModalDialog
-        isOpen={isOpen}
-        setIsOpen={openModalForm}
-        FormPage={<FormFeeding buttonForm={buttonForm} feeding={feeding} onSuccess={handleSuccess}  
-        onDataUpdated={handleDataUpdated}
-        closeModal={openModalForm}
-        />}
-        action={action}
-      />
-
-      <ConfirmationModal
-        isOpen={isModalOpenDelete}
-        onClose={() => setIsModalOpenDelete(false)}
-        onConfirm={deleteFeeding}
-        DeleteTitle={eliminar}
-      />
-
-       {/* MODALES DE ALERTA */}
-       <DynamicAlert
-        isOpen={isModalOpen}
-        onOpenChange={setModalOpen}
-        type="success"
-        redirectPath="" // o déjalo vacío si no deseas redirigir
-      />
-
-      <DynamicAlert
-        isOpen={isModalOpenFall}
-        onOpenChange={setModalOpenFall}
-        type="error"
-        message={error || "Ha ocurrido un error inesperado"}
-        redirectPath=""
-      />
-
-       {/* Modal de exportación a PDF */}
-       <ExportToPDFDialog
-        isOpen={isExportModalOpen}
-        setIsOpen={setIsExportModalOpen}
-        TitlePage={TitlePage}
-        Data={regisFeeding}
-        TitlesTable={titlesFeeding}
-      />
-    </div>
     </PrivateRoute>
   );
 }

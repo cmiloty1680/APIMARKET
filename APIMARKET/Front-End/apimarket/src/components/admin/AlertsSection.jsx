@@ -13,7 +13,7 @@ function AlertsSection() {
                   <h3 className="text-xl font-bold text-slate-800">Recomendaciones Apicolas</h3>
                 </div>
                 <span className="px-2.5 py-1 text-xs font-medium text-white bg-gradient-to-r from-red-500 to-rose-500 rounded-full shadow-sm">
-                  4 nuevas
+                  Sugerencias
                 </span>
               </div>
               <div className="space-y-4">

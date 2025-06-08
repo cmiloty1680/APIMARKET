@@ -66,6 +66,7 @@ namespace Apimarket.Controllers
                     Vlr_Feeding = p.Vlr_Feeding,
                     Des_Hive = p.hive != null ? p.hive.Des_Hive : "Sin colmena",
                     Nam_Responsible = p.responsible.Nam_Responsible,
+                    LasNam_Responsible = p.responsible.LasNam_Responsible,
                     NumDoc_Responsible = p.responsible.NumDoc_Responsible,
                     Tip_Responsible = p.responsible.Tip_Responsible,
                     Id_Hive = p.hive.Id_Hive,

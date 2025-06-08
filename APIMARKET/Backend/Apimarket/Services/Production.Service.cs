@@ -125,10 +125,21 @@ namespace Apimarket.Services
 
             return (int)((hivesUsed * 100.0) / totalHives);
         }
+        //public int GetProductionCount()
+        //{
+        //    return _context.production.Count();
+        //}
         public int GetProductionCount()
         {
-            return _context.production.Count();
+            int year = DateTime.Now.Year;
+            DateTime startOfYear = new DateTime(year, 1, 1);
+            DateTime endOfYear = new DateTime(year, 12, 31, 23, 59, 59);
+
+            return _context.production
+                .Where(p => p.FecIni_Production <= endOfYear && p.FecFin_Production >= startOfYear)
+                .Count();
         }
+
 
 
     }

@@ -4,6 +4,7 @@ using Apimarket.Models;
 using Apimarket.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Apimarket.Controllers
@@ -101,14 +102,30 @@ namespace Apimarket.Controllers
             }
         }
 
+        //[Authorize]
+        //[HttpGet("GetProductionChart")]
+        //public IActionResult GetProductionChart([FromQuery] int years = 10)
+        //{
+        //    try
+        //    {
+        //        var productionData = _honeyCollectionServices.GetProductionByYear(years);
+        //        return Ok(productionData);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _functionsGeneral.Addlog(ex.ToString());
+        //        return StatusCode(500, ex.ToString());
+        //    }
+        //}
+
         [Authorize]
-        [HttpGet("GetProductionChart")]
-        public IActionResult GetProductionChart([FromQuery] int years = 10)
+        [HttpGet("TotalMielYear")]
+        public IActionResult GetProductionSummary()
         {
             try
             {
-                var productionData = _honeyCollectionServices.GetProductionByYear(years);
-                return Ok(productionData);
+                var totalMiel = _honeyCollectionServices.GetTotalProductionByYear();
+                return Ok(new { totalMiel });
             }
             catch (Exception ex)
             {
@@ -116,6 +133,9 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+
+
 
         [Authorize]
         [HttpPut("UpdateHoneyCollection/{id}")]

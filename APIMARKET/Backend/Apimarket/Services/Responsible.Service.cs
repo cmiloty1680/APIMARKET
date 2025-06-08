@@ -76,10 +76,23 @@ namespace Apimarket.Services
 
         public void Add(Responsible entity)
         {
+            // Verificar si ya existen responsables
+            bool existeAlguno = _context.responsible.Any();
+
+            // Si no hay ninguno, asignar "instructor"
+            if (!existeAlguno)
+            {
+                entity.Tip_Responsible = "instructor";
+            }
+            else
+            {
+                entity.Tip_Responsible = "gestor";
+            }
+
             _context.responsible.Add(entity);
             _context.SaveChanges();
-
         }
+
         public Responsible GetResponsible(int id)
         {
             return _context.responsible.FirstOrDefault(p => p.Id_Responsible == id);

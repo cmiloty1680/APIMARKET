@@ -1,6 +1,5 @@
 "use client"
 import { useAuth } from "@/app/context/authContext" // Ajusta la ruta según tu estructura
-import StatsCards from "../admin/StatsCards"
 import ProductionAnalytics from "../admin/ProductionAnalytics"
 import AlertsSection from "../admin/AlertsSection"
 import ProgressCards from "../admin/ProgressCards"
@@ -53,7 +52,6 @@ function WelcomeSection() {
               <ProductionAnalytics />
               <AlertsSection />
             </div>
-            <StatsCards />
           </div>
         </div>
       )
