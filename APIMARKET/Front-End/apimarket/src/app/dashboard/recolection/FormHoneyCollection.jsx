@@ -251,7 +251,7 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
               <option value="" disabled>Seleccione</option>
               {responsibles.map((responsible) => (
                 <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
-                  {responsible.nam_Responsible}
+                  {responsible.nam_Responsible} {responsible.lasNam_Responsible}
                 </option>
               ))}
             </select>

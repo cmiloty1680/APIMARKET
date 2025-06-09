@@ -49,8 +49,6 @@ function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalF
   return (
     <>
 
-
-
       <div className="border border-gray-200 rounded-lg shadow-sm bg-white">
         <Table className="table">
           <TableHeader>
