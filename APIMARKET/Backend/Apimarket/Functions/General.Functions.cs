@@ -193,9 +193,9 @@ namespace Apimarket.Functions
                                         <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""border-collapse: collapse;"">
                                             <tr>
                                                 <td width=""50"" valign=""top"">
-                                                    <div style=""width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; text-align: center; line-height: 40px; color: #ffffff;"">
-                                                        🛡️
-                                                    </div>
+                                                  <div style=""width: 40px; height: 40px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;"">
+                                                    <span style=""font-size: 18px; line-height: 1;"">🛡️</span>
+                                                  </div>
                                                 </td>
                                                 <td style=""padding-left: 20px;"">
                                                     <h3 style=""color: #1a1a1a; font-weight: 700; font-size: 16px; margin: 0 0 8px 0;"">
@@ -241,36 +241,6 @@ namespace Apimarket.Functions
                                 <tr>
                                     <td align=""center"" style=""padding: 40px 30px;"">
                                         <!-- APIMARKET logo in footer -->
-                                        <div style=""width: 100px; height: 100px; background: #ffffff; border-radius: 50%; display: inline-block; text-align: center; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3); padding: 10px; border: 3px solid #ff6b35;"">
-                                            <img src=""https://i.imgur.com/FlGkkEd.png"" alt=""logo"" style=""width: 100%; height: 100%; object-fit: cover; transform: rotate(-45deg); display: block;"" />
-                                        </div>
-
-                                        <!-- Social icons with original brand colors -->
-                                        <table border=""0"" cellpadding=""0"" cellspacing=""0"" style=""border-collapse: collapse; margin-bottom: 25px;"">
-                                            <tr>
-                                                <!-- Twitter/X - Negro -->
-                                                <td style=""padding: 0 10px;"">
-                                                    <a href=""#"" style=""display: inline-block; width: 45px; height: 45px; background: #000000; color: #ffffff; border-radius: 12px; text-align: center; line-height: 45px; text-decoration: none; font-size: 16px; font-weight: bold; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);"">X</a>
-                                                </td>
-                                                <!-- Facebook - Azul -->
-                                                <td style=""padding: 0 10px;"">
-                                                    <a href=""#"" style=""display: inline-block; width: 45px; height: 45px; background: #1877F2; color: #ffffff; border-radius: 12px; text-align: center; line-height: 45px; text-decoration: none; font-size: 16px; font-weight: bold; box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3);"">f</a>
-                                                </td>
-                                                <!-- Instagram - Gradiente -->
-                                                <td style=""padding: 0 10px;"">
-                                                    <a href=""#"" style=""display: inline-block; width: 45px; height: 45px; background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4); color: #ffffff; border-radius: 12px; text-align: center; line-height: 45px; text-decoration: none; font-size: 14px; font-weight: bold; box-shadow: 0 4px 15px rgba(245, 133, 41, 0.3);"">ig</a>
-                                                </td>
-                                                <!-- YouTube - Rojo -->
-                                                <td style=""padding: 0 10px;"">
-                                                    <a href=""#"" style=""display: inline-block; width: 45px; height: 45px; background: #FF0000; color: #ffffff; border-radius: 12px; text-align: center; line-height: 45px; text-decoration: none; font-size: 14px; font-weight: bold; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);"">yt</a>
-                                                </td>
-                                                <!-- LinkedIn - Azul profesional -->
-                                                <td style=""padding: 0 10px;"">
-                                                    <a href=""#"" style=""display: inline-block; width: 45px; height: 45px; background: #0A66C2; color: #ffffff; border-radius: 12px; text-align: center; line-height: 45px; text-decoration: none; font-size: 14px; font-weight: bold; box-shadow: 0 4px 15px rgba(10, 102, 194, 0.3);"">in</a>
-                                                </td>
-                                            </tr>
-                                        </table>
-
                                         <p style=""color: #94a3b8; font-size: 16px; margin: 0 0 20px 0; font-weight: 500;"">
                                             © 2024 APIMARKET. Todos los derechos reservados.
                                         </p>

@@ -48,20 +48,6 @@ function ColmenaRecoleccion() {
   const [hasCreatedRecord, setHasCreatedRecord] = useState(false)
   const [previousView, setPreviousView] = useState(null);
 
-  
-
-  // Si el modal de formulario se cierra sin guardar, volver a vista principal
-  // useEffect(() => {
-  //   if (!isOpen && !hasCreatedRecord) {
-  //     if (currentView === VIEW_FERTILIZATION) {
-  //       setCurrentView(VIEW_EXTRACTION);
-  //     } else if (currentView === VIEW_EXTRACTION) {
-  //       setCurrentView(VIEW_MAIN); // o VIEW_COLLEC_DRONE si existe
-  //     } else if (currentView === VIEW_MAIN) {
-  //       setCurrentView(VIEW_MAIN);
-  //     }
-  //   }
-  // }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen && !hasCreatedRecord && action !== "Actualizar") {
@@ -81,8 +67,9 @@ function ColmenaRecoleccion() {
   const titlesRecoleccion = [
     "ID",
     "Fecha",
-    "Cantidad",
-    "Responsable",
+    "Cantidad",    
+    "Nombre",
+    "Apellido",
     "ID Colmena",
     "ID_Responsables",
     "Extracción"
@@ -91,7 +78,8 @@ function ColmenaRecoleccion() {
     "ID",
     "Fecha Extracción",
     "Cantidad Extracción",
-    "Responsable",
+    "Nombre",
+    "Apellido",
     "ID Recolección",
     "ID_Responsables",
     "Fertilización"
@@ -100,7 +88,8 @@ function ColmenaRecoleccion() {
     "ID",
     "Fecha Fertilización",
     "Cantidad Fertilización",
-    "Responsable",
+    "Nombre",
+    "Apellido",
     "ID Extracción",
     "ID_Responsables"
   ]
@@ -146,6 +135,7 @@ function ColmenaRecoleccion() {
           collec.fec_CollecDrone ? new Date(collec.fec_CollecDrone).toLocaleDateString("es-CO") : "-",
           collec.can_CollecDrone || "Sin estado",
           collec.nam_Responsible || "-",
+          collec.lasNam_Responsible || "-",
           collec.id_Hive || "-",
           collec.id_Responsible || "-",
         ]);
@@ -170,6 +160,7 @@ function ColmenaRecoleccion() {
           extration.fec_Extraction ? new Date(extration.fec_Extraction).toLocaleDateString("es-CO") : "-",
           extration.can_Extraction || "Sin estado",
           extration.nam_Responsible || "-",
+          extration.lasNam_Responsible || "-",
           extration.id_CollecDrone || "-",
           extration.id_Responsible || "-",
         ]);
@@ -194,6 +185,7 @@ function ColmenaRecoleccion() {
           fert.fec_Fertilization ? new Date(fert.fec_Fertilization).toLocaleDateString("es-CO") : "-",
           fert.can_Fertilization || "-",
           fert.nam_Responsible || "-",
+          fert.lasNam_Responsible || "-",
           fert.id_Extraction || "-",
           fert.id_Responsible || "-",
         ]);
@@ -222,6 +214,7 @@ function ColmenaRecoleccion() {
   const updateTextTitleForm = (texto, rowData) => {
     setAction(texto)
     setButtonForm(texto)
+    setDroneData({});
     setExtractionData({});
     setFertilization({});
 
@@ -232,8 +225,9 @@ function ColmenaRecoleccion() {
           fec_CollecDrone: formatDateToISO(rowData[1]),
           can_CollecDrone: rowData[2],
           id_Responsible: rowData[5],
-          id_Hive: rowData[4],
+          id_Hive: rowData[6],
         })
+        console.log(rowData)
       } else if (currentView === VIEW_EXTRACTION) {
         setExtractionData({
           id_Extraction: rowData[0],
@@ -242,6 +236,7 @@ function ColmenaRecoleccion() {
           id_CollecDrone: rowData[4],
           id_Responsible: rowData[5],
         })
+        console.log(rowData)
       } else if (currentView === VIEW_FERTILIZATION) {
         setFertilization({
           id_Fertilization: rowData[0],
@@ -250,6 +245,8 @@ function ColmenaRecoleccion() {
           id_Extraction: rowData[4],
           id_Responsible: rowData[5],
         })
+                console.log(rowData)
+
       }
     } else {
       setCurrentRecoleccion(null)
@@ -298,6 +295,7 @@ function ColmenaRecoleccion() {
           e.fec_Extraction? new Date(e.fec_Extraction).toLocaleDateString("es-CO"):"-",
           e.can_Extraction||"Sin estado",
           e.nam_Responsible||"-",
+          e.lasNam_Responsible || "-",
           e.id_CollecDrone||"-",
           e.id_Responsible||"-",
         ])
@@ -339,6 +337,7 @@ function ColmenaRecoleccion() {
           f.fec_Fertilization? new Date(f.fec_Fertilization).toLocaleDateString("es-CO"):"-",
           f.can_Fertilization||"-",
           f.nam_Responsible||"-",
+          f.lasNam_Responsible || "-",
           f.id_Extraction||"-",
           f.id_Responsible||"-",
         ])

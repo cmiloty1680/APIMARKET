@@ -87,9 +87,9 @@ namespace Apimarket.Controllers
                 Fec_Review = p.Fec_Review,
                 Des_Review = p.Des_Review,
                 Nam_Responsible = p.responsible.Nam_Responsible,
-                LasNam_Responsible = p.responsible.LasNam_Responsible,
                 Id_Hive = p.hive.Id_Hive,
-                Id_Responsible = p.responsible.Id_Responsible
+                Id_Responsible = p.responsible.Id_Responsible,
+                LasNam_Responsible = p.responsible.LasNam_Responsible,
 
             }).ToList();
 

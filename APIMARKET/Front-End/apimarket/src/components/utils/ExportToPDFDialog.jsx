@@ -3,14 +3,14 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { jsPDF } from "jspdf"
 import autoTable from "jspdf-autotable"
-import { FileDown, Info, ChevronLeft, ChevronRight, Search } from "lucide-react"
+import { FileDown, Info, ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable }) {
   // Modificar las declaraciones de estado para usar useEffect y reiniciar cuando cambia isOpen
-  const [orientation, setOrientation] = useState("portrait")
+  const [orientation, setOrientation] = useState("landscape")
   const [currentPage, setCurrentPage] = useState(1)
   const [filterId, setFilterId] = useState("")
   const [isFiltered, setIsFiltered] = useState(false)
@@ -22,7 +22,6 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable }) 
       setFilterId("")
       setIsFiltered(false)
       setCurrentPage(1)
-      setOrientation("portrait")
     }
   }, [isOpen])
 
@@ -95,7 +94,7 @@ function ExportToPDFDialog({ isOpen, setIsOpen, TitlePage, Data, TitlesTable }) 
     }
 
     const doc = new jsPDF({
-      orientation: orientation,
+      orientation: "landscape",
       unit: "mm",
       format: "a4",
     })
@@ -517,11 +516,6 @@ const exportStandardPDF = (doc) => {
         </DialogHeader>
 
         <Tabs defaultValue="options" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="options">Opciones</TabsTrigger>
-            <TabsTrigger value="preview">Vista Previa</TabsTrigger>
-          </TabsList>
-
           <TabsContent value="options" className="py-3">
             <div className="space-y-3">
               <div className="bg-blue-50 p-3 rounded-md border border-blue-100">
@@ -602,35 +596,6 @@ const exportStandardPDF = (doc) => {
                       </div>
                     </div>
                   </div>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs sm:text-sm font-medium">Orientación de página:</label>
-                <div className="flex space-x-2">
-                  <Button
-                    type="button"
-                    variant={orientation === "portrait" ? "default" : "outline"}
-                    className="flex-1 text-xs h-9"
-                    onClick={() => setOrientation("portrait")}
-                  >
-                    Vertical
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={orientation === "landscape" ? "default" : "outline"}
-                    className="flex-1 text-xs h-9"
-                    onClick={() => setOrientation("landscape")}
-                  >
-                    Horizontal
-                  </Button>
-                </div>
-                {TitlesTable.length > 7 && orientation === "portrait" && (
-                  <p className="text-xs text-amber-600 mt-1">
-                    <Info className="h-3 w-3 inline mr-1" />
-                    Se recomienda usar orientación horizontal para tablas con muchas columnas. El sistema cambiará
-                    automáticamente si es necesario.
-                  </p>
                 )}
               </div>
             </div>

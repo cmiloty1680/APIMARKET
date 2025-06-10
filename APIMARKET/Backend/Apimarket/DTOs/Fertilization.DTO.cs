@@ -14,5 +14,9 @@
         public int Id_Extraction { get; set; }
 
         public int Id_Responsible { get; set;  }
+
+
+        public string LasNam_Responsible { get; set; }
+
     }
 }

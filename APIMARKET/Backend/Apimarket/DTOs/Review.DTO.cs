@@ -14,11 +14,11 @@ namespace Apimarket.DTOs
 
         public string Nam_Responsible { get; set; }
 
-        public string LasNam_Responsible  { get; set; }
 
         public int Id_Hive { get; set; }
 
         public int Id_Responsible { get; set; }
+        public string LasNam_Responsible  { get; set; }
      
 
 

@@ -18,9 +18,7 @@ namespace Apimarket.DTOs
         public string Nam_Responsible { get; set; }
 
         public string LasNam_Responsible { get; set; }
-
-
-
+    
         public int NumDoc_Responsible { get; set; }
 
         public string Tip_Responsible { get; set; } = "pasante";

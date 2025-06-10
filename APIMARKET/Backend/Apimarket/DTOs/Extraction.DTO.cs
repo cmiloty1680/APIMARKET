@@ -12,5 +12,8 @@
 
         public int Id_CollecDrone { get; set; }
 
+        public string LasNam_Responsible { get; set; }
+
+
     }
 }

@@ -58,27 +58,33 @@ function Siderbar() {
         isOpen ? "w-64" : "w-16"
       )}
     >
-      <div className="flex items-center justify-between h-16 border-b border-gray-200 px-2">
+      <div className={cn(
+        "flex items-center h-16 border-b border-gray-200",
+        isOpen ? "justify-between px-2" : "justify-center"
+      )}>
         {isOpen && (
-          <>
+          <div className="flex items-center flex-1 min-w-0">
             <img
-              className="w-10 h-10 mr-2"
+              className="w-8 h-8 sm:w-10 sm:h-10 mr-2 flex-shrink-0"
               src="/icon.png"
               alt="ApiMarket Logo"
             />
-            <span className="text-2xl font-semibold text-white">
+            <span className="text-lg sm:text-2xl font-semibold text-white truncate">
               APIMARKET
             </span>
-          </>
+          </div>
         )}
         <button
           onClick={toggleSidebar}
-          className="ml-3 rounded-md hover:text-[#e87204] focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:ring-offset-2"
+          className="p-1 rounded-md hover:text-[#e87204] focus:outline-none focus:ring-2 focus:ring-[#e87204] focus:ring-offset-2 flex-shrink-0"
         >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isOpen ? (
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
+          ) : (
+            <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
+          )}
         </button>
       </div>
-
       <nav className="flex-1 overflow-y-auto py-4">
         <ul className="space-y-1 px-3">
           {menuItems.map((item) => (

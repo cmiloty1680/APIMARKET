@@ -56,6 +56,7 @@ function LoginPage() {
 
     async function handlerSubmit(event) {
         event.preventDefault();
+        if (isSubmitting || isModalOpen || isModalOpenFall) return;
         setSubmitting(true);
 
         if (!email || !password) {

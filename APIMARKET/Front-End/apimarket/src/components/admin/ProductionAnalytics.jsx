@@ -191,7 +191,10 @@ function ProductionAnalytics() {
                   >
                     <div className="w-full relative group/bar" style={{ height: `${normalizedHeight}px` }}>
                       <div className="absolute inset-x-0 bottom-0 rounded-t-lg bg-gradient-to-t from-indigo-600 to-violet-500 w-full h-full opacity-80 group-hover/bar:opacity-100 transition-opacity"></div>
-                      <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-2 py-1 rounded text-xs opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap z-10">
+<div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-2 py-1 rounded text-xs opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap z-10
+  sm:opacity-0 sm:group-hover/bar:opacity-100
+  opacity-100 sm:opacity-0
+">
                         {item.production.toFixed(1)} kg en {item.year}
                       </div>
                     </div>
