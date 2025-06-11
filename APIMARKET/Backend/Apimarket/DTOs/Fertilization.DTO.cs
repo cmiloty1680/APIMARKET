@@ -16,7 +16,5 @@
         public int Id_Responsible { get; set;  }
 
 
-        public string LasNam_Responsible { get; set; }
-
     }
 }

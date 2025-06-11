@@ -108,7 +108,7 @@ namespace Apimarket.Controllers
                     Nam_Responsible = p.responsible.Nam_Responsible,
                     Id_Hive = p.hive.Id_Hive,
                     Id_Responsible = p.responsible.Id_Responsible,
-                    LasNam_Responsible = p.responsible.LasNam_Responsible,
+                    //LasNam_Responsible = p.responsible.LasNam_Responsible,
                 }).ToList();
 
                 return Ok(collecDrone);

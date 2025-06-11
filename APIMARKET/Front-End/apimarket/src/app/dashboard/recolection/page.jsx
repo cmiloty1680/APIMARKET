@@ -165,10 +165,6 @@ function HoneyCollection() {
 
    // Acciones de la tabla
    const actions = {
-    delete: (rowData) => {
-      setSelectedHoney(rowData[0]);
-      setIsModalOpen(true);
-    },
     update: (rowData) => {
     
     }
@@ -203,7 +199,7 @@ function HoneyCollection() {
                     openModalForm={openModalForm}
                     ignorar={[ 9, 10, 11, 12, 13, 14, 15, 16 ]}
                     setIsExportModalOpen={setIsExportModalOpen}
-                    tableName="recoleccion de zanganos"
+                    tableName="Recoleccion de miel"
 
                     showAddButton={true} // 👈 aquí indicas que NO lo muestre
                   />

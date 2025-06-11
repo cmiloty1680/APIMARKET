@@ -137,12 +137,6 @@ function FeedingPage() {
     setIsOpen(Open);
   };
   
-  // Función para abrir el modal
-  // const openModalForm = (Open) => {
-  //   setSelectedFeeding(null);
-  //   setIsOpen(Open);
-  // };
- // Función para manejar el éxito al registrar o actualizar la raza
  const handleSuccess = () => {
   const message =
     action === "Registrar"
@@ -179,11 +173,6 @@ function FeedingPage() {
     }
   }
   const actions = {
-    delete: (rowData) => {
-      setSelectedFeeding(rowData[0]);
-      setIsModalOpenDelete(true);
-
-    },
     update: (rowData) => {
       // updateTextTitleForm("Actualizar", rowData);
 
@@ -216,8 +205,8 @@ function FeedingPage() {
                     openModalForm={openModalForm}
                     ignorar={[9,10]}
                     setIsExportModalOpen={setIsExportModalOpen}
+                    tableName="Alimentaciòn"
 
-                     tableName="alimentacion"
 
                     showAddButton={true} // 👈 aquí indicas que NO lo muestre
 

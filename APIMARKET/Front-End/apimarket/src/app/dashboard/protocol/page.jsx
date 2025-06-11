@@ -269,7 +269,7 @@ function ProtocolPage() {
                     updateTextTitleForm={updateTextTitleForm}
                     openModalForm={openModalForm}
                     ignorar={[]}
-                    tableName="protocol"
+                    tableName="Protocolo"
                     setIsExportModalOpen={setIsExportModalOpen}
                     showAddButton={true}
                   />

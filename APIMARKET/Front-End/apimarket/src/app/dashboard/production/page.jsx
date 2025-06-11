@@ -142,10 +142,6 @@ function ProductionPage() {
   }
 
   const actions = {
-    delete: (rowData) => {
-      setSelectedProduction(rowData[0]);
-      setIsModalOpen(true);
-    },
     update: (rowData) => {
       updateTextTitleForm("Actualizar", rowData);
       setIsOpen(true);
@@ -179,7 +175,7 @@ function ProductionPage() {
                   setIsExportModalOpen={setIsExportModalOpen}
                   showAddButton={true} // 👈 aquí indicas que NO lo muestre
                   ignorar={[7]}
-                  tableName="producción"
+                  tableName="Producción"
 
                 />
               </div>

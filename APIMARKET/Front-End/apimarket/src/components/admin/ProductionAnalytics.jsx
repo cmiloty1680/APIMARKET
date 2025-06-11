@@ -15,7 +15,7 @@ function ProductionAnalytics() {
     try {
       setLoading(true);
       const response = await axiosInstance.get('/Api/HoneyCollection/GetAllHoneyCollection');
-      
+
       if (response.status === 200) {
         setAllData(response.data);
       }
@@ -34,7 +34,7 @@ function ProductionAnalytics() {
     const groupedData = data.reduce((acc, item) => {
       const dateField = item.fec_HoneyCollection || item.Fec_HoneyCollection;
       const year = new Date(dateField).getFullYear();
-      
+
       const productionField = item.tot_HoneyCollection || item.Tot_HoneyCollection;
       const production = parseFloat(productionField) || 0;
 
@@ -89,11 +89,11 @@ function ProductionAnalytics() {
     if (totalYears >= 10) {
       options.push({ label: "10 años", value: "10 años" });
     }
-    
+
     if (totalYears >= 15) {
       options.push({ label: "15 años", value: "15 años" });
     }
-    
+
     if (totalYears >= 20) {
       options.push({ label: "20 años", value: "20 años" });
     }
@@ -114,7 +114,7 @@ function ProductionAnalytics() {
     if (allData.length > 0) {
       const allGroupedData = groupAllDataByYear(allData);
       setAvailableYears(allGroupedData.length);
-      
+
       const filteredBars = filterBarsToShow(allGroupedData, range);
       setProductionData(filteredBars);
     }
@@ -132,7 +132,7 @@ function ProductionAnalytics() {
   const filterOptions = getFilterOptions(availableYears);
 
   return (
-    <PrivateRoute requiredRole={["instructor","pasante"]}>
+    <PrivateRoute requiredRole={["instructor", "pasante"]}>
       <div className="bg-white backdrop-blur-xl bg-opacity-80 p-6 rounded-2xl shadow-lg border border-white/20 lg:col-span-2 relative group">
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
         <div className="relative z-10">
@@ -140,35 +140,34 @@ function ProductionAnalytics() {
             <div>
               <h3 className="text-xl font-bold text-slate-800">Producción Anual</h3>
               <p className="text-sm text-slate-500 mt-1">
-                {range === "Este año" ? "Datos del año más reciente" : 
-                 range === "Todos" ? `Todos los ${availableYears} años disponibles` :
-                 `Comparativa de los últimos ${range}`}
+                {range === "Este año" ? "Datos del año más reciente" :
+                  range === "Todos" ? `Todos los ${availableYears} años disponibles` :
+                    `Comparativa de los últimos ${range}`}
               </p>
             </div>
-            
+
             {/* Filtros dinámicos */}
             <div className="flex items-center space-x-2 flex-wrap">
               {filterOptions.map((option) => (
-                <button 
+                <button
                   key={option.value}
                   onClick={() => handleRangeChange(option.value)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors mb-1 ${
-                    range === option.value 
-                      ? "bg-indigo-50 text-indigo-600" 
+                  className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors mb-1 ${range === option.value
+                      ? "bg-indigo-50 text-indigo-600"
                       : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
-                  }`}
+                    }`}
                 >
                   {option.label}
                 </button>
               ))}
             </div>
           </div>
-          
+
           {/* Información adicional */}
           <div className="mb-4 text-xs text-gray-500">
             Mostrando: {productionData.length} de {availableYears} años disponibles
           </div>
-          
+
           <div className="h-72 flex items-end space-x-1 px-4 overflow-x-auto">
             {loading ? (
               Array.from({ length: 5 }).map((_, index) => (
@@ -182,16 +181,16 @@ function ProductionAnalytics() {
                 const normalizedHeight = Math.max((item.production / maxValue) * 120, 10);
                 // Ajustar el ancho según la cantidad de barras
                 const barWidth = productionData.length > 15 ? '30px' : productionData.length > 10 ? '40px' : 'auto';
-                
+
                 return (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className={`${productionData.length > 10 ? 'flex-shrink-0' : 'flex-1'} flex flex-col items-center`}
                     style={{ minWidth: barWidth }}
                   >
                     <div className="w-full relative group/bar" style={{ height: `${normalizedHeight}px` }}>
                       <div className="absolute inset-x-0 bottom-0 rounded-t-lg bg-gradient-to-t from-indigo-600 to-violet-500 w-full h-full opacity-80 group-hover/bar:opacity-100 transition-opacity"></div>
-<div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-2 py-1 rounded text-xs opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap z-10
+                      <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-2 py-1 rounded text-xs opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap z-10
   sm:opacity-0 sm:group-hover/bar:opacity-100
   opacity-100 sm:opacity-0
 ">
@@ -208,13 +207,13 @@ function ProductionAnalytics() {
               </div>
             )}
           </div>
-          
+
           <div className="flex justify-between items-center mt-6 pt-6 border-t border-slate-100">
             <div className="flex items-center">
               <div className="w-3 h-3 bg-gradient-to-r from-indigo-600 to-violet-500 rounded-full mr-2"></div>
               <span className="text-sm text-slate-500">Producción en kilogramos</span>
             </div>
-            <button 
+            <button
               onClick={handleViewFullReport}
               className="text-sm text-indigo-600 font-medium hover:text-indigo-800 flex items-center transition-colors"
             >

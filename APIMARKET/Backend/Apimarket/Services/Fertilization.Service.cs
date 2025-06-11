@@ -1,4 +1,5 @@
-﻿using Apimarket.Model;
+﻿using Apimarket.DTOs;
+using Apimarket.Model;
 using Apimarket.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -57,6 +58,7 @@ namespace Apimarket.Services
             _context.fertilization.Update(fertilization);
             _context.SaveChanges();
         }
+        
     }
 }
 

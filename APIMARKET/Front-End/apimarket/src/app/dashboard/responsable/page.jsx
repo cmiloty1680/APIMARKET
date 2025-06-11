@@ -128,6 +128,7 @@ function
                       action={action}
                       ignorar={[]}
                       tableName="Responsables"
+                      showPdfButton={false} // ← aquí se oculta
 
                     />
                   </div>

@@ -1,3 +1,4 @@
+using Apimarket.Functions;
 using Apimarket.Middleware;
 using Apimarket.Models;
 using Apimarket.Services;
@@ -42,8 +43,7 @@ builder.Services.AddScoped<RaceService>();
 builder.Services.AddScoped<CollecDroneService>();
 builder.Services.AddScoped<ExtractionService>();
 builder.Services.AddScoped<FertilizationService>();
-//builder.Services.AddScoped<EmailService>();
-
+builder.Services.AddScoped<WelcomeEmailFunctions>();
 
 
 

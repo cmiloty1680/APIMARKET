@@ -108,7 +108,7 @@ namespace Apimarket.Controllers
                         Nam_Responsible = p.responsible.Nam_Responsible,
                         Id_Extraction = p.extraction.Id_Extraction,
                         Id_Responsible = p.responsible.Id_Responsible,
-                        LasNam_Responsible = p.responsible.LasNam_Responsible
+                        //LasNam_Responsible = p.responsible.LasNam_Responsible
 
                     })
                     .ToList();
@@ -146,6 +146,8 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+
 
         [Authorize]
         [HttpPut("UpdateFertilization/{id}")]
@@ -194,18 +196,7 @@ namespace Apimarket.Controllers
         {
             try
             {
-                //    var Responsibles = _responsibleService.GetAll();
-                //    string RutaPlantilla = @"C:\ArchivoFile\cateo.rtf"+ NombrePlantilla;
-                //    string RutaPdf = @"C:\ArchivoFile\cateo.pdf" + NombreReporte;
-                //    string RutaTemp = AppDomain.CurrentDomain.BaseDirectory + @"Documentos\\Temp\\" + NombreReporte; 
-                //    var PdfBase64 = string.Empty;
-                //    if (System.IO.File.Exists(RutaPlantilla))
-                //    {
-                //        //PdfBase64 = "hola adso".ToString();
-                //        System.IO.File.Copy(RutaPlantilla, RutaTemp);
-                //    }
-                //    return Ok(new { Responsibles });
-                //}
+
                 string RutaPlantilla = _configuration["Rutas:Plantilla:Path"] + _configuration["Rutas:Plantilla:File"];
                 if (System.IO.File.Exists(RutaPlantilla))
                 {

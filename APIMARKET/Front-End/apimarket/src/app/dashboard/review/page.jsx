@@ -149,10 +149,6 @@ function ReviewPage() {
 
   // Acciones de la tabla
   const actions = {
-    delete: (rowData) => {
-      setSelectedReview(rowData[0]);
-      setIsModalOpen(true);
-    },
     update: (rowData) => {
     
     }
@@ -179,7 +175,7 @@ function ReviewPage() {
                   openModalForm={openModalForm}
                   setIsExportModalOpen={setIsExportModalOpen}
                   ignorar={[4]}
-                  tableName="Revision"
+                  tableName="Revisiòn"
 
                   showAddButton={true} // 👈 aquí indicas que NO lo muestre
                 />
