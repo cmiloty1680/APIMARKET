@@ -64,12 +64,7 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
       return;
     }
 
-    if (descripcion.length > 2) {
-      setError("La descripcion debe ser menor a 250 caracteres.");
-      setModalOpenFall(true);
-      setSubmitting(false);
-      return;
-    }
+  
 
     function capitalizarNombreCompleto(texto) {
       return texto
@@ -230,7 +225,6 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
             id="comments"
             className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
             rows="3"
-            placeholder="descripcion solo hasta 250 dijitos"
             required
             value={descripcion || ""}
             onChange={(event) => setDescripcion(event.target.value)}
