@@ -14,7 +14,6 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
   const [responsibles, setResponsibles] = useState([]);
   const [descripcion, setDescripcion] = useState("");
   const [nomResponsible, setNomResponsible] = useState("");
-  const [deshive, setDesHive] = useState("");
   const [isModalOpenFall, setModalOpenFall] = useState(false);
   const [id_Review, setIdReview] = useState(null);
   const [msSuccess, setMsSuccess] = useState("");
@@ -58,14 +57,30 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
     event.preventDefault();
     setSubmitting(true);
 
-    // if (!fecha || !descripcion || !nomResponsible || !deshive) {
-    //   setError("Todos los campos son requeridos.");
-    //   setSubmitting(false);
-    //   setModalOpenFall(true);
-    //   return;
-    // }
+    if (!fecha || !descripcion || !nomResponsible || !descripcion) {
+      setError("Todos los campos son requeridos.");
+      setSubmitting(false);
+      setModalOpenFall(true);
+      return;
+    }
 
-    
+    if (descripcion.length > 2) {
+      setError("La descripcion debe ser menor a 250 caracteres.");
+      setModalOpenFall(true);
+      setSubmitting(false);
+      return;
+    }
+
+    function capitalizarNombreCompleto(texto) {
+      return texto
+        .toLowerCase()                            // todo en minúscula
+        .replace(/\s+/g, " ")                     // elimina espacios múltiples
+        .trim()                                   // quita espacios al inicio/final
+        .split(" ")                               // separa por palabra
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1)) // primera en mayúscula
+        .join(" ");                               // une de nuevo
+    }
+    const descripcionFormateada = capitalizarNombreCompleto(descripcion);
 
     const formattedFecha = fecha ? fecha.split("T")[0] : "";
 
@@ -74,7 +89,7 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
         const UpdateReview = {
           id_Review: id_Review,
           fec_Review: formattedFecha,
-          des_Review: descripcion,
+          des_Review: descripcionFormateada,
           id_Responsible: nomResponsible,
           id_Hive: idHives,
         };
@@ -82,7 +97,6 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
           UpdateReview
         )
         if (response.status === 200) {
-          // console.log(response.data)
           setMsSuccess(response.data.message || "revicion actualizada correctamente.")
           setModalOpen(true);
           onDataUpdated();
@@ -90,7 +104,7 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
       } else if (buttonForm === "Registrar") {
         const response = await axiosInstance.post("/Api/Review/CreateReview", {
           fec_Review: formattedFecha,
-          des_Review: descripcion,
+          des_Review: descripcionFormateada,
           id_Responsible: nomResponsible,
           id_Hive: idHives,
         });
@@ -199,7 +213,7 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
             <option value="" disabled>Seleccione</option>
             {responsibles.map((responsible) => (
               <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
-                {responsible.nam_Responsible} {responsible.lasNam_Responsible}
+                {responsible.nam_Responsible}
               </option>
             ))}
           </select>
@@ -216,6 +230,7 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
             id="comments"
             className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
             rows="3"
+            placeholder="descripcion solo hasta 250 dijitos"
             required
             value={descripcion || ""}
             onChange={(event) => setDescripcion(event.target.value)}
@@ -245,20 +260,6 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
         message={msSuccess || "Operación exitosa"}
         redirectPath=""
       />
-
-      {/* Modal de fallido usando el componente dinámico
-      <DynamicAlert
-        isOpen={isModalOpenFall}
-        onOpenChange={(isOpen) => {
-          setModalOpenFall(isOpen); // Cambia el estado del modal
-          if (!isOpen) {
-            closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
-          }
-        }}
-        type="error"
-        message={error || "Ha ocurrido un error inesperado"}
-        redirectPath=""
-      /> */}
     </>
   );
 }

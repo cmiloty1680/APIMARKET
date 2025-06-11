@@ -38,6 +38,12 @@ function CreateResponsible() {
       setIsSubmitting(false);
       return;
     }
+    if (documento.length < 5 || documento.length > 10) {
+      setError("El número de documento debe tener entre 5 y 10 dígitos.");
+      setModalOpenFall(true);
+      setIsSubmitting(false);
+      return;
+    }
 
     if (contraseña !== confirmarContraseña) {
       setError("Las contraseñas no coinciden.");
@@ -45,6 +51,8 @@ function CreateResponsible() {
       setIsSubmitting(false);
       return;
     }
+
+
     // Validación del teléfono: debe tener exactamente 10 dígitos
     if (telefono.length !== 10) {
       setError("El número de teléfono debe tener exactamente 10 dígitos.");
@@ -91,11 +99,10 @@ function CreateResponsible() {
       if (error.response) {
         // Si el código de error es 409 (conflicto), significa que el correo ya está registrado
         if (error.response.status === 409) {
-          setError("El correo electrónico ya está registrado.");
           setModalOpenFall(true);
         } else {
           // Otros errores del servidor o validaciones
-          setError("Error al registrar el responsable.");
+          setError("El correo electrónico ya está registrado.");
           setModalOpenFall(true);
         }
       } else {
@@ -306,3 +313,16 @@ function CreateResponsible() {
 }
 
 export default CreateResponsible;
+
+
+
+
+
+
+
+
+
+
+
+
+

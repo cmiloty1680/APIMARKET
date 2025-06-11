@@ -1,5 +1,3 @@
-
-
 "use client";
 
 
@@ -59,12 +57,22 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
       setSubmitting(false);
       return;
   }
-  
+   function capitalizarNombreCompleto(texto) {
+      return texto
+        .toLowerCase()                            // todo en minúscula
+        .replace(/\s+/g, " ")                     // elimina espacios múltiples
+        .trim()                                   // quita espacios al inicio/final
+        .split(" ")                               // separa por palabra
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1)) // primera en mayúscula
+        .join(" ");                               // une de nuevo
+    }
+      const descripcionFormateada = capitalizarNombreCompleto(nombre);
+
     try {
       if (buttonForm === "Actualizar") {
         const updateProtocol = {
           id_protocol: id_Protocol,
-          Nom_Protocol: nombre,
+          Nom_Protocol: descripcionFormateada,
           Tip_Protocol: tipo,
           FecCre_Protocol: fechaCreacion,
           FecAct_Protocol: fechaActualizacion,
@@ -79,7 +87,7 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
       } else if (buttonForm === "Registrar") {
         const response = await axiosInstance.post("/Api/Protocol/CreateProtocol", {
           id_Protocol: id_Protocol,
-          Nom_Protocol: nombre,
+          Nom_Protocol: descripcionFormateada,
           Tip_Protocol: tipo,
           FecCre_Protocol: fechaCreacion,
           FecAct_Protocol: fechaActualizacion,
@@ -133,7 +141,7 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
 
     try {
       const formData = new FormData();
-      formData.append("Nom_Protocol", nombre);
+      formData.append("Nom_Protocol", descripcionFormateada);
       formData.append("Tip_Protocol", tipo);
       formData.append("FecCre_Protocol", fechaCreacion);
       formData.append("FecAct_Protocol", fechaActualizacion);
@@ -226,7 +234,7 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
               id="tipo"
               value={tipo || ""}
               onChange={(e) => setTipo(e.target.value)}
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              className="w-full border px-3 py-2 rounded"
               required
             >
               <option value="">Seleccionar tipo</option>
@@ -245,7 +253,7 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
               id="fechaCreacion"
               value={fechaCreacion || ""}
               onChange={(e) => setFechaCreacion(e.target.value)}
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              className="w-full border px-3 py-2 rounded"
               required
             />
           </div>
@@ -258,7 +266,7 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
               id="fechaActualizacion"
               value={fechaActualizacion || ""}
               onChange={(e) => setFechaActualizacion(e.target.value)}
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              className="w-full border px-3 py-2 rounded"
               required
             />
           </div>
@@ -324,4 +332,3 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
 }
 
 export default FormProtocol;
-

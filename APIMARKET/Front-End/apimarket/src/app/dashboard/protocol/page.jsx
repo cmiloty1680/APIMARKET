@@ -1,6 +1,4 @@
 
-
-
 "use client"
 import { useState, useEffect } from "react"
 import NavPrivate from "@/components/navs/NavPrivate"

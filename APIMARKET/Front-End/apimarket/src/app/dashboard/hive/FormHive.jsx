@@ -27,24 +27,61 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
     event.preventDefault();
     setIsSubmitting(true);
 
-    if (!estado || !descripcion || !Ncuadro || !Nalza) {
+    if (!estado || !descripcion || !Ncuadro || !Nalza || !CuaMiel) {
       setError("Por favor, complete todos los campos.");
       setIsSubmitting(false);
       return;
     }
 
-    if (descripcion.length > 100) {
+    if (parseFloat(descripcion) > 200) {
       setError("La descripción solo puede tener un máximo de 100 caracteres.");
       setModalOpenFall(true);
       setIsSubmitting(false);
       return;
     }
+     
+      if (parseFloat(Nalza) > 15) {
+
+      setError("El numero de alzas debe  tener un máximo de 15 caracteres.");
+      setModalOpenFall(true);
+      setIsSubmitting(false);
+      return;
+    }
+       if (parseFloat(Ncuadro) > 15) {
+
+      setError("El numero de cuadros debe  tener un máximo de 15 caracteres.");
+      setModalOpenFall(true);
+      setIsSubmitting(false);
+      return;
+    }
+    if (parseFloat(CuaMiel) > 15) {
+
+      setError("El numero de cudros de miel debe  tener un máximo de 15 caracteres.");
+      setModalOpenFall(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    function capitalizarNombreCompleto(texto) {
+      return texto
+        .toLowerCase()                            // todo en minúscula
+        .replace(/\s+/g, " ")                     // elimina espacios múltiples
+        .trim()                                   // quita espacios al inicio/final
+        .split(" ")                               // separa por palabra
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1)) // primera en mayúscula
+        .join(" ");                               // une de nuevo
+    }
+
+
+
+const descripcionFormateada = capitalizarNombreCompleto(descripcion);
+
 
     try {
       if (buttonForm == "Actualizar") {
         const updateHive = {
           id_Hive: id_Hive,
-          des_Hive: descripcion,
+          des_Hive: descripcionFormateada,
           est_Hive: estado,
           numCua_Hive: Ncuadro,
           numAlz_Hive: Nalza,
@@ -60,7 +97,7 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
         }
       } else if (buttonForm === "Registrar") {
         const response = await axiosInstance.post("/Api/Hive/CreateHive", {
-          des_Hive: descripcion,
+          des_Hive: descripcionFormateada,
           est_Hive: estado,
           numCua_Hive: Ncuadro,
           numAlz_Hive: Nalza,
@@ -197,7 +234,7 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
               />
             </div>
             <div className="space-y-1">
-            <label htmlFor="CuaMiel" className="text-sm font-medium text-gray-700">
+              <label htmlFor="CuaMiel" className="text-sm font-medium text-gray-700">
                 Cuadros de Miel
               </label>
               <input
@@ -249,7 +286,7 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
           if (!isOpen) {
             setModalOpenFall(isOpen); // Mantén solo esta línea
           }
-          
+
         }}
         type="error"
         message={error || "Ha ocurrido un error inesperado"}
@@ -261,3 +298,4 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
 
 
 export default FormHive;
+

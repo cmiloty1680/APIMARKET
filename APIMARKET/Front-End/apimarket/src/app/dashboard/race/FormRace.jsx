@@ -31,16 +31,28 @@ function FormRace({ buttonForm, race, onDataUpdated, closeModal }) {
     if (nomRace.length > 25) {
       setError("El nombre de la raza solo permite 25 caracteres.");
       setModalOpenFall(true);
-      setIsSubmitting(false);
+      setSubmitting(false);
       return;
     }
+
+    function capitalizarNombreCompleto(texto) {
+      return texto
+        .toLowerCase()                            // todo en minúscula
+        .replace(/\s+/g, " ")                     // elimina espacios múltiples
+        .trim()                                   // quita espacios al inicio/final
+        .split(" ")                               // separa por palabra
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1)) // primera en mayúscula
+        .join(" ");                               // une de nuevo
+    }
+const descripcionFormateada = capitalizarNombreCompleto(nomRace);
+const Formateada = capitalizarNombreCompleto(desRace);
 
     try {
       if (buttonForm === "Actualizar") {
         const updateRace = {
           id_Race: idRace,
-          nom_Race: nomRace,
-          des_Race: desRace,
+          nom_Race: descripcionFormateada,
+          des_Race: Formateada,
         };
 
         const response = await axiosInstance.put(
@@ -54,8 +66,8 @@ function FormRace({ buttonForm, race, onDataUpdated, closeModal }) {
         }
       } else if (buttonForm === "Registrar") {
         const response = await axiosInstance.post("/Api/Race/CreateRace", {
-          nom_Race: nomRace,
-          des_Race: desRace,
+          nom_Race: descripcionFormateada,
+          des_Race: Formateada,
         });
 
         if (response.status === 200) {
