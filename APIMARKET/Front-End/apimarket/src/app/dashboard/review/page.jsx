@@ -1,3 +1,4 @@
+
 "use client";
 import NavPrivate from "@/components/navs/NavPrivate";
 import ContentPage from "@/components/utils/ContentPage";
@@ -36,7 +37,8 @@ function ReviewPage() {
     "Fecha",
     "ID Colmena",
     "ID Responsable",
-    "Responsable",
+    "Nombre",
+    "Apellido",
 
     
   ];
@@ -67,10 +69,13 @@ function ReviewPage() {
         const data = response.data.map((review) => [
           review.id_Review || "-",
           review.des_Review || "-",
-          review.fec_Review ? new Date(review.fec_Review).toLocaleDateString("es-CO"): "Sin descripción",
+          review.fec_Review ? new Date(review.fec_Review).toLocaleDateString("es-CO")
+          : "Sin descripción", 
+          // review.fec_Review || "-",
           review.id_Hive || "-",
           review.id_Responsible || "-",
-          `${review.nam_Responsible} ${review.lasNam_Responsible}` || "-",
+          review.nam_Responsible || "-",
+          review.lasNam_Responsible || "-",
 
         ]);
         setRegisReview(data);
@@ -108,7 +113,7 @@ function ReviewPage() {
         des_Review: rowData[1],
         fec_Review: formatDateToISO(rowData[2]),
         id_Hive: rowData[3],
-        id_Responsible: rowData[4]
+        id_Responsible: rowData[6]
       });
 
       console.log(rowData)

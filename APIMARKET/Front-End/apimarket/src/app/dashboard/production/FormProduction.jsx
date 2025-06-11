@@ -77,12 +77,24 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
         event.preventDefault();
         setSubmitting(true);
 
-        if (!fecha || !canCua) {
+        if (!fecha) {
             setModalMessage("Todos los campos son requeridos.");
             setModalOpen(true);
             setSubmitting(false);
             return;
         }
+
+
+
+
+
+
+
+
+
+
+
+
 
         const formattedFecha = fecha ? fecha.split('T')[0] : '';
         const formattedFechas = fechaF ? fechaF.split('T')[0] : '';
@@ -137,7 +149,7 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
         }
     }
 
-      
+
 
     const setDataProductionForUpdate = () => {
         setFecha(production.fecIni_Production ?? "");
@@ -218,7 +230,7 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
 
-                        <div className="space-y-1">
+                        <p className="space-y-1">
                             <label htmlFor="estado" className="text-sm font-medium text-gray-700">
                                 Total de Colmenas
                             </label>
@@ -229,17 +241,10 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                                 required
                                 name="cantidad"
                                 value={buttonForm === "Actualizar" ? production.totColm_Hive : totColm || ""}
-                                onChange={(event) => {
-                                    if (buttonForm !== "Actualizar") {
-                                        setTotColm(event.target.value);
-                                    }
-                                }}
-                                disabled={buttonForm === "Actualizar"} // Lo deshabilitamos si es actualización
+                                disabled // ← esto evita que el usuario escriba
                             />
-                            {/* value={totColm || ""}
-                                onChange={(event) => setTotColm(event.target.value)}
-                            /> */}
-                        </div>
+                        </p>
+
 
                         <div className="space-y-1">
                             <label htmlFor="estado" className="text-sm font-medium text-gray-700">
@@ -252,16 +257,11 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                                 required
                                 name="cantidad"
                                 value={buttonForm === "Actualizar" ? production.canCua_Production : canCua || ""}
-                                onChange={(event) => {
-                                    if (buttonForm !== "Actualizar") {
-                                        setCanCua(event.target.value);
-                                    }
-                                }}
-                                disabled={buttonForm === "Actualizar"}
-                            // value={canCua || ""}
-                            // onChange={(event) => setCanCua(event.target.value)}
+                                disabled // ← Esto bloquea la escritura del usuario
                             />
                         </div>
+
+
                         {/* Selección de Raza */}
                         {/* <div className="space-y-1">
                             <label htmlFor="estado" className="text-sm font-medium text-gray-700">
@@ -345,7 +345,7 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                                 required
                             />
                         </div>
-            
+
                     </div>
 
 
@@ -381,7 +381,7 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
                 onOpenChange={(isOpen) => {
                     setModalOpenFall(isOpen); // Cambia el estado del modal
                     if (!isOpen) {
-                        closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+                        setModalOpenFall();  // Cierra el modal del formulario cuando se cierra el modal de éxito
                     }
                 }}
                 type="error"

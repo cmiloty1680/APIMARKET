@@ -67,11 +67,23 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
       return;
     }
 
+       function capitalizarNombreCompleto(texto) {
+            return texto
+                .toLowerCase()                            // todo en minúscula
+                .replace(/\s+/g, " ")                     // elimina espacios múltiples
+                .trim()                                   // quita espacios al inicio/final
+                .split(" ")                               // separa por palabra
+                .map(p => p.charAt(0).toUpperCase() + p.slice(1)) // primera en mayúscula
+                .join(" ");                               // une de nuevo
+        }
+
+const descripcionFormateada = capitalizarNombreCompleto(nomImplement);
+
     try {
       if (buttonForm === "Actualizar") {
         const updateImplement = {
           id_Implement: id_Implement,
-          nom_Implement: nomImplement,
+          nom_Implement: descripcionFormateada,
           tip_Implement: tipImplement,
           fechIng_Implement: fecIngImplement,
           vlr_Implement: String(vlrImplement).replace(/\./g, ""), // Convertir a string primero
@@ -89,7 +101,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
         }
       } else if (buttonForm === "Registrar") {
         const response = await axiosInstance.post("/Api/Implement/CreateImplement", {
-          nom_Implement: nomImplement,
+          nom_Implement: descripcionFormateada,
           tip_Implement: tipImplement,
           fechIng_Implement: fecIngImplement,
           vlr_Implement: vlrImplement,
@@ -268,3 +280,5 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
 }
 
 export default FormImplement;
+
+
