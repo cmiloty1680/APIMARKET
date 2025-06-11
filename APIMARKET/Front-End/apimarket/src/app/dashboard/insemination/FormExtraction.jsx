@@ -124,18 +124,16 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
   };
 
   const setDataForUpdate = () => {
-    if (extractionData) {
-      setIdExtraction(extractionData.id_Extraction);
-      setFecExtraction(extractionData.fec_Extraction ?? "");
-      setCanExtraction(extractionData.can_Extraction);
-      setNomResponsible(extractionData.id_Responsible);
-      setIdCollecDrone(extractionData.id_CollecDrone);
-    }
+    setIdExtraction(extractionData.id_Extraction);
+    setFecExtraction(extractionData.fec_Extraction ?? "");
+    setCanExtraction(extractionData.can_Extraction);
+    setNomResponsible(extractionData.id_Responsible);
+    setIdCollecDrone(extractionData.id_CollecDrone);
   };
 
   useEffect(() => {
     setDataForUpdate();
-  }, [extractionData]);
+  }, []);
 
   return (
     <>
@@ -210,7 +208,7 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
                 <option value="" disabled>Seleccione</option>
                 {responsibles.map((responsible) => (
                   <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
-                    {responsible.nam_Responsible} {responsible.lasNam_Responsible}
+                    {responsible.nam_Responsible}
                   </option>
                 ))}
               </select>
@@ -227,18 +225,21 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
                 required
               >
                 <option value="" disabled>Seleccione</option>
+
                 {collecDrones
                   .filter((collecDrone) => {
                     const yaExtraido = extractions.some(
                       (ext) => ext.id_CollecDrone === collecDrone.id_CollecDrone
                     );
-                    return !yaExtraido; // Solo muestra si NO ha sido usado aún
+                    const esActual = collecDrone.id_CollecDrone === extractionData?.id_CollecDrone;
+                    return !yaExtraido || esActual; // Mostrar si no ha sido usado o si es el actual
                   })
                   .map((collecDrone) => (
                     <option key={collecDrone.id_CollecDrone} value={collecDrone.id_CollecDrone}>
                       {collecDrone.id_CollecDrone}
                     </option>
                   ))}
+
 
               </select>
             </div>

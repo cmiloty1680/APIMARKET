@@ -210,7 +210,7 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
                 <option value="" disabled>Seleccione</option>
                 {responsibles.map((responsible) => (
                   <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
-                    {responsible.nam_Responsible} {responsible.lasNam_Responsible}
+                    {responsible.nam_Responsible}
                   </option>
                 ))}
               </select>
@@ -233,7 +233,8 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
                   const yaFertilizado = fertilizations.some(
                     (ext) => ext.id_Extraction === extration.id_Extraction
                   );
-                  return !yaFertilizado;
+                  const esActual = extration.id_Extraction === fertilization?.id_Extraction;
+                  return !yaFertilizado|| esActual;
                 })
                  .map((extraction) => (
                   <option key={extraction.id_Extraction} value={extraction.id_Extraction}>

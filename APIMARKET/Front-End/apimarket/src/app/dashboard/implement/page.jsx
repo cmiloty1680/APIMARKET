@@ -194,7 +194,7 @@ function ImplementPage() {
                     openModalForm={openModalForm}
                     ignorar={[]}
                     setIsExportModalOpen={setIsExportModalOpen}
-                    tableName="implemento"
+                    tableName="Implemento"
                     showAddButton={true} // 👈 aquí indicas que NO lo muestre
 
 

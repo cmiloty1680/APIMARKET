@@ -158,7 +158,6 @@ function HivePage() {
               <div className="relative p-6">
 
                 <ContentPage
-                  // TitlePage={TitlePage}
                   Data={regisHive}
                   TitlesTable={titlesColmena}
                   Actions={actions}
@@ -166,9 +165,9 @@ function HivePage() {
                   updateTextTitleForm={updateTextTitleForm}
                   openModalForm={openModalForm}
                   ignorar={[]}
-                  tableName="colmena"
-
+                  tableName="Colmena"
                   showAddButton={true} // 👈 aquí indicas que NO lo muestre
+                  showPdfButton={false} // ← aquí se oculta
                 />
 
               </div>

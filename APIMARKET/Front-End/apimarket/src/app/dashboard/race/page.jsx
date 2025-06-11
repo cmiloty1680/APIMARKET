@@ -120,10 +120,6 @@ function RacePage() {
 
   // Acciones para la tabla
   const actions = {
-    delete: (rowData) => {
-      setSelectedRace(rowData[0]);
-      setIsModalOpenDelete(true);
-    },
     update: (rowData) => {
       updateTextTitleForm("Actualizar", rowData);
       openModalForm(true);
@@ -150,9 +146,10 @@ function RacePage() {
                   ignorar={[]}
                   setIsExportModalOpen={setIsExportModalOpen}
 
-                  tableName="implemento"
+                  tableName="Raza"
 
                   showAddButton={true} // 👈 aquí indicas que NO lo muestre
+                  showPdfButton={false} // ← aquí se oculta
                 />
               </div>
             </div>

@@ -176,11 +176,6 @@ function FeedingPage() {
     }
   }
   const actions = {
-    delete: (rowData) => {
-      setSelectedFeeding(rowData[0]);
-      setIsModalOpenDelete(true);
-
-    },
     update: (rowData) => {
       // updateTextTitleForm("Actualizar", rowData);
 
@@ -214,7 +209,7 @@ function FeedingPage() {
                     ignorar={[9, 10]}
                     setIsExportModalOpen={setIsExportModalOpen}
 
-                    tableName="alimentacion"
+                    tableName="Alimentaciòn"
 
                     showAddButton={true} // 👈 aquí indicas que NO lo muestre
 

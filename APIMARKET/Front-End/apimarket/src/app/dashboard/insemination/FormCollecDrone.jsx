@@ -206,7 +206,7 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated, closeModal }) {
                 <option value="" disabled>Seleccione</option>
                 {responsibles.map((responsible) => (
                   <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
-                    {responsible.nam_Responsible} {responsible.lasNam_Responsible}
+                    {responsible.nam_Responsible}
                   </option>
                 ))}
               </select>

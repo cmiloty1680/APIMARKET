@@ -23,12 +23,14 @@ namespace Apimarket.Controllers
     {
         public IConfiguration _Configuration { get; set; }
         public GeneralFunctions _functionsGeneral;
+        public WelcomeEmailFunctions _welcomeEmailFunctions;
         public JWTModel JWT;
         private readonly ResponsibleService _responsibleService;
 
         public ResponsibleController(IConfiguration configuration, ResponsibleService responsibleService)
         {
             _functionsGeneral = new GeneralFunctions(configuration);
+            _welcomeEmailFunctions = new WelcomeEmailFunctions(configuration);
             _Configuration = configuration;
             JWT = _Configuration.GetSection("JWT").Get<JWTModel>();
             _responsibleService = responsibleService;
@@ -190,24 +192,66 @@ namespace Apimarket.Controllers
 
 
 
+        //       [HttpPost("CreateResponsible")]
+        //       public IActionResult Add([FromBody] Responsible entity)
+        //       {
+        //           try
+        //           {
+
+
+        //               string salt = BCrypt.Net.BCrypt.GenerateSalt();
+        //               entity.Hashed_Password = BCrypt.Net.BCrypt.HashPassword(entity.Hashed_Password + salt);
+        //               entity.Salt = salt;
+        //               entity.Tok_Responsible = "";
+
+
+        //               var key = Encoding.UTF8.GetBytes(JWT.KeySecret);
+        //               var claims = new ClaimsIdentity(new[]
+        //               {
+        //    new Claim("responsible", entity.Emai_Responsible)
+        //});
+
+        //               var tokenDescriptor = new SecurityTokenDescriptor
+        //               {
+        //                   Subject = claims,
+        //                   Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(JWT.JWTExpireTime)),
+        //                   SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        //               };
+
+        //               var token = new JwtSecurityTokenHandler().CreateToken(tokenDescriptor);
+        //               var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+
+        //               entity.Tok_Responsible = tokenString;
+
+
+        //               _responsibleService.Add(entity);
+        //               return Ok(new { message = "Responsable creado con éxito" });
+        //           }
+        //           catch (Exception ex)
+        //           {
+
+        //               _functionsGeneral.Addlog(ex.ToString());
+        //               return StatusCode(500, ex.ToString());
+        //           }
+
+        //       }
+
         [HttpPost("CreateResponsible")]
-        public IActionResult Add([FromBody] Responsible entity)
+        public async Task<IActionResult> Add([FromBody] Responsible entity)
         {
             try
             {
-
-
                 string salt = BCrypt.Net.BCrypt.GenerateSalt();
                 entity.Hashed_Password = BCrypt.Net.BCrypt.HashPassword(entity.Hashed_Password + salt);
                 entity.Salt = salt;
                 entity.Tok_Responsible = "";
 
-
                 var key = Encoding.UTF8.GetBytes(JWT.KeySecret);
                 var claims = new ClaimsIdentity(new[]
                 {
-     new Claim("responsible", entity.Emai_Responsible)
- });
+            new Claim("responsible", entity.Emai_Responsible)
+        });
 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
@@ -219,20 +263,41 @@ namespace Apimarket.Controllers
                 var token = new JwtSecurityTokenHandler().CreateToken(tokenDescriptor);
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-
                 entity.Tok_Responsible = tokenString;
 
-
+                // Guardar el usuario
                 _responsibleService.Add(entity);
-                return Ok(new { message = "Responsable creado con éxito" });
+
+                // Enviar correo de bienvenida usando las funciones
+                var emailResult = await _welcomeEmailFunctions.SendWelcomeEmail(
+                    entity.Emai_Responsible,
+                    entity.Nam_Responsible,
+                    tokenString
+                );
+
+                if (emailResult.Status)
+                {
+                    return Ok(new
+                    {
+                        message = "Responsable creado con éxito.",
+                        emailSent = true
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        message = "Responsable creado con éxito, pero hubo un problema enviando el correo de bienvenida.",
+                        emailSent = false,
+                        emailError = emailResult.Message
+                    });
+                }
             }
             catch (Exception ex)
             {
-
                 _functionsGeneral.Addlog(ex.ToString());
                 return StatusCode(500, ex.ToString());
             }
-
         }
 
 
