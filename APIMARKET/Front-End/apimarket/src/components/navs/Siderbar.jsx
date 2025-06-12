@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import NextImage from "next/image";
 import { useAuth } from "@/app/context/authContext";
 
 function Siderbar() {
@@ -64,11 +65,14 @@ function Siderbar() {
       )}>
         {isOpen && (
           <div className="flex items-center flex-1 min-w-0">
-            <img
-              className="w-8 h-8 sm:w-10 sm:h-10 mr-2 flex-shrink-0"
+            <NextImage
               src="/icon.png"
               alt="ApiMarket Logo"
+              width={40} // o 32, 48, etc.
+              height={40}
+              className="w-8 h-8 sm:w-10 sm:h-10 mr-2 flex-shrink-0"
             />
+
             <span className="text-lg sm:text-2xl font-semibold text-white truncate">
               APIMARKET
             </span>

@@ -123,17 +123,15 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
     }
   };
 
-  const setDataForUpdate = () => {
-    setIdExtraction(extractionData.id_Extraction);
+  useEffect(() => {
+    if (extractionData) {
+      setIdExtraction(extractionData.id_Extraction);
     setFecExtraction(extractionData.fec_Extraction ?? "");
     setCanExtraction(extractionData.can_Extraction);
     setNomResponsible(extractionData.id_Responsible);
     setIdCollecDrone(extractionData.id_CollecDrone);
-  };
-
-  useEffect(() => {
-    setDataForUpdate();
-  }, []);
+    }
+  }, [extractionData]);
 
   return (
     <>
@@ -206,7 +204,9 @@ function FormExtraction({ buttonForm, extractionData, onDataUpdated }) {
                 required
               >
                 <option value="" disabled>Seleccione</option>
-                {responsibles.map((responsible) => (
+                {responsibles
+                .filter((responsible) => responsible.est_Responsible === "activo") 
+                .map((responsible) => (
                   <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
                     {responsible.nam_Responsible} {responsible.lasNam_Responsible}
                   </option>

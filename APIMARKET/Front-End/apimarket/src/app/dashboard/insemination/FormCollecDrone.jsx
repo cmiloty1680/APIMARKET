@@ -117,24 +117,7 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated, closeModal }) {
       setNomResponsible(droneData.id_Responsible);
       setIdHive(droneData.id_Hive);
     }
-  }, []);
-  // // Función para cargar los datos cuando el formulario se usa para actualización
-  // const setDataForUpdate = () => {
-  //   if (droneData) {
-  //     setIdCollecDrone(droneData.id_CollecDrone);
-  //     setFecCollecDrone(droneData.fec_CollecDrone ?? "");
-  //     setCanCollecDrone(droneData.can_CollecDrone);
-  //     setNomResponsible(droneData.id_Responsible);
-  //     setIdHive(droneData.id_Hive);
-  //   }
-  // };
-
-  // // Se ejecuta cuando cambia `droneData`, para actualizar el estado con los datos correspondientes
-  // useEffect(() => {
-  //   // if(buttonForm == "Actualizar"){
-  //     setDataForUpdate();
-  //   // }
-  // }, []);
+  }, [droneData]);
 
   return (
     <>
@@ -204,7 +187,9 @@ function FormCollecDrone({ buttonForm, droneData, onDataUpdated, closeModal }) {
                 required
               >
                 <option value="" disabled>Seleccione</option>
-                {responsibles.map((responsible) => (
+                {responsibles
+                .filter((responsible) => responsible.est_Responsible === "activo") 
+                .map((responsible) => (
                   <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
                     {responsible.nam_Responsible} {responsible.lasNam_Responsible}
                   </option>

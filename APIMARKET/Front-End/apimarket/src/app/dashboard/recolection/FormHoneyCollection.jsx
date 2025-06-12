@@ -117,27 +117,37 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
     }
   };
 
-  const setDataHoneyForUpdate = () => {
-    setIdHoneyCollection(honeyCollection.id_HoneyCollection);
-    setDescripcion(honeyCollection.des_HoneyCollection);
-    setTotMiel(honeyCollection.tot_HoneyCollection);
-    setFecha(honeyCollection.fec_HoneyCollection ?? "");
-    setCanFra125(honeyCollection.canFra125_HoneyCollection);
-    setCanFra250(honeyCollection.canFra250_HoneyCollection);
-    setUniMed(honeyCollection.uniMed_HoneyCollection);
-    setNomResponsible(honeyCollection.id_Responsible);
-    setProduccion(honeyCollection.id_Production);
 
-  }
-
-  useEffect(() => {
-
-    console.log(uniMed)
-    if(buttonForm == "Actualizar"){
-      setDataHoneyForUpdate()
+ useEffect(() => {
+  console.log(uniMed);
+  if (buttonForm === "Actualizar") {
+    if (honeyCollection) {
+      setIdHoneyCollection(honeyCollection.id_HoneyCollection);
+      setDescripcion(honeyCollection.des_HoneyCollection);
+      setTotMiel(honeyCollection.tot_HoneyCollection);
+      setFecha(honeyCollection.fec_HoneyCollection ?? "");
+      setCanFra125(honeyCollection.canFra125_HoneyCollection);
+      setCanFra250(honeyCollection.canFra250_HoneyCollection);
+      setUniMed(honeyCollection.uniMed_HoneyCollection);
+      setNomResponsible(honeyCollection.id_Responsible);
+      setProduccion(honeyCollection.id_Production);
     }
-    
-  }, [buttonForm]);
+  }
+}, [
+  buttonForm,
+  honeyCollection,
+  setIdHoneyCollection,
+  setDescripcion,
+  setTotMiel,
+  setFecha,
+  setCanFra125,
+  setCanFra250,
+  setUniMed,
+  setNomResponsible,
+  setProduccion,
+  uniMed,
+]);
+
 
   return (
     <>
@@ -249,7 +259,9 @@ function FormHoneyCollection({ buttonForm, honeyCollection, onDataUpdated, close
               required
             >
               <option value="" disabled>Seleccione</option>
-              {responsibles.map((responsible) => (
+              {responsibles
+              .filter((responsible) => responsible.est_Responsible === "activo") 
+              .map((responsible) => (
                 <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
                   {responsible.nam_Responsible} {responsible.lasNam_Responsible}
                 </option>

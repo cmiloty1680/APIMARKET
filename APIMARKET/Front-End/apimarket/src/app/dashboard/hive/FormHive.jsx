@@ -135,9 +135,22 @@ const descripcionFormateada = capitalizarNombreCompleto(descripcion);
 
   }
 
-  useEffect(() => {
-    setDataHiveForUpdate()
-  }, []);
+  // useEffect(() => {
+  //   setDataHiveForUpdate()
+  // }, []);
+
+useEffect(() => {
+  if (hive) {
+    setDescripcion(hive.des_Hive);
+    setEstado(hive.est_Hive);
+    setNcuadro(hive.numCua_Hive);
+    setNalza(hive.numAlz_Hive);
+    setIdHive(hive.id_Hive);
+    setCuaMiel(hive.cuaMiel_Hive);
+  }
+}, [hive]); // ✅ limpio, sin warnings
+
+
 
   return (
     <>

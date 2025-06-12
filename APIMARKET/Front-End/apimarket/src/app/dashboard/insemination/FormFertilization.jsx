@@ -133,7 +133,7 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
       setNomResponsible(fertilization.id_Responsible);
       setIdExtractions(fertilization.id_Extraction);
     }
-  }, []);
+  }, [fertilization]);
 
   return (
     <>
@@ -208,7 +208,9 @@ function FormFertilization({ buttonForm, fertilization, onDataUpdated }) {
                 required
               >
                 <option value="" disabled>Seleccione</option>
-                {responsibles.map((responsible) => (
+                {responsibles
+                .filter((responsible) => responsible.est_Responsible === "activo") 
+                .map((responsible) => (
                   <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
                     {responsible.nam_Responsible} {responsible.lasNam_Responsible}
                   </option>

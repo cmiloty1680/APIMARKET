@@ -64,7 +64,7 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
       return;
     }
 
-  
+
 
     function capitalizarNombreCompleto(texto) {
       return texto
@@ -121,18 +121,17 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
     }
   }
 
-  const setDataReviewForUpdate = () => {
-    setFecha(review.fec_Review ?? "");
-    setIdReview(review.id_Review);
-    setIdHives(review.id_Hive);
-    setNomResponsible(review.id_Responsible);
-    setDescripcion(review.des_Review);
 
-  }
 
   useEffect(() => {
-    setDataReviewForUpdate()
-  }, []);
+    if (review) {
+      setFecha(review.fec_Review ?? "");
+      setIdReview(review.id_Review);
+      setIdHives(review.id_Hive);
+      setNomResponsible(review.id_Responsible);
+      setDescripcion(review.des_Review);
+    }
+  }, [review]);
 
   return (
     <>
@@ -206,11 +205,13 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
             required
           >
             <option value="" disabled>Seleccione</option>
-            {responsibles.map((responsible) => (
-              <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
-                {responsible.nam_Responsible} {responsible.lasNam_Responsible}
-              </option>
-            ))}
+            {responsibles
+              .filter((responsible) => responsible.est_Responsible === "activo")
+              .map((responsible) => (
+                <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
+                  {responsible.nam_Responsible} {responsible.lasNam_Responsible}
+                </option>
+              ))}
           </select>
         </div>
 

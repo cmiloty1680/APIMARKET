@@ -150,20 +150,17 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
     }
 
 
-
-    const setDataProductionForUpdate = () => {
+    useEffect(() => {
+    if (production) {
         setFecha(production.fecIni_Production ?? "");
         setFechaF(production.fecFin_Production);
         setTotColm(production.totColm_Hive);
         setNomrace(production.id_Race);
-        // setTotalPro(production.tot_Production);
         setCanCua(production.canCua_Production);
         setIdProduction(production.id_Production);
-    }
-
-    useEffect(() => {
         setDataProductionForUpdate()
-    }, []);
+    }
+    }, [production]);
 
 
 

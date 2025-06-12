@@ -85,15 +85,13 @@ const Formateada = capitalizarNombreCompleto(desRace);
     }
   }
 
-  const setDataRaceForUpdate = () => {
-    setNomRace(race.nom_Race);
-    setDesRace(race.des_Race);
-    setIdRace(race.id_Race);
-  };
+
 
   useEffect(() => {
     if (race) {
-      setDataRaceForUpdate();
+    setNomRace(race.nom_Race);
+    setDesRace(race.des_Race);
+    setIdRace(race.id_Race);
     }
   }, [race]);
 

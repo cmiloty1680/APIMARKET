@@ -87,18 +87,8 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
 
 
 
-        if (parseFloat(cantidad) > 1000) {
-            setError("La cantidad debe ser menor a 1000 Kg.");
-            setModalOpenFall(true);
-            setSubmitting(false);
-            return;
-        }
-
-      
-
-
         const formattedFecha = fecha ? new Date(fecha).toISOString().split('T')[0] : '';
-    
+
 
         try {
             if (buttonForm == "Actualizar") {
@@ -169,16 +159,24 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
 
 
     }
-
-
+    // useEffect(() => {
+    //     if (feeding) {
+    //         setDataFeedingForUpdate();
+    //     }
+    // }, [feeding]);
     useEffect(() => {
         if (feeding) {
-            setDataFeedingForUpdate();
+            setFecha(feeding.fec_Feeding ?? "");
+            setTipoAlimentacion(feeding.tip_Feeding);
+            setCantidad(feeding.can_Feeding);
+            setValor(feeding.vlr_Feeding);
+            setDesHive(feeding.id_Hive);
+            setIdFeeding(feeding.id_Feeding);
+            setIdResponsible(feeding.id_Responsible);
+            setTipResponsible(feeding.tip_Responsible);
+            setnumDocResponsible(feeding.numDoc_Responsible);
         }
-    }, [feeding]);
-
-
-
+    }, [feeding]); // ✅ limpio y claro
 
 
     return (
@@ -235,7 +233,9 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                                 }}
                             >
                                 <option value="">Seleccione</option>
-                                {responsibles.map((responsible) => (
+                                {responsibles
+                                .filter((responsible) => responsible.est_Responsible === "activo") 
+                                .map((responsible) => (
                                     <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
                                         {responsible.nam_Responsible} {responsible.lasNam_Responsible}
                                     </option>

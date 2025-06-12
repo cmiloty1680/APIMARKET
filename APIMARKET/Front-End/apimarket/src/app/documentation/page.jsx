@@ -8,14 +8,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 
 const documentos = [
   {
-    id: "manual-tecnico",
-    title: "Manual Técnico",
-    description:
-      "Este manual técnico documenta en detalle todas las actividades realizadas durante el desarrollo del proyecto.",
-    file: "/assets/docs/APIMARKET.pdf",
-    icon: <FileText className="h-10 w-10 text-yellow-500" />,
-  },
-  {
     id: "manual-usuario",
     title: "Manual de Usuario",
     description: "Guía completa para el uso correcto de todas las funcionalidades del sistema.",

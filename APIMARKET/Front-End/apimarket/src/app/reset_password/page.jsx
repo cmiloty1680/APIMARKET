@@ -1,6 +1,6 @@
 
-
 "use client"
+export const dynamic = 'force-dynamic';
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -20,8 +20,7 @@ import {
 function FormResetPassword({ buttonForm = "Restablecer" }) {
 
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const token = searchParams.get("token")
+  // const searchParams = useSearchParams()
 
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -31,9 +30,17 @@ function FormResetPassword({ buttonForm = "Restablecer" }) {
   const [isModalOpen, setModalOpen] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
   const [tokenValidated, setTokenValidated] = useState(false)
   const [loadingToken, setLoadingToken] = useState(true)
+
+  const [token, setToken] = useState("")
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams(window.location.search)
+    setToken(params.get("token") || "")
+  }
+}, [])
 
 
   useEffect(() => {
@@ -51,10 +58,8 @@ function FormResetPassword({ buttonForm = "Restablecer" }) {
           setTokenValidated(true)
         } else {
           setError("Token expirado o inválido.")
-          console.log(error.response?.data?.message || "Error al conectar con el servidor.")
         }
       } catch (error) {
-        // console.alert("Error en la validación:", error.response?.data || error.message);
         setError(error.response?.data?.message || "Error al validar el token.");
       }
       finally {
@@ -91,13 +96,9 @@ function FormResetPassword({ buttonForm = "Restablecer" }) {
       if (response.status === 200) {
         setMsSuccess("Contraseña restablecida con éxito. Redirigiendo al inicio de sesión...")
         setModalOpen(true)
-
-        // setTimeout(() => {
-        //   router.push("/responsible/login")
-        // }, 2000)
       }
-    } catch (error) {
-      setError(error.response?.data?.message || "Error al conectar con el servidor.")
+    } catch (err) {
+      setError(err.response?.data?.message || "Error al conectar con el servidor.")
 
     } finally {
       setSubmitting(false)
