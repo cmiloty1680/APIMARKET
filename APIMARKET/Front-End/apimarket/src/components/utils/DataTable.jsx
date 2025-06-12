@@ -7,7 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Input } from "@/components/ui/input"
 
 function DataTable({ Data, TitlesTable, Actions, updateTextTitleForm, openModalForm, ignorar }) {
-  // console.log(Data)
+  console.log(Data)
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5

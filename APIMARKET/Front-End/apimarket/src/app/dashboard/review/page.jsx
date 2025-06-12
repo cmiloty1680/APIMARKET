@@ -113,10 +113,10 @@ function ReviewPage() {
         des_Review: rowData[1],
         fec_Review: formatDateToISO(rowData[2]),
         id_Hive: rowData[3],
-        id_Responsible: rowData[6]
+        id_Responsible: rowData[4]
+
       });
 
-      console.log(rowData)
     } else {
       console.log("Registrando...");
     }
@@ -125,7 +125,9 @@ function ReviewPage() {
   const openModalForm = (isOpen) => {
     setSelectedReview(null);
     setIsOpen(isOpen);
+
   };
+
   
   //coliminar revicion 
   async function deleteReview() {
@@ -148,11 +150,13 @@ function ReviewPage() {
   };
 
   // Acciones de la tabla
-  const actions = {
-    update: (rowData) => {
-    
-    }
-  };
+ // Acciones de la tabla
+const actions = {
+  update: (rowData) => {
+    updateTextTitleForm("Actualizar", rowData);  // <--- Aquí se ejecuta el console.log(rowData)
+    openModalForm(true);
+  }
+};
 
   return (
     <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>

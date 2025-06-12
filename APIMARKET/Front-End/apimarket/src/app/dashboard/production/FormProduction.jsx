@@ -158,7 +158,6 @@ function FormProduction({ buttonForm, production, onDataUpdated, closeModal }) {
         setNomrace(production.id_Race);
         setCanCua(production.canCua_Production);
         setIdProduction(production.id_Production);
-        setDataProductionForUpdate()
     }
     }, [production]);
 
