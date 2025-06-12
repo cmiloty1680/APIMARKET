@@ -253,7 +253,7 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
               id="fechaCreacion"
               value={fechaCreacion || ""}
               onChange={(e) => setFechaCreacion(e.target.value)}
-              className="w-full border px-3 py-2 rounded"
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               required
             />
           </div>
@@ -266,7 +266,7 @@ function FormProtocol({ buttonForm, protocol, onSubmit, closeModal, onDataUpdate
               id="fechaActualizacion"
               value={fechaActualizacion || ""}
               onChange={(e) => setFechaActualizacion(e.target.value)}
-              className="w-full border px-3 py-2 rounded"
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               required
             />
           </div>

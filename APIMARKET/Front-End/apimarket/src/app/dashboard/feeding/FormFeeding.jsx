@@ -183,10 +183,7 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
 
     return (
         <>
-            <form
-                className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md"
-                onSubmit={handlerSubmit}>
-
+            <form className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md" onSubmit={handlerSubmit}>
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center">
                         <div className="w-8 h-8 bg-[#e87204] rounded-full flex items-center justify-center text-white">
@@ -198,17 +195,14 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                         </div>
                     </div>
                 </div>
-                {/* Mensajes de error o éxito */}
+
                 {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
                 {msSuccess && <p className="text-green-500 mb-4 text-sm">{msSuccess}</p>}
 
                 <div className="space-y-6">
-                    {/* Fecha y Número de Documento */}
                     <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
-                            <label htmlFor="fechaA" className="text-sm font-medium text-gray-700">
-                                Fecha de Alimentación
-                            </label>
+                            <label htmlFor="fechaA" className="text-sm font-medium text-gray-700">Fecha de Alimentación</label>
                             <input
                                 type="date"
                                 id="fechaA"
@@ -220,9 +214,39 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                         </div>
 
                         <div className="space-y-1">
-                            <label className="text-sm font-medium text-gray-700">
-                                Número de Documento
-                            </label>
+                            <label className="text-sm font-medium text-gray-700">Nombre Responsable </label>
+                            <select
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                required
+                                value={idResponsible || ""}
+                                onChange={(e) => {
+                                    const selectedId = e.target.value;
+                                    setIdResponsible(selectedId);
+
+                                    const selectedResponsible = responsibles.find(
+                                        (responsible) => responsible.id_Responsible === parseInt(selectedId)
+                                    );
+
+
+                                    if (selectedResponsible) {
+                                        setnumDocResponsible(selectedResponsible.numDoc_Responsible || "");
+                                        setTipResponsible(selectedResponsible.tip_Responsible || "");
+                                    }
+                                }}
+                            >
+                                <option value="">Seleccione</option>
+                                {responsibles.map((responsible) => (
+                                    <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
+                                        {responsible.nam_Responsible} {responsible.lasNam_Responsible}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                        <div className="space-y-1">
+                            <label className="text-sm font-medium text-gray-700">Número de Documento</label>
                             <input
                                 type="text"
                                 required
@@ -232,13 +256,31 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                                 onChange={(e) => setnumDocResponsible(e.target.value)}
                             />
                         </div>
+                        <div className="space-y-1">
+                            <span className="text-sm font-medium text-gray-700">Tipo responsable</span>
+                            <select
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                required
+                                value={tipResponsible || ""}
+                                onChange={(e) => setTipResponsible(e.target.value)}
+                            >
+                                <option value="">Seleccione</option>
+                                <option value="pasante">pasante</option>
+                                <option value="gestor">gestor</option>
+                                <option value="instructor">instructor</option>
+                            </select>
+                        </div>
                     </div>
-
 
                     <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Tipo</label>
-                            <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={tipoAlimentacion || ""} onChange={(e) => setTipoAlimentacion(e.target.value)}>
+                            <select
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                required
+                                value={tipoAlimentacion || ""}
+                                onChange={(e) => setTipoAlimentacion(e.target.value)}
+                            >
                                 <option value="">Seleccione</option>
                                 <option value="Mango">Mango</option>
                                 <option value="Azúcar">Azúcar</option>
@@ -254,36 +296,26 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                                 value={cantidad || ""}
                                 onChange={(e) => {
                                     const inputValue = e.target.value;
-
-                                    // Permitir borrar completamente el campo
                                     if (inputValue === "") {
                                         setCantidad("");
                                         setError("");
                                         return;
                                     }
-
-                                    // Validar número decimal positivo
                                     if (!/^\d*\.?\d*$/.test(inputValue)) {
                                         setError("La cantidad debe ser un número válido (por ejemplo: 1.12 o 112).");
                                         setModalOpenFall(true);
                                         return;
                                     }
-
                                     setCantidad(inputValue);
                                     setError("");
                                 }}
                             />
-
                         </div>
-
-
                     </div>
+
                     <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Valor</label>
-
-
-
                             <input
                                 type="text"
                                 placeholder="valor de alimentacion"
@@ -292,56 +324,36 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                                 value={valor || ""}
                                 onChange={(e) => {
                                     const inputValue = e.target.value;
-
                                     if (inputValue.includes(".")) {
                                         setError("No se permiten puntos en el valor. Use solo números enteros.");
-                                        setModalOpenFall(true); // abrir modal de error
+                                        setModalOpenFall(true);
                                         return;
                                     }
-
-                                    // Eliminar caracteres que no sean dígitos
                                     const numericValue = inputValue.replace(/[^\d]/g, "");
                                     setValor(numericValue);
                                 }}
                             />
-
                         </div>
-
 
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Colmena</label>
-                            <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={deshive || ""} onChange={(e) => setDesHive(e.target.value)}>
+                            <select
+                                className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+                                required
+                                value={deshive || ""}
+                                onChange={(e) => setDesHive(e.target.value)}
+                            >
                                 <option value="">Seleccione</option>
                                 {hives
                                     .filter((hive) => hive.est_Hive === "activo")
                                     .map((hive) => (
-                                        <option key={hive.id_Hive} value={hive.id_Hive}>{hive.des_Hive}</option>
+                                        <option key={hive.id_Hive} value={hive.id_Hive}>
+                                            {hive.des_Hive}
+                                        </option>
                                     ))}
                             </select>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-3">
-                        <div className="space-y-1">
-                            <label className="text-sm font-medium text-gray-700">Nombre Responsable </label>
-                            <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={idResponsible || ""} onChange={(e) => setIdResponsible(e.target.value)}>
-                                <option value="">Seleccione</option>
-                                {responsibles
-                                    .map((responsible) => (
-                                        <option key={responsible.id_Responsible} value={responsible.id_Responsible}> {responsible.nam_Responsible}</option>
-                                    ))}
-                            </select>
-                        </div>
-                        <div className="space-y-1">
-                            <span className="text-sm font-medium text-gray-700">Tipo responsable</span>
-                            <select className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm" required value={tipResponsible || ""} onChange={(e) => setTipResponsible(e.target.value)}>
-                                <option value="">Seleccione</option>
-                                <option value="pasante">pasante</option>
-                                <option value="gestor">gestor</option>
-                                <option value="instructor">instructor</option>
-                            </select>
-                        </div>
-                    </div>
-
 
                     <div className="flex justify-end pt-3">
                         <Button disabled={isSubmitting} type="submit" className="bg-[#e87204] text-white px-6 py-2 rounded-lg">
@@ -351,13 +363,12 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                 </div>
             </form>
 
-            {/* Modal de éxito usando el componente dinámico */}
             <DynamicAlert
                 isOpen={isModalOpen}
                 onOpenChange={(isOpen) => {
-                    setModalOpen(isOpen); // Cambia el estado del modal
+                    setModalOpen(isOpen);
                     if (!isOpen) {
-                        closeModal();  // Cierra el modal del formulario cuando se cierra el modal de éxito
+                        closeModal();
                     }
                 }}
                 type="success"
@@ -365,26 +376,16 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
                 redirectPath=""
             />
 
-            {/* Modal de fallido usando el componente dinámico */}
             <DynamicAlert
                 isOpen={isModalOpenFall}
                 onOpenChange={(isOpen) => {
-                    setModalOpenFall(isOpen); // Cambia el estado del modal
-                    if (!isOpen) {
-
-                        setModalOpenFall(isOpen);
-                    }
-
                     setModalOpenFall(isOpen);
-                }
-
-                }
+                }}
                 type="error"
                 message={error || "Ha ocurrido un error inesperado"}
                 redirectPath=""
             />
         </>
-
     );
 }
 

@@ -27,7 +27,7 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPost("CreateCollecDrone")]
         public IActionResult AddP([FromBody] CollecDrone entity)
         {
@@ -43,7 +43,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetsCollecDrone")]
         public ActionResult<IEnumerable<CollecDrone>> GetsCollecDrone(int start, int end)
         {
@@ -73,7 +73,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetCollecDrone/{id}")]
         public IActionResult GetCollecDrone(int id)
         {
@@ -94,7 +94,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetAllCollecDrone")]
         public ActionResult <IEnumerable<CollecDrone>> GetAll()
         {
@@ -120,7 +120,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPut("UpdateCollecDrone/{id}")]
         public IActionResult UpdateCollecDrone(CollecDrone collecDrone)
         {
@@ -136,7 +136,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpDelete("DeleteCollecDrone")]
         public IActionResult DeleteCollecDrone(int id)
         {
@@ -162,7 +162,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("PDF")]
         public IActionResult PdfResponsible()
         {
@@ -183,7 +183,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -202,7 +202,7 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {
@@ -221,7 +221,7 @@ namespace Apimarket.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPost("XLSX")]
         public IActionResult XlsxResponsible(string NombrePlantilla, string NombreReporte)
         {
@@ -245,7 +245,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPost("SQL")]
         public IActionResult SqlResponsible(string NombrePlantilla, string NombreReporte)
         {

@@ -389,7 +389,7 @@ function ColmenaRecoleccion() {
   }
 
   return (
-    <PrivateRoute requiredRole={["instructor"]}>
+    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
       <div className="flex h-screen bg-gray-200">
         <Siderbar />
         <div className="flex flex-col flex-1 overflow-hidden text-white">

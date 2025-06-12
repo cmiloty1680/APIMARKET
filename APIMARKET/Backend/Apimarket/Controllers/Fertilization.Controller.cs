@@ -26,7 +26,7 @@ namespace Apimarket.Controllers
             _functionsGeneral = new GeneralFunctions(configuration);
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPost("CreateFertilization")]
         public IActionResult AddP([FromBody] Fertilization entity)
         {
@@ -44,7 +44,7 @@ namespace Apimarket.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetsFertilization")]
         public ActionResult<IEnumerable<Fertilization>> GetsFertilization(int start, int end)
         {
@@ -70,7 +70,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetFertilization/{id}")]
         public IActionResult GetFertilization(int id)
         {
@@ -91,7 +91,7 @@ namespace Apimarket.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetFertilizationByExtraction")]
 
         public ActionResult<IEnumerable<FertilizationDTO>> GetFertilizationByExtraction(int id)
@@ -122,7 +122,7 @@ namespace Apimarket.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("GetsAllFertilization")]
         public ActionResult<IEnumerable<Fertilization>> GetAll()
         {
@@ -149,7 +149,7 @@ namespace Apimarket.Controllers
 
 
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPut("UpdateFertilization/{id}")]
         public IActionResult UpdateFertilization(Fertilization fertilization)
         {
@@ -165,7 +165,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpDelete("DeleteFertilization")]
         public IActionResult DeleteFertilization(int id)
         {
@@ -190,7 +190,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("PDF")]
         public IActionResult PdfResponsible()
         {
@@ -211,7 +211,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("Archivo")]
         public IActionResult GetArchivo()
         {
@@ -231,7 +231,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpGet("temp")]
         public IActionResult GetTemp()
         {
@@ -251,7 +251,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPost("XLSX")]
         public IActionResult XlsxResponsible(string NombrePlantilla, string NombreReporte)
         {
@@ -275,7 +275,7 @@ namespace Apimarket.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "instructor, gestor, pasante")]
         [HttpPost("SQL")]
         public IActionResult SqlResponsible(string NombrePlantilla, string NombreReporte)
         {

@@ -5,7 +5,7 @@
 
 "use client"
 
-import { BarChart, Droplets, CheckCircle2 } from "lucide-react"
+import { BarChart, Droplets, CheckCircle2, DollarSign } from "lucide-react"
 import CircularProgress from "./CircularProgress"
 import axiosInstance from "@/lib/axiosInstance"
 import { useState, useEffect } from "react"
@@ -17,7 +17,7 @@ function ProgressCards() {
 
   const [totColmInactiva, setTotColmInactiva] = useState("")
   const [produccionTotal, setProduccionTotal] = useState(0)
-const produccionMostrada = ((produccionTotal - 1) % 4) + 1;
+  const produccionMostrada = ((produccionTotal - 1) % 4) + 1;
   const [totMielAño, setTotMielAño] = useState("")
   const [metaProduccion, setMetaProduccion] = useState(100)
   const [produccionPorcentaje, setProduccionPorcentaje] = useState(0)
@@ -261,9 +261,9 @@ const produccionMostrada = ((produccionTotal - 1) % 4) + 1;
       color: "#e11d48",
       track: "#ffe4e6",
       stats: [
-       
-        { num: produccionMostrada , label: "Cantidad Producción", bg: "from-rose-50 to-rose-100/30", border: "border-rose-100" },
-        { num: totMielAño, label: "Meta", bg: "from-slate-50 to-slate-100/30", border: "border-slate-200" },
+
+        { num: produccionMostrada, label: "Cantidad Producción", bg: "from-rose-50 to-rose-100/30", border: "border-rose-100" },
+        { num: totMielAño, label: "Total producciòn", bg: "from-slate-50 to-slate-100/30", border: "border-slate-200" },
 
       ],
     },
@@ -281,18 +281,7 @@ const produccionMostrada = ((produccionTotal - 1) % 4) + 1;
     },
     {
       title: "Implemento",
-      icon: (
-        <div className="w-14h-10 rounded-full bg-amber-100 flex items-center justify-center mr-1">
-          <svg className="w-8 h-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </div>
-      ),
+      icon: <DollarSign className="w-4 h-4 text-blue-600" />,
       value: implementTotal,
       color: "#0D09F8FF",
       track: "#2898E2FF",
