@@ -142,7 +142,7 @@ const exportFilteredPDF = (doc, record) => {
   doc.setFont("helvetica", "bold")
   doc.setFontSize(12)
   doc.setTextColor(...primaryColor)
-  doc.text("API Market", pageWidth - margin, 30, { align: "right" })
+  doc.text("API-Cultura", pageWidth - margin, 30, { align: "right" })
 
   doc.setFont("helvetica", "normal")
   doc.setFontSize(10)
@@ -230,7 +230,7 @@ const exportFilteredPDF = (doc, record) => {
   // PIE DE PÁGINA
   doc.setFontSize(8)
   doc.setTextColor(...secondaryColor)
-  doc.text("API Market - Sistema de Gestión", margin, pageHeight - 10)
+  doc.text("API-Cultura - Sistema de Gestión", margin, pageHeight - 10)
   doc.text(`Página 1 de 1`, pageWidth / 2, pageHeight - 10, { align: "center" })
   doc.text(
     `Exportado: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
@@ -267,7 +267,7 @@ const exportStandardPDF = (doc) => {
   doc.setFont("helvetica", "bold")
   doc.setFontSize(12)
   doc.setTextColor(...primaryColor)
-  doc.text("API Market", pageWidth - margin, 30, { align: "right" })
+  doc.text("API-Cultura", pageWidth - margin, 30, { align: "right" })
 
   doc.setFont("helvetica", "normal")
   doc.setFontSize(10)
@@ -364,7 +364,7 @@ const exportStandardPDF = (doc) => {
       })
 
       // Información de la empresa en el pie de página
-      doc.text("API Market - Sistema de Gestión", margin, pageHeight - 10)
+      doc.text("API Cultura - Sistema de Gestión", margin, pageHeight - 10)
 
       // Fecha y hora en el pie de página
       const now = new Date()
@@ -497,7 +497,7 @@ const exportStandardPDF = (doc) => {
           </div>
         </div>
         <div className="bg-gray-100 p-1 text-[9px] text-gray-500 flex justify-between">
-          <span>API Market - Sistema de Gestión</span>
+          <span>API-Cultura - Sistema de Gestión</span>
           <span>
             {isFiltered && filterId && filteredData.length > 0
               ? "Página 1 de 1"
