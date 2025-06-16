@@ -3,11 +3,11 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
 # Copiar csproj y restaurar dependencias
-COPY *.csproj ./
+COPY ["Apimarket.csproj", "."]
 RUN dotnet restore
 
 # Copiar el resto del código y compilar
-COPY . ./
+COPY . .
 RUN dotnet publish -c Release -o out
 
 # Imagen base para ejecutar la app
@@ -20,3 +20,5 @@ EXPOSE 80
 
 # Comando para iniciar la app
 ENTRYPOINT ["dotnet", "Apimarket.dll"]
+
+
