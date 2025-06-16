@@ -45,8 +45,8 @@ useEffect(() => {
 
   useEffect(() => {
     if (!token) {
-      setError("Token inválido o no proporcionado.");
-      setLoadingToken(false)
+      // setError("Token inválido o no proporcionado.");
+      // setLoadingToken(false)
       return;
     }
   

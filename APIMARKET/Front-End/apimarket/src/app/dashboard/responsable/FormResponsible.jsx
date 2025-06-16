@@ -100,7 +100,7 @@ function FormResponsible({ buttonForm, responsible, onDataUpdated, closeModal })
         if (buttonForm === "Actualizar" && responsible) {
             setDataResponsibleForUpdate();
         }
-    }, [buttonForm, responsible,setDataResponsibleForUpdate ]);
+    }, [buttonForm, responsible]);
 
     return (
         <>
