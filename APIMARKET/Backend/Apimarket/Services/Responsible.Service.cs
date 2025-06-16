@@ -23,10 +23,19 @@ namespace Apimarket.Services
         {
             return await _context.responsible.AnyAsync(u => u.Emai_Responsible == Emai_Responsible);
         }
+
         public IEnumerable<Responsible> GetAll()
         {
             return _context.responsible.ToList();
         }
+
+        public IEnumerable<Responsible> GetAllExcludingInstructors()
+        {
+            return _context.responsible
+                 .ToList()
+                 .Where(r => !string.Equals(r.Tip_Responsible, "instructor", StringComparison.OrdinalIgnoreCase));
+        }
+
 
         public async Task UpdateUserAsync(Responsible responsible)
         {

@@ -338,7 +338,7 @@ namespace Apimarket.Controllers
             try
             {
 
-                var responsible = _responsibleService.GetAll();
+                var responsible = _responsibleService.GetAllExcludingInstructors();
                 return Ok(responsible);
             }
             catch (Exception ex)
