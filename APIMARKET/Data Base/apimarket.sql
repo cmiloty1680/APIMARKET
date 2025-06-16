@@ -33,7 +33,7 @@ CREATE TABLE `collecdrone` (
   KEY `Id_Hiv_idx` (`Id_Hive`),
   CONSTRAINT `Id_Hiv` FOREIGN KEY (`Id_Hive`) REFERENCES `hive` (`Id_Hive`),
   CONSTRAINT `Id_Respon` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +73,7 @@ CREATE TABLE `extraction` (
   KEY `Id_responsas_idx` (`Id_Responsible`),
   CONSTRAINT `Id_collecdro` FOREIGN KEY (`Id_CollecDrone`) REFERENCES `collecdrone` (`Id_CollecDrone`),
   CONSTRAINT `Id_responsas` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +119,7 @@ CREATE TABLE `fertilization` (
   KEY `Id_responsabl_idx` (`Id_Responsible`),
   CONSTRAINT `Id_Extraction` FOREIGN KEY (`Id_Extraction`) REFERENCES `extraction` (`Id_Extraction`),
   CONSTRAINT `Id_responsabl` FOREIGN KEY (`Id_Responsible`) REFERENCES `responsible` (`Id_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +137,7 @@ CREATE TABLE `hive` (
   `NumAlz_Hive` int NOT NULL,
   `CuaMiel_Hive` int NOT NULL,
   PRIMARY KEY (`Id_Hive`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +181,7 @@ CREATE TABLE `implement` (
   `Exi_Implement` varchar(10) DEFAULT NULL,
   `Can_Implement` int NOT NULL,
   PRIMARY KEY (`Id_Implement`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -270,7 +270,7 @@ CREATE TABLE `responsible` (
   `Est_Responsible` enum('activo','inactivo') DEFAULT 'activo',
   PRIMARY KEY (`Id_Responsible`),
   UNIQUE KEY `Emai_Responsible_UNIQUE` (`Emai_Responsible`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -303,4 +303,4 @@ CREATE TABLE `reviews` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-23 11:11:38
+-- Dump completed on 2025-06-16  7:04:46
