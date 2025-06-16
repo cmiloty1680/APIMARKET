@@ -11,20 +11,14 @@ function Dashboard() {
   const [titlePage, setTitlePage] = useState("Bienvenidos al dashboard")
 
   // SOLUCIÓN: Usar user.rol en lugar de user.role
-  console.log("🔍 DEBUG Dashboard - Usuario:", user)
-  console.log("🔍 DEBUG Dashboard - Rol:", user?.rol)
-
   useEffect(() => {
     // SOLUCIÓN: Usar user?.rol en lugar de user?.role
     if (user?.rol === "administrador" || user?.rol === "instructor") {
       setTitlePage("Panel de Administración")
-      console.log("✅ Título actualizado a: Panel de Administrador")
     } else if (user?.rol === "gestor" || user?.rol === "pasante") {
       setTitlePage("Panel de Gestión")
-      console.log("✅ Título actualizado a: Panel de Gestor")
     } else {
       setTitlePage("Bienvenidos al dashboard")
-      console.log("⚠️ Título por defecto")
     }
   }, [user])
 

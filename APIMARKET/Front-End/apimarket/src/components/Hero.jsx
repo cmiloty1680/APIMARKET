@@ -60,7 +60,7 @@ function Hero() {
             <a href='/responsible/login'>Comenzar Ahora</a>
           </Button>
           <Button variant="outline" size="lg">
-            Ver Tutorial
+            <a href='/documentation'>Ver Tutorial</a>
           </Button>
         </div>
       </div>

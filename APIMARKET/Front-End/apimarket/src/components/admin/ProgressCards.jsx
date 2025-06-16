@@ -170,7 +170,7 @@ function ProgressCards() {
     async function fetchProduccion() {
       try {
         const response = await axiosInstance.get("/Api/Production/GetDynamicProductionPercentage")
-        console.log("📦 Producción recibida:", response.data)
+        // console.log("📦 Producción recibida:", response.data)
 
         const { cantidad, porcentaje } = response.data
 

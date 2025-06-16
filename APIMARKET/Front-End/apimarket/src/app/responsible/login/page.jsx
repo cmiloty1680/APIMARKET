@@ -71,7 +71,6 @@ function LoginPage() {
                 hashed_Password: password
             });
 
-            console.log(response.data);
             if (response.status === 200) {
                  const userData = response.data;
 

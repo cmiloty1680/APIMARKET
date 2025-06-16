@@ -9,14 +9,14 @@ function WelcomeSection() {
   const { user } = useAuth() // Obtener información del usuario logueado
 
   // SOLUCIÓN: Usar user.rol en lugar de user.role
-  console.log("🔍 DEBUG - Usuario completo:", user)
-  console.log("🔍 DEBUG - Rol del usuario:", user?.rol) // Cambiado de user?.role a user?.rol
-  console.log("🔍 DEBUG - Tipo del rol:", typeof user?.rol)
+  // console.log("🔍 DEBUG - Usuario completo:", user)
+  // console.log("🔍 DEBUG - Rol del usuario:", user?.rol) // Cambiado de user?.role a user?.rol
+  // console.log("🔍 DEBUG - Tipo del rol:", typeof user?.rol)
 
   // Función para renderizar el dashboard según el rol
   const renderDashboardByRole = () => {
     if (!user) {
-      console.log("❌ Usuario no encontrado")
+      // console.log("❌ Usuario no encontrado")
       return (
         <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-8 min-h-screen overflow-auto">
           <div className="max-w-7xl mx-auto flex items-center justify-center h-full">
@@ -35,15 +35,15 @@ function WelcomeSection() {
     const isGestor = user.rol === "gestor"
     const isPasante = user.rol === "pasante"
 
-    console.log("🔍 DEBUG - Verificaciones de rol:")
-    console.log("  - Es administrador:", isAdmin)
-    console.log("  - Es instructor:", isInstructor)
-    console.log("  - Es gestor:", isGestor)
-    console.log("  - Es pasante:", isPasante)
+    // console.log("🔍 DEBUG - Verificaciones de rol:")
+    // console.log("  - Es administrador:", isAdmin)
+    // console.log("  - Es instructor:", isInstructor)
+    // console.log("  - Es gestor:", isGestor)
+    // console.log("  - Es pasante:", isPasante)
 
     // Dashboard para ADMINISTRADOR e INSTRUCTOR (tu código original)
     if (isPasante || isInstructor) {
-      console.log("✅ Mostrando dashboard de administrador")
+      // console.log("✅ Mostrando dashboard de administrador")
       return (
         <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-8 min-h-screen overflow-auto">
           <div className="max-w-7xl mx-auto">
@@ -59,12 +59,12 @@ function WelcomeSection() {
 
     // Dashboard para GESTOR y PASANTE (mismo dashboard de gestión)
     if (isGestor || isPasante) {
-      console.log("✅ Mostrando dashboard de gestor")
+      // console.log("✅ Mostrando dashboard de gestor")
       return <GestorDashboard />
     }
 
     // Para otros roles o sin permisos
-    console.log("❌ Rol no reconocido, mostrando acceso denegado")
+    // console.log("❌ Rol no reconocido, mostrando acceso denegado")
     return (
       <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-8 min-h-screen overflow-auto">
         <div className="max-w-7xl mx-auto flex items-center justify-center h-full">

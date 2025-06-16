@@ -52,7 +52,7 @@ function NavPrivate({ TitlePage, Icon }) {
     return `${firstInitial}${lastInitial}` || "U";
   }
 
-  console.log("USER EN NAVPRIVATE:", user, "mira chat");
+  // console.log("USER EN NAVPRIVATE:", user, "mira chat");
 
   return (
     <header className="bg-[#030712] border-b px-4 py-3">
@@ -162,88 +162,3 @@ function NavPrivate({ TitlePage, Icon }) {
 }
 
 export default NavPrivate;
-// "use client"
-
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu"
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-// import { LogOut, Settings } from "lucide-react"
-// import { Button } from "@/components/ui/button"
-// import Link from "next/link"
-
-// function NavPrivate({ user }) {
-//   const logout = () => {
-//     localStorage.removeItem("token")
-//     window.location.href = "/responsible/login"
-//   }
-
-//   return (
-//     <DropdownMenu>
-//       <DropdownMenuTrigger asChild>
-//         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-//           <Avatar className="h-8 w-8">
-//             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-//             <AvatarFallback>CN</AvatarFallback>
-//           </Avatar>
-//         </Button>
-//       </DropdownMenuTrigger>
-//       <DropdownMenuContent className="w-72 p-0 overflow-hidden" align="end" forceMount>
-//         <div className="bg-gradient-to-r from-amber-500 to-orange-600 p-4">
-//           <div className="flex items-center gap-3">
-//             <Avatar className="h-12 w-12 border-2 border-white">
-//               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-//               <AvatarFallback className="text-lg bg-white/20 text-white">
-//                 {user ? user.username.charAt(0) : "U"}
-//               </AvatarFallback>
-//             </Avatar>
-//             <div className="flex flex-col">
-//               <p className="text-base font-semibold text-white">{user ? user.username : "Usuario"}</p>
-//               <p className="text-xs text-white/80">{user ? user.email : "userApi@gmail.com"}</p>
-//             </div>
-//           </div>
-//         </div>
-
-//         <div className="p-2 bg-white">
-//           <div className="px-2 py-1.5 mb-1">
-//             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Información de cuenta</p>
-//           </div>
-
-//           <DropdownMenuItem className="p-2 cursor-default">
-//             <div className="flex items-center gap-2">
-//               <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center">
-//                 <Settings className="h-4 w-4 text-amber-600" />
-//               </div>
-//               <div>
-//                 <p className="text-sm font-medium">Rol</p>
-//                 <p className="text-xs text-muted-foreground">{user ? user.rol : "..."}</p>
-//               </div>
-//             </div>
-//           </DropdownMenuItem>
-
-//           <DropdownMenuSeparator className="my-1" />
-
-//           <DropdownMenuItem asChild className="p-2">
-//             <Link href="/responsible/login" onClick={logout}>
-//               <div className="flex items-center gap-2">
-//                 <div className="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center">
-//                   <LogOut className="h-4 w-4 text-red-600" />
-//                 </div>
-//                 <div>
-//                   <p className="text-sm font-medium">Cerrar sesión</p>
-//                   <p className="text-xs text-muted-foreground">Salir de la aplicación</p>
-//                 </div>
-//               </div>
-//             </Link>
-//           </DropdownMenuItem>
-//         </div>
-//       </DropdownMenuContent>
-//     </DropdownMenu>
-//   )
-// }
-
-// export default NavPrivate;

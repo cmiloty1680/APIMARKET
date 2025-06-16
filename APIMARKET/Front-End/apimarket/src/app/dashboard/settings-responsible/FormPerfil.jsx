@@ -44,7 +44,7 @@ function FormPerfil() {
 
     try {
       const response = await axiosInstance.get("/Api/Responsible/Profile")
-      console.log("carga", response);
+      // console.log("carga", response);
       if (response.status === 200) {
         const data = response.data
 
@@ -60,7 +60,7 @@ function FormPerfil() {
       }
       console.log("malo", id_Responsible)
     } catch (error) {
-      console.error("Error al cargar el perfil:", error)
+      // console.error("Error al cargar el perfil:", error)
       setError("No se pudo cargar la información del perfil. Por favor, intenta de nuevo.")
       setModalOpenFall(true)
     } finally {
@@ -130,7 +130,7 @@ function FormPerfil() {
         tip_Responsible: userRole,
       }
 
-      console.log("update", profileData)
+      // console.log("update", profileData)
 
       // Si hay contraseña nueva, incluirla
       if (contraseña) {
@@ -148,7 +148,7 @@ function FormPerfil() {
         setVerificarContraseña("")
       }
     } catch (error) {
-      console.error("Error al actualizar el perfil:", error)
+      // console.error("Error al actualizar el perfil:", error)
       setError(error.response?.data?.message || "Error al conectar con el servidor.")
       setModalOpenFall(true)
     } finally {
@@ -380,39 +380,6 @@ function FormPerfil() {
                       </div>
 
 
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="contraseña" className="flex items-center gap-2 text-sm font-medium">
-                        <Shield className="h-4 w-4 text-orange-500" />
-                        Nueva Contraseña
-                      </Label>
-                      <Input
-                        id="contraseña"
-                        name="contraseña"
-                        type="password"
-                        placeholder="Dejar en blanco para mantener la actual"
-                        value={contraseña}
-                        onChange={(e) => setContraseña(e.target.value)}
-                        className="transition-all duration-200 focus-visible:ring-orange-500 border-orange-200 dark:border-orange-900/30"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="verificarContraseña" className="flex items-center gap-2 text-sm font-medium">
-                        <Lock className="h-4 w-4 text-orange-500" />
-                        Confirmar Contraseña
-                      </Label>
-                      <Input
-                        id="verificarContraseña"
-                        name="verificarContraseña"
-                        type="password"
-                        placeholder="Confirmar contraseña"
-                        value={verificarContraseña}
-                        onChange={(e) => setVerificarContraseña(e.target.value)}
-                        className="transition-all duration-200 focus-visible:ring-orange-500 border-orange-200 dark:border-orange-900/30"
-                      />
                     </div>
                   </div>
 
