@@ -69,7 +69,7 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
         }
 
         if (parseFloat(valor) > 100000) {
-            setError("El valor debe ser menor  a $100,000.");
+            setError("El valor debe ser menor  a ", valor);
             setModalOpenFall(true);
             setSubmitting(false);
             return;

@@ -22,7 +22,7 @@ namespace Apimarket.Models
         public DbSet<Fertilization> fertilization { get; set; }
 
         public DbSet<Extraction> extraction { get; set; }
-        public DbSet<CollecDrone> collecDrone { get; set; }
+        public DbSet<CollecDrone> collecdrone { get; set; }
 
         public DbSet<ContactForm> contactForm { get; set; }
 

@@ -83,24 +83,47 @@ namespace Apimarket.Services
         }
 
 
+        //public void Add(Responsible entity)
+        //{
+        //    // Verificar si ya existen responsables
+        //    bool existeAlguno = _context.responsible.Any();
+
+        //    // Si no hay ninguno, asignar "instructor"
+        //    if (!existeAlguno)
+        //    {
+        //        entity.Tip_Responsible = "instructor";
+        //    }
+        //    else
+        //    {
+        //        entity.Tip_Responsible = "gestor";
+        //    }
+
+        //    _context.responsible.Add(entity);
+        //    _context.SaveChanges();
+        //}
+
         public void Add(Responsible entity)
         {
             // Verificar si ya existen responsables
             bool existeAlguno = _context.responsible.Any();
 
-            // Si no hay ninguno, asignar "instructor"
             if (!existeAlguno)
             {
+                // Primer responsable: instructor activo
                 entity.Tip_Responsible = "instructor";
+                entity.Est_Responsible = "activo";
             }
             else
             {
+                // Los demás: gestor inactivo
                 entity.Tip_Responsible = "gestor";
+                entity.Est_Responsible = "inactivo";
             }
 
             _context.responsible.Add(entity);
             _context.SaveChanges();
         }
+
 
         public Responsible GetResponsible(int id)
         {

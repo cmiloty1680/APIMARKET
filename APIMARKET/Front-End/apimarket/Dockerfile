@@ -1,12 +1,16 @@
-FROM node:18 AS build
-WORKDIR / app
-
+# Etapa de construcción
+FROM node:18 AS builder
+WORKDIR /app
 COPY . .
 RUN npm install
-RUN npm build
+RUN npm run build
 
-FROM nginx:apine
-COPY --from=build /app/dist/usr/share/nginx/HTML
+# Etapa de producción
+FROM node:18 AS runner
+WORKDIR /app
+COPY --from=builder /app ./
+EXPOSE 3000
+CMD ["npm", "start"]
 
-EXPOSE 80
-CMD["nginx","-g","daemon off;"]
+
+

@@ -6,7 +6,7 @@ services:
      context: ./Backend/Apimarket
      dockerfile: Dockerfile
    ports:
-     - "5284:80"  
+     - "5284:80"
    networks:
      - app-network
 
@@ -15,10 +15,11 @@ services:
      context: ./Front-End/apimarket
      dockerfile: Dockerfile
    ports:
-     - "3000:80"
+     - "3000:3000"
    networks:
      - app-network
 
 networks:
  app-network:
    driver: bridge
+

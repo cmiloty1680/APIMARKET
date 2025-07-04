@@ -33,21 +33,21 @@ function FormHive({ buttonForm, hive, onDataUpdated, closeModal }) {
       return;
     }
 
-    if (parseFloat(descripcion) > 200) {
+    if (parseFloat(descripcion) > 1000) {
       setError("La descripción solo puede tener un máximo de 100 caracteres.");
       setModalOpenFall(true);
       setIsSubmitting(false);
       return;
     }
      
-      if (parseFloat(Nalza) > 15) {
+      if (parseFloat(Nalza) > 40) {
 
       setError("El numero de alzas debe  tener un máximo de 15 caracteres.");
       setModalOpenFall(true);
       setIsSubmitting(false);
       return;
     }
-       if (parseFloat(Ncuadro) > 15) {
+       if (parseFloat(Ncuadro) > 40) {
 
       setError("El numero de cuadros debe  tener un máximo de 15 caracteres.");
       setModalOpenFall(true);
@@ -123,21 +123,6 @@ const descripcionFormateada = capitalizarNombreCompleto(descripcion);
   }
 
 
-
-
-  const setDataHiveForUpdate = () => {
-    setDescripcion(hive.des_Hive);
-    setEstado(hive.est_Hive);
-    setNcuadro(hive.numCua_Hive);
-    setNalza(hive.numAlz_Hive);
-    setIdHive(hive.id_Hive);
-    setCuaMiel(hive.cuaMiel_Hive);
-
-  }
-
-  // useEffect(() => {
-  //   setDataHiveForUpdate()
-  // }, []);
 
 useEffect(() => {
   if (hive) {

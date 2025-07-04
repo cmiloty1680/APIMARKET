@@ -21,7 +21,7 @@ namespace Apimarket.Services
         public IEnumerable<CollecDrone> GetAll()
         {
             //return _context.collecDrone.ToList();
-            return _context.collecDrone
+            return _context.collecdrone
                 .Include(cd => cd.responsible)
                 .Include(cd => cd.hive)
                 .ToList();
@@ -29,22 +29,22 @@ namespace Apimarket.Services
 
         public void Add(CollecDrone entity)
         {
-            _context.collecDrone.Add(entity);
+            _context.collecdrone.Add(entity);
             _context.SaveChanges();
         }
 
         public CollecDrone GetCollecDrone(int id)
         {
-            return _context.collecDrone.FirstOrDefault(p => p.Id_CollecDrone == id);
+            return _context.collecdrone.FirstOrDefault(p => p.Id_CollecDrone == id);
         }
 
         public async Task<bool> DeleteCollecDrone(int id)
         {
             try
             {
-                var collecDrone = await _context.collecDrone.FindAsync(id);
+                var collecDrone = await _context.collecdrone.FindAsync(id);
                 if (collecDrone == null) return false;
-                _context.collecDrone.Remove(collecDrone);
+                _context.collecdrone.Remove(collecDrone);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -56,7 +56,7 @@ namespace Apimarket.Services
 
         public void Update(CollecDrone collecDrone)
         {
-            _context.collecDrone.Update(collecDrone);
+            _context.collecdrone.Update(collecDrone);
             _context.SaveChanges();
         }
     }
