@@ -26,8 +26,25 @@ namespace Apimarket.Services
             return _context.honeyCollection.FirstOrDefault(p => p.Id_HoneyCollection == id);
         }
 
+
         public void Add(HoneyCollection entity)
         {
+            // Validar que el ID de producción exista
+            var produccionExiste = _context.production.Any(p => p.Id_Production == entity.Id_Production);
+            if (!produccionExiste)
+            {
+                throw new ArgumentException("El ID de producción no existe.");
+            }
+
+            // Validar que el ID de producción no haya sido ya usado
+            var produccionYaUsada = _context.honeyCollection.Any(h => h.Id_Production == entity.Id_Production);
+            if (produccionYaUsada)
+            {
+                throw new ArgumentException("Ya existe una recolección asociada a este ID de producción.");
+            }
+
+
+            // Guardar si todo está bien
             _context.honeyCollection.Add(entity);
             _context.SaveChanges();
         }

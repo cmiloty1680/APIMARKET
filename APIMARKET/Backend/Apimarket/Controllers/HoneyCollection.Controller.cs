@@ -36,6 +36,11 @@ namespace Apimarket.Controllers
                 _honeyCollectionServices.Add(entity);
                 return Ok(new { registrado = "Recolección de miel registrada con éxito." });
             }
+            catch (ArgumentException ex)
+            {
+                // Este bloque captura tus errores del servicio y los envía al frontend
+                return BadRequest(new { message = ex.Message });
+            }
             catch (Exception ex)
             {
                 _functionsGeneral.Addlog(ex.ToString());
@@ -67,7 +72,6 @@ namespace Apimarket.Controllers
                     SubCen_Production = h.production.SubCen_Production,
                     CenCos_Production = h.production.CenCos_Production,
                     TotColm_Hive = h.production.TotColm_Hive,
-                    //Tot_Production = h.production.Tot_Production,
                     CanCua_Production = h.production.CanCua_Production
                 }).ToList();
 

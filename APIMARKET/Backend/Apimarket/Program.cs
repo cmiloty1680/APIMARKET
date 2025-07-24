@@ -5,6 +5,7 @@ using Apimarket.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
@@ -46,8 +47,10 @@ builder.Services.AddScoped<FertilizationService>();
 builder.Services.AddScoped<WelcomeEmailFunctions>();
 
 
-
-
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 50 * 1024 * 1024; // Límite de 50 MB
+});
 
 
 
