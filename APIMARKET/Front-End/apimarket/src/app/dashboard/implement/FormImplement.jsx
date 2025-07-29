@@ -51,7 +51,7 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
     }
 
     // Validación de longitud del nombre
-    if (nomImplement.length > 25) {
+    if (nomImplement.length > 50) {
       setModalMessage("El nombre del implemento debe ser menor de 25 caracteres.");
       setModalOpenFall(true);
       setIsSubmitting(false);
@@ -60,8 +60,8 @@ function FormImplement({ buttonForm, implement, onDataUpdated, closeModal }) {
 
     // Validación del valor (convertir a string primero)
     const vlrString = String(vlrImplement || "");
-    if (parseFloat(vlrString.replace(/,/g, "") || 0) > 100000) {
-      setModalMessage("El valor debe ser menor a $100,000.");
+    if (parseFloat(vlrString.replace(/,/g, "") || 0) > 100000000) {
+      setModalMessage("El valor debe ser menor a $100.000.000.");
       setModalOpenFall(true);
       setIsSubmitting(false);
       return;

@@ -39,6 +39,7 @@ function ProtocolPage() {
   const [currentDocument, setCurrentDocument] = useState(null)
   const [zoom, setZoom] = useState(100)
   const [currentPage, setCurrentPage] = useState(1)
+  const [isDocumentLoading, setIsDocumentLoading] = useState(true)
 
   const titlesProtocol = [
     "Código",
@@ -326,7 +327,7 @@ function ProtocolPage() {
             </DialogHeader>
 
             {/* Visor de PDF */}
-            <div className="bg-gray-900 flex-1 overflow-auto">
+            {/* <div className="bg-gray-900 flex-1 overflow-auto">
               {currentDocument && (
                 <iframe
                   src={`data:application/pdf;base64,${currentDocument.base64}#page=${currentPage}&zoom=${zoom}`}
@@ -334,7 +335,23 @@ function ProtocolPage() {
                   className="w-full h-full border-none"
                 />
               )}
-            </div>
+            </div> */}
+            <div className="bg-gray-900 flex-1 overflow-auto relative">
+  {isDocumentLoading && (
+    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-yellow-500"></div>
+    </div>
+  )}
+  {currentDocument && (
+    <iframe
+      src={`data:application/pdf;base64,${currentDocument.base64}#page=${currentPage}&zoom=${zoom}`}
+      title={currentDocument.name}
+      className="w-full h-full border-none"
+      onLoad={() => setIsDocumentLoading(false)} // << desactiva el loader
+    />
+  )}
+</div>
+
           </DialogContent>
         </Dialog>
       </div>

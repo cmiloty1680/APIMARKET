@@ -19,7 +19,7 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
   const [msSuccess, setMsSuccess] = useState("");
   const [fecha, setFecha] = useState("");
   const [idHives, setIdHives] = useState("");
-
+  const [DescriptionColmena, setDescriptionColmena] = useState("");
   const [hives, setHives] = useState([]);
 
 
@@ -130,6 +130,7 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
       setIdHives(review.id_Hive);
       setNomResponsible(review.id_Responsible);
       setDescripcion(review.des_Review);
+      setDescriptionColmena(review.des_Hive)
     }
   }, [review]);
 
@@ -181,6 +182,28 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
             <select
               className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
               value={idHives || ""}
+              onChange={(event) => {
+                const selectedId = event.target.value;
+                setIdHives(selectedId);
+
+                const selectedHive = hives.find(
+                  (hive) => hive.id_Hive === parseInt(selectedId)
+                );
+                if (selectedHive) {
+                  setDescriptionColmena(selectedHive.des_Hive || "");
+                }
+              }}
+            >
+              <option value="" disabled>Seleccione ID colmena</option>
+              {hives.map((hive) => (
+                <option key={hive.id_Hive} value={hive.id_Hive}>
+                  {hive.id_Hive}
+                </option>
+              ))}
+            </select>
+            {/* <select
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              value={idHives || ""}
               onChange={(event) => setIdHives(event.target.value)}
               required
             >
@@ -190,13 +213,61 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
                   {hive.id_Hive}
                 </option>
               ))}
+            </select> */}
+          </div>
+
+        </div>
+
+
+
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <div className="space-y-1">
+            <label htmlFor="estado" className="text-sm font-medium text-gray-700">
+              Descripción Colmena
+            </label>
+            <input
+              type="text"
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              id="cantidad"
+              required
+              name="text"
+              value={DescriptionColmena || ""}
+              onChange={(event) => setDescriptionColmena(event.target.value)}
+              readOnly
+            />
+          </div>
+
+
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-700">Nombre de responsable</label>
+            <select
+              className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
+              value={nomResponsible || ""}
+              onChange={(event) => setNomResponsible(event.target.value)}
+              required
+            >
+              <option value="" disabled>Seleccione</option>
+              {responsibles
+                .filter((responsible) => responsible.est_Responsible === "activo")
+                .map((responsible) => (
+                  <option key={responsible.id_Responsible} value={responsible.id_Responsible}>
+                    {responsible.nam_Responsible} {responsible.lasNam_Responsible}
+                  </option>
+                ))}
             </select>
           </div>
 
         </div>
 
 
-        <div className="space-y-1">
+
+
+
+
+
+        {/* <div className="space-y-1">
           <label className="text-sm font-medium text-gray-700">Nombre de responsable</label>
           <select
             className="w-full px-3 py-1.5 border border-gray-300 rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-[#e87204] text-sm"
@@ -213,7 +284,7 @@ function FormReview({ buttonForm, review, onDataUpdated, closeModal }) {
                 </option>
               ))}
           </select>
-        </div>
+        </div> */}
 
         <div className="md:col-span-2">
           <label

@@ -159,11 +159,8 @@ function FormFeeding({ buttonForm, feeding, onDataUpdated, closeModal }) {
 
 
     }
-    // useEffect(() => {
-    //     if (feeding) {
-    //         setDataFeedingForUpdate();
-    //     }
-    // }, [feeding]);
+
+    
     useEffect(() => {
         if (feeding) {
             setFecha(feeding.fec_Feeding ?? "");

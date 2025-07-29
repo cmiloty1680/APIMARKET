@@ -28,19 +28,20 @@ function ReviewPage() {
   const [isModalOpenSuccess, setIsModalOpenSuccess] = useState(false);
   const [isModalOpenError, setIsModalOpenError] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false); // 👈 Para controlar el modal de exportación
-  
-  
+
+
 
   const titlesColmena = [
     "ID",
     "Descripción",
     "Fecha",
     "ID Colmena",
+    "Descripcion colmena",
     "ID Responsable",
     "Nombre",
     "Apellido",
 
-    
+
   ];
 
   const [review, setReview] = useState({
@@ -48,7 +49,7 @@ function ReviewPage() {
     des_Review: '',
     fec_Review: '',
     id_Responsible: '',
-    id_Hive: '',  
+    id_Hive: '',
 
   });
 
@@ -58,7 +59,7 @@ function ReviewPage() {
     if (!day || !month || !year) return "";
     return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   }
-  
+
 
   // Obtener revisiones
   async function fetchReview() {
@@ -70,9 +71,10 @@ function ReviewPage() {
           review.id_Review || "-",
           review.des_Review || "-",
           review.fec_Review ? new Date(review.fec_Review).toLocaleDateString("es-CO")
-          : "Sin descripción", 
+            : "Sin descripción",
           // review.fec_Review || "-",
           review.id_Hive || "-",
+          review.des_Hive || "-",
           review.id_Responsible || "-",
           review.nam_Responsible || "-",
           review.lasNam_Responsible || "-",
@@ -108,14 +110,23 @@ function ReviewPage() {
       console.log("Actualizando...")
 
 
+      // setReview({
+      //   id_Review: rowData[0],
+      //   des_Review: rowData[1],
+      //   fec_Review: formatDateToISO(rowData[2]),
+      //   id_Hive: rowData[3],
+      //   id_Responsible: rowData[4]
+
+      // });
       setReview({
         id_Review: rowData[0],
         des_Review: rowData[1],
         fec_Review: formatDateToISO(rowData[2]),
         id_Hive: rowData[3],
-        id_Responsible: rowData[4]
-
+        des_Hive: rowData[4],           // ✅ esta es la descripción que no te salía
+        id_Responsible: rowData[5]
       });
+
 
     } else {
       console.log("Registrando...");
@@ -128,10 +139,10 @@ function ReviewPage() {
 
   };
 
-  
+
   //coliminar revicion 
   async function deleteReview() {
-    if (!selectedReview){
+    if (!selectedReview) {
       setError("Debe seleccionar una colmena.");
       return;
     }
@@ -139,97 +150,97 @@ function ReviewPage() {
       await axiosInstance.delete(`/Api/Review/DeleteReview?id=${selectedReview}`);
       fetchReview();
       setIsModalOpen(false);
-      setIsModalOpenSuccess(true); 
+      setIsModalOpenSuccess(true);
 
     } catch (error) {
-      console.error("Error al eliminar la revicion:",error);
+      console.error("Error al eliminar la revicion:", error);
       setError("No se puede eliminar la colmena.");
-      setIsModalOpenError(true); 
+      setIsModalOpenError(true);
 
     }
   };
 
   // Acciones de la tabla
- // Acciones de la tabla
-const actions = {
-  update: (rowData) => {
-    updateTextTitleForm("Actualizar", rowData);  // <--- Aquí se ejecuta el console.log(rowData)
-    openModalForm(true);
-  }
-};
+  // Acciones de la tabla
+  const actions = {
+    update: (rowData) => {
+      updateTextTitleForm("Actualizar", rowData);  // <--- Aquí se ejecuta el console.log(rowData)
+      openModalForm(true);
+    }
+  };
 
   return (
-    <PrivateRoute requiredRole={["instructor","pasante", "gestor"]}>
+    <PrivateRoute requiredRole={["instructor", "pasante", "gestor"]}>
 
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar />
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <NavPrivate TitlePage={TitlePage} Icon={<ClipboardCheck/>}/>
-        <main className="flex-1 overflow-x-hidden overflow-y-auto  bg-background">
-          <div className="container mx-auto px-6 py-8 mt-10">
-            <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
-              <div className="relative p-6">
+      <div className="flex h-screen bg-gray-100">
+        <Sidebar />
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <NavPrivate TitlePage={TitlePage} Icon={<ClipboardCheck />} />
+          <main className="flex-1 overflow-x-hidden overflow-y-auto  bg-background">
+            <div className="container mx-auto px-6 py-8 mt-10">
+              <div className="rounded-lg border-2 bg-white text-card-foreground shadow-lg">
+                <div className="relative p-6">
 
-                <ContentPage
-                  Data={regisReview}
-                  TitlesTable={titlesColmena}
-                  Actions={actions}
-                  action={action}
-                  updateTextTitleForm={updateTextTitleForm}
-                  openModalForm={openModalForm}
-                  setIsExportModalOpen={setIsExportModalOpen}
-                  ignorar={[4]}
-                  tableName="Revisiòn"
+                  <ContentPage
+                    Data={regisReview}
+                    TitlesTable={titlesColmena}
+                    Actions={actions}
+                    action={action}
+                    updateTextTitleForm={updateTextTitleForm}
+                    openModalForm={openModalForm}
+                    setIsExportModalOpen={setIsExportModalOpen}
+                    ignorar={[4]}
+                    tableName="Revisiòn"
 
-                  showAddButton={true} // 👈 aquí indicas que NO lo muestre
-                />
+                    showAddButton={true} // 👈 aquí indicas que NO lo muestre
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
+
+        <ModalDialog
+          isOpen={isOpen}
+          setIsOpen={openModalForm}
+          FormPage={<FormReview buttonForm={buttonForm} review={review}
+            onDataUpdated={handleDataUpdated}
+            closeModal={openModalForm} />}
+          action={action}
+        />
+
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={deleteReview}
+          DeleteTitle={eliminar}
+        />
+
+        {/* MODALES DE ALERTA */}
+        <DynamicAlert
+          isOpen={isModalOpenSuccess}
+          onOpenChange={setIsModalOpenSuccess}
+          type="success"
+          redirectPath="" // o déjalo vacío si no deseas redirigir
+        />
+
+        <DynamicAlert
+          isOpen={isModalOpenError}
+          onOpenChange={setIsModalOpenError}
+          type="error"
+          message={error || "Ha ocurrido un error inesperado"}
+          redirectPath=""
+        />
+
+        {/* Modal de exportación a PDF */}
+        <ExportToPDFDialog
+          isOpen={isExportModalOpen}
+          setIsOpen={setIsExportModalOpen}
+          TitlePage={TitlePage}
+          Data={regisReview}
+          TitlesTable={titlesColmena}
+        />
       </div>
-
-      <ModalDialog
-        isOpen={isOpen}
-        setIsOpen={openModalForm}
-        FormPage={<FormReview buttonForm={buttonForm} review={review} 
-        onDataUpdated={handleDataUpdated}
-        closeModal={openModalForm}/>}
-        action={action}
-      />
-
-      <ConfirmationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={deleteReview}
-        DeleteTitle={eliminar}
-      />
-
-       {/* MODALES DE ALERTA */}
-       <DynamicAlert
-        isOpen={isModalOpenSuccess}
-        onOpenChange={setIsModalOpenSuccess}
-        type="success"
-        redirectPath="" // o déjalo vacío si no deseas redirigir
-      />
-
-      <DynamicAlert
-        isOpen={isModalOpenError}
-        onOpenChange={setIsModalOpenError}
-        type="error"
-        message={error || "Ha ocurrido un error inesperado"}
-        redirectPath=""
-      />
-
-      {/* Modal de exportación a PDF */}
-            <ExportToPDFDialog
-              isOpen={isExportModalOpen}
-              setIsOpen={setIsExportModalOpen}
-              TitlePage={TitlePage}
-              Data={regisReview}
-              TitlesTable={titlesColmena}
-            />
-    </div>
     </PrivateRoute>
   );
 }

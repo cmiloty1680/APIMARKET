@@ -90,6 +90,7 @@ namespace Apimarket.Controllers
                 Id_Hive = p.hive.Id_Hive,
                 Id_Responsible = p.responsible.Id_Responsible,
                 LasNam_Responsible = p.responsible.LasNam_Responsible,
+                Des_Hive = p.hive.Des_Hive,
 
             }).ToList();
 

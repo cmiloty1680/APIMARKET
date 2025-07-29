@@ -53,6 +53,13 @@ builder.Services.Configure<FormOptions>(options =>
 });
 
 
+// También para Kestrel (el servidor)
+//builder.WebHost.ConfigureKestrel(serverOptions =>
+//{
+//    serverOptions.Limits.MaxRequestBodySize = 50 * 1024 * 1024;
+//});
+
+
 
 builder.Services.AddAuthentication(option =>
 {
